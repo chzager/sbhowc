@@ -1,0 +1,205 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Song of Blades and Heroes Online Warband Creator</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+				<link rel="stylesheet" href="sbh-owc-styles.css"/>
+		<link rel="stylesheet" href="menubox.css"/>
+		<link rel="stylesheet" href="tooltip.css"/>
+		<link rel="stylesheet" href="views/classic.css"/>
+
+		<script src="lib/array.prototype.js">//</script>
+		<script src="lib/string.prototype.js">//</script>
+		<script src="lib/location.prototype.js">//</script>
+		<script src="lib/clientfileio.js">//</script>
+		<script src="lib/dhtml.js">//</script>
+
+	</head>
+	
+	<body>
+		<div id="page">
+			<div id="title">
+				<h1>Song of&nbsp;Blades and&nbsp;Heroes</h1>
+				<h2>Online Warband Creator</h2>
+				<p>
+					Version 1.2 -
+					Complies with SBH Revised Edition (rules version 5.0)
+					<span id="noprint_head" class="noprint">-
+						<a href="doc/sbh-owc-changelog.html">Changelog</a>
+					</span>
+				</p>
+			</div>
+
+			<noscript>
+				<div class="center block noscript">
+					<span class="icon icon_warning">!</span>
+					<span class="icon icon_warning" style="float:right;">!</span>
+					<p>
+						Your browser does not have JavaScript enabled, so this page can not be displayed properly. In Internet Explorer you must enable blocked content. Best experienced using <a href="http://www.opera.com">Opera</a>.
+					</p>
+				</div>
+			</noscript>
+		
+			<div id="top_menu_wrapper" style="position:relative;">
+				<div id="top_menu" class="menu noprint" style="margin-bottom:20pt;">
+					<div class="centeredViewport">
+						<div class="button" onclick="newWarband(event);">New warband<br/>
+							<div class="tooltip">Opens the <i>Song of Blades and Heroes Online Warband Creator</i> in a new tab or window where you can design a new warband from scratch.</div>
+						</div>
+						<div class="button" onclick="ClientFile.readPrompt(event, warbandFromFile);">Load from file<br/>
+							<div class="tooltip">Load a warband from a file that you have previously stored on your local drive.</div>
+							<!-- <input type="file" accept="text/plain" id="fileUpload" onchange="warbandFromFile(event);" style="display:none; visibility:hidden;" /> -->
+						</div>
+						<div class="button" onclick="warbandToFile();">Save to file<br/>
+							<div class="tooltip">Save your warband to a file on your local drive. May not work in all browsers.</div>
+						</div>
+						<div class="button" id="undoButton" onclick="undo();">Undo<br/>
+							<div class="tooltip">Undo last change.</div>
+						</div>
+						<div class="button" onclick="showWarbandCode();">Show warband code<br/>
+							<div class="tooltip">Displays the warband code so you can copy it to a text-file and save it.</div>
+						</div>
+						<div class="button" onclick="printPreview();">Print<br/>
+							<div class="tooltip">Shows this page in a printable version, without buttons etc. Pops up a new window.</div>
+						</div>
+						<div class="button" onclick="showSettings();">Settings<br/>
+							<div class="tooltip">Set Settings like rules scope or data language or display mode.</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<section>
+				<div id="warbandCanvas">&#160;</div>
+			</section>
+
+			<div id="bottom_menu" class="menu noprint" style="margin-top:28pt; margin-bottom:28pt;">
+				<div class="centeredViewport">
+					<div class="button" onclick="addUnit();">Add a new unit<br/>
+						<div class="tooltip">Adds a new unit with default stats to your warband.</div>
+						<!--
+						<div id="addNewUnitMenu" class="button_menu">
+							<script src="sbh-owc-unittemplates.js">//</script>
+						</div>
+						-->
+					</div>
+					<div class="button disabled" id="PasteButton" onclick="PasteUnit();">New from Clipboard<br/>
+						<div class="tooltip">...</div>
+					</div>
+					<!--
+					<div class="button" onclick="return false;">Sort warband...<br/>
+						<div id="addNewUnitMenu" class="button_menu">
+							<p>...by unit points</p>
+							<p>...by unit quality</p>
+							<hr style="margin-top:0.3em; margin-bottom:0.3em; height:0px; border:1px solid #ff8e00;" />
+							<p>Personalities to the top</p>
+						</div>
+					</div>
+					-->
+				</div>
+			</div>
+			
+			<div id="didyouknow" class="didyouknow noprint">
+				<span class="icon" style="font-size:24pt; margin:6pt; padding-left:10px; padding-right:10px; border:1px solid #a0a0a0; color:#808080; background-color:#ffffd0; border-radius:2px;">i</span>
+				<p style="font-weight:bold;">Did you know..?</p>
+				<p id="didyouknow_text">...You need to have JavaScript enabled to use the <i>Song of Blades and Heroes Online Warband Creator</i>.</p>
+				<p><a href="javascript:DidYouKnow_NextSequenceHint('didyouknow_text');">Show another hint</a></p>
+			</div>
+			
+			<div id="advertisement" class="centeredViewport" style="margin-top:16pt; margin-bottom:16pt;">
+				<p>Song of Blades and Heroes is (c) by Andrea Sfiligoi - Online Warband Creator is (c) by Christoph Zager</p>
+				<p>Find out more about Song of Blades and Heroes at <a href="http://songofblades.blogspot.com/" target="_blank">http://songofblades.blogspot.com</a></p>     
+				<p>Buy Song of Blades and Heroes at <a href="http://www.ganeshagames.net/index.php?cPath=1_6" target="_blank">http://www.ganeshagames.net</a></p>
+				<p>Join the Song of Blades and Heroes Group at <a href="http://games.groups.yahoo.com/group/songofblades" target="_blank">http://games.groups.yahoo.com/group/songofblades</a></p>
+				<p>Post any comments on the Online Warband Creator to <a href="javascript:mailTo('crdfdfdmctcwdpbodqdadhbadjdrdwdybjbkbhdldydx');">contact (at) sbh.host (twenty-two) .com</a></p>
+				<div class="noprint">
+					<p>Powered by <a href="http://www.000webhost.com" target="_blank">000webhost.com</a> - <i>&ldquo;better than paid hosting&rdquo;</i></p>
+					<p style="margin-top:4px;">
+						<a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10.png" alt="Valid XHTML 1.0 Transitional" height="31" width="88" style="border:0;" /></a>
+						<a href="http://jigsaw.w3.org/css-validator/check/referer"><img style="border:0;width:88px;height:31px" src="http://jigsaw.w3.org/css-validator/images/vcss.png" alt="Valid CSS!" /></a>
+					</p>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div id="settingsPanel" class="blue volatile" x--onclick="stopEventHandling(event);">
+			<h1>Settings</h1>
+			<div class="withFloaters">
+				<p class="label"><span>Rules scope</span></p>
+				<div>
+					<p><input type="checkbox" id="rulesScopeSbh" data-settingsgroup="rules_scope" data-settingskey="sbh" disabled="disabled" checked="checked"/><label for="rulesScopeSbh">Song of Blades and Heroes</label></p>
+					<p><input type="checkbox" id="rulesScopeSgd" data-settingsgroup="rules_scope" data-settingskey="sgd"/><label for="rulesScopeSgd">Song of Gold and Darkness</label></p>
+					<p><input type="checkbox" id="rulesScopeSww" data-settingsgroup="rules_scope" data-settingskey="sww"/><label for="rulesScopeSww">Song of Wind and Water</label></p>
+					<p><input type="checkbox" id="rulesScopeSdg" data-settingsgroup="rules_scope" data-settingskey="sdg"/><label for="rulesScopeSdg">Song of Deeds and Glory</label></p>
+				</div>
+				<div>
+					<p><input type="checkbox" id="rulesScopeSam" data-settingsgroup="rules_scope" data-settingskey="sam"/><label for="rulesScopeSam">Song of Arthur and Merlin</label></p>
+				</div>
+			</div>
+			<div>
+				<p class="label"><span>Data language</span></p>
+				<select data-settingsgroup="language">
+					<option value="en">English</option>
+					<option value="de">Deutsch</option>
+				</select>
+			</div>
+			<div>
+				<p class="label"><span>Display</span></p>
+				<p><input type="radio" id="view_mode_classic" data-settingsgroup="view_mode" data-settingskey="classic" name="view_mode" /><label for="view_mode_classic">Classic unit profiles</label></p>
+				<p><input type="radio" id="view_mode_list" data-settingsgroup="view_mode" data-settingskey="list" name="view_mode" /><label for="view_mode_list">Compact list</label></p>
+			</div>
+			<div>
+				<p class="label"><span>Options</span></p>
+				<p><input type="checkbox" id="option_highlightPersonalities" data-settingsgroup="options" data-settingskey="highlightPersonalities" /><label for="option_highlightPersonalities">Highlight personalities</label></p>
+				<p class="suboption"><input type="checkbox" id="option_personalitiesInPoints" data-settingsgroup="options" data-settingskey="personalitiesInPoints" /><label for="option_personalitiesInPoints">Show personalities points instead of percents</label></p>
+				<p><input type="checkbox" id="option_applyRuleChecks" data-settingsgroup="options" data-settingskey="applyRuleChecks" /><label for="option_applyRuleChecks">Apply rule checks</label></p>
+			</div>
+			<p style="text-align:right;margin-top:0.5em;">
+				<input type="button" value="ok" onclick="applySettings();"/>
+			</p>
+		</div>
+
+
+		<div id="warbandCode" class="blue volatile" x--onclick="stopEventHandling(event);">
+			<h1>Warband code</h1>
+			<div>
+				<p class="label"><span>Your warband is encoded like this</span></p>
+				<p><textarea id="warbandCodeTextarea" style="width:100%; max-width:100%; min-width:100%; height:8em; min-height:4em; font-family:monospace;"></textarea>
+				</p>
+				<p>Note that there is no line wrap.</p>
+			</div>
+			<p style="text-align:right; margin-top:0.5em;">
+				<input type="button" value="apply" onclick="applyWarbandCode(document.getElementById('warbandCodeTextarea').value);"/>
+				<input type="button" value="close" onclick="sweepVolatiles();"/>
+			</p>
+		</div>
+		
+		<div id="blur" class="volatile" onclick="sweepVolatiles();" >&nbsp;</div>
+		<div id="printOverlay">&nbsp;</div>
+	
+		<script src="lib/menubox.class.js">//</script>
+		<script src="lib/resources.class.js">//</script>
+		<script src="lib/undoer.class.js">//</script>
+
+		<script src="res/profiles-meta.json.js">//</script>
+		<script src="res/specialrules-sbh.json.js">//</script>
+		<script src="res/specialrules-sgd.json.js">//</script>
+		<script src="res/specialrules-sww.json.js">//</script>
+		<script src="res/specialrules-sdg.json.js">//</script>
+		<script src="res/specialrules-sam.json.js">//</script>
+
+		<script src="settings.class.js">//</script>
+		<script src="unit.class.js">//</script>
+		<script src="warband.class.js">//</script>
+		<!-- <script src="rulecheck.js">//</script> -->
+		<script src="warbandcreator.class.js">//</script>
+		<script src="views/abstractview.class.js">//</script>
+		<script src="views/classicview.class.js">//</script>
+
+		<script src="sbh-owc.html.js">//</script>
+	
+	</body>
+	
+</html>

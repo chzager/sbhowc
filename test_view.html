@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="menubox.css"/>
+		<link rel="stylesheet" href="tooltip.css"/>
+		<link rel="stylesheet" href="views/classic.css"/>
+		<script src="lib/array.prototype.js">//</script>
+		<script src="lib/dhtml.js">//</script>
+	</head>
+<body>
+
+
+
+		<script src="lib/resources.class.js">//</script>
+		<script src="lib/menubox.class.js">//</script>
+		<script src="lib/undoer.class.js">//</script>
+
+		<script src="res/basic-data.js">//</script>
+		<script src="res/profiles-meta.json.js">//</script>
+		<script src="res/specialrules-sbh.json.js">//</script>
+		<script src="res/specialrules-sgd.json.js">//</script>
+		<script src="res/specialrules-sww.json.js">//</script>
+		<script src="res/specialrules-sdg.json.js">//</script>
+		<script src="res/specialrules-sam.json.js">//</script>
+
+		<script src="settings.class.js">//</script>
+		<script src="unit.class.js">//</script>
+		<script src="warband.class.js">//</script>
+		<!-- <script src="rulecheck.js">//</script> -->
+		<script src="warbandcreator.class.js">//</script>
+		<script src="views/abstractview.class.js">//</script>
+		<script src="views/classicview.class.js">//</script>
+
+		<!-- <script src="sbh-owc.html.js">//</script> -->
+
+		<div id="canvas">canvas</div>
+		
+		<div id="snapshots" style="position:absolute; top:0px; right:0px; border:1px solid silver; padding:1em; font-size:small;">.</div>
+
+<script type="text/javascript">
+
+let owc1 = new WarbandCreator();
+let view1 = new ClassicView(owc1.settings, owc1.resources, document.getElementById("canvas"));
+
+window.addEventListener("EditorEvent", editorEventListener);
+
+function snapshots()
+{
+	let n = document.getElementById("snapshots");
+	dhtml.clearNode(n);
+	for (let s = 0; s < owc1.undoer.snapshots.length; s += 1)
+	{
+		n.appendChild(dhtml.createNode("p", "", {}, owc1.undoer.snapshots[s].description));
+	}
+};
+
+function editorEventListener(editorEvent)
+{
+	function redrawUnit(unitIndex)
+	{
+		view1.printUnit(owc1.warband.units[unitIndex], unitIndex);
+		view1.printWarbandSummary(owc1.warband);
+	};
+	
+	function redrawWarband()
+	{
+		view1.printWarband(owc1.warband);
+	};
+	
+	console.log("editorEvent", editorEvent.detail);
+	let unitIndex = Number(editorEvent.detail.unitindex);
+	switch (editorEvent.detail.editor)
+	{
+	case "warbandname":
+		owc1.setWarbandName(editorEvent.detail.value);
+		view1.printWarbandName(owc1.warband);
+		break;
+	case "name":
+		owc1.setUnitName(unitIndex, editorEvent.detail.value);
+		redrawUnit(unitIndex);
+		break;
+	case "count":
+		owc1.setUnitCount(unitIndex, Number(editorEvent.detail.value));
+		redrawUnit(unitIndex);
+		break;
+	case "quality":
+		owc1.setUnitQuality(unitIndex, editorEvent.detail.value);
+		redrawUnit(unitIndex);
+		break;
+	case "combat":
+		owc1.setUnitCombatscore(unitIndex, editorEvent.detail.value);
+		redrawUnit(unitIndex);
+		break;
+	case "specialruletext":
+		owc1.setSpecialruleText(unitIndex, editorEvent.detail.specialruleindex, editorEvent.detail.value);
+		redrawUnit(unitIndex);
+		break;
+	}
+	switch (editorEvent.detail.action)
+	{
+	case "add_specialrule":
+		owc1.addSpecialrule(unitIndex, editorEvent.detail.value);
+		redrawUnit(unitIndex);
+		editorEvent.detail.originalEvent.target.value = "";
+		break;
+	case "remove_specialrule":
+		owc1.removeSpecialrule(unitIndex, editorEvent.detail.value);
+		redrawUnit(unitIndex);
+		break;
+	case "showUnitMenu":
+		view1.unitMenu.popup(editorEvent.detail.originalEvent, unitIndex);
+		break;
+	case "duplicate":
+		owc1.duplicateUnit(unitIndex, editorEvent.detail.value);
+		redrawWarband();
+		break;
+	case "copy":
+		console.warn("unhandled editorevent \"copy\"");
+		break;
+	case "remove":
+		owc1.removeUnit(unitIndex, editorEvent.detail.value);
+		redrawWarband();
+		break;
+	case "moveup":
+		owc1.moveUnitUp(unitIndex, editorEvent.detail.value);
+		redrawWarband();
+		break;
+	case "movedown":
+		owc1.moveUnitDown(unitIndex, editorEvent.detail.value);
+		redrawWarband();
+		break;
+
+	}
+	snapshots();
+};
+
+owc1.addSpecialrule(0, "ld");
+owc1.addSpecialrule(0, "ht");
+//owc1.warband.name = "Unnamed #1";
+view1.printWarband(owc1.warband);
+
+snapshots();
+
+//owc1.settings.language = "de"
+//view1.applySettings(owc1.settings)
+//console.log(view1._specialrules);
+/*
+*/
+
+</script>
+</body>
+</html>

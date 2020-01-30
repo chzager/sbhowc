@@ -1,0 +1,40 @@
+.classicview * { font-family:serif; font-size:12pt; }
+
+.classicview input,
+.classicview select { padding:0px; margin:0px; border:1px solid rgba(92, 92, 92, 0.7); box-shadow:1px 1px 1em #808080; }
+
+.classicview select,
+.classicview input,
+.classicview .specialruleEditorSeparator { display:none; }
+
+.classicview div.warbandName { margin-bottom:12pt; }
+.classicview div.warbandName * { font-size:18pt; font-weight:bold; width:100%; text-align:center; }
+.classicview input[data-editor="warbandname"] { box-shadow:none; background:linear-gradient(to bottom, #ffffff 70%,#e0e0e0 100%); }
+.classicview input[data-editor="name"] { width:calc(90% - 4pt); }
+.classicview input[data-editor="count"] { width:10%; float:right; }
+
+.classicview .interactive:hover > select,
+.classicview .interactive:hover > input,
+.classicview .interactive:hover > * > .specialruleEditorSeparator { display:initial; }
+
+.classicview .interactive:hover > [data-valueof] { display:none !important; }
+
+.classicview table td.left { width:50%; vertical-align:top; padding-right:10px; }
+.classicview table td.right { width:50%; vertical-align:top; padding-left:10px; }
+
+.classicview table.unit { border:none; border-collapse:collapse; border-spacing:0px; table-layout:fixed; width:100%; max-width:500px; margin-bottom:16pt; cursor:default; }
+/*
+@media screen and (max-width:430px) {
+	.classicview table.unit { margin-bottom:6pt; }
+}
+*/
+.classicview table.unit th,
+.classicview table.unit td { width:33%; text-align:left; vertical-align:middle; padding:4pt; border:1px solid black; overflow:auto; }
+.classicview table.unit td[colspan="2"] { width:67%; }
+.classicview table.unit th { width:100%; background-color:#d8d8d8; font-weight:normal;  }
+.classicview table.unit .interactive:hover { background-color:#e0e8f8; }
+.classicview table.unit span.personality { font-weight:bold; }
+
+.classicview table.unit span.specialrule { display:inline-block; }
+.classicview table.unit span.specialrule:hover { text-decoration:line-through; color:red; cursor:default; }
+.classicview table.unit span.specialrule.outOfScope { border-bottom:2px dotted red; }

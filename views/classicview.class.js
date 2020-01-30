@@ -1,0 +1,610 @@
+"use strict";
+
+class ClassicView extends AbstractView
+{
+	constructor(settings, warbandCreatorResources, printToNode)
+	{
+		super(settings, warbandCreatorResources, printToNode);
+		this.unitMenu = new Menubox("unitMenu",
+			{
+				"duplicate": "Duplicate unit",
+				"copy": "Copy unit",
+				"remove": "Remove unit",
+				"x1": null,
+				"moveup": "Move unit up",
+				"movedown": "Move unit down"
+			}
+			);
+		this.columnCount = this._determinateColumnCount();
+		this._warband = {};
+		window.addEventListener(Menubox.name, this.unitMenuClick);
+	};
+
+	_determinateColumnCount()
+	{
+		let result = 2;
+		let thresholdWidth = 650;
+		let currenClientWidth = Number(document.body.clientWidth);
+		if (currenClientWidth <= thresholdWidth)
+		{
+			result = 1;
+		};
+		return result;
+	};
+
+	dispatchEditorEvent(fromEvent)
+	{
+		let eventSender = fromEvent.target;
+		if (fromEvent.type === "click")
+		{
+			while (eventSender.onclick === null)
+			{
+				eventSender = eventSender.parentNode;
+			};
+		};
+		let editorEventData =
+		{
+			"detail":
+			{
+				"value": eventSender.value,
+				"originalEvent": fromEvent
+			}
+		};
+		for (let a = 0; a < eventSender.attributes.length; a += 1)
+		{
+			if (eventSender.attributes[a].nodeName.startsWith("data-") === true)
+			{
+				editorEventData.detail[eventSender.attributes[a].nodeName.substring(5)] = eventSender.attributes[a].nodeValue;
+			};
+		};
+		window.dispatchEvent(new CustomEvent("EditorEvent", editorEventData));
+	};
+
+	createWarbandNameEditorNode()
+	{
+		let node = dhtml.createNode("input", "",
+			{
+				"type": "text",
+				"maxlength": "150",
+				"data-editor": "warbandname",
+				"placeholder": this.translate("defaultWarbandName"),
+				"onmouseover": "this.focus();",
+				"onmouseout": "this.blur();"
+			}
+			);
+		node.onchange = this.dispatchEditorEvent;
+		return node;
+	};
+
+	createUnitNameEditorNode(unitIndex)
+	{
+		let node = dhtml.createNode("input", "",
+			{
+				"type": "text",
+				"maxlength": "150",
+				"placeholder": this.translate("defaultUnitName"),
+				"data-editor": "name",
+				"data-unitindex": unitIndex,
+				"onmouseover": "this.focus();"
+			}
+			);
+		node.onchange = this.dispatchEditorEvent;
+		return node;
+	};
+
+	createUnitCountEditorNode(unitIndex)
+	{
+		let node = dhtml.createNode("input", "",
+			{
+				"type": "number",
+				"min": "1",
+				"max": "25",
+				"maxlength": "2",
+				"data-editor": "count",
+				"data-unitindex": unitIndex,
+				"onmouseover": "this.focus();"
+			}
+			);
+		node.onchange = this.dispatchEditorEvent;
+		return node;
+	};
+
+	createUnitQualityEditorNode(unitIndex)
+	{
+		let node = dhtml.createNode("select", "",
+			{
+				"size": "1",
+				"data-editor": "quality",
+				"data-unitindex": unitIndex
+			}
+			);
+		for (let q = 2; q <= 6; q += 1)
+		{
+			node.appendChild(dhtml.createNode("option", "",
+				{
+					"value": q
+				}, q.toString() + "+"));
+		};
+		node.onchange = this.dispatchEditorEvent;
+		return node;
+	};
+
+	createUnitCombatscoreEditorNode(unitIndex)
+	{
+		let node = dhtml.createNode("select", "",
+			{
+				"size": "1",
+				"data-editor": "combat",
+				"data-unitindex": unitIndex
+			}
+			);
+		for (let c = 6; c >= 0; c -= 1)
+		{
+			node.appendChild(dhtml.createNode("option", "",
+				{
+					"value": c
+				}, c.toString()));
+		};
+		node.onchange = this.dispatchEditorEvent;
+		return node;
+	};
+
+	createSpecialrulesEditorNode(unitIndex)
+	{
+		let node = dhtml.createNode("select", "",
+			{
+				"size": "1",
+				"data-action": "addspecialrule",
+				"data-unitindex": unitIndex
+			}
+			);
+		for (let s = 0; s < this._specialrules.length; s += 1)
+		{
+			node.appendChild(dhtml.createNode("option", "",
+				{
+					"value": this._specialrules[s].key
+				}, this._specialrules[s].text));
+		};
+		node.onchange = this.dispatchEditorEvent;
+		return node;
+	};
+
+	createSpecialruleAdditionaltextEditorNode(unitIndex, specialruleIndex)
+	{
+		let node = dhtml.createNode("input", "",
+			{
+				"maxlength": "40",
+				"data-editor": "specialruletext",
+				"data-unitindex": unitIndex,
+				"data-specialruleIndex": specialruleIndex,
+				"onmouseover": "this.focus();",
+				"onmouseout": "this.blur();",
+				"onclick": "event.stopPropagation();"
+			}
+			);
+		node.onchange = this.dispatchEditorEvent;
+		node.oninput = dhtml.fitInputSize;
+		return node;
+	};
+
+	createWarbandHeaderNode()
+	{
+		let node = dhtml.createNode("div", "warbandName interactive");
+		node.appendChild(dhtml.createNode("span", "",
+			{
+				"style": "display:inline-block;",
+				"data-valueof": "warbandname"
+			}
+			));
+		node.appendChild(this.createWarbandNameEditorNode());
+		return node;
+	};
+
+	createWarbandFooterNode()
+	{
+		let node = dhtml.createNode("div", "",
+			{
+				"style": "position:relative;"
+			}
+			);
+		node.appendChild(dhtml.createNode("div", "",
+			{
+				"data-staticvalueof": "warbandsummary"
+			}, "..."));
+		node.appendChild(dhtml.createNode("div", "",
+			{
+				"data-staticvalueof": "rulechecks"
+			}
+			));
+		return node;
+	};
+
+	createUnitSpecialrulesNodes(unit, unitIndex)
+	{
+		function specialruleHint(resources, specialruleKey)
+		{
+			let result = resources.defaultText(specialruleKey);
+			if (resources[specialruleKey].personality === true)
+			{
+				result += " [personality]";
+			};
+			result += ",&#160;" + resources[specialruleKey].scope.toUpperCase();
+			return result;
+		};
+		let nodes = [];
+		for (let s = 0; s < unit.specialrules.length; s += 1)
+		{
+			let specialruleWrapper = dhtml.createNode("span", "specialruleWrapper");
+			let textNode = dhtml.createNode("span", "specialrule",
+				{
+					"data-unitindex": unitIndex,
+					"data-action": "removespecialrule",
+					"data-value": s
+				}
+				);
+			let specialruleText = this.translate(unit.specialrules[s].key);
+			if (unit.specialrules[s].additionalText === undefined)
+			{
+				textNode.appendChild(document.createTextNode(specialruleText));
+			}
+			else
+			{
+				let specialruleTextBefore = dhtml.createNode("span", "", {}, specialruleText.substring(0, specialruleText.indexOf("...")));
+				let specialruleTextAfter = dhtml.createNode("span", "", {}, specialruleText.substring(specialruleText.indexOf("...") + 3));
+				let additionalTextWrapper = dhtml.createNode("span");
+				let additionalTextNode = dhtml.createNode("span", "",
+					{
+						"data-valueof": "additionaltext"
+					}, unit.specialrules[s].additionalText);
+				additionalTextWrapper.appendChild(additionalTextNode);
+				let additionalTextEditor = this.createSpecialruleAdditionaltextEditorNode(unitIndex, s);
+				additionalTextEditor.value = unit.specialrules[s].additionalText;
+				dhtml.fitInputSize(additionalTextEditor);
+				additionalTextWrapper.appendChild(additionalTextEditor);
+				if (specialruleTextBefore.innerText !== "")
+				{
+					textNode.appendChild(specialruleTextBefore);
+				};
+				textNode.appendChild(additionalTextWrapper);
+				if (specialruleTextAfter.innerText !== "")
+				{
+					textNode.appendChild(specialruleTextAfter);
+				};
+			};
+			textNode.appendChild(dhtml.createNode("div", "tooltip nowrap", {}, specialruleHint(this._resources, unit.specialrules[s].key)));
+			if (this._settings.ruleScope.includes(this._resources[unit.specialrules[s].key].scope) === false)
+			{
+				textNode.classList.add("outOfScope");
+			};
+			textNode.onclick = this.dispatchEditorEvent;
+			specialruleWrapper.appendChild(textNode);
+			if (s < unit.specialrules.length - 1)
+			{
+				specialruleWrapper.appendChild(dhtml.createNode("span", "", {}, ",&#160;"));
+			};
+			nodes.push(specialruleWrapper);
+		};
+		return nodes;
+	};
+
+	_createUnitNameCell(unitIndex, isPersonality)
+	{
+		let result = dhtml.createNode("th", "interactive",
+			{
+				"colspan": "3",
+				"onmouseout": "document.activeElement.blur();"
+			}
+			);
+		let cssClass = "";
+		if ((isPersonality === true) && (this._settings.options.highlightPersonalities === true))
+		{
+			cssClass = "personality";
+		};
+		result.appendChild(dhtml.createNode("span", cssClass,
+			{
+				"data-valueof": "name",
+				"style": "display:inline-block; width:90%;"
+			}, "n"));
+		result.appendChild(this.createUnitNameEditorNode(unitIndex));
+		result.appendChild(dhtml.createNode("span", "",
+			{
+				"data-valueof": "count",
+				"style": "display:inline-block; width:10%; float:right; text-align:right;"
+			}, "c"));
+		result.appendChild(this.createUnitCountEditorNode(unitIndex));
+		return result;
+	};
+
+	_createUnitPointsCell(unitIndex)
+	{
+		let result = dhtml.createNode("td", "interactive",
+			{
+				"style": "cursor:pointer;",
+				"data-action": "showUnitMenu",
+				"data-unitindex": unitIndex
+			}
+			);
+		result.appendChild(dhtml.createNode("span", "", {}, this.translate("points") + ":&#160;"));
+		result.appendChild(dhtml.createNode("span", "",
+			{
+				"data-staticvalueof": "points"
+			}
+			));
+		result.onclick = this.dispatchEditorEvent;
+		return result;
+	};
+
+	_createUnitQualiyCell(unitIndex)
+	{
+		let result = dhtml.createNode("td", "interactive");
+		result.appendChild(dhtml.createNode("span", "", {}, this.translate("quality") + ":&#160;"));
+		result.appendChild(dhtml.createNode("span", "",
+			{
+				"data-valueof": "quality"
+			}, "q"));
+		result.appendChild(this.createUnitQualityEditorNode(unitIndex));
+		return result;
+	};
+
+	_createUnitCombatscoreCell(unitIndex)
+	{
+		let result = dhtml.createNode("td", "interactive");
+		result.appendChild(dhtml.createNode("span", "", {}, this.translate("combat") + ":&#160;"));
+		result.appendChild(dhtml.createNode("span", "",
+			{
+				"data-valueof": "combat"
+			}, "c"));
+		result.appendChild(this.createUnitCombatscoreEditorNode(unitIndex));
+		return result;
+	};
+
+	_createUnitSpecialrulesCell(unitIndex)
+	{
+		let result = dhtml.createNode("td", "interactive",
+			{
+				"colspan": "2"
+			}
+			);
+		result.appendChild(dhtml.createNode("span", "",
+			{
+				"data-staticvalueof": "specialrules"
+			}, "s"));
+		result.appendChild(this.createSpecialrulesEditorNode(unitIndex));
+		return result;
+	};
+
+	_discardNonPrintingElements(html)
+	{
+		const nonPrintingSelectors = ["select", "[data-editor]", ".specialruleEditorSeparator"];
+		const nonPrintingClasses = ["interactive", "outOfScope"];
+		let result = html;
+		console.log(this.html.toString());
+		for (let s = 0; s < nonPrintingSelectors.length; s += 1)
+		{
+			console.group("removing ", nonPrintingSelectors[s]);
+			let nonPrintingElements = result.querySelectorAll(nonPrintingSelectors[s]);
+			for (let e = 0; e < nonPrintingElements.length; e += 1)
+			{
+				console.log(nonPrintingElements[e]);
+				nonPrintingElements[e].remove();
+			};
+			console.groupEnd();
+		};
+		for (let s = 0; s < nonPrintingClasses.length; s += 1)
+		{
+			console.group("removing ", nonPrintingClasses[s]);
+			let nonPrintingElements = result.querySelectorAll("." + nonPrintingClasses[s]);
+			for (let e = 0; e < nonPrintingElements.length; e += 1)
+			{
+				console.log(nonPrintingElements[e]);
+				nonPrintingElements[e].classList.remove(nonPrintingClasses[s]);
+			};
+			console.groupEnd();
+		};
+		return result;
+	};
+
+	createUnitNode(unitIndex, isPersonality = false)
+	{
+		let node = dhtml.createNode("table", "unit",
+			{
+				"data-unitindex": unitIndex
+			}
+			);
+		let row = {};
+		/* header */
+		row = dhtml.createNode("tr");
+		node.appendChild(this._createUnitNameCell(unitIndex, isPersonality));
+		node.appendChild(row);
+		/* line 1 */
+		row = dhtml.createNode("tr");
+		row.appendChild(this._createUnitPointsCell(unitIndex));
+		row.appendChild(this._createUnitQualiyCell(unitIndex));
+		row.appendChild(this._createUnitCombatscoreCell(unitIndex));
+		node.appendChild(row);
+		/* line 2 */
+		row = dhtml.createNode("tr");
+		row.appendChild(dhtml.createNode("td", "passive", {}, this.translate("specialrules") + ":"));
+		row.appendChild(this._createUnitSpecialrulesCell(unitIndex));
+		node.appendChild(row)
+		return node;
+	};
+
+	printWarband(warband, interactive = true)
+	{
+		this._warband = warband;
+		let twoColumns = ((this.columnCount === 2) || (interactive === false)); //this.columnCount = this._determinateColumnCount();
+		let htmlNode = dhtml.createNode("div", "classicview");
+		htmlNode.appendChild(this.createWarbandHeaderNode());
+		let unitNodes = [];
+		for (let u = 0; u < warband.units.length; u += 1)
+		{
+			let unitNode = this.createUnitNode(u, warband.units[u].isPersonality);
+			unitNodes.push(unitNode);
+			this.printUnit(warband.units[u], u, unitNode);
+		};
+		let unitsTable = dhtml.createNode("table");
+		if (twoColumns === true)
+		{
+			if (unitNodes.length % 2 !== 0)
+			{
+				unitNodes.push(dhtml.createNode("div"));
+			};
+			for (let p = 0; p < unitNodes.length; p += 2)
+			{
+				let unitsTableRow = dhtml.createNode("tr");
+				let oddCol = dhtml.createNode("td", "left");
+				let evenCol = dhtml.createNode("td", "right");
+				oddCol.appendChild(unitNodes[p]);
+				evenCol.appendChild(unitNodes[p + 1]);
+				unitsTableRow.appendChild(oddCol);
+				unitsTableRow.appendChild(evenCol);
+				unitsTable.appendChild(unitsTableRow);
+			};
+		}
+		else
+		{
+			for (let p = 0; p < unitNodes.length; p += 1)
+			{
+				let unitsTableRow = dhtml.createNode("tr");
+				let unitsTableCol = dhtml.createNode("td");
+				unitsTableCol.appendChild(unitNodes[p]);
+				unitsTableRow.appendChild(unitsTableCol);
+				unitsTable.appendChild(unitsTableRow);
+			};
+		};
+		htmlNode.appendChild(unitsTable);
+		htmlNode.appendChild(this.createWarbandFooterNode());
+		dhtml.clearNode(this.html);
+		this.printWarbandName(warband, htmlNode);
+		this.printWarbandSummary(warband, htmlNode);
+		if (interactive === false)
+		{
+			htmlNode = this._discardNonPrintingElements(htmlNode);
+		};
+		this.html.appendChild(htmlNode);
+	};
+
+	printUnit(unit, unitIndex, targetNode = undefined)
+	{
+		let unitName = unit.name;
+		if (targetNode === undefined)
+		{
+			targetNode = document.querySelector("[data-unitindex='" + unitIndex + "']");
+		};
+		if (unitName === "")
+		{
+			unitName = this.translate("defaultUnitName");
+		};
+		targetNode.querySelector("[data-valueof='name']").innerText = unitName;
+		targetNode.querySelector("[data-editor='name']").value = unit.name;
+		let unitCountText = "&#160;"
+			if (unit.count > 1)
+			{
+				unitCountText = "x&#160;" + unit.count.toString();
+			};
+		targetNode.querySelector("[data-valueof='count']").innerHTML = unitCountText;
+		targetNode.querySelector("[data-editor='count']").value = unit.count;
+		targetNode.querySelector("[data-staticvalueof='points']").innerText = unit.points;
+		targetNode.querySelector("[data-valueof='quality']").innerText = String(unit.quality) + "+";
+		targetNode.querySelector("[data-editor='quality']").value = unit.quality;
+		targetNode.querySelector("[data-valueof='combat']").innerText = unit.combat;
+		targetNode.querySelector("[data-editor='combat']").value = unit.combat;
+		let specialrulesNode = targetNode.querySelector("[data-staticvalueof='specialrules']");
+		dhtml.clearNode(specialrulesNode);
+		let specialruleNodes = this.createUnitSpecialrulesNodes(unit, unitIndex);
+		if (specialruleNodes.length > 0)
+		{
+			for (let n = 0; n < specialruleNodes.length; n += 1)
+			{
+				specialrulesNode.appendChild(specialruleNodes[n]);
+			};
+			specialrulesNode.appendChild(dhtml.createNode("span", "specialruleEditorSeparator", {}, ",&#160;"));
+		};
+	};
+
+	printWarbandName(warband, targetNode = this.html)
+	{
+		let warbandName = warband.name;
+		if (warbandName === "")
+		{
+			warbandName = this.translate("defaultWarbandName");
+		};
+		targetNode.querySelector("[data-valueof='warbandname']").innerText = warbandName;
+		targetNode.querySelector("[data-editor='warbandname']").value = warband.name;
+	};
+
+	printWarbandSummary(warband, targetNode = this.html)
+	{
+		let warbandSummary = this.translate("totalPoints",
+			{
+				"F": warband.figureCount,
+				"P": warband.points
+			}
+			);
+		if (warband.personalityPoints > 0)
+		{
+			if (this._settings.options.personalitiesInPoints === true)
+			{
+				warbandSummary += " (" + this.translate("personalitiesPoints",
+				{
+					"Q": warband.personalityPoints
+				}
+				) + ")";
+			}
+			else
+			{
+				warbandSummary += " (" + this.translate("personalitiesPercent",
+				{
+					"P": Math.floor(warband.personalityPoints / warband.points * 100)
+				}
+				) + ")";
+			};
+		};
+		targetNode.querySelector("[data-staticvalueof='warbandsummary']").innerText = warbandSummary;
+	};
+
+	onWindowMenubox(clickEvent)
+	{
+		let editorEventData =
+		{
+			"detail":
+			{
+				"action": clickEvent.detail.itemKey,
+				"unitindex": clickEvent.detail.context,
+				"originalEvent": clickEvent
+			}
+		};
+		window.dispatchEvent(new CustomEvent("EditorEvent", editorEventData));
+	};
+
+	onWindowResize(resizeEvent = undefined)
+	{
+		let setColumnCount = this._determinateColumnCount();
+		if (this.columnCount !== setColumnCount)
+		{
+			this.columnCount = setColumnCount;
+			this.printWarband(this._warband);
+			this.onWindowScroll();
+		};
+	};
+
+	onWindowScroll(scrollEvent = undefined)
+	{
+		// console.log("scrollEvent", window.pageYOffset);
+		/*
+		function windowScrollEvent()
+	{
+		if (printMode === false)
+	{
+		// main menu
+		document.getElementById('topmenu').style.top = Math.max((window.pageYOffset - document.getElementById('topmenuwrapper').offsetTop) -1, -1) + 'px';
+		// warband summary
+		if (document.getElementById('warbandsummarywrapper').offsetTop - window.innerHeight - window.pageYOffset + document.getElementById('warbandsummary').clientHeight > 0)
+	{ alterClass(document.getElementById('warbandsummary'), '+stayAtBottom'); }
+		else
+	{ alterClass(document.getElementById('warbandsummary'), '-stayAtBottom'); }
+		}
+		 */
+	};
+};
