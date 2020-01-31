@@ -235,7 +235,7 @@ class ClassicView extends AbstractView
 		for (let s = 0; s < unit.specialrules.length; s += 1)
 		{
 			let specialruleWrapper = dhtml.createNode("span", "specialruleWrapper");
-			let textNode = dhtml.createNode("span", "specialrule",
+			let textNode = dhtml.createNode("span", "specialrule interactive",
 				{
 					"data-unitindex": unitIndex,
 					"data-action": "removespecialrule",
@@ -251,21 +251,19 @@ class ClassicView extends AbstractView
 			{
 				let specialruleTextBefore = dhtml.createNode("span", "", {}, specialruleText.substring(0, specialruleText.indexOf("...")));
 				let specialruleTextAfter = dhtml.createNode("span", "", {}, specialruleText.substring(specialruleText.indexOf("...") + 3));
-				let additionalTextWrapper = dhtml.createNode("span");
 				let additionalTextNode = dhtml.createNode("span", "",
 					{
 						"data-valueof": "additionaltext"
 					}, unit.specialrules[s].additionalText);
-				additionalTextWrapper.appendChild(additionalTextNode);
 				let additionalTextEditor = this.createSpecialruleAdditionaltextEditorNode(unitIndex, s);
 				additionalTextEditor.value = unit.specialrules[s].additionalText;
 				dhtml.fitInputSize(additionalTextEditor);
-				additionalTextWrapper.appendChild(additionalTextEditor);
 				if (specialruleTextBefore.innerText !== "")
 				{
 					textNode.appendChild(specialruleTextBefore);
 				};
-				textNode.appendChild(additionalTextWrapper);
+				textNode.appendChild(additionalTextNode);
+				textNode.appendChild(additionalTextEditor);
 				if (specialruleTextAfter.innerText !== "")
 				{
 					textNode.appendChild(specialruleTextAfter);
