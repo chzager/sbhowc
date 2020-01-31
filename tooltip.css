@@ -4,7 +4,7 @@ div.tooltip {
 	visibility: hidden;
 	max-width: 20em;
 	font-family: sans-serif;
-	font-size: smaller;
+	font-size: 9pt;
 	white-space: normal;
 	color: black;
 	padding: 0.2em;
