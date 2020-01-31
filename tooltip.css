@@ -1,2 +1,26 @@
-div.tooltip { display:block; visibility:hidden; position:absolute;  font-family:sans-serif; font-size:10pt; color:#000000; border:1pt solid #808080; background-color:#ffffd0; padding:2px; margin-top:10px; margin-left:-6pt; max-width:300px; z-index:60100; box-shadow:1px 1px 3px #c0c0c0; white-space:normal; }
-*:hover > div.tooltip { visibility:visible; }
+div.tooltip {
+	display: block;
+	position: absolute;
+	visibility: hidden;
+	max-width: 20em;
+	font-family: sans-serif;
+	font-size: smaller;
+	white-space: normal;
+	color: black;
+	padding: 0.2em;
+	margin-top: 0.5em;
+	background-color: #ffffd0;
+	border: 1px solid #808080;
+	box-shadow: 1px 1px 3px #00000080;
+	z-index: 99999;
+}
+
+div.tooltip * {
+	color: black;
+	padding: 0px;
+	margin: 0px;
+}
+
+*:hover > div.tooltip {
+	visibility: visible;
+}

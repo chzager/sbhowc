@@ -44,10 +44,6 @@ div.menu { font-family:Arial,sans-serif; font-size:10pt; width:100%; background-
 div.menu::after { display:block; content:"."; clear:left; height:0px; overflow:hidden; }
 div.button { float:left; margin-top:3pt; padding:1pt 2pt; border:1pt solid #ff8e00; border-left:10pt solid #ff8e00; background-color:#ffde7e; margin-right:2pt; cursor:pointer; box-shadow: 1px 1px 3px #95abd7; white-space:nowrap; }
 div.button:hover { border-color:#ff561c; background-color:#ffcc63; color:#91361f; }
-div.tooltip { display:block; visibility:hidden; position:absolute;  font-family:Arial,sans-serif; font-size:8pt; color:#000000; border:1pt solid #808080; background-color:#ffffd0; padding:2px; margin-top:10px; margin-left:-6pt; max-width:300px; z-index:60100; box-shadow: 1px 1px 3px #c0c0c0; white-space:normal; }
-.hasTooltip:hover div.tooltip { visibility:visible; }
-div.button:hover div.tooltip { visibility:visible; }
-div.button:focus div.tooltip { visibility:hidden; }
 div.disabled,
 div.disabled:hover { border-color:#808080; background-color:#d0d0d0; color:#808080; }
 
