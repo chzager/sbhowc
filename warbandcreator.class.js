@@ -2,9 +2,6 @@
 
 class WarbandCreator
 {
-	// urlParamWarband = "wbc";
-	// urlParamPrint = "print";
-
 	constructor()
 	{
 		this.settings = new Settings();
@@ -60,7 +57,9 @@ class WarbandCreator
 
 	duplicateUnit(unitIndex)
 	{
-		this.addUnit(this.warband.units[unitIndex].toString());
+		let copiedUnit = new Unit();
+		copiedUnit.fromString(this.warband.units[unitIndex].toString(), Warband.CurrentDataVersion, this.resources);
+		this.warband.units.splice(unitIndex, 0, copiedUnit);
 	};
 
 	copyUnitToClipboard(unitIndex)
