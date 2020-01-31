@@ -57,6 +57,7 @@ class WarbandCreator
 
 	duplicateUnit(unitIndex)
 	{
+		this.setUndoPoint("Duplicate " + this.warband.units[unitIndex].name.notEmpty(this.resources.defaultText("defaultUnitName")));
 		let copiedUnit = new Unit();
 		copiedUnit.fromString(this.warband.units[unitIndex].toString(), Warband.CurrentDataVersion, this.resources);
 		this.warband.units.splice(unitIndex, 0, copiedUnit);
@@ -67,7 +68,7 @@ class WarbandCreator
 
 	removeUnit(unitIndex)
 	{
-		this.setUndoPoint("Delete unit " + this.warband.units[unitIndex].name.notEmpty(this.resources.defaultText("defaultUnitName")));
+		this.setUndoPoint("Delete " + this.warband.units[unitIndex].name.notEmpty(this.resources.defaultText("defaultUnitName")));
 		this.warband.units.remove(unitIndex);
 		if (this.warband.units.length === 0)
 		{
