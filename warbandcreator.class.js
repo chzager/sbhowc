@@ -57,7 +57,10 @@ class WarbandCreator
 
 	duplicateUnit(unitIndex)
 	{
+<<<<<<< HEAD
 		this.setUndoPoint("Duplicate " + this.warband.units[unitIndex].name.notEmpty(this.resources.defaultText("defaultUnitName")));
+=======
+>>>>>>> 8709202cc962a4a8011e42974d5df517bb3f79a1
 		let copiedUnit = new Unit();
 		copiedUnit.fromString(this.warband.units[unitIndex].toString(), Warband.CurrentDataVersion, this.resources);
 		this.warband.units.splice(unitIndex, 0, copiedUnit);
