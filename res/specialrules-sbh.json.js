@@ -85,7 +85,8 @@
 	"gt" : {
 		"en" : "Gargantuan",
 		"de" : "Gigantisch",
-		"points" : 9
+		"points" : 9,
+		"replaces": [ "bg" ]
 	},
 	"go" : {
 		"en" : "Good shot",
@@ -146,7 +147,7 @@
 		"de" : "Magier",
 		"points" : 15,
 		"personality" : true,
-		"exclusive" : [ "ee", "nc", "sc", "sm", "ec", "il", "si" ]
+		"excludes" : [ "ee", "nc", "sc", "sm", "ec", "il", "si" ]
 	},
 	"mn" : {
 		"en" : "Mounted",
