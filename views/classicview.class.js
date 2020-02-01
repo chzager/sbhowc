@@ -204,7 +204,8 @@ class ClassicView extends AbstractView
 	{
 		let node = dhtml.createNode("div", "",
 			{
-				"id": "classicview_warbandsummary_wrapper"
+				"id": "classicview_warbandsummary_wrapper",
+				"style": "height:auto;"
 			}
 			);
 		let wrapperNode = dhtml.createNode("div", "centeredViewport",
@@ -623,10 +624,12 @@ class ClassicView extends AbstractView
 			if (warbandSummaryWarpperNode.offsetTop - window.innerHeight - window.pageYOffset + warbandSummaryNode.clientHeight > 0)
 			{
 				warbandSummaryNode.classList.add("stayAtBottom");
+				warbandSummaryWarpperNode.style.height = warbandSummaryNode.clientHeight + "px";
 			}
 			else
 			{
 				warbandSummaryNode.classList.remove("stayAtBottom");
+				warbandSummaryWarpperNode.style.height = "auto";
 			}
 		};
 	};
