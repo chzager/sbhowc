@@ -148,7 +148,13 @@ class WarbandCreator
 			{
 				for (let r = 0; r < specialrule.replaces.length; r += 1)
 				{
-					this.warband.units[unitIndex].removeSpecialrule(specialrule.replaces[r]);
+					for (let s = 0; s < this.warband.units[unitIndex].specialrules.length; s += 1)
+					{
+						if (this.warband.units[unitIndex].specialrules[s].key === specialrule.replaces[r])
+						{
+							this.warband.units[unitIndex].removeSpecialrule(specialrule.replaces[r]);
+						};
+					}
 				};
 			};
 		}
