@@ -97,16 +97,31 @@ function editorEventListener(editorEvent) /* OK */
 		owc.moveUnitDown(unitIndex, editorEvent.detail.value);
 		printWarband();
 		break;
-	}
+	};
 };
 
-function windowEventListener(windowEvent)
+function windowEventListener(windowEvent) /* OK */
 {
+	if (windowEvent.type === "scroll")
+	{
+		let topMenuWrapper = document.getElementById("top_menu_wrapper");
+		let topMenuNode = document.getElementById("top_menu");
+		if (window.pageYOffset > topMenuWrapper.offsetTop)
+		{
+			topMenuNode.classList.add("stayAtTop");
+			topMenuWrapper.style.height = topMenuNode.clientHeight + "px";
+		}
+		else
+		{
+			topMenuNode.classList.remove("stayAtTop");
+			topMenuWrapper.style.height = "auto";
+		};
+	};
 	let eventHandlerName = "onWindow" + windowEvent.type.substr(0, 1).toUpperCase() + windowEvent.type.substr(1).toLowerCase();
 	if (view[eventHandlerName] !== undefined)
 	{
 		view[eventHandlerName](windowEvent);
-	}
+	};
 };
 
 function printUnit(unitIndex) /* OK */
