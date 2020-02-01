@@ -299,12 +299,7 @@ class ClassicView extends AbstractView
 				"onmouseout": "document.activeElement.blur();"
 			}
 			);
-		let cssClass = "";
-		if ((isPersonality === true) && (this._settings.options.highlightPersonalities === true))
-		{
-			cssClass = "personality";
-		};
-		result.appendChild(dhtml.createNode("span", cssClass,
+		result.appendChild(dhtml.createNode("span", "",
 			{
 				"data-valueof": "name",
 				"style": "display:inline-block; width:90%;"
@@ -502,6 +497,15 @@ class ClassicView extends AbstractView
 		};
 		targetNode.querySelector("[data-valueof='name']").innerText = unitName;
 		targetNode.querySelector("[data-editor='name']").value = unit.name;
+		if ((unit.isPersonality === true) && (this._settings.options.highlightPersonalities === true))
+		{
+			targetNode.querySelector("[data-valueof='name']").classList.add("personality");
+		}
+		else
+		{
+			targetNode.querySelector("[data-valueof='name']").classList.remove("personality");
+		};
+
 		let unitCountText = "&#160;"
 			if (unit.count > 1)
 			{
