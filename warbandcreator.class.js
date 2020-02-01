@@ -161,7 +161,7 @@ class WarbandCreator
 	removeSpecialrule(unitIndex, specialruleIndex)
 	{
 		let nativeText = this.resources.defaultText(this.warband.units[unitIndex].specialrules[specialruleIndex].key);
-		this.setUndoPoint("Withdraw \"" + nativeText + "\" special rule from " + this.warband.units[unitIndex].name.notEmpty(this.resources.defaultText("defaultUnitName")));
+		this.setUndoPoint("Revoke \"" + nativeText + "\" special rule from " + this.warband.units[unitIndex].name.notEmpty(this.resources.defaultText("defaultUnitName")));
 		this.warband.units[unitIndex].removeSpecialrule(specialruleIndex);
 	};
 
