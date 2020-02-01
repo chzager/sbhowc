@@ -1,14 +1,28 @@
-.classicview * { font-family:serif; font-size:12pt; }
+.classicview * {
+	font-family: serif;
+	font-size: 12pt;
+	}
 
 .classicview input,
-.classicview select { padding:0px; margin:0px; border:1px solid rgba(92, 92, 92, 0.7); box-shadow:0.1em 0.1em 0.5em #00000040; }
+.classicview select {
+	border: 1px solid rgba(92, 92, 92, 0.7);
+	border-radius: 0.15em;
+	box-shadow: 0.1em 0.1em 0.5em #00000040;
+	padding: 0px;
+	margin: 0px;
+	}
 
 .classicview select,
 .classicview input,
-.classicview .specialruleEditorSeparator { display:none; }
+.classicview .specialruleEditorSeparator {
+	display: none;
+	}
 
-.classicview div.warbandName { margin-bottom:1.5em; }
-.classicview div.warbandName * { font-size:18pt; font-weight:bold; width:100%; text-align:center; }
+.classicview div.warbandName {
+	margin-bottom: 1.5em;
+	}
+	
+.classicview div.warbandName * { font-size:18pt; font-weight:bold; width:100%; text-align:center; text-shadow: 0.05em 0.05em 0.3em #00000052; }
 .classicview input[data-editor="warbandname"] { box-shadow:none; background:linear-gradient(to bottom, #ffffff 70%,#e0e0e0 100%); }
 .classicview input[data-editor="name"] { width:calc(90% - 0.35em); }
 .classicview input[data-editor="count"] { width:10%; float:right; }
