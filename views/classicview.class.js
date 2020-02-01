@@ -204,18 +204,24 @@ class ClassicView extends AbstractView
 	{
 		let node = dhtml.createNode("div", "",
 			{
-				"style": "position:relative;"
+				"id": "classicview_warbandsummary_wrapper"
 			}
 			);
-		node.appendChild(dhtml.createNode("div", "",
+		let wrapperNode = dhtml.createNode("div", "centeredViewport",
+			{
+				"id": "classicview_warbandsummary"
+			}
+			);
+		wrapperNode.appendChild(dhtml.createNode("div", "",
 			{
 				"data-staticvalueof": "warbandsummary"
 			}, "..."));
-		node.appendChild(dhtml.createNode("div", "",
+		wrapperNode.appendChild(dhtml.createNode("div", "",
 			{
 				"data-staticvalueof": "rulechecks"
 			}
 			));
+		node.appendChild(wrapperNode);
 		return node;
 	};
 
@@ -589,20 +595,17 @@ class ClassicView extends AbstractView
 
 	onWindowScroll(scrollEvent = undefined)
 	{
-		// console.log("scrollEvent", window.pageYOffset);
-		/*
-		function windowScrollEvent()
-	{
-		if (printMode === false)
-	{
-		// main menu
-		document.getElementById('topmenu').style.top = Math.max((window.pageYOffset - document.getElementById('topmenuwrapper').offsetTop) -1, -1) + 'px';
-		// warband summary
-		if (document.getElementById('warbandsummarywrapper').offsetTop - window.innerHeight - window.pageYOffset + document.getElementById('warbandsummary').clientHeight > 0)
-	{ alterClass(document.getElementById('warbandsummary'), '+stayAtBottom'); }
-		else
-	{ alterClass(document.getElementById('warbandsummary'), '-stayAtBottom'); }
-		}
-		 */
+		let warbandSummaryWarpperNode = document.getElementById("classicview_warbandsummary_wrapper");
+		let warbandSummaryNode = document.getElementById("classicview_warbandsummary");
+		{
+			if (warbandSummaryWarpperNode.offsetTop - window.innerHeight - window.pageYOffset + warbandSummaryNode.clientHeight > 0)
+			{
+				warbandSummaryNode.classList.add("stayAtBottom");
+			}
+			else
+			{
+				warbandSummaryNode.classList.remove("stayAtBottom");
+			}
+		};
 	};
 };

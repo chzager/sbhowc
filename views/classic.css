@@ -38,3 +38,5 @@
 .classicview table.unit span.specialrule { display:inline-block; }
 .classicview table.unit span.specialrule:hover { text-decoration:line-through; color:red; cursor:default; }
 .classicview table.unit span.specialrule.outOfScope { border-bottom:2px dotted red; }
+
+.stayAtBottom { position:fixed; top:auto; left:0px; right:0px; bottom:0px; padding:0px 3pt; border-top:1px solid black; z-index:30300; background-color:white; box-shadow:0px -10px 5px #fffffff0; }
