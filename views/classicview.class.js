@@ -544,6 +544,8 @@ class ClassicView extends AbstractView
 
 	printWarbandSummary(warband, targetNode = this.html)
 	{
+		let wrapperNode = targetNode.querySelector("[data-staticvalueof='warbandsummary']");
+		dhtml.clearNode(wrapperNode);
 		let warbandSummary = this.translate("totalPoints",
 			{
 				"F": warband.figureCount,
@@ -569,7 +571,23 @@ class ClassicView extends AbstractView
 				) + ")";
 			};
 		};
-		targetNode.querySelector("[data-staticvalueof='warbandsummary']").innerText = warbandSummary;
+		let warbandSummaryNode = dhtml.createNode("div", "", {}, warbandSummary);
+		wrapperNode.appendChild(warbandSummaryNode);
+		if (this._settings.options.applyRuleChecks === true)
+		{
+			let rulesCheckResult = getRulesCheckResultAsTexts(warband, this._resources, this._settings);
+			if (rulesCheckResult.length > 0)
+			{
+				let rulesViolationNode = dhtml.createNode("p", "violatedRulesHeader", {}, this.translate("ruleViolation"));
+				let violationList = dhtml.createNode("ul", "violatedRulesList");
+				for (let v = 0; v < rulesCheckResult.length; v += 1)
+				{
+					violationList.appendChild(dhtml.createNode("li", "", {}, rulesCheckResult[v]));
+				};
+				wrapperNode.appendChild(rulesViolationNode);
+				wrapperNode.appendChild(violationList);
+			};
+		};
 	};
 
 	onWindowMenubox(clickEvent)
