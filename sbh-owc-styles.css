@@ -40,7 +40,7 @@ div#warbandSummary { position:relative; top:0px; width:100%; background-color:#f
 div#warbandSummary.stayAtBottom { position:fixed; top:auto; max-width:800px; x--left:0px; padding:3pt 0pt; bottom:0px; border-top:1px solid #000000; z-index:30300; box-shadow:0px -10px 5px rgba(255, 255, 255, 0.7); }
 /* div#top_menu { box-shadow:0px 10px 5px #ffffff; } */
 
-div.menu { font-family:Arial,sans-serif; font-size:10pt; width:100%; background-color:#d0dcf4; border-top:1px solid #95abd7; border-bottom:1px solid #95abd7; padding-bottom:3pt; position:relative; top:0px; z-index:20200; }
+div.menu { font-family:Arial,sans-serif; font-size:10pt; width:100%; background-color:#d0dcf4; border-top:1px solid #95abd7; border-bottom:1px solid #95abd7; padding-bottom:3pt; /* position:relative; */ top:0px; z-index:20200; }
 div.menu::after { display:block; content:"."; clear:left; height:0px; overflow:hidden; }
 div.button { float:left; margin-top:3pt; padding:1pt 2pt; border:1pt solid #ff8e00; border-left:10pt solid #ff8e00; background-color:#ffde7e; margin-right:2pt; cursor:pointer; box-shadow: 1px 1px 3px #95abd7; white-space:nowrap; }
 div.button:hover { border-color:#ff561c; background-color:#ffcc63; color:#91361f; }
@@ -118,3 +118,6 @@ div#page.blurred { filter:blur(3px); }
 .inlineBlock { display:inline-block; }
 
 
+/* new */
+
+.stayAtTop { position:fixed; top:0px; left:0px; right:0px; bottom:auto; }
