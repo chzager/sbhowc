@@ -29,7 +29,7 @@
 		"en" : "Magic Resistance",
 		"de" : "Magieresistent",
 		"points" : 5,
-		"excludes" : [ "ee", "nc", "sc", "sm", "ec", "il", "si", "mu" ]
+		"exclusive" : [ "ee", "nc", "sc", "sm", "ec", "il", "si", "mu" ]
 	},
 	"mt" : {
 		"en" : "Mutant",

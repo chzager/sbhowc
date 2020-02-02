@@ -86,7 +86,7 @@
 		"en" : "Gargantuan",
 		"de" : "Gigantisch",
 		"points" : 9,
-		"replaces": [ "bg" ]
+		"replaces": [ "bg", "hg" ]
 	},
 	"go" : {
 		"en" : "Good shot",
@@ -117,7 +117,8 @@
 	"hg" : {
 		"en" : "Huge",
 		"de" : "Riesig",
-		"points" : 5
+		"points" : 5,
+		"replaces": [ "bg" ]
 	},
 	"ld" : {
 		"en" : "Leader",
@@ -147,7 +148,7 @@
 		"de" : "Magier",
 		"points" : 15,
 		"personality" : true,
-		"excludes" : [ "ee", "nc", "sc", "sm", "ec", "il", "si" ]
+		"exclusive" : [ "ee", "nc", "sc", "sm", "ec", "il", "si" ]
 	},
 	"mn" : {
 		"en" : "Mounted",

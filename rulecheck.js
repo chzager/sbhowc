@@ -53,31 +53,38 @@ function getRulesCheckResult(warband, resources, settings)
 
 	function checkExcludes(warband, specialrulesProvider, toFailsContainer)
 	{
-		// check specialrules exclusions
-		for (let u = 0; u < warband.units.length; u += 1)
+		function _checkExcludes(warband, specialrulesProvider, excludingKey, toFailsContainer)
 		{
-			let unit = warband.units[u];
-			for (let s = 0; s < unit.specialrules.length; s += 1)
+			for (let u = 0; u < warband.units.length; u += 1)
 			{
-				let currentExcludings = specialrulesProvider[unit.specialrules[s].key].excludes;
-				if (currentExcludings !== undefined)
+				let unit = warband.units[u];
+				let index = [];
+				for (let s = 0; s < unit.specialrules.length; s += 1)
 				{
-					for (let e = 0; e < currentExcludings.length; e += 1)
+					let excludings = specialrulesProvider[unit.specialrules[s].key][excludingKey];
+					if (excludings !== undefined)
 					{
-						if (unit.hasSpecialrule(currentExcludings[e]) === true)
+						for (let e = 0; e < excludings.length; e += 1)
 						{
-							let checkResult =
+							if ((unit.hasSpecialrule(excludings[e]) === true) && (index.includes(excludings[e] + unit.specialrules[s].key) === false))
 							{
-								"check": "excludes",
-								"unitindex": u,
-								"specialrules": [unit.specialrules[s].key, currentExcludings[e]]
+								let checkResult =
+								{
+									"check": "excludes",
+									"unitindex": u,
+									"specialrules": [unit.specialrules[s].key, excludings[e]]
+								};
+								toFailsContainer.push(checkResult);
+								index.push(unit.specialrules[s].key + excludings[e]);
 							};
-							toFailsContainer.push(checkResult);
 						};
 					};
 				};
 			};
 		};
+		// check specialrules exclusions
+		_checkExcludes(warband, specialrulesProvider, "exclusive", toFailsContainer);
+		_checkExcludes(warband, specialrulesProvider, "excludes", toFailsContainer);
 	};
 
 	let result = [];
