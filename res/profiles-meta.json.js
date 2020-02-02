@@ -70,5 +70,9 @@ let profilesMeta = {
 	"specialRuleMismatch" : {
 		"en" : "{U} must not have <i>{A}</i> and <i>{B}</i> at the same time.",
 		"de" : "{U} kann nicht <i>{A}</i> und <i>{B}</i> gleichzeitig haben."
+	},
+	"swarmCountViolated": {
+		"en" : "A swarm must have at least two figures (bases).",
+		"de" : "Ein Schwarm muss aus mindestens zwei Figuren bestehen."
 	}
 }

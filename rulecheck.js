@@ -31,7 +31,7 @@ function getRulesCheckResult(warband, resources, settings)
 		let animalPoints = 0;
 		for (let u = 0; u < warband.units.length; u += 1)
 		{
-			if (warband.units[u].hasSpecialrule("an") || warband.units[u].hasSpecialrule("sw"))
+			if ((warband.units[u].hasSpecialrule("an") === true) || (warband.units[u].hasSpecialrule("sw") === true))
 			{
 				animalPoints += warband.units[u].points * warband.units[u].count;
 			};
@@ -46,6 +46,26 @@ function getRulesCheckResult(warband, resources, settings)
 					"allowed": animalPointsAllowed,
 					"current": animalPoints
 				}
+			};
+			toFailsContainer.push(checkResult);
+		};
+	};
+
+	function checkSwarmFigures(warband, toFailsContainer)
+	{
+		let swarmFigures = 0;
+		for (let u = 0; u < warband.units.length; u += 1)
+		{
+			if (warband.units[u].hasSpecialrule("sw") === true)
+			{
+				swarmFigures += warband.units[u].count;
+			};
+		};
+		if (swarmFigures < 2)
+		{
+			let checkResult =
+			{
+				"check": "swarmfigures"
 			};
 			toFailsContainer.push(checkResult);
 		};
@@ -91,6 +111,7 @@ function getRulesCheckResult(warband, resources, settings)
 	checkPersonalityPoints(warband, result);
 	checkAnimalPoints(warband, result);
 	checkExcludes(warband, resources, result);
+	checkSwarmFigures(warband, result);
 	return result;
 };
 
@@ -118,6 +139,9 @@ function getRulesCheckResultAsTexts(warband, resources, settings)
 				}
 				));
 			break;
+		case "swarmfigures":
+			result.push(resources.translate("swarmCountViolated", settings.language));
+			break;
 		case "excludes":
 			result.push(resources.translate("specialRuleMismatch", settings.language,
 				{
@@ -130,4 +154,4 @@ function getRulesCheckResultAsTexts(warband, resources, settings)
 		};
 	};
 	return result;
-}
+};
