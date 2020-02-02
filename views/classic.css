@@ -3,6 +3,14 @@
 	font-size: 12pt;
 	}
 
+.classicview .box-shadow {
+	box-shadow: 0.1em 0.1em 0.3em #0000002f;
+	}
+
+.classicview .text-shadow {
+	text-shadow: 0.05em 0.05em 0.3em #00000052;
+	}
+
 .classicview input,
 .classicview select {
 	border: 1px solid rgba(92, 92, 92, 0.7);
@@ -18,11 +26,11 @@
 	display: none;
 	}
 
-.classicview div.warbandName {
+.classicview div.warbandheader {
 	margin-bottom: 1.5em;
 	}
 	
-.classicview div.warbandName * { font-size:18pt; font-weight:bold; width:100%; text-align:center; text-shadow: 0.05em 0.05em 0.3em #00000052; }
+.classicview div.warbandheader * { font-size:18pt; font-weight:bold; width:100%; text-align:center; }
 .classicview input[data-editor="warbandname"] { box-shadow:none; background:linear-gradient(to bottom, #ffffff 70%,#e0e0e0 100%); }
 .classicview input[data-editor="name"] { width:calc(90% - 0.35em); }
 .classicview input[data-editor="count"] { width:10%; float:right; }
@@ -36,7 +44,16 @@
 .classicview table td.left { width:50%; vertical-align:top; padding-right:0.75em; }
 .classicview table td.right { width:50%; vertical-align:top; padding-left:0.75em; }
 
-.classicview table.unit { border:none; border-collapse:collapse; border-spacing:0px; table-layout:fixed; width:100%; max-width:500px; margin-bottom:1.5em; cursor:default; box-shadow: 0.1em 0.1em 0.3em #0000002f; }
+.classicview table.unit {
+	border: none;
+	border-collapse: collapse;
+	border-spacing: 0px;
+	table-layout: fixed;
+	width: 100%;
+	max-width: 500px;
+	margin-bottom: 1.5em;
+	cursor: default;
+	}
 /*
 @media screen and (max-width:430px) {
 	.classicview table.unit { margin-bottom:6pt; }
@@ -50,8 +67,8 @@
 .classicview table.unit span.personality { font-weight:bold; }
 
 .classicview table.unit span.specialrule { display:inline-block; }
-.classicview table.unit span.specialrule:hover { text-decoration:line-through; color:red; cursor:default; }
-.classicview table.unit span.specialrule.outOfScope { border-bottom:0.1em dotted red; }
+.classicview table.unit .interactive span.specialrule:hover { text-decoration:line-through; color:red; cursor:default; }
+.classicview table.unit .interactive span.specialrule.out-of-scope { border-bottom:0.1em dotted red; }
 
 .stayAtBottom { position:fixed; top:auto; left:0px; right:0px; bottom:0px; padding:0px 3pt; border-top:1px solid black; z-index:30300; background-color:white; box-shadow:0px -0.8em 0.8em #ffffff; }
 

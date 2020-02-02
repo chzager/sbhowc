@@ -198,7 +198,7 @@ class AbstractView
 
 	createWarbandHeaderNode()
 	{
-		let node = dhtml.createNode("div", "warbandName interactive");
+		let node = dhtml.createNode("div", "warbandheader");
 		node.appendChild(dhtml.createNode("span", "",
 			{
 				"style": "display:inline-block;",
@@ -288,7 +288,7 @@ class AbstractView
 			textNode.appendChild(dhtml.createNode("div", "tooltip nowrap", {}, specialruleHint(this._resources, unit.specialrules[s].key)));
 			if (this._settings.ruleScope.includes(this._resources[unit.specialrules[s].key].scope) === false)
 			{
-				textNode.classList.add("outOfScope");
+				textNode.classList.add("out-of-scope");
 			};
 			textNode.onclick = this.dispatchEditorEvent;
 			specialruleWrapper.appendChild(textNode);

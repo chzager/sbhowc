@@ -144,7 +144,7 @@ class ClassicView extends AbstractView
 	_discardNonPrintingElements(html)
 	{
 		const nonPrintingSelectors = ["select", "[data-editor]", ".specialruleEditorSeparator"];
-		const nonPrintingClasses = ["interactive", "outOfScope"];
+		const nonPrintingClasses = ["interactive", "box-shadow", "text-shadow", "out-of-scope"];
 		let result = html;
 		console.log(this.html.toString());
 		for (let s = 0; s < nonPrintingSelectors.length; s += 1)
@@ -172,9 +172,17 @@ class ClassicView extends AbstractView
 		return result;
 	};
 
+	createWarbandHeaderNode()
+	{
+		let node = super.createWarbandHeaderNode();
+		node.classList.add("interactive");
+		node.classList.add("text-shadow");
+		return node;
+	};
+
 	createUnitNode(unitIndex, isPersonality = false)
 	{
-		let node = dhtml.createNode("table", "unit",
+		let node = dhtml.createNode("table", "unit box-shadow",
 			{
 				"data-unitindex": unitIndex
 			}
