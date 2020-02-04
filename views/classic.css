@@ -45,10 +45,32 @@
 .classicview .interactive:hover > input,
 .classicview .interactive:hover > * > .specialruleEditorSeparator { display:initial; }
 
-.classicview .interactive:hover > [data-valueof] { display:none !important; }
+.classicview .interactive:hover > [data-valueof] { display: none !important; }
 
-.classicview table td.left { width:50%; vertical-align:top; padding-right:0.75em; }
-.classicview table td.right { width:50%; vertical-align:top; padding-left:0.75em; }
+.classicview table.unitsgrid {
+	margin-bottom: 1.5em;
+	}
+	
+.classicview table.unitsgrid div.addunit {
+	border: 0.15em dashed #bdbdbd;
+	background-color: #f3f3f3;
+	background: linear-gradient(to bottom, #f9f9f9 50%,#efefef 100%);
+	font-family: sans-serif;
+	text-align: center;
+	padding: 1.5em;
+	border-radius: 1em;
+	font-size: smaller;
+	color: #bdbdbd;
+	cursor: pointer;
+	}
+.classicview table.unitsgrid div.addunit:hover {
+	border-color: #8295BD;
+	color: #8295BD;
+	background: linear-gradient(to bottom, #f3f7fe 50%,#dce3f2 100%);
+	}
+
+.classicview table.unitsgrid td.left { width: 50%; vertical-align: top; padding-right: 0.75em; }
+.classicview table.unitsgrid td.right { width: 50%; vertical-align: top; padding-left: 0.75em; }
 
 .classicview table.unit {
 	border: none;
@@ -64,14 +86,8 @@
 .classicview.screenfx table.unit {
 	box-shadow: 0.1em 0.1em 0.3em #0000002f;
 	background: linear-gradient(165deg, #ffffff 75%,#f2f2f2 100%);
-}
+	}
 
-
-/*
-@media screen and (max-width:430px) {
-	.classicview table.unit { margin-bottom:6pt; }
-}
-*/
 .classicview table.unit th,
 .classicview table.unit td { width:33%; text-align:left; vertical-align:middle; padding:0.35em; border:1px solid black; overflow:auto; }
 .classicview table.unit td[colspan="2"] { width:67%; }
@@ -83,8 +99,23 @@
 .classicview table.unit .interactive span.specialrule:hover { text-decoration:line-through; color:red; cursor:default; }
 .classicview table.unit .interactive span.specialrule.out-of-scope { border-bottom:0.1em dotted red; }
 
-.stayAtBottom { position:fixed; top:auto; left:0px; right:0px; bottom:0px; padding:0px 3pt; border-top:1px solid black; z-index:30300; background-color:white; box-shadow:0px -0.8em 0.8em #ffffff; }
+.classicview .stay-at-bottom {
+	position: fixed;
+	top: auto;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	padding: 0px 3pt;
+	border-top: 1px solid black;
+	background-color: white;
+	box-shadow: 0px -0.8em 0.8em #ffffff;
+	}
 
-.violatedRulesHeader,
-.violatedRulesList { color:red; }
-.violatedRulesList li { margin-left: 2em; }
+.classicview .rulecheck-header,
+.classicview .rulecheck-list {
+	color: red;
+	}
+	
+.classicview .rulecheck-list li {
+	margin-left: 2em;
+	}

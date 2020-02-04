@@ -66,6 +66,10 @@ function editorEventListener(editorEvent) /* OK */
 	}
 	switch (editorEvent.detail.action)
 	{
+	case "addunit":
+		owc.addUnit();
+		printWarband();
+		break;
 	case "addspecialrule":
 		owc.addSpecialrule(unitIndex, editorEvent.detail.value);
 		printUnit(unitIndex);
@@ -75,7 +79,7 @@ function editorEventListener(editorEvent) /* OK */
 		owc.removeSpecialrule(unitIndex, editorEvent.detail.value);
 		printUnit(unitIndex);
 		break;
-	case "showUnitMenu":
+	case "showunitmenu":
 		view.unitMenu.popup(editorEvent.detail.originalEvent, unitIndex);
 		break;
 	case "duplicate":
@@ -108,12 +112,12 @@ function windowEventListener(windowEvent) /* OK */
 		let topMenuNode = document.getElementById("top_menu");
 		if (window.pageYOffset > topMenuWrapper.offsetTop)
 		{
-			topMenuNode.classList.add("stayAtTop");
+			topMenuNode.classList.add("stay-at-top");
 			topMenuWrapper.style.height = topMenuNode.clientHeight + "px";
 		}
 		else
 		{
-			topMenuNode.classList.remove("stayAtTop");
+			topMenuNode.classList.remove("stay-at-top");
 			topMenuWrapper.style.height = "auto";
 		};
 	};
@@ -138,6 +142,7 @@ function printWarband() /* TODO */
 	if (interactiveMode === true)
 	{
 		refreshUndoButton();
+		windowEventListener(new Event("scroll"));
 	}
 	else
 	{
@@ -190,12 +195,6 @@ function undo() /* OK */
 		owc.warband.fromString(owc.undoer.undo(), owc.resources);
 		printWarband();
 	}
-};
-
-function addUnit() /* OK */
-{
-	owc.addUnit();
-	printWarband();
 };
 
 function newWarband() /* OK */

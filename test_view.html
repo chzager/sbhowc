@@ -6,6 +6,7 @@
 		<link rel="stylesheet" href="tooltip.css"/>
 		<link rel="stylesheet" href="views/classic.css"/>
 		<script src="lib/array.prototype.js">//</script>
+		<script src="lib/string.prototype.js">//</script>
 		<script src="lib/dhtml.js">//</script>
 	</head>
 <body>
@@ -27,7 +28,7 @@
 		<script src="settings.class.js">//</script>
 		<script src="unit.class.js">//</script>
 		<script src="warband.class.js">//</script>
-		<!-- <script src="rulecheck.js">//</script> -->
+		<script src="rulecheck.js">//</script>
 		<script src="warbandcreator.class.js">//</script>
 		<script src="views/abstractview.class.js">//</script>
 		<script src="views/classicview.class.js">//</script>
@@ -108,7 +109,7 @@ function editorEventListener(editorEvent)
 		owc1.removeSpecialrule(unitIndex, editorEvent.detail.value);
 		redrawUnit(unitIndex);
 		break;
-	case "showUnitMenu":
+	case "showunitmenu":
 		view1.unitMenu.popup(editorEvent.detail.originalEvent, unitIndex);
 		break;
 	case "duplicate":

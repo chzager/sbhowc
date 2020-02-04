@@ -37,7 +37,7 @@ span.icon_warning { font-size:30pt; margin:10px; padding:5px; padding-left:10px;
 div#title { margin-top:6pt; margin-bottom:1.5em; }
 div#title * { text-align:center; }
 div#warbandSummary { position:relative; top:0px; width:100%; background-color:#ffffff; z-index:20100; }
-div#warbandSummary.stayAtBottom { position:fixed; top:auto; max-width:800px; x--left:0px; padding:3pt 0pt; bottom:0px; border-top:1px solid #000000; z-index:30300; box-shadow:0px -10px 5px rgba(255, 255, 255, 0.7); }
+div#warbandSummary.stay-at-bottom { position:fixed; top:auto; max-width:800px; x--left:0px; padding:3pt 0pt; bottom:0px; border-top:1px solid #000000; z-index:30300; box-shadow:0px -10px 5px rgba(255, 255, 255, 0.7); }
 /* div#top_menu { box-shadow:0px 10px 5px #ffffff; } */
 
 div.menu { font-family:sans-serif; font-size:10pt; width:100%; background-color:#d0dcf4; border-top:1px solid #95abd7; border-bottom:1px solid #95abd7; padding-bottom:3pt; /* position:relative; */ top:0px; z-index:20200; background: linear-gradient(135deg, #f3f7fe 0%,#d0dcf4 30%,#f3f7fe 100%); box-shadow: 0px 0.1em 0.5em #0000002f;}
@@ -93,7 +93,7 @@ div.blue div.withFloaters:after { content:"\20"; clear:both; display:block; heig
 
 div.noscript p { border:3px solid red; padding:2px; margin-bottom:12pt; color:red; font-family:Tahoma,Arial,sans-serif; font-size:14pt; font-weight:bold; }
 
-div.didyouknow { margin-left:auto; margin-right:auto; max-width:600px; border:1px solid #c8c8c8; background-color:#ffffe8; padding:0.3em; margin-top:12pt; box-shadow: 1px 1px 3px #c0c0c0; }
+div.didyouknow { margin-top: 3em; margin-left:auto; margin-right:auto; max-width:600px; border:1px solid #c8c8c8; background-color:#ffffe8; padding:0.3em; box-shadow: 1px 1px 3px #c0c0c0; }
 div.didyouknow p { font-size:10pt; margin:6pt; margin-left:38pt; }
 
 div#advertisement p { font-size:10pt;  }
@@ -120,4 +120,4 @@ div#page.blurred { filter:blur(3px); }
 
 /* new */
 
-.stayAtTop { position:fixed; top:0px; left:0px; right:0px; bottom:auto; }
+.stay-at-top { position:fixed; top:0px; left:0px; right:0px; bottom:auto; }

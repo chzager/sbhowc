@@ -10,7 +10,7 @@ class AbstractView
 		this.html = printToNode;
 		this.applySettings(settings);
 	};
-	
+
 	_getSpecialrulesList()
 	{
 		function compareByText(a, b)
@@ -62,13 +62,18 @@ class AbstractView
 		this._settings = settings;
 		this._specialrules = this._getSpecialrulesList();
 	};
-	
+
 	translate(resourceId, placeholders)
 	{
 		let result = this._resources.translate(resourceId, this._settings.language, placeholders);
 		return result;
 	};
-	
+
+	dispatchEditorEvent(fromEvent)
+	{
+		throw "Call of abstract method";
+	};
+
 	createWarbandNameEditorNode()
 	{
 		let node = dhtml.createNode("input", "",
@@ -315,7 +320,7 @@ class AbstractView
 	{
 		throw "Call of abstract method";
 	};
-	
+
 	printUnit(unit, unitIndex, targetNode = this.html)
 	{
 		throw "Call of abstract method";

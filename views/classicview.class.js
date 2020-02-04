@@ -88,7 +88,7 @@ class ClassicView extends AbstractView
 		let result = dhtml.createNode("td", "interactive",
 			{
 				"style": "cursor:pointer;",
-				"data-action": "showUnitMenu",
+				"data-action": "showunitmenu",
 				"data-unitindex": unitIndex
 			}
 			);
@@ -143,7 +143,7 @@ class ClassicView extends AbstractView
 
 	_discardNonPrintingElements(html)
 	{
-		const nonPrintingSelectors = ["select", "[data-editor]", ".specialruleEditorSeparator"];
+		const nonPrintingSelectors = ["select", "[data-editor]", ".specialruleEditorSeparator", ".addunit"];
 		const nonPrintingClasses = ["interactive", "screenfx", "out-of-scope"];
 		let result = html;
 		console.log(this.html.toString());
@@ -172,6 +172,15 @@ class ClassicView extends AbstractView
 		return result;
 	};
 
+	createAddUnitNode()
+	{
+		let result = dhtml.createNode("div", "addunit", {
+			"data-action": "addunit",
+		}, "Add new unit");
+		result.onclick = this.dispatchEditorEvent;
+		return result;
+	};
+	
 	createWarbandHeaderNode()
 	{
 		let node = super.createWarbandHeaderNode();
@@ -209,7 +218,7 @@ class ClassicView extends AbstractView
 	printWarband(warband, interactive = true)
 	{
 		this._warband = warband;
-		let twoColumns = ((this.columnCount === 2) || (interactive === false)); //this.columnCount = this._determinateColumnCount();
+		let twoColumns = ((this.columnCount === 2) || (interactive === false));
 		let htmlNode = dhtml.createNode("div", "classicview");
 		if (interactive === true)
 		{
@@ -223,7 +232,8 @@ class ClassicView extends AbstractView
 			unitNodes.push(unitNode);
 			this.printUnit(warband.units[u], u, unitNode);
 		};
-		let unitsTable = dhtml.createNode("table");
+		let unitsTable = dhtml.createNode("table", "unitsgrid");
+		unitNodes.push(this.createAddUnitNode());
 		if (twoColumns === true)
 		{
 			if (unitNodes.length % 2 !== 0)
@@ -359,8 +369,8 @@ class ClassicView extends AbstractView
 			let rulesCheckResult = getRulesCheckResultAsTexts(warband, this._resources, this._settings);
 			if (rulesCheckResult.length > 0)
 			{
-				let rulesViolationNode = dhtml.createNode("p", "violatedRulesHeader", {}, this.translate("ruleViolation"));
-				let violationList = dhtml.createNode("ul", "violatedRulesList");
+				let rulesViolationNode = dhtml.createNode("p", "rulecheck-header", {}, this.translate("ruleViolation"));
+				let violationList = dhtml.createNode("ul", "rulecheck-list");
 				for (let v = 0; v < rulesCheckResult.length; v += 1)
 				{
 					violationList.appendChild(dhtml.createNode("li", "", {}, rulesCheckResult[v]));
@@ -403,12 +413,12 @@ class ClassicView extends AbstractView
 		{
 			if (warbandSummaryWarpperNode.offsetTop - window.innerHeight - window.pageYOffset + warbandSummaryNode.clientHeight > 0)
 			{
-				warbandSummaryNode.classList.add("stayAtBottom");
+				warbandSummaryNode.classList.add("stay-at-bottom");
 				warbandSummaryWarpperNode.style.height = warbandSummaryNode.clientHeight + "px";
 			}
 			else
 			{
-				warbandSummaryNode.classList.remove("stayAtBottom");
+				warbandSummaryNode.classList.remove("stay-at-bottom");
 				warbandSummaryWarpperNode.style.height = "auto";
 			}
 		};
