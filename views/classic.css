@@ -38,19 +38,15 @@
 	background: linear-gradient(to bottom, #ffffff 70%,#e0e0e0 100%);
 }
 
-.classicview input[data-editor="name"] { width:calc(90% - 0.35em); }
-.classicview input[data-editor="count"] { width:10%; float:right; }
+.classicview input[data-editor="name"] { width: calc(90% - 0.35em); }
+.classicview input[data-editor="count"] { width: 10%; float: right; }
 
 .classicview .interactive:hover > select,
 .classicview .interactive:hover > input,
-.classicview .interactive:hover > * > .specialruleEditorSeparator { display:initial; }
+.classicview .interactive:hover > * > .specialruleEditorSeparator { display: initial; }
 
 .classicview .interactive:hover > [data-valueof] { display: none !important; }
 
-.classicview table.unitsgrid {
-	margin-bottom: 1.5em;
-	}
-	
 .classicview table.unitsgrid div.addunit {
 	border: 0.15em dashed #bdbdbd;
 	background-color: #f3f3f3;
@@ -62,6 +58,7 @@
 	font-size: smaller;
 	color: #bdbdbd;
 	cursor: pointer;
+	margin-bottom: 1.5em;
 	}
 .classicview table.unitsgrid div.addunit:hover {
 	border-color: #8295BD;
@@ -89,15 +86,41 @@
 	}
 
 .classicview table.unit th,
-.classicview table.unit td { width:33%; text-align:left; vertical-align:middle; padding:0.35em; border:1px solid black; overflow:auto; }
-.classicview table.unit td[colspan="2"] { width:67%; }
-.classicview table.unit th { width:100%; background-color:#d8d8d8; font-weight:normal;  }
-.classicview table.unit .interactive:hover { background-color:#e0e8f8; }
-.classicview table.unit span.personality { font-weight:bold; }
+.classicview table.unit td {
+	width: 33%;
+	text-align: left;
+	vertical-align: middle;
+	padding: 0.35em;
+	border: 1px solid black;
+	overflow: auto;
+	}
 
-.classicview table.unit span.specialrule { display:inline-block; }
-.classicview table.unit .interactive span.specialrule:hover { text-decoration:line-through; color:red; cursor:default; }
-.classicview table.unit .interactive span.specialrule.out-of-scope { border-bottom:0.1em dotted red; }
+.classicview table.unit th {
+	width: 100%;
+	background-color: #d8d8d8;
+	font-weight: normal;
+	}
+
+.classicview table.unit .interactive:hover {
+	background-color: #e0e8f8;
+	}
+
+.classicview table.unit span.personality {
+	font-weight: bold;
+	}
+
+.classicview table.unit span.specialrule {
+	display: inline-block;
+	}
+.classicview table.unit .interactive span.specialrule:hover {
+	text-decoration: line-through;
+	color: red;
+	cursor: default;
+	}
+
+.classicview table.unit .interactive span.specialrule.out-of-scope {
+	border-bottom: 0.1em dotted red;
+	}
 
 .classicview .stay-at-bottom {
 	position: fixed;
