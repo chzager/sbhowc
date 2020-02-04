@@ -78,7 +78,7 @@
 	},
 	"wr": {
 		"en": "Were",
-		"de": "Werwesen",
+		"de": "Warg",
 		"points": 0
 	}
 };
