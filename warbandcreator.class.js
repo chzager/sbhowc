@@ -70,10 +70,6 @@ class WarbandCreator
 	{
 		this.setUndoPoint("Delete " + this.warband.units[unitIndex].name.notEmpty(this.resources.defaultText("defaultUnitName")));
 		this.warband.units.remove(unitIndex);
-		if (this.warband.units.length === 0)
-		{
-			this.addUnit();
-		};
 	};
 
 	moveUnitUp(unitIndex)
