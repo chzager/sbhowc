@@ -48,7 +48,7 @@ let profilesMeta = {
 		"de": "Sonderregel hinzufügen"
 	},
 	"personalitiesPoints": {
-		"en": "{Q} personality points",
+		"en": "{Q} points in personalities",
 		"de": "{Q} Punkte für Persönlichkeiten"
 	},
 	"personalitiesPercent": {
@@ -60,7 +60,7 @@ let profilesMeta = {
 		"de": "<b>Regelverletzung:</b>"
 	},
 	"personalityPointsViolated": {
-		"en": "At most {M} personality points allowed.",
+		"en": "At most {M} points in personalities allowed.",
 		"de": "Höchstens {M} Punkte für Persönlichkeiten erlaubt."
 	},
 	"animalPointsViolated": {
