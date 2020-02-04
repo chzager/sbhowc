@@ -61,7 +61,7 @@ function getRulesCheckResult(warband, resources, settings)
 				swarmFigures += warband.units[u].count;
 			};
 		};
-		if (swarmFigures < 2)
+		if ((swarmFigures > 0) && (swarmFigures < 2))
 		{
 			let checkResult =
 			{

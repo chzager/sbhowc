@@ -42,6 +42,11 @@ console.log(faildChecks);
 let rulesCheckText = getRulesCheckResultAsTexts(owc.warband, owc.resources, owc.settings);
 console.log(rulesCheckText);
 
+owc.addUnit();
+let newUnitIndex = owc.warband.units.length -1;
+owc.addSpecialrule(newUnitIndex, "sw");
+console.log(getRulesCheckResult(owc.warband, owc.resources, owc.settings));
+
 		</script>
 	</body>
 </html>
