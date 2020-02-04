@@ -144,7 +144,7 @@ class ClassicView extends AbstractView
 	_discardNonPrintingElements(html)
 	{
 		const nonPrintingSelectors = ["select", "[data-editor]", ".specialruleEditorSeparator"];
-		const nonPrintingClasses = ["interactive", "box-shadow", "text-shadow", "out-of-scope"];
+		const nonPrintingClasses = ["interactive", "screenfx", "out-of-scope"];
 		let result = html;
 		console.log(this.html.toString());
 		for (let s = 0; s < nonPrintingSelectors.length; s += 1)
@@ -211,6 +211,10 @@ class ClassicView extends AbstractView
 		this._warband = warband;
 		let twoColumns = ((this.columnCount === 2) || (interactive === false)); //this.columnCount = this._determinateColumnCount();
 		let htmlNode = dhtml.createNode("div", "classicview");
+		if (interactive === true)
+		{
+			htmlNode.classList.add("screenfx");
+		};
 		htmlNode.appendChild(this.createWarbandHeaderNode());
 		let unitNodes = [];
 		for (let u = 0; u < warband.units.length; u += 1)

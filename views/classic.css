@@ -3,14 +3,6 @@
 	font-size: 12pt;
 	}
 
-.classicview .box-shadow {
-	box-shadow: 0.1em 0.1em 0.3em #0000002f;
-	}
-
-.classicview .text-shadow {
-	text-shadow: 0.05em 0.05em 0.3em #00000052;
-	}
-
 .classicview input,
 .classicview select {
 	border: 1px solid rgba(92, 92, 92, 0.7);
@@ -29,9 +21,23 @@
 .classicview div.warbandheader {
 	margin-bottom: 1.5em;
 	}
+
+.classicview.screenfx div.warbandheader {
+	text-shadow: 0.05em 0.05em 0.3em #00000052;
+	}
+
+.classicview div.warbandheader * {
+	font-size: 18pt;
+	font-weight: bold; 
+	width: 100%;
+	text-align: center;
+	}
 	
-.classicview div.warbandheader * { font-size:18pt; font-weight:bold; width:100%; text-align:center; }
-.classicview input[data-editor="warbandname"] { box-shadow:none; background:linear-gradient(to bottom, #ffffff 70%,#e0e0e0 100%); }
+.classicview input[data-editor="warbandname"] {
+	box-shadow: none;
+	background: linear-gradient(to bottom, #ffffff 70%,#e0e0e0 100%);
+}
+
 .classicview input[data-editor="name"] { width:calc(90% - 0.35em); }
 .classicview input[data-editor="count"] { width:10%; float:right; }
 
@@ -54,6 +60,13 @@
 	margin-bottom: 1.5em;
 	cursor: default;
 	}
+
+.classicview.screenfx table.unit {
+	box-shadow: 0.1em 0.1em 0.3em #0000002f;
+	background: linear-gradient(165deg, #ffffff 75%,#f2f2f2 100%);
+}
+
+
 /*
 @media screen and (max-width:430px) {
 	.classicview table.unit { margin-bottom:6pt; }
