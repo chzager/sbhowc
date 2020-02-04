@@ -4,6 +4,7 @@ const urlKeyWarband = "warband";
 const urlKeyPrint = "print";
 
 let owc = new WarbandCreator();
+let didyouknow = new DidYouKnow(document.getElementById("didyouknow_text"), didyouknowHints);
 
 let urlWarbandCode = window.location.getParam(urlKeyWarband);
 if (urlWarbandCode !== "")
@@ -26,6 +27,7 @@ if (interactiveMode === true)
 }
 printWarband();
 
+// didyouknow.printRandomHint();
 // window.onunload = function(){window.alert("!");};
 window.onfocus = function ()
 {
