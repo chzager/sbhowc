@@ -102,7 +102,7 @@ class ClassicView extends AbstractView
 		return result;
 	};
 
-	_createUnitQualiyCell(unitIndex)
+	_createUnitQualityCell(unitIndex)
 	{
 		let result = dhtml.createNode("td", "interactive");
 		result.appendChild(dhtml.createNode("span", "", {}, this.translate("quality") + ":&#160;"));
@@ -204,7 +204,7 @@ class ClassicView extends AbstractView
 		/* line 1 */
 		row = dhtml.createNode("tr");
 		row.appendChild(this._createUnitPointsCell(unitIndex));
-		row.appendChild(this._createUnitQualiyCell(unitIndex));
+		row.appendChild(this._createUnitQualityCell(unitIndex));
 		row.appendChild(this._createUnitCombatscoreCell(unitIndex));
 		node.appendChild(row);
 		/* line 2 */
