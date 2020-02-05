@@ -1,7 +1,7 @@
 let didyouknowHints = [
 	"You can change the language of the data in the options-menu.",
 	"You can toggle between the classic unit profiles sheet view and a smart list view using the options-menu.",
-	"The recommended warband size is 300 points with no more then 1/3 personalitites.",
+	"The recommended warband size is 300 points with no more then 1/3 personalities.",
 	"Song of Blades an Heroes Online Warband Creator checks if the number of your warbands personality points is regular.",
 	"There is an option to switch off highlighting of personalities in the options-menu.",
 	"To delete a unit, click on it\'s points and select \"Remove unit\" from the menu.",
