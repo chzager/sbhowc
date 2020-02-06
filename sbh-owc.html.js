@@ -135,12 +135,14 @@ function printUnit(unitIndex) /* OK */
 	view.printUnit(owc.warband.units[unitIndex], unitIndex);
 	view.printWarbandSummary(owc.warband);
 	refreshUndoButton();
+	refreshWindowTitle();
 };
 
 function printWarband() /* TODO */
 {
 	console.log("view.printWarband", owc.warband, interactiveMode);
 	view.printWarband(owc.warband, interactiveMode);
+	refreshWindowTitle();
 	if (interactiveMode === true)
 	{
 		refreshUndoButton();
@@ -150,6 +152,11 @@ function printWarband() /* TODO */
 	{
 		dhtml.removeNodesByQuerySelectors([".noprint", ".tooltip"]);
 	};
+};
+
+function refreshWindowTitle()
+{
+	document.title = owc.warband.name.notEmpty(owc.resources.defaultText("defaultWarbandName")) + " (" + owc.warband.points + "pts) - Song of Blades and Heroes Online Warband Creator";
 };
 
 function refreshUndoButton() /* OK */
