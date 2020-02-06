@@ -148,17 +148,7 @@ function printWarband() /* TODO */
 	}
 	else
 	{
-		const nonPrintingSelectors = [".noprint", ".tooltip"];
-		for (let s = 0; s < nonPrintingSelectors.length; s += 1)
-		{
-			let nonPrintingElements = document.querySelectorAll(nonPrintingSelectors[s]);
-			for (let e = 0; e < nonPrintingElements.length; e += 1)
-			{
-				console.log(nonPrintingElements[e]);
-				nonPrintingElements[e].remove();
-			};
-			console.groupEnd();
-		};
+		dhtml.removeNodesByQuerySelectors([".noprint", ".tooltip"]);
 	};
 };
 

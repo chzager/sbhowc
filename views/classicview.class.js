@@ -143,33 +143,8 @@ class ClassicView extends AbstractView
 
 	_discardNonPrintingElements(html)
 	{
-		const nonPrintingSelectors = ["select", "[data-editor]", ".specialruleEditorSeparator", ".addunit"];
-		const nonPrintingClasses = ["interactive", "screenfx", "out-of-scope"];
-		let result = html;
-		console.log(this.html.toString());
-		for (let s = 0; s < nonPrintingSelectors.length; s += 1)
-		{
-			console.group("removing ", nonPrintingSelectors[s]);
-			let nonPrintingElements = result.querySelectorAll(nonPrintingSelectors[s]);
-			for (let e = 0; e < nonPrintingElements.length; e += 1)
-			{
-				console.log(nonPrintingElements[e]);
-				nonPrintingElements[e].remove();
-			};
-			console.groupEnd();
-		};
-		for (let s = 0; s < nonPrintingClasses.length; s += 1)
-		{
-			console.group("removing ", nonPrintingClasses[s]);
-			let nonPrintingElements = result.querySelectorAll("." + nonPrintingClasses[s]);
-			for (let e = 0; e < nonPrintingElements.length; e += 1)
-			{
-				console.log(nonPrintingElements[e]);
-				nonPrintingElements[e].classList.remove(nonPrintingClasses[s]);
-			};
-			console.groupEnd();
-		};
-		return result;
+		dhtml.removeNodesByQuerySelectors(["select", "[data-editor]", ".specialruleEditorSeparator", ".addunit"], html);
+		dhtml.removeClasses(["interactive", "screenfx", "out-of-scope"], html);
 	};
 
 	createAddUnitNode()
@@ -270,7 +245,8 @@ class ClassicView extends AbstractView
 		this.printWarbandSummary(warband, htmlNode);
 		if (interactive === false)
 		{
-			htmlNode = this._discardNonPrintingElements(htmlNode);
+			// htmlNode = this._discardNonPrintingElements(htmlNode);
+			this._discardNonPrintingElements(htmlNode);
 		};
 		this.html.appendChild(htmlNode);
 	};
