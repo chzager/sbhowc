@@ -191,6 +191,7 @@ class AbstractView
 				"data-editor": "specialruletext",
 				"data-unitindex": unitIndex,
 				"data-specialruleIndex": specialruleIndex,
+				"data-spaceafter": "1em",
 				"onmouseover": "this.focus();",
 				"onmouseout": "this.blur();",
 				"onclick": "event.stopPropagation();"
