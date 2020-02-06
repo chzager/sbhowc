@@ -48,6 +48,10 @@
 
 .classicview .interactive:hover > [data-valueof] { display: none !important; }
 
+.classicview table.unitsgrid {
+	width: 100%;
+	}
+
 .classicview table.unitsgrid div.addunit {
 	border: 0.15em dashed #bdbdbd;
 	background-color: #f3f3f3;
