@@ -1,7 +1,6 @@
 
 * { margin:0px; padding:0px; text-align:left; box-sizing:border-box; }
-/* html, body, table, input, select, option, h1, h2, h3, h4, p, th, td { font-family:'Times New Roman',serif; font-size:12pt; } */
-html, body, table, input, select, option, h1, h2, h3, h4, p, th, td { font-family:serif; font-size:12pt; }
+html, body, table, input, select, option, h1, h2, h3, h4, p, th, td { font-family: serif; font-size: 12pt; }
 
 body { overflow-x:hidden; width:100%; }
 
@@ -36,11 +35,10 @@ span.icon_warning { font-size:30pt; margin:10px; padding:5px; padding-left:10px;
 
 div#title { margin-top:6pt; margin-bottom:1.5em; }
 div#title * { text-align:center; }
-div#warbandSummary { position:relative; top:0px; width:100%; background-color:#ffffff; z-index:20100; }
-div#warbandSummary.stay-at-bottom { position:fixed; top:auto; max-width:800px; x--left:0px; padding:3pt 0pt; bottom:0px; border-top:1px solid #000000; z-index:30300; box-shadow:0px -10px 5px rgba(255, 255, 255, 0.7); }
-/* div#top_menu { box-shadow:0px 10px 5px #ffffff; } */
 
 div.menu { font-family:sans-serif; font-size:10pt; width:100%; background-color:#d0dcf4; border-top:1px solid #95abd7; border-bottom:1px solid #95abd7; padding-bottom:3pt; /* position:relative; */ top:0px; z-index:20200; background: linear-gradient(135deg, #f3f7fe 0%,#d0dcf4 30%,#f3f7fe 100%); box-shadow: 0px 0.1em 0.5em #0000002f;}
+div.menu.stay-at-top { border-top: none; }
+
 div.menu::after { display:block; content:"."; clear:left; height:0px; overflow:hidden; }
 div.button { float:left; margin-top:3pt; padding:1pt 2pt; border:1pt solid #ff8e00; border-left:10pt solid #ff8e00; background-color:#ffde7e; margin-right:2pt; cursor:pointer; box-shadow: 1px 1px 3px #95ab80; white-space:nowrap; }
 div.button:hover { border-color:#ff561c; background-color:#ffcc63; color:#91361f; }
@@ -53,24 +51,6 @@ table.blind tr td { border:none; }
 table.list_view { table-layout:fixed; max-width:800px; margin-bottom:6pt; z-index:30100; }
 table.list_view th, table.list_view td { padding:2pt; border-top:1px solid #b0b8c0; border-bottom:1px solid #b0b8c0; vertical-align:middle; height:24pt; }
 table.list_view th { background-color:#d8d8d8; font-weight:bold;  }
-
-/*
-table.classic_containter { table-layout:fixed; max-width:800px; z-index:30100; }
-table.classic_unit_sheet { table-layout:fixed; width:100%; max-width:500px; margin-bottom:16pt; }
-@media screen and (max-width:430px) {
-	table.classic_unit_sheet { margin-bottom:6pt; }
-}
-table.classic_unit_sheet th, table.classic_unit_sheet td { vertical-align:middle; padding:4pt; border:1px solid black; overflow:auto; }
-table.classic_unit_sheet th { background-color:#d8d8d8; font-weight:normal;  }
-
-p#warband_name, p#warband_name input { font-size:18pt; font-weight:bold; width:100%; margin-bottom:6pt; text-align:center; border:1px solid #ffffff; }
-p#warband_name input:focus,
-p#warband_name input:hover { border:1px solid #c2c2c2; }
-
-select#unit_editor_specials { color:#a8a8a8; font-style:italic; }
-select#unit_editor_specials:focus { color:#000000; font-style:normal; }
-input#unit_editor_specialtext { position:absolute; margin-top:-0.5pt; padding:0pt 1pt; transition:0.1s; transition-timing-function:linear; }
-*/
 
 div.blue { background-color:#c0d0f0; border:2px solid #4080f0; padding:4px; position:absolute; top:15%; left:20%; width:50%; display:none; visibility:hidden; z-index:90500; box-shadow: 1px 1px 5px #727272; }
 div.blue * { font-family:sans-serif; font-size:10pt; cursor:default; }

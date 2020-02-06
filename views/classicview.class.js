@@ -141,12 +141,6 @@ class ClassicView extends AbstractView
 		return result;
 	};
 
-	_discardNonPrintingElements(html)
-	{
-		dhtml.removeNodesByQuerySelectors(["select", "[data-editor]", ".specialruleEditorSeparator", ".addunit"], html);
-		dhtml.removeClasses(["interactive", "screenfx", "out-of-scope"], html);
-	};
-
 	createAddUnitNode()
 	{
 		let result = dhtml.createNode("div", "addunit", {
@@ -245,8 +239,8 @@ class ClassicView extends AbstractView
 		this.printWarbandSummary(warband, htmlNode);
 		if (interactive === false)
 		{
-			// htmlNode = this._discardNonPrintingElements(htmlNode);
-			this._discardNonPrintingElements(htmlNode);
+			dhtml.removeNodesByQuerySelectors(["select", "[data-editor]", ".specialruleEditorSeparator", ".addunit"], htmlNode);
+			dhtml.removeClasses(["interactive", "screenfx", "out-of-scope"], htmlNode);
 		};
 		this.html.appendChild(htmlNode);
 	};
@@ -384,8 +378,10 @@ class ClassicView extends AbstractView
 
 	onWindowScroll(scrollEvent = undefined)
 	{
-		let warbandSummaryWarpperNode = document.getElementById("classicview_warbandsummary_wrapper");
-		let warbandSummaryNode = document.getElementById("classicview_warbandsummary");
+		// let warbandSummaryWarpperNode = document.getElementById("classicview_warbandsummary_wrapper");
+		let warbandSummaryWarpperNode = document.querySelector(".warbandsummary_wrapper");
+		// let warbandSummaryNode = document.getElementById("classicview_warbandsummary");
+		let warbandSummaryNode = warbandSummaryWarpperNode.childNodes[0];
 		{
 			if (warbandSummaryWarpperNode.offsetTop - window.innerHeight - window.pageYOffset + warbandSummaryNode.clientHeight > 0)
 			{

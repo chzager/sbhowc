@@ -207,7 +207,6 @@ class AbstractView
 		let node = dhtml.createNode("div", "warbandheader");
 		node.appendChild(dhtml.createNode("span", "",
 			{
-				"style": "display:inline-block;",
 				"data-valueof": "warbandname"
 			}
 			));
@@ -217,17 +216,12 @@ class AbstractView
 
 	createWarbandFooterNode()
 	{
-		let node = dhtml.createNode("div", "",
+		let node = dhtml.createNode("div", "warbandsummary_wrapper",
 			{
-				"id": "classicview_warbandsummary_wrapper",
-				"style": "height:auto;"
+				"style": "height: auto;"
 			}
 			);
-		let wrapperNode = dhtml.createNode("div", "centeredViewport",
-			{
-				"id": "classicview_warbandsummary"
-			}
-			);
+		let wrapperNode = dhtml.createNode("div", "centeredViewport");
 		wrapperNode.appendChild(dhtml.createNode("div", "",
 			{
 				"data-staticvalueof": "warbandsummary"
@@ -241,7 +235,7 @@ class AbstractView
 		return node;
 	};
 
-	createUnitSpecialrulesNodes(unit, unitIndex)
+	createSpecialRuleNode(unit, unitIndex, specialruleIndex)
 	{
 		function specialruleHint(resources, specialruleKey)
 		{
@@ -253,56 +247,61 @@ class AbstractView
 			result += ",&#160;" + resources[specialruleKey].scope.toUpperCase();
 			return result;
 		};
+		let result = dhtml.createNode("span", "specialrule-wrapper");
+		let textNode = dhtml.createNode("span", "specialrule interactive",
+			{
+				"data-unitindex": unitIndex,
+				"data-action": "removespecialrule",
+				"data-value": specialruleIndex
+			}
+			);
+		let specialruleText = this.translate(unit.specialrules[specialruleIndex].key);
+		if (unit.specialrules[specialruleIndex].additionalText === undefined)
+		{
+			textNode.appendChild(document.createTextNode(specialruleText));
+		}
+		else
+		{
+			let specialruleTextBefore = dhtml.createNode("span", "", {}, specialruleText.substring(0, specialruleText.indexOf("...")));
+			let specialruleTextAfter = dhtml.createNode("span", "", {}, specialruleText.substring(specialruleText.indexOf("...") + 3));
+			let additionalTextNode = dhtml.createNode("span", "",
+				{
+					"data-valueof": "additionaltext"
+				}, unit.specialrules[specialruleIndex].additionalText);
+			let additionalTextEditor = this.createSpecialruleAdditionaltextEditorNode(unitIndex, specialruleIndex);
+			additionalTextEditor.value = unit.specialrules[specialruleIndex].additionalText;
+			dhtml.fitInputSize(additionalTextEditor);
+			if (specialruleTextBefore.innerText !== "")
+			{
+				textNode.appendChild(specialruleTextBefore);
+			};
+			textNode.appendChild(additionalTextNode);
+			textNode.appendChild(additionalTextEditor);
+			if (specialruleTextAfter.innerText !== "")
+			{
+				textNode.appendChild(specialruleTextAfter);
+			};
+		};
+		textNode.appendChild(dhtml.createNode("div", "tooltip nowrap", {}, specialruleHint(this._resources, unit.specialrules[specialruleIndex].key)));
+		if (this._settings.ruleScope.includes(this._resources[unit.specialrules[specialruleIndex].key].scope) === false)
+		{
+			textNode.classList.add("out-of-scope");
+		};
+		textNode.onclick = this.dispatchEditorEvent;
+		result.appendChild(textNode);
+		if (specialruleIndex < unit.specialrules.length - 1)
+		{
+			result.appendChild(dhtml.createNode("span", "", {}, ",&#160;"));
+		};
+		return result;
+	};
+
+	createUnitSpecialrulesNodes(unit, unitIndex)
+	{
 		let nodes = [];
 		for (let s = 0; s < unit.specialrules.length; s += 1)
 		{
-			let specialruleWrapper = dhtml.createNode("span", "specialruleWrapper");
-			let textNode = dhtml.createNode("span", "specialrule interactive",
-				{
-					"data-unitindex": unitIndex,
-					"data-action": "removespecialrule",
-					"data-value": s
-				}
-				);
-			let specialruleText = this.translate(unit.specialrules[s].key);
-			if (unit.specialrules[s].additionalText === undefined)
-			{
-				textNode.appendChild(document.createTextNode(specialruleText));
-			}
-			else
-			{
-				let specialruleTextBefore = dhtml.createNode("span", "", {}, specialruleText.substring(0, specialruleText.indexOf("...")));
-				let specialruleTextAfter = dhtml.createNode("span", "", {}, specialruleText.substring(specialruleText.indexOf("...") + 3));
-				let additionalTextNode = dhtml.createNode("span", "",
-					{
-						"data-valueof": "additionaltext"
-					}, unit.specialrules[s].additionalText);
-				let additionalTextEditor = this.createSpecialruleAdditionaltextEditorNode(unitIndex, s);
-				additionalTextEditor.value = unit.specialrules[s].additionalText;
-				dhtml.fitInputSize(additionalTextEditor);
-				if (specialruleTextBefore.innerText !== "")
-				{
-					textNode.appendChild(specialruleTextBefore);
-				};
-				textNode.appendChild(additionalTextNode);
-				textNode.appendChild(additionalTextEditor);
-				if (specialruleTextAfter.innerText !== "")
-				{
-					textNode.appendChild(specialruleTextAfter);
-				};
-			};
-			textNode.appendChild(dhtml.createNode("div", "tooltip nowrap", {}, specialruleHint(this._resources, unit.specialrules[s].key)));
-			if (this._settings.ruleScope.includes(this._resources[unit.specialrules[s].key].scope) === false)
-			{
-				textNode.classList.add("out-of-scope");
-			};
-			textNode.onclick = this.dispatchEditorEvent;
-			specialruleWrapper.appendChild(textNode);
-			if (s < unit.specialrules.length - 1)
-			{
-				specialruleWrapper.appendChild(dhtml.createNode("span", "", {}, ",&#160;"));
-			};
-			nodes.push(specialruleWrapper);
+			nodes.push(this.createSpecialRuleNode(unit, unitIndex, s));
 		};
 		return nodes;
 	};
