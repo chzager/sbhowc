@@ -158,6 +158,22 @@ class ClassicView extends AbstractView
 		return node;
 	};
 
+	createUnitSpecialrulesNodes(unit, unitIndex)
+	{
+		let nodes = [];
+		for (let s = 0; s < unit.specialrules.length; s += 1)
+		{
+			let specialruleNode = this.createSpecialRuleNode(unit, unitIndex, s, this.createSpecialruleAdditionaltextEditorNode, this.dispatchEditorEvent);
+			console.log(specialruleNode.outerHTML);
+			if (s < unit.specialrules.length - 1)
+			{
+				specialruleNode.appendChild(dhtml.createNode("span", "", {}, ",&#160;"));
+			};
+			nodes.push(specialruleNode);
+		};
+		return nodes;
+	};
+
 	createUnitNode(unitIndex, isPersonality = false)
 	{
 		let node = dhtml.createNode("table", "unit box-shadow",

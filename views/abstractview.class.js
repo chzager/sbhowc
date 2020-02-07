@@ -183,7 +183,7 @@ class AbstractView
 		return node;
 	};
 
-	createSpecialruleAdditionaltextEditorNode(unitIndex, specialruleIndex)
+	createSpecialruleAdditionaltextEditorNode(unitIndex, specialruleIndex, additionalText, eventDispatcher)
 	{
 		let node = dhtml.createNode("input", "",
 			{
@@ -197,8 +197,10 @@ class AbstractView
 				"onclick": "event.stopPropagation();"
 			}
 			);
-		node.onchange = this.dispatchEditorEvent;
+		node.value = additionalText;
+		node.onchange = eventDispatcher;
 		node.oninput = dhtml.fitInputSize;
+		dhtml.fitInputSize(node);
 		return node;
 	};
 
@@ -235,7 +237,7 @@ class AbstractView
 		return node;
 	};
 
-	createSpecialRuleNode(unit, unitIndex, specialruleIndex)
+	createSpecialRuleNode(unit, unitIndex, specialruleIndex, additionalTextEditorCreator, eventDispatcher)
 	{
 		function specialruleHint(resources, specialruleKey)
 		{
@@ -268,15 +270,16 @@ class AbstractView
 				{
 					"data-valueof": "additionaltext"
 				}, unit.specialrules[specialruleIndex].additionalText);
-			let additionalTextEditor = this.createSpecialruleAdditionaltextEditorNode(unitIndex, specialruleIndex);
-			additionalTextEditor.value = unit.specialrules[specialruleIndex].additionalText;
-			dhtml.fitInputSize(additionalTextEditor);
 			if (specialruleTextBefore.innerText !== "")
 			{
 				textNode.appendChild(specialruleTextBefore);
 			};
 			textNode.appendChild(additionalTextNode);
-			textNode.appendChild(additionalTextEditor);
+			if (typeof additionalTextEditorCreator === "function")
+			{
+				let additionalTextEditor = additionalTextEditorCreator(unitIndex, specialruleIndex, unit.specialrules[specialruleIndex].additionalText, eventDispatcher);
+				textNode.appendChild(additionalTextEditor);
+			};
 			if (specialruleTextAfter.innerText !== "")
 			{
 				textNode.appendChild(specialruleTextAfter);
@@ -289,21 +292,7 @@ class AbstractView
 		};
 		textNode.onclick = this.dispatchEditorEvent;
 		result.appendChild(textNode);
-		if (specialruleIndex < unit.specialrules.length - 1)
-		{
-			result.appendChild(dhtml.createNode("span", "", {}, ",&#160;"));
-		};
 		return result;
-	};
-
-	createUnitSpecialrulesNodes(unit, unitIndex)
-	{
-		let nodes = [];
-		for (let s = 0; s < unit.specialrules.length; s += 1)
-		{
-			nodes.push(this.createSpecialRuleNode(unit, unitIndex, s));
-		};
-		return nodes;
 	};
 
 	printWarband(warband)
