@@ -12,20 +12,14 @@
 	margin: 0px;
 	}
 
-.classicview select,
-.classicview input,
-.classicview .specialruleEditorSeparator {
-	display: none;
-	}
-
-.classicview div.warbandheader {
+.classicview #warbandheader {
 	margin-bottom: 1.5em;
 	}
-.classicview.screenfx div.warbandheader {
+.classicview.screenfx #warbandheader {
 	text-shadow: 0.05em 0.05em 0.3em #00000052;
 	}
 
-.classicview div.warbandheader * {
+.classicview #warbandheader * {
 	font-size: 18pt;
 	font-weight: bold; 
 	width: 100%;
@@ -39,11 +33,17 @@
 .classicview input[data-editor="warbandname"] {
 	box-shadow: none;
 	background: linear-gradient(to bottom, #ffffff 70%,#e0e0e0 100%);
-}
+	}
 
 .classicview input[data-editor="name"] { width: calc(90% - 0.35em); }
 .classicview input[data-editor="count"] { width: 10%; float: right; }
 .classicview input[data-editor="specialruletext"] { min-width: 2em; }
+
+.classicview select,
+.classicview input,
+.classicview .specialruleEditorSeparator {
+	display: none;
+	}
 
 .classicview .interactive:hover > select,
 .classicview .interactive:hover > input,
@@ -51,11 +51,11 @@
 
 .classicview .interactive:hover > [data-valueof] { display: none !important; }
 
-.classicview table.unitsgrid {
+.classicview table#unitsgrid {
 	width: 100%;
 	}
 
-.classicview table.unitsgrid div.addunit {
+.classicview table#unitsgrid div.addunit {
 	border: 0.15em dashed #bdbdbd;
 	background-color: #f3f3f3;
 	background: linear-gradient(to bottom, #f9f9f9 50%,#efefef 100%);
@@ -68,14 +68,14 @@
 	cursor: pointer;
 	margin-bottom: 1.5em;
 	}
-.classicview table.unitsgrid div.addunit:hover {
-	border-color: #8295BD;
-	color: #8295BD;
+.classicview table#unitsgrid div.addunit:hover {
 	background: linear-gradient(to bottom, #f3f7fe 50%,#dce3f2 100%);
+	border-color: #8295bd;
+	color: #8295bd;
 	}
 
-.classicview table.unitsgrid td.left { width: 50%; vertical-align: top; padding-right: 0.75em; }
-.classicview table.unitsgrid td.right { width: 50%; vertical-align: top; padding-left: 0.75em; }
+.classicview table#unitsgrid td.left { width: 50%; vertical-align: top; padding-right: 0.75em; }
+.classicview table#unitsgrid td.right { width: 50%; vertical-align: top; padding-left: 0.75em; }
 
 .classicview table.unit {
 	border: none;
@@ -108,7 +108,7 @@
 	font-weight: normal;
 	}
 .classicview.screenfx table.unit th {
-	background: linear-gradient(135deg, #d8d8d8 70%,#cacaca 100%);
+	background: linear-gradient(135deg, #d8d8d8 70%,#c8c8c8 100%);
 	}
 
 .classicview table.unit .interactive:hover {
