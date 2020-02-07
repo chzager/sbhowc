@@ -45,7 +45,7 @@ class HtmlFormsView extends AbstractView
 				editorEventData.detail[eventSender.attributes[a].nodeName.substring(5)] = eventSender.attributes[a].nodeValue;
 			};
 		};
-		window.dispatchEvent(new CustomEvent("EditorEvent", editorEventData));
+		window.dispatchEvent(new CustomEvent("editor", editorEventData));
 	};
 
 	createWarbandNameEditorNode()

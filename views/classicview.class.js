@@ -261,7 +261,7 @@ class ClassicView extends HtmlFormsView
 				"originalEvent": clickEvent
 			}
 		};
-		window.dispatchEvent(new CustomEvent("EditorEvent", editorEventData));
+		window.dispatchEvent(new CustomEvent("editor", editorEventData));
 	};
 
 	onWindowResize(resizeEvent = undefined)

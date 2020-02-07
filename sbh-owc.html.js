@@ -22,8 +22,8 @@ if (interactiveMode === true)
 	window.addEventListener("resize", windowEventListener);
 	window.addEventListener("scroll", windowEventListener);
 	window.addEventListener("unload", saveWarbandToUrl);
-	window.addEventListener("EditorEvent", editorEventListener);
-	window.addEventListener("Menubox", windowEventListener);
+	window.addEventListener("editor", editorEventListener);
+	window.addEventListener("menubox", windowEventListener);
 }
 printWarband();
 
