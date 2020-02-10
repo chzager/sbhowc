@@ -2,6 +2,12 @@
 
 class ClassicView extends HtmlFormsView
 {
+	constructor(settings, warbandCreatorResources, printToNode)
+	{
+		super(settings, warbandCreatorResources, printToNode);
+		this.columnCount = this._determinateColumnCount();
+	};
+
 	_determinateColumnCount()
 	{
 		let result = 2;
@@ -24,14 +30,12 @@ class ClassicView extends HtmlFormsView
 			);
 		result.appendChild(dhtml.createNode("span", "",
 			{
-				"data-valueof": "name",
-				"style": "display:inline-block; width:90%;"
+				"data-valueof": "name"
 			}, "n"));
 		result.appendChild(this.createUnitNameEditorNode(unitIndex));
 		result.appendChild(dhtml.createNode("span", "",
 			{
-				"data-valueof": "count",
-				"style": "display:inline-block; width:10%; float:right; text-align:right;"
+				"data-valueof": "count"
 			}, "c"));
 		result.appendChild(this.createUnitCountEditorNode(unitIndex));
 		return result;
@@ -41,7 +45,6 @@ class ClassicView extends HtmlFormsView
 	{
 		let result = dhtml.createNode("td", "interactive",
 			{
-				"style": "cursor:pointer;",
 				"data-action": "showunitmenu",
 				"data-unitindex": unitIndex
 			}
@@ -248,20 +251,6 @@ class ClassicView extends HtmlFormsView
 			};
 			specialrulesNode.appendChild(dhtml.createNode("span", "specialruleEditorSeparator", {}, ",&#160;"));
 		};
-	};
-
-	onWindowMenubox(clickEvent)
-	{
-		let editorEventData =
-		{
-			"detail":
-			{
-				"action": clickEvent.detail.itemKey,
-				"unitindex": clickEvent.detail.context,
-				"originalEvent": clickEvent
-			}
-		};
-		window.dispatchEvent(new CustomEvent("editor", editorEventData));
 	};
 
 	onWindowResize(resizeEvent = undefined)

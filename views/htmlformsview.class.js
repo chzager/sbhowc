@@ -15,9 +15,7 @@ class HtmlFormsView extends AbstractView
 				"movedown": "Move unit down"
 			}
 			);
-		this.columnCount = this._determinateColumnCount();
 		this.warband = {};
-		window.addEventListener(Menubox.name, this.unitMenuClick);
 	};
 
 	dispatchEditorEvent(fromEvent)
@@ -90,7 +88,8 @@ class HtmlFormsView extends AbstractView
 				"maxlength": "2",
 				"data-editor": "count",
 				"data-unitindex": unitIndex,
-				"onmouseover": "this.focus();"
+				"onmouseover": "this.focus();",
+				"onmouseout": "this.blur();"
 			}
 			);
 		node.onchange = this.dispatchEditorEvent;
@@ -317,6 +316,20 @@ class HtmlFormsView extends AbstractView
 				wrapperNode.appendChild(violationList);
 			};
 		};
+	};
+
+	onWindowMenubox(clickEvent)
+	{
+		let editorEventData =
+		{
+			"detail":
+			{
+				"action": clickEvent.detail.itemKey,
+				"unitindex": clickEvent.detail.context,
+				"originalEvent": clickEvent
+			}
+		};
+		window.dispatchEvent(new CustomEvent("editor", editorEventData));
 	};
 
 	onWindowScroll(scrollEvent = undefined)
