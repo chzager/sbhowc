@@ -7,6 +7,7 @@
 		<link rel="stylesheet" href="views/classic.css"/>
 		<link rel="stylesheet" href="views/listview.css"/>
 		<script src="lib/array.prototype.js">//</script>
+		<script src="lib/location.prototype.js">//</script>
 		<script src="lib/string.prototype.js">//</script>
 		<script src="lib/dhtml.js">//</script>
 	</head>
@@ -67,7 +68,8 @@ function printUnit(unitIndex)
 
 function printWarband()
 {
-	view.printWarband(owc.warband);
+	let interactiveMode = (window.location.getParam("print", "0") !== "1");
+	view.printWarband(owc.warband, interactiveMode);
 };
 	
 function editorEventListener(editorEvent)
@@ -172,7 +174,7 @@ function windowEventListener(windowEvent)
 owc.addSpecialrule(0, "ld");
 owc.addSpecialrule(0, "ht");
 //owc.warband.name = "Unnamed #1";
-view.printWarband(owc.warband);
+printWarband();
 
 snapshots();
 

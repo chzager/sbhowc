@@ -61,6 +61,7 @@
 .listview table#units {
 	border-collapse: collapse;
 	border-spacing: 0px;
+	margin-bottom: 1em;
 	width: 100%;
 	}
 
@@ -92,10 +93,12 @@
 	cursor: pointer;
 	}
 
-.listview.screenfx table#units tr#unitsheader {
+.listview table#units tr#unitsheader {
 	background-color: #d8d8d8;
-	background: linear-gradient(135deg, #d8d8d8 60%, #b8b8b8 100%);
 	font-weight: bold;
+	}
+.listview.screenfx table#units tr#unitsheader {
+	background: linear-gradient(135deg, #d8d8d8 60%, #b8b8b8 100%);
 	}
 
 .listview table#units tr#unitsheader th#count { width: 7%; }
@@ -116,7 +119,7 @@
 	font-size: smaller;
 	color: #bdbdbd;
 	cursor: pointer;
-	width: 50%;
+	width: 75%;
 	margin-left: auto;
 	margin-right: auto;
 	}
