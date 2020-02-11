@@ -47,7 +47,11 @@
 	text-align: right;
 	}
 
-.classicview input[data-editor="specialruletext"] { min-width: 2em; }
+.classicview input[data-editor="specialruletext"] {
+	color: initial;
+	text-decoration-line: none;
+	min-width: 2em;
+	}
 
 .classicview select,
 .classicview input,
@@ -57,7 +61,7 @@
 
 .classicview .interactive:hover > select,
 .classicview .interactive:hover > input,
-.classicview .interactive:hover > * > .specialruleEditorSeparator { display: initial; }
+.classicview .interactive:hover > * > .specialruleEditorSeparator { display: inline-block; }
 
 .classicview .interactive:hover > [data-valueof] { display: none !important; }
 

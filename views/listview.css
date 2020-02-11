@@ -35,7 +35,11 @@
 	background: linear-gradient(to bottom, #ffffff 70%,#e0e0e0 100%);
 	}
 
-.listview input[data-editor="specialruletext"] { min-width: 2em; }
+.listview input[data-editor="specialruletext"] {
+	color: initial;
+	text-decoration-line: none;
+	min-width: 2em;
+	}
 
 .listview input[data-editor="count"],
 .listview input[data-editor="name"] {
@@ -52,7 +56,7 @@
 .listview .interactive td:hover > select,
 .listview .interactive td:hover > input,
 .listview .interactive .specialrule-wrapper:hover input,
-.listview .interactive td:hover > * > .specialruleEditorSeparator { display: initial; }
+.listview .interactive td:hover > * > .specialruleEditorSeparator { display: inline-block; }
 
 .listview .interactive:hover > [data-valueof],
 .listview .interactive td:hover > [data-valueof],
