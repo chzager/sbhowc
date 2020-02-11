@@ -1,30 +1,11 @@
 "use strict";
 
-class ClassicView extends HtmlFormsView
+class ListView extends HtmlFormsView
 {
-	constructor(settings, warbandCreatorResources, printToNode)
-	{
-		super(settings, warbandCreatorResources, printToNode);
-		this.columnCount = this._determinateColumnCount();
-	};
-
-	_determinateColumnCount()
-	{
-		let result = 2;
-		let thresholdWidth = 650;
-		let currenClientWidth = Number(document.body.clientWidth);
-		if (currenClientWidth <= thresholdWidth)
-		{
-			result = 1;
-		};
-		return result;
-	};
-
 	_createUnitNameCell(unitIndex, isPersonality)
 	{
-		let result = dhtml.createNode("th", "interactive",
+		let result = dhtml.createNode("td", "",
 			{
-				"colspan": "3",
 				"onmouseout": "document.activeElement.blur();"
 			}
 			);
@@ -33,6 +14,12 @@ class ClassicView extends HtmlFormsView
 				"data-valueof": "name"
 			}, "n"));
 		result.appendChild(this.createUnitNameEditorNode(unitIndex));
+		return result;
+	};
+	
+	_createUnitCountCell(unitIndex)
+	{
+		let result = dhtml.createNode("td");
 		result.appendChild(dhtml.createNode("span", "",
 			{
 				"data-valueof": "count"
@@ -43,13 +30,12 @@ class ClassicView extends HtmlFormsView
 
 	_createUnitPointsCell(unitIndex)
 	{
-		let result = dhtml.createNode("td", "interactive",
+		let result = dhtml.createNode("td", "points",
 			{
 				"data-action": "showunitmenu",
 				"data-unitindex": unitIndex
 			}
 			);
-		result.appendChild(dhtml.createNode("span", "", {}, this.translate("points") + ":&#160;"));
 		result.appendChild(dhtml.createNode("span", "",
 			{
 				"data-staticvalueof": "points"
@@ -61,8 +47,7 @@ class ClassicView extends HtmlFormsView
 
 	_createUnitQualityCell(unitIndex)
 	{
-		let result = dhtml.createNode("td", "interactive");
-		result.appendChild(dhtml.createNode("span", "", {}, this.translate("quality") + ":&#160;"));
+		let result = dhtml.createNode("td", "quality");
 		result.appendChild(dhtml.createNode("span", "",
 			{
 				"data-valueof": "quality"
@@ -73,8 +58,7 @@ class ClassicView extends HtmlFormsView
 
 	_createUnitCombatscoreCell(unitIndex)
 	{
-		let result = dhtml.createNode("td", "interactive");
-		result.appendChild(dhtml.createNode("span", "", {}, this.translate("combat") + ":&#160;"));
+		let result = dhtml.createNode("td", "combatscore");
 		result.appendChild(dhtml.createNode("span", "",
 			{
 				"data-valueof": "combat"
@@ -85,26 +69,12 @@ class ClassicView extends HtmlFormsView
 
 	_createUnitSpecialrulesCell(unitIndex)
 	{
-		let result = dhtml.createNode("td", "interactive",
-			{
-				"colspan": "2"
-			}
-			);
+		let result = dhtml.createNode("td");
 		result.appendChild(dhtml.createNode("span", "",
 			{
 				"data-staticvalueof": "specialrules"
 			}, "s"));
 		result.appendChild(this.createSpecialrulesEditorNode(unitIndex));
-		return result;
-	};
-
-	createAddUnitNode()
-	{
-		let result = dhtml.createNode("div", "addunit",
-			{
-				"data-action": "addunit",
-			}, "Add new unit");
-		result.onclick = this.dispatchEditorEvent;
 		return result;
 	};
 
@@ -123,80 +93,62 @@ class ClassicView extends HtmlFormsView
 		return nodes;
 	};
 
+	createUnitsTableHeader()
+	{
+		let result = dhtml.createNode("tr#unitsheader");
+		result.appendChild(dhtml.createNode("th#count", "", {}, this.translate("count")));
+		result.appendChild(dhtml.createNode("th#name", "", {}, this.translate("name")));
+		result.appendChild(dhtml.createNode("th#points", "", {}, this.translate("points")));
+		result.appendChild(dhtml.createNode("th#quality", "", {}, this.translate("quality")));
+		result.appendChild(dhtml.createNode("th#combat", "", {}, this.translate("combat")));
+		result.appendChild(dhtml.createNode("th#specialrules", "", {}, this.translate("specialrules")));
+		return result;
+	};
+	
 	createUnitNode(unitIndex, isPersonality = false)
 	{
-		let node = dhtml.createNode("table", "unit box-shadow",
+		let result = dhtml.createNode("tr", "interactive", {"data-unitindex": unitIndex});
+		result.appendChild(this._createUnitCountCell(unitIndex));
+		result.appendChild(this._createUnitNameCell(unitIndex, isPersonality));
+		result.appendChild(this._createUnitPointsCell(unitIndex));
+		result.appendChild(this._createUnitQualityCell(unitIndex));
+		result.appendChild(this._createUnitCombatscoreCell(unitIndex));
+		result.appendChild(this._createUnitSpecialrulesCell(unitIndex));
+		return result;
+	};
+
+	createAddUnitNode()
+	{
+		let result = dhtml.createNode("tr", "addunit");
+		let cellNode = dhtml.createNode("td", "", {"colspan": "6"});
+		let divNode = dhtml.createNode("div", "addunit",
 			{
-				"data-unitindex": unitIndex
-			}
-			);
-		let row = {};
-		/* header */
-		row = dhtml.createNode("tr");
-		node.appendChild(this._createUnitNameCell(unitIndex, isPersonality));
-		node.appendChild(row);
-		/* line 1 */
-		row = dhtml.createNode("tr");
-		row.appendChild(this._createUnitPointsCell(unitIndex));
-		row.appendChild(this._createUnitQualityCell(unitIndex));
-		row.appendChild(this._createUnitCombatscoreCell(unitIndex));
-		node.appendChild(row);
-		/* line 2 */
-		row = dhtml.createNode("tr");
-		row.appendChild(dhtml.createNode("td", "passive", {}, this.translate("specialrules") + ":"));
-		row.appendChild(this._createUnitSpecialrulesCell(unitIndex));
-		node.appendChild(row)
-		return node;
+				"data-action": "addunit",
+			}, "Add new unit");
+		divNode.onclick = this.dispatchEditorEvent;
+		cellNode.appendChild(divNode);
+		result.appendChild(cellNode);
+		return result;
 	};
 
 	printWarband(warband, interactive = true)
 	{
 		this.warband = warband;
-		let twoColumns = ((this.columnCount === 2) || (interactive === false));
-		let htmlNode = dhtml.createNode("div", "classicview");
+		let htmlNode = dhtml.createNode("div", "listview");
 		if (interactive === true)
 		{
 			htmlNode.classList.add("screenfx");
 		};
 		htmlNode.appendChild(this.createWarbandHeaderNode());
-		let unitNodes = [];
+		let unitsTable = dhtml.createNode("table#units");
+		unitsTable.appendChild(this.createUnitsTableHeader());
 		for (let u = 0; u < warband.units.length; u += 1)
 		{
 			let unitNode = this.createUnitNode(u, warband.units[u].isPersonality);
-			unitNodes.push(unitNode);
 			this.printUnit(warband.units[u], u, unitNode);
+			unitsTable.appendChild(unitNode);
 		};
-		let unitsTable = dhtml.createNode("table#unitsgrid");
-		unitNodes.push(this.createAddUnitNode());
-		if (twoColumns === true)
-		{
-			if (unitNodes.length % 2 !== 0)
-			{
-				unitNodes.push(dhtml.createNode("div"));
-			};
-			for (let p = 0; p < unitNodes.length; p += 2)
-			{
-				let unitsTableRow = dhtml.createNode("tr");
-				let oddCol = dhtml.createNode("td", "left");
-				let evenCol = dhtml.createNode("td", "right");
-				oddCol.appendChild(unitNodes[p]);
-				evenCol.appendChild(unitNodes[p + 1]);
-				unitsTableRow.appendChild(oddCol);
-				unitsTableRow.appendChild(evenCol);
-				unitsTable.appendChild(unitsTableRow);
-			};
-		}
-		else
-		{
-			for (let p = 0; p < unitNodes.length; p += 1)
-			{
-				let unitsTableRow = dhtml.createNode("tr");
-				let unitsTableCol = dhtml.createNode("td");
-				unitsTableCol.appendChild(unitNodes[p]);
-				unitsTableRow.appendChild(unitsTableCol);
-				unitsTable.appendChild(unitsTableRow);
-			};
-		};
+		unitsTable.appendChild(this.createAddUnitNode());
 		htmlNode.appendChild(unitsTable);
 		htmlNode.appendChild(this.createWarbandFooterNode());
 		dhtml.clearNode(this.html);
@@ -231,7 +183,7 @@ class ClassicView extends HtmlFormsView
 		let unitCountText = "&#160;";
 		if (unit.count > 1)
 		{
-			unitCountText = "x&#160;" + unit.count.toString();
+			unitCountText = unit.count.toString() + "&#160;x";
 		};
 		targetNode.querySelector("[data-valueof='count']").innerHTML = unitCountText;
 		targetNode.querySelector("[data-editor='count']").value = unit.count;
@@ -250,17 +202,6 @@ class ClassicView extends HtmlFormsView
 				specialrulesNode.appendChild(specialruleNodes[n]);
 			};
 			specialrulesNode.appendChild(dhtml.createNode("span", "specialruleEditorSeparator", {}, ",&#160;"));
-		};
-	};
-
-	onWindowResize(resizeEvent = undefined)
-	{
-		let setColumnCount = this._determinateColumnCount();
-		if (this.columnCount !== setColumnCount)
-		{
-			this.columnCount = setColumnCount;
-			this.printWarband(this.warband);
-			this.onWindowScroll();
 		};
 	};
 

@@ -13,7 +13,7 @@ if (urlWarbandCode !== "")
 };
 
 // TODO: load view corresponding with settings
-let view = new ClassicView(owc.settings, owc.resources, document.getElementById("warbandCanvas"));
+let view;
 
 let interactiveMode = (window.location.getParam(urlKeyPrint, "0") !== "1");
 console.log("interactiveMode:", interactiveMode);
@@ -25,6 +25,7 @@ if (interactiveMode === true)
 	window.addEventListener("editor", editorEventListener);
 	window.addEventListener("menubox", windowEventListener);
 }
+initView();
 printWarband();
 
 // didyouknow.printRandomHint();
@@ -127,6 +128,18 @@ function windowEventListener(windowEvent) /* OK */
 	if (view[eventHandlerName] !== undefined)
 	{
 		view[eventHandlerName](windowEvent);
+	};
+};
+
+function initView()
+{
+	switch (owc.settings.viewMode)
+	{
+		case "list":
+			view = new ListView(owc.settings, owc.resources, document.getElementById("warbandCanvas"));
+		break;
+		default:
+			view = new ClassicView(owc.settings, owc.resources, document.getElementById("warbandCanvas"));
 	};
 };
 
@@ -331,7 +344,7 @@ function applySettings() /* OK */
 	let settingsPanel = document.getElementById("settingsPanel");
 	settingsFromGui(settingsPanel);
 	owc.settings.save();
-	view.applySettings(owc.settings);
+	initView();
 	printWarband();
 	sweepVolatiles();
 }

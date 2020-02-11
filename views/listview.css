@@ -1,0 +1,176 @@
+.listview * {
+	font-family: serif;
+	font-size: 12pt;
+	}
+
+.listview input,
+.listview select {
+	border: 1px solid rgba(92, 92, 92, 0.7);
+	border-radius: 0.15em;
+	box-shadow: 0.1em 0.1em 0.5em #00000040;
+	padding: 0px;
+	margin: 0px;
+	}
+
+.listview #warbandheader {
+	margin-bottom: 1.5em;
+	}
+.listview.screenfx #warbandheader {
+	text-shadow: 0.05em 0.05em 0.3em #00000052;
+	}
+
+.listview #warbandheader * {
+	font-size: 18pt;
+	font-weight: bold; 
+	width: 100%;
+	text-align: center;
+	}
+
+.listview span[data-valueof="warbandname"] {
+	display: inline-block;
+	}
+
+.listview input[data-editor="warbandname"] {
+	box-shadow: none;
+	background: linear-gradient(to bottom, #ffffff 70%,#e0e0e0 100%);
+	}
+
+.listview input[data-editor="specialruletext"] { min-width: 2em; }
+
+.listview input[data-editor="count"],
+.listview input[data-editor="name"] {
+	width: 100%;
+	}
+
+.listview select,
+.listview input,
+.listview .specialruleEditorSeparator {
+	display: none;
+	}
+
+.listview .interactive:hover > input,
+.listview .interactive td:hover > select,
+.listview .interactive td:hover > input,
+.listview .interactive .specialrule-wrapper:hover input,
+.listview .interactive td:hover > * > .specialruleEditorSeparator { display: initial; }
+
+.listview .interactive:hover > [data-valueof],
+.listview .interactive td:hover > [data-valueof],
+.listview .interactive .specialrule-wrapper:hover [data-valueof] { display: none !important; }
+
+.listview table#units {
+	border-collapse: collapse;
+	border-spacing: 0px;
+	margin-bottom: 1em;
+	width: 100%;
+	}
+
+.listview.screenfx table#units {
+	background: linear-gradient(10deg, #ffffff 65%,#f2f2f2 100%);
+	}
+
+.listview table#units tr {
+	border-top: 1px solid #b0b8c0;
+	border-bottom: 1px solid #b0b8c0;
+	}
+
+.listview table#units tr.addunit {
+	border-bottom: none;
+	}
+
+.listview table#units th,
+.listview table#units td {
+	padding: 0.5em 0.2em;
+	}
+
+.listview table#units td.points,
+.listview table#units td.quality,
+.listview table#units td.combatscore {
+	text-align: center;
+	}
+
+.listview table#units td.points {
+	cursor: pointer;
+	}
+
+.listview table#units tr#unitsheader {
+	background-color: #d8d8d8;
+	font-weight: bold;
+	}
+.listview.screenfx table#units tr#unitsheader {
+	background: linear-gradient(135deg, #d8d8d8 60%, #b8b8b8 100%);
+	}
+
+.listview table#units tr#unitsheader th#count { width: 7%; }
+.listview table#units tr#unitsheader th#name { width: 32%; }
+.listview table#units tr#unitsheader th#points { width: 8%; }
+.listview table#units tr#unitsheader th#quality { width: 8%; }
+.listview table#units tr#unitsheader th#combat { width: 8%; }
+.listview table#units tr#unitsheader th#specialrules { width: 37%; }
+
+.listview table#units div.addunit {
+	border: 0.15em dashed #bdbdbd;
+	background-color: #f3f3f3;
+	background: linear-gradient(to bottom, #f9f9f9 50%,#efefef 100%);
+	font-family: sans-serif;
+	text-align: center;
+	padding: 0.2em 1.5em;
+	border-radius: 0.5em;
+	font-size: smaller;
+	color: #bdbdbd;
+	cursor: pointer;
+	width: 75%;
+	margin-left: auto;
+	margin-right: auto;
+	}
+.listview table#units div.addunit:hover {
+	background: linear-gradient(to bottom, #f3f7fe 50%,#dce3f2 100%);
+	border-color: #8295bd;
+	color: #8295bd;
+	}
+
+.listview table#units .interactive:hover {
+	background-color: #e0e8f8;
+	}
+
+.listview table#units input[data-editor="count"] {
+	text-align: right;
+	}
+
+.listview table#units span.personality {
+	font-weight: bold;
+	}
+
+.listview table.unit span.specialrule {
+	display: inline-block;
+	}
+.listview table#units .interactive span.specialrule:hover {
+	text-decoration: line-through;
+	color: red;
+	cursor: default;
+	}
+
+.listview table#units .interactive span.specialrule.out-of-scope {
+	border-bottom: 0.1em dotted red;
+	}
+
+.listview .stay-at-bottom {
+	position: fixed;
+	top: auto;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	padding: 0px 3pt;
+	border-top: 1px solid black;
+	background-color: white;
+	box-shadow: 0px -0.8em 0.8em #ffffff;
+	}
+
+.listview .rulecheck-header,
+.listview .rulecheck-list {
+	color: red;
+	}
+	
+.listview .rulecheck-list li {
+	margin-left: 2em;
+	}
