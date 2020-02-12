@@ -249,13 +249,7 @@ class HtmlFormsView extends AbstractView
 
 	createWarbandFooterNode()
 	{
-		let node = dhtml.createNode("div#warbandfooter", "",
-			{
-				"style": "height: auto;"
-			}
-			);
-		let wrapperNode = dhtml.createNode("div#warbandsummary-wrapper", "centeredViewport");
-		node.appendChild(wrapperNode);
+		let node = dhtml.createNode("div#warbandfooter");
 		return node;
 	};
 
@@ -272,7 +266,7 @@ class HtmlFormsView extends AbstractView
 
 	printWarbandSummary(warband, targetNode = document.body)
 	{
-		let wrapperNode = targetNode.querySelector("#warbandsummary-wrapper");
+		let wrapperNode = targetNode.querySelector("#warbandfooter");
 		dhtml.clearNode(wrapperNode);
 		let warbandSummaryText = this.translate("totalPoints",
 			{
@@ -330,24 +324,6 @@ class HtmlFormsView extends AbstractView
 			}
 		};
 		window.dispatchEvent(new CustomEvent("editor", editorEventData));
-	};
-
-	onWindowScroll(scrollEvent = undefined)
-	{
-		let warbandSummaryWarpperNode = document.getElementById("warbandfooter");
-		let warbandSummaryNode = warbandSummaryWarpperNode.childNodes[0];
-		{
-			if (warbandSummaryWarpperNode.offsetTop - window.innerHeight - window.pageYOffset + warbandSummaryNode.clientHeight > 0)
-			{
-				warbandSummaryNode.classList.add("stay-at-bottom");
-				warbandSummaryWarpperNode.style.height = warbandSummaryNode.clientHeight + "px";
-			}
-			else
-			{
-				warbandSummaryNode.classList.remove("stay-at-bottom");
-				warbandSummaryWarpperNode.style.height = "auto";
-			};
-		};
 	};
 
 };

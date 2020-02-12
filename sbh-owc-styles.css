@@ -113,4 +113,8 @@ div#page.blurred { filter:blur(3px); }
 
 /* new */
 
-.stay-at-top { position:fixed; top:0px; left:0px; right:0px; bottom:auto; }
+div#top-menu {
+	margin-bottom: 2em;
+	position: sticky;
+	top:0px;
+	}

@@ -12,7 +12,6 @@ if (urlWarbandCode !== "")
 	owc.warband.fromString(urlWarbandCode, owc.resources);
 };
 
-// TODO: load view corresponding with settings
 let view;
 
 let interactiveMode = (window.location.getParam(urlKeyPrint, "0") !== "1");
@@ -20,7 +19,6 @@ console.log("interactiveMode:", interactiveMode);
 if (interactiveMode === true)
 {
 	window.addEventListener("resize", windowEventListener);
-	window.addEventListener("scroll", windowEventListener);
 	window.addEventListener("unload", saveWarbandToUrl);
 	window.addEventListener("editor", editorEventListener);
 	window.addEventListener("menubox", windowEventListener);
@@ -28,8 +26,6 @@ if (interactiveMode === true)
 initView();
 printWarband();
 
-// didyouknow.printRandomHint();
-// window.onunload = function(){window.alert("!");};
 window.onfocus = function ()
 {
 	console.log("RefreshPasteButton() on window.onfocus");
@@ -109,21 +105,6 @@ function editorEventListener(editorEvent) /* OK */
 
 function windowEventListener(windowEvent) /* OK */
 {
-	if (windowEvent.type === "scroll")
-	{
-		let topMenuWrapper = document.getElementById("top_menu_wrapper");
-		let topMenuNode = document.getElementById("top_menu");
-		if (window.pageYOffset > topMenuWrapper.offsetTop)
-		{
-			topMenuNode.classList.add("stay-at-top");
-			topMenuWrapper.style.height = topMenuNode.clientHeight + "px";
-		}
-		else
-		{
-			topMenuNode.classList.remove("stay-at-top");
-			topMenuWrapper.style.height = "auto";
-		};
-	};
 	let eventHandlerName = "onWindow" + windowEvent.type.substr(0, 1).toUpperCase() + windowEvent.type.substr(1).toLowerCase();
 	if (view[eventHandlerName] !== undefined)
 	{
