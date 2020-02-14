@@ -43,12 +43,12 @@
 	background: linear-gradient(to bottom, #ffffff 70%,#e0e0e0 100%);
 	}
 
-.classicview input[data-valueof="name"],
+.classicview span[data-valueof="name"],
 .classicview input[data-editor="name"] {
 	width: calc(90% - 0.35em);
 	}
 
-.classicview input[data-valueof="count"],
+.classicview span[data-valueof="count"],
 .classicview input[data-editor="count"] {
 	width: 10%;
 	float: right;
