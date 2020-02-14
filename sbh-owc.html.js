@@ -150,7 +150,7 @@ function printWarband() /* TODO */
 
 function refreshWindowTitle()
 {
-	document.title = owc.warband.name.notEmpty(owc.resources.defaultText("defaultWarbandName")) + " (" + owc.warband.points + "pts) - Song of Blades and Heroes Online Warband Creator";
+	document.title = owc.warband.name.notEmpty(owc.resources.defaultText("defaultWarbandName")) + " (" + owc.warband.points + " " + owc.resources.translate("points", owc.settings.language) + ") - Song of Blades and Heroes Online Warband Creator";
 };
 
 function refreshUndoButton() /* OK */
