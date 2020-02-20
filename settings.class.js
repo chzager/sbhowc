@@ -43,15 +43,29 @@ class Settings
 
 	save()
 	{
-		localStorage.setItem(Settings.StorageKey, JSON.stringify(this.toJson()));
+		if (typeof localStorage !== "undefined")
+		{
+			localStorage.setItem(Settings.StorageKey, JSON.stringify(this.toJson()));
+		}
+		else
+		{
+			console.warn("localStorage not availible. Can not save settings.");
+		};
 	};
 
 	load()
 	{
-		let storedSettings = JSON.parse(localStorage.getItem(Settings.StorageKey));
-		if (storedSettings !== null)
+		if (typeof localStorage !== "undefined")
 		{
-			this.fromJson(storedSettings);
+			let storedSettings = JSON.parse(localStorage.getItem(Settings.StorageKey));
+			if (storedSettings !== null)
+			{
+				this.fromJson(storedSettings);
+			};
+		}
+		else
+		{
+			console.warn("localStorage not availible.");
 		};
 	};
 
