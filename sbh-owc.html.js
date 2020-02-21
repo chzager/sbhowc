@@ -19,7 +19,7 @@ console.log("interactiveMode:", interactiveMode);
 if (interactiveMode === true)
 {
 	window.addEventListener("resize", windowEventListener);
-	window.addEventListener("unload", saveWarbandToUrl);
+	// window.addEventListener("beforeunload", saveWarbandToUrl);
 	window.addEventListener("editor", editorEventListener);
 	window.addEventListener("menubox", windowEventListener);
 }
@@ -30,7 +30,6 @@ window.onfocus = function ()
 {
 	console.log("RefreshPasteButton() on window.onfocus");
 }
-// window.onunload = function() { window.location.replace(setParams(PARAMWARBAND + '=' + warband.toString())); }
 
 function editorEventListener(editorEvent) /* OK */
 {
@@ -41,6 +40,7 @@ function editorEventListener(editorEvent) /* OK */
 	case "warbandname":
 		owc.setWarbandName(editorEvent.detail.value);
 		view.printWarbandName(owc.warband);
+		refreshWindowTitle();
 		break;
 	case "name":
 		owc.setUnitName(unitIndex, editorEvent.detail.value);
@@ -150,6 +150,7 @@ function printWarband() /* TODO */
 function refreshWindowTitle()
 {
 	document.title = owc.warband.name.notEmpty(owc.resources.defaultText("defaultWarbandName")) + " (" + owc.warband.points + " " + owc.resources.translate("points", owc.settings.language) + ") - Song of Blades and Heroes Online Warband Creator";
+	saveWarbandToUrl();
 };
 
 function refreshUndoButton() /* OK */
@@ -352,5 +353,6 @@ function saveWarbandToUrl()
 {
 	let params = {};
 	params[urlKeyWarband] = owc.warband.toString();
-	window.location.setParams(params);
+	window.history.replaceState( {}, document.title, window.location.setParams(params));
+	// window.location.setParams(params);
 };

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta charset="utf-8" />
+		<title>Test page</title>
+		<script src="lib/clientfileio.js">//</script>
+		<script src="lib/location.prototype.js">//</script>
+	</head>
+	<body>
+		<div>x</div>
+	</body>
+	<script>
+/*
+	let state = { "page": window.location.toString(), "q": "a" };
+	let id = "test-page";
+	window.history.pushState(state, id);
+	console.log(window.history.state);
+	state.q = "b";
+	window.history.pushState(state, id);
+	console.log(window.history.state);
+*/
+	console.log(window.history.state);
+	</script>
+</html>
