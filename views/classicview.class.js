@@ -260,7 +260,6 @@ class ClassicView extends HtmlFormsView
 		{
 			this.columnCount = setColumnCount;
 			this.printWarband(this.warband);
-			this.onWindowScroll();
 		};
 	};
 

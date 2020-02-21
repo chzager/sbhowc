@@ -140,7 +140,6 @@ function printWarband() /* TODO */
 	if (interactiveMode === true)
 	{
 		refreshUndoButton();
-		windowEventListener(new Event("scroll"));
 	}
 	else
 	{
