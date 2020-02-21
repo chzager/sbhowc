@@ -264,19 +264,19 @@ class ClassicView extends HtmlFormsView
 
 	notifyCanPaste(unitName, unitCode)
 	{
-		let addunitContainer = this.html.querySelector("div.addunit");
-		let pasteUnitNode = dhtml.createNode("div", "pasteunit",
-			{
-				"data-action": "pasteunit",
-				"data-unitcode": unitCode,
-				"data-stopevent": "true"
-			}, "Insert \"" + unitName + "\"");
-		pasteUnitNode.onclick = this.dispatchEditorEvent;
-		if (addunitContainer.childNodes.length > 1)
+		let addunitContainer = this.html.querySelector("[data-action='addunit']").parentNode;
+		let pasteUnitNode = addunitContainer.querySelector("[data-action='pasteunit']");
+		if (pasteUnitNode === null)
 		{
-			addunitContainer.removeChild(addunitContainer.childNodes[1]);
+			pasteUnitNode = dhtml.createNode("div", "addunit",
+				{
+					"data-action": "pasteunit"
+				});
+			pasteUnitNode.onclick = this.dispatchEditorEvent;
+			addunitContainer.appendChild(pasteUnitNode);
 		};
-		addunitContainer.appendChild(pasteUnitNode);
+		pasteUnitNode.setAttribute("data-unitcode", unitCode);
+		pasteUnitNode.innerHTML = "Add " + unitName;
 	};
 
 };

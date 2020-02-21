@@ -120,7 +120,12 @@
 .listview table#units tr#unitsheader th#combat { width: 8%; }
 .listview table#units tr#unitsheader th#specialrules { width: 37%; }
 
-.listview table#units div#addunit {
+.listview table#units div#additmes-container {
+	display: flex;
+	padding: 0px 12%;
+	}
+	
+.listview table#units div.addunit {
 	border: 0.15em dashed #bdbdbd;
 	background-color: #f3f3f3;
 	background: linear-gradient(to bottom, #f9f9f9 50%,#efefef 100%);
@@ -131,29 +136,17 @@
 	border-radius: 0.5em;
 	color: #bdbdbd;
 	cursor: pointer;
-	width: 75%;
+	width: 100%;
 	margin-left: auto;
 	margin-right: auto;
 	}
-.listview table#units div#addunit:hover {
+.listview table#units div.addunit:hover {
 	background: linear-gradient(to bottom, #f3f7fe 50%,#dce3f2 100%);
 	border-color: #8295bd;
 	color: #8295bd;
 	}
-
-.listview table#units .pasteunit:before {
-	font-family: sans-serif;
-	font-size: 100%;
-	content: ", ";
-	color: #bdbdbd;
-	}
-.listview table#units .pasteunit {
-	font-family: sans-serif;
-	font-size: 100%;
-	display: inline;
-	}
-.listview table#units .pasteunit:hover {
-	color: #374f83;
+.listview table#units div.addunit + div.addunit {
+	margin-left: 1em;
 	}
 
 .listview table#units .interactive:hover {

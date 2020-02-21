@@ -125,12 +125,14 @@ class ListView extends HtmlFormsView
 				"colspan": "6"
 			}
 			);
-		let divNode = dhtml.createNode("div#addunit", "",
+		let boxNode = dhtml.createNode("div#additmes-container");
+		let divNode = dhtml.createNode("div", "addunit",
 			{
 				"data-action": "addunit",
 			}, "Add new unit");
 		divNode.onclick = this.dispatchEditorEvent;
-		cellNode.appendChild(divNode);
+		boxNode.appendChild(divNode);
+		cellNode.appendChild(boxNode);
 		result.appendChild(cellNode);
 		return result;
 	};
@@ -211,19 +213,19 @@ class ListView extends HtmlFormsView
 
 	notifyCanPaste(unitName, unitCode)
 	{
-		let addunitContainer = this.html.querySelector("#addunit");
-		let pasteUnitNode = dhtml.createNode("div", "pasteunit",
-			{
-				"data-action": "pasteunit",
-				"data-unitcode": unitCode,
-				"data-stopevent": "true"
-			}, "insert \"" + unitName + "\"");
-		pasteUnitNode.onclick = this.dispatchEditorEvent;
-		if (addunitContainer.childNodes.length > 1)
+		let addunitContainer = this.html.querySelector("#additmes-container");
+		let pasteUnitNode = addunitContainer.querySelector("[data-action='pasteunit']");
+		if (pasteUnitNode === null)
 		{
-			addunitContainer.removeChild(addunitContainer.childNodes[1]);
+			pasteUnitNode = dhtml.createNode("div", "addunit",
+				{
+					"data-action": "pasteunit"
+				});
+			pasteUnitNode.onclick = this.dispatchEditorEvent;
+			addunitContainer.appendChild(pasteUnitNode);
 		};
-		addunitContainer.appendChild(pasteUnitNode);
+		pasteUnitNode.setAttribute("data-unitcode", unitCode);
+		pasteUnitNode.innerHTML = "Add " + unitName;
 	};
 
 };
