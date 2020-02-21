@@ -2,7 +2,6 @@
 
 const urlKeyWarband = "warband";
 const urlKeyPrint = "print";
-const cookieKeyUnit = "unitClipboard";
 
 let owc = new WarbandCreator();
 let didyouknow = new DidYouKnow(document.getElementById("didyouknow_text"), didyouknowHints);
@@ -20,7 +19,7 @@ console.log("interactiveMode:", interactiveMode);
 if (interactiveMode === true)
 {
 	window.addEventListener("resize", windowEventListener);
-	window.addEventListener("unload", saveWarbandToUrl);
+	window.addEventListener("unload", onWindowUnload);
 	window.addEventListener("editor", editorEventListener);
 	window.addEventListener("menubox", windowEventListener);
 	window.addEventListener("focus", onWindowFocus);
@@ -375,4 +374,12 @@ function saveWarbandToUrl()
 	let params = {};
 	params[urlKeyWarband] = owc.warband.toString();
 	window.location.setParams(params);
+};
+
+function onWindowUnload(unloadEvent)
+{
+	if (typeof localStorage !== "undefined")
+	{
+		localStorage.removeItem(WarbandCreator.UnitClipboardKey);
+	};
 };
