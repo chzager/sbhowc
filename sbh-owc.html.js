@@ -2,6 +2,7 @@
 
 const urlKeyWarband = "warband";
 const urlKeyPrint = "print";
+const cookieKeyUnit = "unitClipboard";
 
 let owc = new WarbandCreator();
 let didyouknow = new DidYouKnow(document.getElementById("didyouknow_text"), didyouknowHints);
@@ -22,15 +23,10 @@ if (interactiveMode === true)
 	window.addEventListener("unload", saveWarbandToUrl);
 	window.addEventListener("editor", editorEventListener);
 	window.addEventListener("menubox", windowEventListener);
+	window.addEventListener("focus", onWindowFocus);
 }
 initView();
 printWarband();
-
-window.onfocus = function ()
-{
-	console.log("RefreshPasteButton() on window.onfocus");
-}
-// window.onunload = function() { window.location.replace(setParams(PARAMWARBAND + '=' + warband.toString())); }
 
 function editorEventListener(editorEvent) /* OK */
 {
@@ -86,7 +82,11 @@ function editorEventListener(editorEvent) /* OK */
 		printWarband();
 		break;
 	case "copy":
-		console.warn("unhandled editorevent \"copy\"");
+		owc.copyUnitToClipboard(unitIndex);
+		break;
+	case "pasteunit":
+		owc.addUnit(editorEvent.detail.unitcode);
+		printWarband();
 		break;
 	case "remove":
 		owc.removeUnit(unitIndex, editorEvent.detail.value);
@@ -112,15 +112,25 @@ function windowEventListener(windowEvent) /* OK */
 	};
 };
 
+function onWindowFocus(windowEvent)
+{
+	switch (windowEvent.type)
+	{
+	case "focus":
+		checkCanPasteUnit();
+		break;
+	};
+};
+
 function initView()
 {
 	switch (owc.settings.viewMode)
 	{
-		case "list":
-			view = new ListView(owc.settings, owc.resources, document.getElementById("warbandCanvas"));
+	case "list":
+		view = new ListView(owc.settings, owc.resources, document.getElementById("warbandCanvas"));
 		break;
-		default:
-			view = new ClassicView(owc.settings, owc.resources, document.getElementById("warbandCanvas"));
+	default:
+		view = new ClassicView(owc.settings, owc.resources, document.getElementById("warbandCanvas"));
 	};
 };
 
@@ -134,16 +144,28 @@ function printUnit(unitIndex) /* OK */
 
 function printWarband() /* TODO */
 {
-	console.log("view.printWarband", owc.warband, interactiveMode);
 	view.printWarband(owc.warband, interactiveMode);
 	refreshWindowTitle();
 	if (interactiveMode === true)
 	{
 		refreshUndoButton();
+		checkCanPasteUnit();
 	}
 	else
 	{
 		dhtml.removeNodesByQuerySelectors([".noprint", ".tooltip"]);
+	};
+};
+
+function checkCanPasteUnit()
+{
+	let unitClipboard = owc.getUnitFromClipboard();
+	if (unitClipboard !== null)
+	{
+		if (view["notifyCanPaste"] !== undefined)
+		{
+			view.notifyCanPaste(unitClipboard.name, unitClipboard.code);
+		};
 	};
 };
 

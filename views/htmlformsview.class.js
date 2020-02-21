@@ -43,6 +43,10 @@ class HtmlFormsView extends AbstractView
 				editorEventData.detail[eventSender.attributes[a].nodeName.substring(5)] = eventSender.attributes[a].nodeValue;
 			};
 		};
+		if (eventSender.getAttribute("data-stopevent") === "true")
+		{
+			event.stopPropagation();
+		};
 		window.dispatchEvent(new CustomEvent("editor", editorEventData));
 	};
 

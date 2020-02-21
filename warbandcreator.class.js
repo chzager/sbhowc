@@ -2,6 +2,11 @@
 
 class WarbandCreator
 {
+	static get UnitClipboardKey()
+	{
+		return "owcUnitClipboard";
+	};
+	
 	constructor()
 	{
 		this.settings = new Settings();
@@ -64,8 +69,32 @@ class WarbandCreator
 	};
 
 	copyUnitToClipboard(unitIndex)
-	{}
+	{
+		if (typeof localStorage !== "undefined")
+		{
+			let cliboardItem = {
+				"name": this.warband.units[unitIndex].name.notEmpty(this.resources.defaultText("defaultUnitName")),
+				"code": this.warband.units[unitIndex].toString()
+			};
+			localStorage.setItem(WarbandCreator.UnitClipboardKey, JSON.stringify(cliboardItem));
+			window.dispatchEvent(new Event("focus"));
+		}
+		else
+		{
+			console.warn("localStorage not availible. Can not copy unit.");
+		};
+	};
 
+	getUnitFromClipboard()
+	{
+		let result = null;
+		if (typeof localStorage !== "undefined")
+		{
+			result = JSON.parse(localStorage.getItem(WarbandCreator.UnitClipboardKey));
+		};
+		return result;
+	};
+	
 	removeUnit(unitIndex)
 	{
 		this.setUndoPoint("Delete " + this.warband.units[unitIndex].name.notEmpty(this.resources.defaultText("defaultUnitName")));

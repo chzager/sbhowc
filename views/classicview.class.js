@@ -262,4 +262,21 @@ class ClassicView extends HtmlFormsView
 		};
 	};
 
+	notifyCanPaste(unitName, unitCode)
+	{
+		let addunitContainer = this.html.querySelector("div.addunit");
+		let pasteUnitNode = dhtml.createNode("div", "pasteunit",
+			{
+				"data-action": "pasteunit",
+				"data-unitcode": unitCode,
+				"data-stopevent": "true"
+			}, "Insert \"" + unitName + "\"");
+		pasteUnitNode.onclick = this.dispatchEditorEvent;
+		if (addunitContainer.childNodes.length > 1)
+		{
+			addunitContainer.removeChild(addunitContainer.childNodes[1]);
+		};
+		addunitContainer.appendChild(pasteUnitNode);
+	};
+
 };

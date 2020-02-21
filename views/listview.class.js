@@ -12,7 +12,7 @@ class ListView extends HtmlFormsView
 		result.appendChild(this.createUnitNameEditorNode(unitIndex));
 		return result;
 	};
-	
+
 	_createUnitCountCell(unitIndex)
 	{
 		let result = dhtml.createNode("td");
@@ -100,10 +100,14 @@ class ListView extends HtmlFormsView
 		result.appendChild(dhtml.createNode("th#specialrules", "", {}, this.translate("specialrules")));
 		return result;
 	};
-	
+
 	createUnitNode(unitIndex, isPersonality = false)
 	{
-		let result = dhtml.createNode("tr", "interactive", {"data-unitindex": unitIndex});
+		let result = dhtml.createNode("tr", "interactive",
+			{
+				"data-unitindex": unitIndex
+			}
+			);
 		result.appendChild(this._createUnitCountCell(unitIndex));
 		result.appendChild(this._createUnitNameCell(unitIndex, isPersonality));
 		result.appendChild(this._createUnitPointsCell(unitIndex));
@@ -116,8 +120,12 @@ class ListView extends HtmlFormsView
 	createAddUnitNode()
 	{
 		let result = dhtml.createNode("tr", "addunit");
-		let cellNode = dhtml.createNode("td", "", {"colspan": "6"});
-		let divNode = dhtml.createNode("div", "addunit",
+		let cellNode = dhtml.createNode("td", "",
+			{
+				"colspan": "6"
+			}
+			);
+		let divNode = dhtml.createNode("div#addunit", "",
 			{
 				"data-action": "addunit",
 			}, "Add new unit");
@@ -199,6 +207,23 @@ class ListView extends HtmlFormsView
 			};
 			specialrulesNode.appendChild(dhtml.createNode("span", "specialruleEditorSeparator", {}, ",&#160;"));
 		};
+	};
+
+	notifyCanPaste(unitName, unitCode)
+	{
+		let addunitContainer = this.html.querySelector("#addunit");
+		let pasteUnitNode = dhtml.createNode("div", "pasteunit",
+			{
+				"data-action": "pasteunit",
+				"data-unitcode": unitCode,
+				"data-stopevent": "true"
+			}, "insert \"" + unitName + "\"");
+		pasteUnitNode.onclick = this.dispatchEditorEvent;
+		if (addunitContainer.childNodes.length > 1)
+		{
+			addunitContainer.removeChild(addunitContainer.childNodes[1]);
+		};
+		addunitContainer.appendChild(pasteUnitNode);
 	};
 
 };
