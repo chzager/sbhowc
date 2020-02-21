@@ -53,12 +53,10 @@ class HtmlFormsView extends AbstractView
 				"type": "text",
 				"maxlength": "150",
 				"data-editor": "warbandname",
-				"placeholder": this.translate("defaultWarbandName"),
-				"onmouseover": "this.focus();",
-				"onmouseout": "this.blur();"
+				"placeholder": this.translate("defaultWarbandName")
 			}
 			);
-		node.onchange = this.dispatchEditorEvent;
+		node.onmouseout = this.dispatchEditorEvent;
 		return node;
 	};
 
@@ -70,11 +68,10 @@ class HtmlFormsView extends AbstractView
 				"maxlength": "150",
 				"placeholder": this.translate("defaultUnitName"),
 				"data-editor": "name",
-				"data-unitindex": unitIndex,
-				"onmouseover": "this.focus();"
+				"data-unitindex": unitIndex
 			}
 			);
-		node.onchange = this.dispatchEditorEvent;
+		node.onmouseout = this.dispatchEditorEvent;
 		return node;
 	};
 
@@ -87,12 +84,10 @@ class HtmlFormsView extends AbstractView
 				"max": "25",
 				"maxlength": "2",
 				"data-editor": "count",
-				"data-unitindex": unitIndex,
-				"onmouseover": "this.focus();",
-				"onmouseout": "this.blur();"
+				"data-unitindex": unitIndex
 			}
 			);
-		node.onchange = this.dispatchEditorEvent;
+		node.oninput = this.dispatchEditorEvent;
 		return node;
 	};
 
@@ -161,17 +156,15 @@ class HtmlFormsView extends AbstractView
 		let node = dhtml.createNode("input", "",
 			{
 				"maxlength": "40",
+				"value": additionalText,
 				"data-editor": "specialruletext",
 				"data-unitindex": unitIndex,
 				"data-specialruleIndex": specialruleIndex,
 				"data-spaceafter": "1em",
-				"onmouseover": "this.focus();",
-				"onmouseout": "this.blur();",
 				"onclick": "event.stopPropagation();"
 			}
 			);
-		node.value = additionalText;
-		node.onchange = eventDispatcher;
+		node.onmouseout = eventDispatcher;
 		node.oninput = dhtml.fitInputSize;
 		dhtml.fitInputSize(node);
 		return node;

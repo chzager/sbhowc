@@ -24,8 +24,7 @@ class ClassicView extends HtmlFormsView
 	{
 		let result = dhtml.createNode("th", "interactive",
 			{
-				"colspan": "3",
-				"onmouseout": "document.activeElement.blur();"
+				"colspan": "3"
 			}
 			);
 		result.appendChild(dhtml.createNode("span", "",

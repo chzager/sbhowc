@@ -4,11 +4,7 @@ class ListView extends HtmlFormsView
 {
 	_createUnitNameCell(unitIndex, isPersonality)
 	{
-		let result = dhtml.createNode("td", "",
-			{
-				"onmouseout": "document.activeElement.blur();"
-			}
-			);
+		let result = dhtml.createNode("td");
 		result.appendChild(dhtml.createNode("span", "",
 			{
 				"data-valueof": "name"
