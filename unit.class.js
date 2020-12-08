@@ -68,7 +68,7 @@ class Unit
 	addSpecialrule(specialruleKey, resources)
 	{
 		let result = false;
-		let resource = resources[specialruleKey];
+		let resource = resources.data[specialruleKey];
 		if (resource !== undefined)
 		{
 			let hasAdditionalText = (resources.defaultText(specialruleKey).indexOf("...") > -1);

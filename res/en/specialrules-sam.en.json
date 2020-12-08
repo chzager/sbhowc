@@ -1,0 +1,57 @@
+﻿{
+	"scope": "sam",
+	"lang": "en",
+	"data": {
+		"bd": {
+			"text": "Bard",
+			"points": 10,
+			"personality": true
+		},
+		"cv": {
+			"text": "Chivalry",
+			"points": 0
+		},
+		"dg": {
+			"text": "Dogged",
+			"points": -2
+		},
+		"hh": {
+			"text": "Hero's Horse",
+			"points": 6,
+			"personality": true
+		},
+		"ic": {
+			"text": "Inconvenient",
+			"points": 5
+		},
+		"jz": {
+			"text": "Jouster",
+			"points": 3
+		},
+		"kt": {
+			"text": "Knight",
+			"points": 1
+		},
+		"lw": {
+			"text": "Legendary Wizard",
+			"points": 99,
+			"personality": true
+		},
+		"pt": {
+			"text": "Protect ...",
+			"points": -2
+		},
+		"sf": {
+			"text": "Solar Force",
+			"points": 0
+		},
+		"so": {
+			"text": "Stubborn",
+			"points": -2
+		},
+		"uq": {
+			"text": "Unique",
+			"points": 0
+		}
+	}
+}

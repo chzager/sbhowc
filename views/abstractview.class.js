@@ -29,9 +29,9 @@ class AbstractView
 			return compareResult;
 		};
 		let specialruleCollecion = [];
-		for (let key in this.resources)
+		for (let key in this.resources.data)
 		{
-			let resource = this.resources[key];
+			let resource = this.resources.data[key];
 			if (this.isSpecialruleInScope(key) === true)
 			{
 				let specialrule = {};
@@ -52,7 +52,7 @@ class AbstractView
 
 	isSpecialruleInScope(specialruleKey)
 	{
-		let result = this.settings.ruleScope.includes(this.resources[specialruleKey].scope);
+		let result = this.settings.ruleScope.includes(this.resources.data[specialruleKey].scope);
 		return result;
 	};
 

@@ -1,0 +1,21 @@
+﻿{
+	"scope": "sgd",
+	"lang": "de",
+	"data": {
+		"ac": "Gewandt",
+		"cw": "Feigling",
+		"dc": "Fesseln",
+		"ev": "Böse",
+		"gb": "Geisterklinge",
+		"mr": "Magieresistent",
+		"mt": "Mutant",
+		"nc": "Nekromant",
+		"sm": "Beschwörer",
+		"op": "Opportunistisch",
+		"pl": "Paladin",
+		"sc": "Hexer",
+		"tp": "Fallen",
+		"tt": "Teleport",
+		"wr": "Warg"
+	}
+}

@@ -1,0 +1,24 @@
+{
+	"lang": "en",
+	"data": {
+		"name": "Name",
+		"points": "Points",
+		"quality": "Quality",
+		"combat": "Combat",
+		"specialrules": "Special rules",
+		"count": "Count",
+		"defaultWarbandName": "Unnamed warband",
+		"warbandNamePrompt": "Warband name",
+		"defaultUnitName": "Unnamed unit",
+		"unitNamePrompt": "Unit name",
+		"totalPoints": "Total: {F} figures with {P} points",
+		"addSpecialrule": "add special rule",
+		"personalitiesPoints": "{Q} points in personalities",
+		"personalitiesPercent": "{P}% personalities",
+		"ruleViolation": "<b>Rule violation:</b>",
+		"personalityPointsViolated": "At most {M} points in personalities allowed.",
+		"animalPointsViolated": "At most {M} points for animals allowed (current: {C}).",
+		"specialRuleMismatch": "{U} must not have <i>{A}</i> and <i>{B}</i> at the same time.",
+		"swarmCountViolated": "A swarm must have at least two figures (bases)."
+	}
+}
