@@ -4,18 +4,24 @@ let settings = new Settings();
 let resources = new Resources();
 let owc;
 
-function initResources(language)
+function initResources(resources, settings)
 {
+	function requireResource(key, lang)
+	{
+		requiredResoures.push("./res/" + lang + "/" + key + "." + lang + ".json");
+	};
 	let requiredResoures = [];
 	let requiredKeys = ["meta", "specialrules-sbh", "specialrules-sww", "specialrules-sgd", "specialrules-sdg", "specialrules-sam"];
-	function requireResource(key)
-	{
-		requiredResoures.push("./res/" + language + "/" + key + "." + language + ".json");
-	};
-	// requireResource("meta");
 	for (let r = 0; r < requiredKeys.length; r += 1)
 	{
-		requireResource(requiredKeys[r]);
+		requireResource(requiredKeys[r], resources.defaultLanguage);
+	};
+	if (settings.language !== resources.defaultLanguage)
+	{
+		for (let r = 0; r < requiredKeys.length; r += 1)
+		{
+			requireResource(requiredKeys[r], settings.language);
+		};
 	};
 	resources.import(requiredResoures, main);
 };
@@ -34,8 +40,4 @@ function main()
 	printWarband();
 };
 
-initResources(resources.defaultLanguage);
-if (settings.language !== resources.defaultLanguage)
-{
-	initResources(settings.language);
-};
+initResources(resources, settings);

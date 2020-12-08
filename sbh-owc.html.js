@@ -344,7 +344,7 @@ function applySettings() /* OK */
 	let settingsPanel = document.getElementById("settingsPanel");
 	settingsFromGui(settingsPanel);
 	owc.settings.save();
-	initResources(owc.settings);
+	initResources(owc.resources, owc.settings);
 	// initView();
 	// printWarband();
 	sweepVolatiles();
