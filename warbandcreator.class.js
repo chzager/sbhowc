@@ -7,18 +7,12 @@ class WarbandCreator
 		return "owcUnitClipboard";
 	};
 	
-	constructor()
+	constructor(settings, resources)
 	{
-		this.settings = new Settings();
-		this.resources = new Resources();
+		this.settings = settings;
+		this.resources = resources;
 		this.warband = new Warband();
 		this.undoer = new Undoer();
-		this.resources.import(profilesMeta);
-		this.resources.import(specialrulesSbh, "sbh");
-		this.resources.import(specialrulesSgd, "sgd");
-		this.resources.import(specialrulesSww, "sww");
-		this.resources.import(specialrulesSdg, "sdg");
-		this.resources.import(specialrulesSam, "sam");
 		this.newWarband();
 	};
 
@@ -168,7 +162,7 @@ class WarbandCreator
 		this.setUndoPoint("Add \"" + nativeText + "\" special rule to " + this.warband.units[unitIndex].name.notEmpty(this.resources.defaultText("defaultUnitName")));
 		if (this.warband.units[unitIndex].addSpecialrule(specialruleKey, this.resources) === true)
 		{
-			let specialrule = this.resources[specialruleKey];
+			let specialrule = this.resources.data[specialruleKey];
 			if (specialrule.replaces !== undefined)
 			{
 				for (let r = 0; r < specialrule.replaces.length; r += 1)

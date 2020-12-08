@@ -2,7 +2,7 @@
 
 function getRulesCheckResult(warband, resources, settings)
 {
-	function checkPersonalityPoints(warband, toFailsContainer)
+	function checkPersonalityPoints(warband, resultsRecipient)
 	{
 		// check personality points (max 1/3)
 		let warbandPoints = Number(warband.points);
@@ -19,11 +19,11 @@ function getRulesCheckResult(warband, resources, settings)
 					"current": warbandPersonalitiesPoints
 				}
 			};
-			toFailsContainer.push(checkResult);
+			resultsRecipient.push(checkResult);
 		};
 	};
 
-	function checkAnimalPoints(warband, toFailsContainer)
+	function checkAnimalPoints(warband, resultsRecipient)
 	{
 		// check animal points (max 1/2)
 		let warbandPoints = warband.points;
@@ -47,11 +47,11 @@ function getRulesCheckResult(warband, resources, settings)
 					"current": animalPoints
 				}
 			};
-			toFailsContainer.push(checkResult);
+			resultsRecipient.push(checkResult);
 		};
 	};
 
-	function checkSwarmFigures(warband, toFailsContainer)
+	function checkSwarmFigures(warband, resultsRecipient)
 	{
 		let swarmFigures = 0;
 		for (let u = 0; u < warband.units.length; u += 1)
@@ -67,13 +67,13 @@ function getRulesCheckResult(warband, resources, settings)
 			{
 				"check": "swarmfigures"
 			};
-			toFailsContainer.push(checkResult);
+			resultsRecipient.push(checkResult);
 		};
 	};
 
-	function checkExcludes(warband, specialrulesProvider, toFailsContainer)
+	function checkExcludes(warband, specialrulesProvider, resultsRecipient)
 	{
-		function _checkExcludes(warband, specialrulesProvider, excludingKey, toFailsContainer)
+		function _checkExcludes(warband, specialrulesProvider, excludingKey, resultsRecipient)
 		{
 			for (let u = 0; u < warband.units.length; u += 1)
 			{
@@ -94,7 +94,7 @@ function getRulesCheckResult(warband, resources, settings)
 									"unitindex": u,
 									"specialrules": [unit.specialrules[s].key, excludings[e]]
 								};
-								toFailsContainer.push(checkResult);
+								resultsRecipient.push(checkResult);
 								index.push(unit.specialrules[s].key + excludings[e]);
 							};
 						};
@@ -103,8 +103,8 @@ function getRulesCheckResult(warband, resources, settings)
 			};
 		};
 		// check specialrules exclusions
-		_checkExcludes(warband, specialrulesProvider, "exclusive", toFailsContainer);
-		_checkExcludes(warband, specialrulesProvider, "excludes", toFailsContainer);
+		_checkExcludes(warband, specialrulesProvider, "exclusive", resultsRecipient);
+		_checkExcludes(warband, specialrulesProvider, "excludes", resultsRecipient);
 	};
 
 	let result = [];

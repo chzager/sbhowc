@@ -1,0 +1,221 @@
+{
+	"scope": "sbh",
+	"lang": "en",
+	"data": {
+		"am": {
+			"text": "Amphibious",
+			"points": 3
+		},
+		"an": {
+			"text": "Animal",
+			"points": -3
+		},
+		"at": {
+			"text": "Artificial",
+			"points": 3
+		},
+		"as": {
+			"text": "Assassin",
+			"points": 15,
+			"personality": true
+		},
+		"bg": {
+			"text": "Big",
+			"points": 3
+		},
+		"cc": {
+			"text": "Cleric",
+			"points": 15,
+			"personality": true
+		},
+		"cl": {
+			"text": "Clinging",
+			"points": 3
+		},
+		"cm": {
+			"text": "Combat Master",
+			"points": 10,
+			"personality": true
+		},
+		"ds": {
+			"text": "Danger Sense",
+			"points": 3
+		},
+		"da": {
+			"text": "Dashing",
+			"points": 3
+		},
+		"dw": {
+			"text": "Desert Walk",
+			"points": 3
+		},
+		"et": {
+			"text": "Entangle",
+			"points": 15
+		},
+		"fl": {
+			"text": "Fearless",
+			"points": 3
+		},
+		"fy": {
+			"text": "Flying",
+			"points": 10
+		},
+		"fr": {
+			"text": "Forester",
+			"points": 3
+		},
+		"fd": {
+			"text": "Free Disengage",
+			"points": 3
+		},
+		"gt": {
+			"text": "Gargantuan",
+			"points": 9,
+			"replaces": [
+				"bg",
+				"hg"
+			]
+		},
+		"go": {
+			"text": "Good shot",
+			"points": 3
+		},
+		"ge": {
+			"text": "Greedy",
+			"points": -2
+		},
+		"gg": {
+			"text": "Gregarious",
+			"points": 3
+		},
+		"ha": {
+			"text": "Heavy Armor",
+			"points": 3
+		},
+		"hr": {
+			"text": "Hero",
+			"points": 15,
+			"personality": true
+		},
+		"hg": {
+			"text": "Huge",
+			"points": 5,
+			"replaces": [
+				"bg"
+			]
+		},
+		"ld": {
+			"text": "Leader",
+			"points": 15,
+			"personality": true
+		},
+		"ls": {
+			"text": "Legendary Archer",
+			"points": 15,
+			"personality": true
+		},
+		"lt": {
+			"text": "Lethal against ...",
+			"points": 3
+		},
+		"m3": {
+			"text": "Long Move",
+			"points": 10,
+			"replaces": [
+				"m1"
+			]
+		},
+		"mu": {
+			"text": "Magic-User",
+			"points": 15,
+			"personality": true,
+			"exclusive": [
+				"ee",
+				"nc",
+				"sc",
+				"sm",
+				"ec",
+				"il",
+				"si"
+			]
+		},
+		"mn": {
+			"text": "Mounted",
+			"points": 6
+		},
+		"pn": {
+			"text": "Poison",
+			"points": 3
+		},
+		"ra": {
+			"text": "Rabble",
+			"points": -5
+		},
+		"sv": {
+			"text": "Savage",
+			"points": 3
+		},
+		"s1": {
+			"text": "Shooter (short)",
+			"points": 2,
+			"replaces": [
+				"s2",
+				"s3"
+			]
+		},
+		"s2": {
+			"text": "Shooter (medium)",
+			"points": 4
+		},
+		"s3": {
+			"text": "Shooter (long)",
+			"points": 7
+		},
+		"m1": {
+			"text": "Short Move",
+			"points": -3
+		},
+		"sl": {
+			"text": "Slow",
+			"points": -5
+		},
+		"st": {
+			"text": "Steadfast",
+			"points": 3
+		},
+		"sh": {
+			"text": "Stealth",
+			"points": 3,
+			"excludes": [
+				"ha"
+			]
+		},
+		"sw": {
+			"text": "Swarm",
+			"points": 3
+		},
+		"ts": {
+			"text": "Tailslap",
+			"points": 3
+		},
+		"tr": {
+			"text": "Terror",
+			"points": 15,
+			"personality": true
+		},
+		"tg": {
+			"text": "Tough",
+			"points": 15,
+			"personality": true
+		},
+		"ud": {
+			"text": "Undead",
+			"points": 3
+		},
+		"ua": {
+			"text": "Unerring aim",
+			"points": 3
+		}
+	}
+}

@@ -3,15 +3,14 @@
 const urlKeyWarband = "warband";
 const urlKeyPrint = "print";
 
-let owc = new WarbandCreator();
-let didyouknow = new DidYouKnow(document.getElementById("didyouknow_text"), didyouknowHints);
+/* let owc = new WarbandCreator();
 
 let urlWarbandCode = window.location.getParam(urlKeyWarband);
 if (urlWarbandCode !== "")
 {
 	owc.warband.fromString(urlWarbandCode, owc.resources);
 };
-
+ */
 let view;
 
 let interactiveMode = (window.location.getParam(urlKeyPrint, "0") !== "1");
@@ -24,9 +23,9 @@ if (interactiveMode === true)
 	window.addEventListener("menubox", windowEventListener);
 	window.addEventListener("focus", onWindowFocus);
 }
-initView();
+/* initView();
 printWarband();
-
+ */
 function editorEventListener(editorEvent) /* OK */
 {
 	console.log("editorEvent", editorEvent.detail);
@@ -255,7 +254,7 @@ function applyWarbandCode(warbandCode) /* OK */
 {
 	let codeIsValid = false;
 	let lastGoodWarbandCode = owc.warband.toString();
-	if (warbandCode !== undefined)
+	if (warbandCode !== undefined) /* TODO: why? */
 	{
 		try
 		{
@@ -345,8 +344,9 @@ function applySettings() /* OK */
 	let settingsPanel = document.getElementById("settingsPanel");
 	settingsFromGui(settingsPanel);
 	owc.settings.save();
-	initView();
-	printWarband();
+	initResources(owc.settings);
+	// initView();
+	// printWarband();
 	sweepVolatiles();
 }
 

@@ -179,11 +179,11 @@ class HtmlFormsView extends AbstractView
 		function specialruleHint(resources, specialruleKey)
 		{
 			let result = resources.defaultText(specialruleKey);
-			if (resources[specialruleKey].personality === true)
+			if (resources.data[specialruleKey].personality === true)
 			{
 				result += " [personality]";
 			};
-			result += ",&#160;" + resources[specialruleKey].scope.toUpperCase();
+			result += ",&#160;" + resources.data[specialruleKey].scope.toUpperCase();
 			return result;
 		};
 		let result = dhtml.createNode("span", "specialrule-wrapper");
@@ -223,7 +223,7 @@ class HtmlFormsView extends AbstractView
 			};
 		};
 		textNode.appendChild(dhtml.createNode("div", "tooltip nowrap", {}, specialruleHint(this.resources, unit.specialrules[specialruleIndex].key)));
-		if (this.settings.ruleScope.includes(this.resources[unit.specialrules[specialruleIndex].key].scope) === false)
+		if (this.settings.ruleScope.includes(this.resources.data[unit.specialrules[specialruleIndex].key].scope) === false)
 		{
 			textNode.classList.add("out-of-scope");
 		};

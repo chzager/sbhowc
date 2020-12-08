@@ -1,0 +1,24 @@
+{
+	"lang": "de",
+	"data": {
+		"name": "Name",
+		"points": "Punkte",
+		"quality": "Qualität",
+		"combat": "Kampf",
+		"specialrules": "Sonderregeln",
+		"count": "Anzahl",
+		"defaultWarbandName": "Unbenannte Schlachtgruppe",
+		"warbandNamePrompt": "Name der Schlachtgruppe",
+		"defaultUnitName": "Unbenannte Einheit",
+		"unitNamePrompt": "Name der Einheit",
+		"totalPoints": "Gesamt: {F} Figuren mit {P} Punkten",
+		"addSpecialrule": "Sonderregel hinzufügen",
+		"personalitiesPoints": "{Q} Punkte für Persönlichkeiten",
+		"personalitiesPercent": "{P}% Persönlichkeiten",
+		"ruleViolation": "<b>Regelverletzung:</b>",
+		"personalityPointsViolated": "Höchstens {M} Punkte für Persönlichkeiten erlaubt.",
+		"animalPointsViolated": "Höchstens {M} Punkte für Tiere erlaubt (aktuell: {C}).",
+		"specialRuleMismatch": "{U} kann nicht <i>{A}</i> und <i>{B}</i> gleichzeitig haben.",
+		"swarmCountViolated": "Ein Schwarm muss aus mindestens zwei Figuren bestehen."
+	}
+}
