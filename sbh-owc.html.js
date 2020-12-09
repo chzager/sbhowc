@@ -1,16 +1,14 @@
 ﻿"use strict";
 
+const urlParam = {
+	"warband": "warband",
+	"print": "print",
+	"pid": "pid"
+};
+
 const urlKeyWarband = "warband";
 const urlKeyPrint = "print";
 
-/* let owc = new WarbandCreator();
-
-let urlWarbandCode = window.location.getParam(urlKeyWarband);
-if (urlWarbandCode !== "")
-{
-	owc.warband.fromString(urlWarbandCode, owc.resources);
-};
- */
 let view;
 
 let interactiveMode = (window.location.getParam(urlKeyPrint, "0") !== "1");
@@ -18,7 +16,7 @@ console.log("interactiveMode:", interactiveMode);
 if (interactiveMode === true)
 {
 	window.addEventListener("resize", windowEventListener);
-	window.addEventListener("unload", onWindowUnload);
+	// window.addEventListener("unload", onWindowUnload);
 	window.addEventListener("editor", editorEventListener);
 	window.addEventListener("menubox", windowEventListener);
 	window.addEventListener("focus", onWindowFocus);
@@ -171,6 +169,12 @@ function checkCanPasteUnit()
 function refreshWindowTitle()
 {
 	document.title = owc.warband.name.notEmpty(owc.resources.defaultText("defaultWarbandName")) + " (" + owc.warband.points + " " + owc.resources.translate("points", owc.settings.language) + ") - Song of Blades and Heroes Online Warband Creator";
+	storeWarband();
+};
+
+function storeWarband()
+{
+	storage.store("pid=" + location.getParam("pid"), owc.warband.name.notEmpty(owc.resources.defaultText("defaultWarbandName")) + "[[" + owc.warband.points + "]]", owc.warband.toString());
 };
 
 function refreshUndoButton() /* OK */
@@ -212,7 +216,7 @@ function undo() /* OK */
 
 function newWarband() /* OK */
 {
-	window.open(window.location.plainLocation());
+	window.open(window.location.setParams({"pid": generateNewPid()}, false, false));
 };
 
 function printPreview() /* OK */
@@ -368,13 +372,6 @@ function showBox(domElement, topPosition, leftPosition, blurPage = false)
 	{
 		showBox(document.getElementById("blur"));
 	}
-};
-
-function saveWarbandToUrl()
-{
-	let params = {};
-	params[urlKeyWarband] = owc.warband.toString();
-	window.location.setParams(params);
 };
 
 function onWindowUnload(unloadEvent)
