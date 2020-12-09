@@ -35,6 +35,7 @@ function editorEventListener(editorEvent) /* OK */
 	case "warbandname":
 		owc.setWarbandName(editorEvent.detail.value);
 		view.printWarbandName(owc.warband);
+		refreshWindowTitle();
 		break;
 	case "name":
 		owc.setUnitName(unitIndex, editorEvent.detail.value);
