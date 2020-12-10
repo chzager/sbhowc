@@ -101,7 +101,7 @@ class Resources
 		if (typeof resource !== "undefined")
 		{
 			result = resource[toLanguage];
-			if (typeof result === "undefined")
+			if ((typeof result === "undefined") || (result === ""))
 			{
 				console.warn("Language \"" + toLanguage + "\" not defined for resource \"" + resourceId + "\":", resource);
 				result = this.defaultText(resourceId);

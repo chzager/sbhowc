@@ -1,6 +1,7 @@
 ﻿"use strict";
 
-const urlParam = {
+const urlParam =
+{
 	"warband": "warband",
 	"print": "print",
 	"pid": "pid"
@@ -160,7 +161,11 @@ function storeWarband()
 	let pid = location.getParam(urlParam.pid);
 	if (pid !== "")
 	{
-		storage.store(pid, owc.warband.name.notEmpty(owc.resources.defaultText("defaultWarbandName")) + "[[" + owc.warband.figureCount + ";" + owc.warband.points + "]]", owc.warband.toString());
+		let warbandCode = owc.warband.toString();
+		if (/^v[\d]+(@[A-Z])*@$/.test(warbandCode) === false)
+		{
+			storage.store(pid, owc.warband.name.notEmpty(owc.resources.defaultText("defaultWarbandName")) + "[[" + owc.warband.figureCount + ";" + owc.warband.points + "]]", warbandCode);
+		};
 	};
 };
 
@@ -203,15 +208,16 @@ function undo() /* OK */
 
 function newWarband() /* OK */
 {
-	window.open(window.location.setParams({"pid": generateNewPid()}, false, false));
+	let params = {};
+	params[urlParam.pid] = generateNewPid();
+	window.open(window.location.setParams(params, false, false));
 };
 
 function printPreview() /* todo */
 {
 	let params = {};
-	params[urlKeyWarband] = owc.warband.toString();
-	params[urlKeyPrint] = "1";
-	window.open(window.location.setParams(params));
+	params[urlParam.print] = "1";
+	window.open(window.location.setParams(params, true, false));
 };
 
 function warbandToFile() /* OK */
@@ -336,10 +342,10 @@ function applySettings() /* OK */
 	let settingsPanel = document.getElementById("settingsPanel");
 	settingsFromGui(settingsPanel);
 	owc.settings.save();
-	initResources(owc.resources, owc.settings);
-	// initView();
-	// printWarband();
 	sweepVolatiles();
+	initResources(owc.resources, owc.settings);
+	initView();
+	printWarband();
 }
 
 function showBox(domElement, topPosition, leftPosition, blurPage = false)
