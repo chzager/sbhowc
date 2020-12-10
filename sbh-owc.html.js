@@ -6,24 +6,6 @@ const urlParam = {
 	"pid": "pid"
 };
 
-const urlKeyWarband = "warband";
-const urlKeyPrint = "print";
-
-let view;
-
-let interactiveMode = (window.location.getParam(urlKeyPrint, "0") !== "1");
-console.log("interactiveMode:", interactiveMode);
-if (interactiveMode === true)
-{
-	window.addEventListener("resize", windowEventListener);
-	// window.addEventListener("unload", onWindowUnload);
-	window.addEventListener("editor", editorEventListener);
-	window.addEventListener("menubox", windowEventListener);
-	window.addEventListener("focus", onWindowFocus);
-}
-/* initView();
-printWarband();
- */
 function editorEventListener(editorEvent) /* OK */
 {
 	console.log("editorEvent", editorEvent.detail);
@@ -111,6 +93,7 @@ function windowEventListener(windowEvent) /* OK */
 
 function onWindowFocus(windowEvent)
 {
+	console.log("onWindowFocus");
 	switch (windowEvent.type)
 	{
 	case "focus":
@@ -174,7 +157,11 @@ function refreshWindowTitle()
 
 function storeWarband()
 {
-	storage.store("pid=" + location.getParam("pid"), owc.warband.name.notEmpty(owc.resources.defaultText("defaultWarbandName")) + "[[" + owc.warband.points + "]]", owc.warband.toString());
+	let pid = location.getParam(urlParam.pid);
+	if (pid !== "")
+	{
+		storage.store(pid, owc.warband.name.notEmpty(owc.resources.defaultText("defaultWarbandName")) + "[[" + owc.warband.figureCount + ";" + owc.warband.points + "]]", owc.warband.toString());
+	};
 };
 
 function refreshUndoButton() /* OK */
@@ -219,7 +206,7 @@ function newWarband() /* OK */
 	window.open(window.location.setParams({"pid": generateNewPid()}, false, false));
 };
 
-function printPreview() /* OK */
+function printPreview() /* todo */
 {
 	let params = {};
 	params[urlKeyWarband] = owc.warband.toString();
@@ -372,12 +359,4 @@ function showBox(domElement, topPosition, leftPosition, blurPage = false)
 	{
 		showBox(document.getElementById("blur"));
 	}
-};
-
-function onWindowUnload(unloadEvent)
-{
-	if (typeof localStorage !== "undefined")
-	{
-		localStorage.removeItem(WarbandCreator.UnitClipboardKey);
-	};
 };

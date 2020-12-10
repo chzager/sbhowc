@@ -4,7 +4,12 @@ let settings = new Settings();
 let resources = new Resources();
 let storage = new Storager();
 
+let interactiveMode = (window.location.getParam(urlParam.print) !== "1");
+
 let owc;
+let view;
+
+let didyouknow;
 
 function initResources(resources, settings)
 {
@@ -28,38 +33,53 @@ function initResources(resources, settings)
 	resources.import(requiredResoures, main);
 };
 
+function initDidYouKnow()
+{
+	Json.load("./res/didyouknow.json", (url, data) =>
+	{
+		didyouknow = new DidYouKnow(document.getElementById("didyouknow_text"), data.hints);
+	}
+	);
+};
+
+function initEventListeners()
+{
+	window.addEventListener("resize", windowEventListener);
+	window.addEventListener("focus", onWindowFocus);
+	window.addEventListener("editor", editorEventListener);
+	window.addEventListener("menubox", windowEventListener);
+};
+
 function main()
 {
 	console.debug("main()");
 	owc = new WarbandCreator(settings, resources);
 
-	let warbandCode = window.location.getParam(urlParam.warband);
 	let pid = window.location.getParam(urlParam.pid);
-	if (pid !== "")
+	let storedData = storage.retrieve(pid);
+	if (typeof storedData !== "undefined")
 	{
-		let storedData = storage.retrieve(urlParam.pid + "=" + pid);
-		if (typeof storedData !== "undefined")
-		{
-			warbandCode = storedData.data;
-		};
-	}
-	else if (warbandCode !== "")
-	{
+		warbandCode = storedData.data;
+		console.debug("restored warband", warbandCode);
 		if (warbandCode !== "")
 		{
-			let pidParam = {};
-			pidParam[urlParam.pid] = generateNewPid();
 			owc.warband.fromString(warbandCode, owc.resources);
-			storeWarband();
-			location.setParams(pidParam, true, true);
 		};
 	};
-	if (warbandCode !== "")
-	{
-		owc.warband.fromString(warbandCode, owc.resources);
-	};
+
 	initView();
 	printWarband();
+
+	if (interactiveMode === true)
+	{
+		initEventListeners();
+		initDidYouKnow();
+	};
 };
 
-initResources(resources, settings);
+/*
+
+regex for storage titel/figurecount/points
+^(.*)\[{2}([\d]+);([\d]+)\]{2}$
+
+*/
