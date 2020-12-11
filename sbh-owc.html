@@ -15,9 +15,8 @@
 		<script src="lib/date.prototype.js">//</script>
 		<script src="lib/string.prototype.js">//</script>
 		<script src="lib/location.prototype.js">//</script>
-		<script src="lib/clientfileio.js">//</script>
+		<script src="lib/fileio.js">//</script>
 		<script src="lib/dhtml.js">//</script>
-		<script src="lib/json.js">//</script>
 
 	</head>
 	
@@ -50,7 +49,7 @@
 					<div class="button" onclick="newWarband(event);">New warband<br/>
 						<div class="tooltip">Opens the <i>Song of Blades and Heroes Online Warband Creator</i> in a new tab or window where you can design a new warband from scratch.</div>
 					</div>
-					<div class="button" onclick="ClientFile.readPrompt(event, warbandFromFile);">Load from file<br/>
+					<div class="button" onclick="FileIo.requestClientFile(event, warbandFromFile);">Load from file<br/>
 						<div class="tooltip">Load a warband from a file that you have previously stored on your local drive.</div>
 						<!-- <input type="file" accept="text/plain" id="fileUpload" onchange="warbandFromFile(event);" style="display:none; visibility:hidden;" /> -->
 					</div>
