@@ -2,7 +2,7 @@
 
 let didyouknow;
 
-Json.load("./res/didyouknow.json", initDidYouKnow);
+FileIo.fetchServerFile("./res/didyouknow.json", initDidYouKnow);
 
 function initDidYouKnow(url, data)
 {

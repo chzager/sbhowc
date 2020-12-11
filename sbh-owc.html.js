@@ -225,7 +225,7 @@ function printPreview() /* OK */
 
 function warbandToFile() /* OK */
 {
-	ClientFile.write(owc.warband.name.notEmpty(owc.resources.defaultText("defaultWarbandName") + ".sbh.txt"), owc.warband.toString());
+	FileIo.offerFileToClient(owc.warband.name.notEmpty(owc.resources.defaultText("defaultWarbandName") + ".sbh.txt"), owc.warband.toString());
 };
 
 function warbandFromFile(loadEvent) /* OK */
