@@ -162,7 +162,8 @@ function storeWarband()
 	if (pid !== "")
 	{
 		let warbandCode = owc.warband.toString();
-		if (/^v[\d]+(@[A-Z])*@$/.test(warbandCode) === false)
+		/* do not store an empty warband (#17) */
+		if (/(@[A-Z])[^@]+/.test(warbandCode) === true)
 		{
 			storage.store(pid, owc.warband.name.notEmpty(owc.resources.defaultText("defaultWarbandName")) + "[[" + owc.warband.figureCount + ";" + owc.warband.points + "]]", warbandCode);
 		};
@@ -222,7 +223,7 @@ function printPreview() /* todo */
 
 function warbandToFile() /* OK */
 {
-	FileIo.offerFileToClient(owc.warband.name.notEmpty(owc.resources.defaultText("defaultWarbandName") + ".sbh.txt"), owc.warband.toString());
+	FileIo.offerFileToClient(owc.warband.name.notEmpty(owc.resources.defaultText("defaultWarbandName")) + ".sbh.txt", owc.warband.toString());
 };
 
 function warbandFromFile(loadEvent) /* OK */

@@ -35,7 +35,7 @@ function initResources(resources, settings)
 
 function initDidYouKnow()
 {
-	Json.load("./res/didyouknow.json", (url, data) =>
+	FileIo.fetchServerFile("./res/didyouknow.json", (url, data) =>
 	{
 		didyouknow = new DidYouKnow(document.getElementById("didyouknow_text"), data.hints);
 	}
@@ -76,10 +76,3 @@ function main()
 		initDidYouKnow();
 	};
 };
-
-/*
-
-regex for storage titel/figurecount/points
-^(.*)\[{2}([\d]+);([\d]+)\]{2}$
-
-*/

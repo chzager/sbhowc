@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<table class="unit box-shadow" data-unitindex="0">
+	<th class="interactive" colspan="3">
+		<span data-valueof="name" class="personality">Whooza hero</span>
+		<input type="text" maxlength="150" placeholder="Unnamed unit" data-editor="name" data-unitindex="0">
+			<span data-valueof="count">&nbsp;</span>
+			<input type="number" min="1" max="25" maxlength="2" data-editor="count" data-unitindex="0"</th>
+		<tr/>
+		<tr>
+			<td class="interactive" data-action="showunitmenu" data-unitindex="0">
+				<span>Points:&nbsp;</span>
+				<span data-staticvalueof="points">60</span>
+			</td>
+			<td class="interactive">
+				<span>Quality:&nbsp;</span>
+				<span data-valueof="quality">3+</span>
+				<select size="1" data-editor="quality" data-unitindex="0">
+					<option value="2">2+</option>
+					<option value="3">3+</option>
+					<option value="4">4+</option>
+					<option value="5">5+</option>
+					<option value="6">6+</option>
+				</select>
+			</td>
+			<td class="interactive">
+				<span>Combat:&nbsp;</span>
+				<span data-valueof="combat">3</span>
+				<select size="1" data-editor="combat" data-unitindex="0">
+					<option value="6">6</option>
+					<option value="5">5</option>
+					<option value="4">4</option>
+					<option value="3">3</option>
+					<option value="2">2</option>
+					<option value="1">1</option>
+					<option value="0">0</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td class="passive">Special rules:</td>
+			<td class="interactive" colspan="2">
+				<span data-staticvalueof="specialrules">
+					<span class="specialrule-wrapper">
+						<span class="specialrule interactive" data-unitindex="0" data-action="removespecialrule" data-value="0">Hero
+							<div class="tooltip nowrap">Hero [personality],&nbsp;SBH</div>
+						</span>
+					</span>
+					<span class="specialruleEditorSeparator">,&nbsp;</span>
+</span>
+				<select size="1" data-action="addspecialrule" data-unitindex="0">
+					<option value="">add special rule</option>
+					<option value="am">Amphibious</option>
+					<option value="an">Animal</option>
+					<option value="at">Artificial</option>
+					<option value="as">Assassin</option>
+					<option value="bg">Big</option>
+					<option value="cc">Cleric</option>
+					<option value="cl">Clinging</option>
+					<option value="cm">Combat Master</option>
+					<option value="ds">Danger Sense</option>
+					<option value="da">Dashing</option>
+					<option value="dw">Desert Walk</option>
+					<option value="et">Entangle</option>
+					<option value="fl">Fearless</option>
+					<option value="fy">Flying</option>
+					<option value="fr">Forester</option>
+					<option value="fd">Free Disengage</option>
+					<option value="gt">Gargantuan</option>
+					<option value="go">Good shot</option>
+					<option value="ge">Greedy</option>
+					<option value="gg">Gregarious</option>
+					<option value="ha">Heavy Armor</option>
+					<option value="hr">Hero</option>
+					<option value="hg">Huge</option>
+					<option value="ld">Leader</option>
+					<option value="ls">Legendary Archer</option>
+					<option value="lt">Lethal against ...</option>
+					<option value="m3">Long Move</option>
+					<option value="mu">Magic-User</option>
+					<option value="mn">Mounted</option>
+					<option value="pn">Poison</option>
+					<option value="ra">Rabble</option>
+					<option value="sv">Savage</option>
+					<option value="s3">Shooter (long)</option>
+					<option value="s2">Shooter (medium)</option>
+					<option value="s1">Shooter (short)</option>
+					<option value="m1">Short Move</option>
+					<option value="sl">Slow</option>
+					<option value="st">Steadfast</option>
+					<option value="sh">Stealth</option>
+					<option value="sw">Swarm</option>
+					<option value="ts">Tailslap</option>
+					<option value="tr">Terror</option>
+					<option value="tg">Tough</option>
+					<option value="ud">Undead</option>
+					<option value="ua">Unerring aim</option>
+				</select>
+			</td>
+		</tr>
+	</table>

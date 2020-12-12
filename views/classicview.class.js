@@ -102,7 +102,7 @@ class ClassicView extends HtmlFormsView
 		let result = dhtml.createNode("div", "addunit",
 			{
 				"data-action": "addunit",
-			}, "Add new unit");
+			}, "Add unit");
 		result.onclick = this.dispatchEditorEvent;
 		return result;
 	};

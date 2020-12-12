@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<dht:template xmlns:dht="dynamic-html-templates">
+	<div id="warbandCode" class="blue volatile">
+		<h1>Warband code</h1>
+		<div>
+			<p class="label">
+				<span>Your warband is encoded like this</span>
+			</p>
+			<p>
+				<textarea id="warbandCodeTextarea" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" style="width:100%; max-width:100%; min-width:100%; height:8em; min-height:4em; font-family:monospace;"/>
+			</p>
+			<p>Please note that there is no line wrap.</p>
+		</div>
+		<p style="text-align:right; margin-top:0.5em;">
+			<input type="button" value="apply" onclick="applyWarbandCode(document.getElementById('warbandCodeTextarea').value);"/>
+			<input type="button" value="close" onclick="sweepVolatiles();"/>
+		</p>
+	</div>
+</dht:template>

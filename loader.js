@@ -43,6 +43,5 @@ if (pid === "")
 }
 else
 {
-	console.debug("pid", pid);
 	initResources(resources, settings);
 };
