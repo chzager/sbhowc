@@ -2,19 +2,37 @@
 
 class Dhtml2
 {
-	constructor(xml)
+	constructor(templateUrl, callback)
 	{
-		function _loadSnippets(obj)
+		let obj = this;
+		let xmlDocument;
+		this.snippets = {};
+		function _templateLoaded(url, data)
 		{
-			let snippetCollection = obj.xml.getElementsByTagName("dht:snippet");
+			xmlDocument = data;
+			_collectSinppets(obj);
+			_loadIncludes(obj, callback);
+		};
+		function _collectSinppets(refObj)
+		{
+			let snippetCollection = xmlDocument.getElementsByTagName("dht:snippet");
 			for (let s = 0; s < snippetCollection.length; s += 1)
 			{
-				obj.snippets[snippetCollection[s].getAttribute("name")] = snippetCollection[s].firstElementChild;
+				refObj.snippets[snippetCollection[s].getAttribute("name")] = snippetCollection[s].firstElementChild;
 			};
 		};
-		function _loadIncludes(obj)
+		function _loadIncludes(refObj)
 		{
-			let includesCollection = obj.xml.getElementsByTagName("dht:include");
+			function __scriptLoaded()
+			{
+				includeScriptCount -= 1;
+				if (includeScriptCount === 0)
+				{
+					callback(refObj);
+				};
+			};
+			let includeScriptCount = 0;
+			let includesCollection = xmlDocument.getElementsByTagName("dht:include");
 			for (let s = 0; s < includesCollection.length; s += 1)
 			{
 				switch (includesCollection[s].getAttribute("type"))
@@ -24,24 +42,22 @@ class Dhtml2
 					styleNode.setAttribute("rel", "stylesheet");
 					styleNode.setAttribute("href", includesCollection[s].getAttribute("src"));
 					document.head.appendChild(styleNode);
-					// document.head.insertBefore(styleNode, document.head.firstElementChild);
-					console.log(styleNode);
 					break;
 				case "script":
+					includeScriptCount += 1;
 					let scriptNode = document.createElement("script");
-					// scriptNode.setAttribute("async", "false");
 					scriptNode.setAttribute("src", includesCollection[s].getAttribute("src"));
-					scriptNode.addEventListener("load", () => { console.log("loaded"); }, false);
+					scriptNode.addEventListener("load", __scriptLoaded, false);
 					document.head.appendChild(scriptNode);
-					console.log(scriptNode);
 					break;
 				};
 			};
+			if (includeScriptCount === 0)
+			{
+				callback(refObj);
+			};
 		};
-		this.xml = xml;
-		this.snippets = {};
-		_loadSnippets(this);
-		_loadIncludes(this);
+		FileIo.fetchServerFile(templateUrl, _templateLoaded);
 	};
 
 	generate(owner, snippetName, variables)
@@ -66,14 +82,23 @@ class Dhtml2
 			};
 			return result;
 		};
-		function _addAttributes(node, xmlOrigin, variables)
+		function _addAttributes(owner, node, xmlOrigin, variables)
 		{
 			for (let a = 0; a < xmlOrigin.attributes.length; a += 1)
 			{
-				node.setAttribute(xmlOrigin.attributes[a].name, _resolveVariables(xmlOrigin.attributes[a].value, variables));
+				let attr = xmlOrigin.attributes[a];
+				let rexMatch = /^dht:(on[\w]+)/.exec(attr.name);
+				if (rexMatch !== null)
+				{
+					node[rexMatch[1]] = owner[attr.value];
+				}
+				else
+				{
+					node.setAttribute(attr.name, _resolveVariables(attr.value, variables));
+				};
 			};
 		};
-		function _appendNodes(obj, owner, ref, xml, variables)
+		function _appendNodes(refObj, owner, ref, xml, variables)
 		{
 			for (let c = 0; c < xml.childNodes.length; c += 1)
 			{
@@ -87,12 +112,12 @@ class Dhtml2
 						owner[xmlNode.getAttribute("name")](ref);
 						break;
 					case "dht:insert-snippet":
-						ref.appendChild(obj.generate(owner, xmlNode.getAttribute("name"), variables));
+						ref.appendChild(refObj.generate(owner, xmlNode.getAttribute("name"), variables));
 						break;
 					default:
 						let child = document.createElement(xmlNode.tagName);
-						_addAttributes(child, xmlNode, variables);
-						_appendNodes(obj, owner, child, xml.childNodes[c], variables);
+						_addAttributes(owner, child, xmlNode, variables);
+						_appendNodes(refObj, owner, child, xml.childNodes[c], variables);
 						ref.appendChild(child);
 					};
 					break;
@@ -108,7 +133,7 @@ class Dhtml2
 		let result;
 		let snippet = this.snippets[snippetName];
 		result = document.createElement(snippet.tagName);
-		_addAttributes(result, snippet, variables);
+		_addAttributes(owner, result, snippet, variables);
 		_appendNodes(this, owner, result, snippet, variables);
 		return result;
 	};

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-		<!-- xxx-->
-<dht:template xmlns:dht="dynamic-html-templates" stylesheet="restore.css">
+<dht:template xmlns:dht="dynamic-html-templates">
+	<dht:include type="stylesheet" src="restore.css"/>
+	<dht:include type="script" src="table.js"/>
+	<dht:include type="script" src="dummy.js"/>
 	<dht:snippet name="main">
 		<div>
 			<!-- test -->
