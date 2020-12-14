@@ -1,30 +1,50 @@
 "use strict";
 
-console.log("table.js");
+console.log("lsrestore.js");
 
-let d = new Dhtml2("table.xml", table_main);
+let lsrestorer;
+let d = new Dhtml2("lsrestore.xml", table_main);
 
 function table_main(obj)
 {
 	console.log("table_main()", obj);
-	let restorer = new Restorer();
-	let node = d.generate(restorer, "main");
+	lsrestorer = new Restorer();
+	// let restorer = new Restorer();
+	// let node = d.generate(restorer, "main");
+	let node = d.generate(lsrestorer, "main");
 	document.getElementById("d").appendChild(node);
 };
 
 class Restorer
 {
-	trClick(clickEvent)
+	storageItemClick(clickEvent)
 	{
-		console.log("trClick", clickEvent);
+		console.log("storageItemClick", clickEvent);
 		let pid = clickEvent.target.parentElement.getAttribute("data-id");
 		window.alert(pid);
 	};
 
+	deleteClick(clickEvent)
+	{
+		console.log("deleteClick", clickEvent);
+		clickEvent.stopPropagation();
+		// localStorage
+		// this.listStoredData
+	};
+	
+	closeClick(clickEvent)
+	{
+		console.log("closeClick");
+	};
+	
 	listStoredData(refNode)
 	{
-		console.log("listStoredData()");
+		console.log("listStoredData()", refNode);
 		let storedData = this.getLocalStorageData();
+		while(refNode.firstChild !== null)
+		{
+			refNode.removeChild(refNode.firstChild);
+		};
 		for (let i = 0; i < storedData.length; i += 1)
 		{
 			let data = /^(.*)\[{2}([\d]+);([\d]+)\]{2}$/.exec(storedData[i].title);
@@ -34,7 +54,7 @@ class Restorer
 				"warband-name": data[1],
 				"figure-count": data[2],
 				"points": data[3],
-				"last-modified": storedData[i].date
+				"last-modified": new Date().fromIsoString(storedData[i].date).toIsoFormatText()
 			};
 			refNode.appendChild(d.generate(this, "table-row", variables));
 		};

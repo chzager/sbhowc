@@ -6,7 +6,7 @@
 				<span data-valueof="name">{{name}}</span>
 				<input type="text" maxlength="150" placeholder="{{default-name}}" data-editor="name" data-unitindex="-1"/>
 				<span data-valueof="count">&#32;</span>
-				<input type="number" min="1" max="25" maxlength="2" data-editor="count" data-unitindex="-1"/>
+				<input type="number" min="1" max="25" maxlength="2" data-editor="count" data-unitindex="-1" dht:onchange="editorEvent" />
 			</th>
 			<tr/>
 			<tr>

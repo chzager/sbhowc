@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-		<!-- xxx-->
-<dht:template xmlns:dht="dynamic-html-templates" stylesheet="restore.css">
+<dht:template xmlns:dht="dynamic-html-templates" stylesheet="lsrestore.css">
 	<dht:snippet name="main">
 		<div>
-			<!-- test -->
 			<h1>localStore</h1>
-			<dht:insert-snippet name="table-frame"/>
+			<div id="lsrestore-table-frame">
+				<dht:insert-snippet name="table-frame"/>
+			</div>
+			<div>
+				<input type="button" value="close" dht:onclick="closeClick"/>
+			</div>
 		</div>
 	</dht:snippet>
 	<dht:snippet name="table-frame">
@@ -15,16 +18,22 @@
 				<th>Figure count</th>
 				<th>Points</th>
 				<th>Last modified</th>
+				<th/>
 			</tr>
-			<dht:call-function name="listStoredData"/>
+			<tbody id="lsrestore-tbody">
+				<dht:call-function name="listStoredData"/>
+			</tbody>
 		</table>
 	</dht:snippet>
 	<dht:snippet name="table-row">
-		<tr data-id="{{pid}}" dht:onclick="trClick" >
+		<tr data-id="{{pid}}" dht:onclick="storageItemClick">
 			<td>{{warband-name}}</td>
 			<td>{{figure-count}}</td>
 			<td>{{points}}</td>
 			<td>{{last-modified}}</td>
+			<td>
+				<span dht:onclick="deleteClick" class="delete">&#x2716;</span>
+			</td>
 		</tr>
 	</dht:snippet>
 </dht:template>
