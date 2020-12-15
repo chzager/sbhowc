@@ -2,10 +2,7 @@
 
 class Unit
 {
-	static get QualityCombatCodes()
-	{
-		return "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	};
+	static QualityCombatCodes = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 	constructor()
 	{

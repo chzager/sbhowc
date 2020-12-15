@@ -2,10 +2,7 @@
 
 class WarbandCreator
 {
-	static get UnitClipboardKey()
-	{
-		return "owcUnitClipboard";
-	};
+	static UnitClipboardKey = "owcUnitClipboard";
 	
 	constructor(settings, resources)
 	{

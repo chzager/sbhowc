@@ -59,7 +59,7 @@ function main()
 	let storedData = storage.retrieve(pid);
 	if (typeof storedData !== "undefined")
 	{
-		warbandCode = storedData.data;
+		let warbandCode = storedData.data;
 		console.debug("restored warband", warbandCode);
 		if (warbandCode !== "")
 		{

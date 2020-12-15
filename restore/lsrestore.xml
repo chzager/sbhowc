@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <dht:template xmlns:dht="dynamic-html-templates">
-	<dht:stylesheet src="lsrestore.css" />
-	<dht:script src="lsrestore.js" onloadend="lsrestoreMain" />
-	<dht:script src="dummy.js" />
-	<dht:snippet name="main">
-		<div>
-			<h1>localStore</h1>
-			<div id="lsrestore-table-frame">
-				<dht:insert-snippet name="table-frame"/>
+	<dht:stylesheet src="lsrestore.css"/>
+	<dht:stylesheet src="../bluebox.css"/>
+	<dht:script src="lsrestore.js" x--onloadend="lsrestoreMain"/>
+	<dht:snippet name="lsrestorer">
+		<div id="restorer" class="blue">
+			<h1>Restore warband</h1>
+			<div class="panel">
+				<span>Warbands that are stored in your browser</span>
+				<div class="warning"><b>Warning!</b> This is no way to save your warbands. You may experience <b>full data loss at any time</b> and without predict. The only way to securly save your warbands is via "save to file" to your device.</div>
+				<div id="lsrestore-table-frame">
+					<dht:insert-snippet name="table-frame"/>
+				</div>
+				<p>Click any to restore.</p>
 			</div>
-			<div>
-				<input type="button" value="close" dht:onclick="closeClick"/>
+			<div class="buttons">
+				<input type="button" value="cancel" dht:onclick="closeClick"/>
 			</div>
 		</div>
 	</dht:snippet>

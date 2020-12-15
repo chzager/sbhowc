@@ -17,6 +17,7 @@
 		<script src="lib/location.prototype.js">//</script>
 		<script src="lib/fileio.js">//</script>
 		<script src="lib/dhtml.js">//</script>
+		<script src="lib/pagesnippets.js">//</script>
 
 	</head>
 	
@@ -99,7 +100,7 @@
 		</div>
 		
 		
-		<div id="settingsPanel" class="blue volatile" x--onclick="stopEventHandling(event);">
+		<!-- <div id="settingsPanel" class="blue volatile" x--onclick="stopEventHandling(event);">
 			<h1>Settings</h1>
 			<div class="withFloaters">
 				<p class="label"><span>Rules scope</span></p>
@@ -134,23 +135,9 @@
 			<p style="text-align:right;margin-top:0.5em;">
 				<input type="button" value="ok" onclick="applySettings();"/>
 			</p>
-		</div>
+		</div> -->
 
 
-		<div id="warbandCode" class="blue volatile" x--onclick="stopEventHandling(event);">
-			<h1>Warband code</h1>
-			<div>
-				<p class="label"><span>Your warband is encoded like this</span></p>
-				<p><textarea id="warbandCodeTextarea" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" style="width:100%; max-width:100%; min-width:100%; height:8em; min-height:4em; font-family:monospace;"></textarea>
-				</p>
-				<p>Note that there is no line wrap.</p>
-			</div>
-			<p style="text-align:right; margin-top:0.5em;">
-				<input type="button" value="apply" onclick="applyWarbandCode(document.getElementById('warbandCodeTextarea').value);"/>
-				<input type="button" value="close" onclick="sweepVolatiles();"/>
-			</p>
-		</div>
-		
 		<div id="blur" class="volatile" onclick="sweepVolatiles();" >&nbsp;</div>
 		<div id="printOverlay">&nbsp;</div>
 	
@@ -171,6 +158,7 @@
 		<script src="views/listview.class.js">//</script>
 
 		<script src="sbh-owc.html.js">//</script>
+		<script src="index.js">//</script>
 		<script src="main.js">//</script>
 		<script src="loader.js">//</script>
 	

@@ -2,15 +2,8 @@
 
 class Warband
 {
-	static get CurrentDataVersion()
-	{
-		return "v1";
-	};
-
-	static get UnitSeparator()
-	{
-		return "@";
-	};
+	static CurrentDataVersion = "v1";
+	static UnitSeparator = "@";
 
 	constructor()
 	{

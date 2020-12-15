@@ -2,10 +2,7 @@
 
 class Settings
 {
-	static get StorageKey()
-	{
-		return "owcSettings";
-	};
+	static StorageKey = "owcSettings";
 
 	constructor()
 	{
