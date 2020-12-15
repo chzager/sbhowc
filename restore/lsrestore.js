@@ -2,16 +2,11 @@
 
 console.log("lsrestore.js");
 
-let lsrestorer;
-let d = new Dhtml2("lsrestore.xml", table_main);
-
-function table_main(obj)
+function lsrestoreMain(obj)
 {
-	console.log("table_main()", obj);
-	lsrestorer = new Restorer();
-	// let restorer = new Restorer();
-	// let node = d.generate(restorer, "main");
-	let node = d.generate(lsrestorer, "main");
+	console.log("lsrestoreMain()", obj);
+	let lsrestorer = new Restorer();
+	let node = obj.generate(lsrestorer, "main");
 	document.getElementById("d").appendChild(node);
 };
 
@@ -24,12 +19,12 @@ class Restorer
 		window.alert(pid);
 	};
 
-	deleteClick(clickEvent)
+	deleteClick(clickEvent, origin)
 	{
-		console.log("deleteClick", clickEvent);
+		console.log("deleteClick", clickEvent, origin, origin.constructor.name);
 		clickEvent.stopPropagation();
 		// localStorage
-		// this.listStoredData
+		origin.listStoredData(document.getElementById("lsrestore-tbody"));
 	};
 	
 	closeClick(clickEvent)
@@ -39,7 +34,7 @@ class Restorer
 	
 	listStoredData(refNode)
 	{
-		console.log("listStoredData()", refNode);
+		console.log("listStoredData()", refNode, this, this.constructor.name);
 		let storedData = this.getLocalStorageData();
 		while(refNode.firstChild !== null)
 		{

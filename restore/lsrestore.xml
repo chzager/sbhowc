@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<dht:template xmlns:dht="dynamic-html-templates" stylesheet="lsrestore.css">
+<dht:template xmlns:dht="dynamic-html-templates">
+	<dht:stylesheet src="lsrestore.css" />
+	<dht:script src="lsrestore.js" onloadend="lsrestoreMain" />
+	<dht:script src="dummy.js" />
 	<dht:snippet name="main">
 		<div>
 			<h1>localStore</h1>

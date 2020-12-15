@@ -2,7 +2,9 @@
 
 console.log("index.js");
 
-Dhtml2.includeScript("lsrestore.js");
+let d = new Dhtml2("lsrestore.xml", () => { console.log("Dhlmt callback"); });
+
+// Dhtml2.includeScript("lsrestore.js");
 
 /*
 let ds = "2020-12-10T12:46:15.012Z";

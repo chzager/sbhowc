@@ -21,7 +21,7 @@ table.localStore tr th {
 
 table.localStore tr th {
 	border-bottom: 1px solid grey;
-	background-color: whitesmoke;
+	background: linear-gradient(to bottom, #e5e5e5 70%,#c1c1c1 100%);
 	font-weight: bold;
 	position:  sticky;
 	top: 0px;
