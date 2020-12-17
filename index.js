@@ -1,35 +1,8 @@
 "use strict";
 
-function showWarbandCode()
+function initDidYouKnow()
 {
-	function _showWarbandCode()
-	{
-		Warbandcode.show();
-	};
-	if (document.getElementById("warbandcode") === null)
-	{
-		PageSnippets.import("warbandcode.xml", _showWarbandCode);
-	}
-	else
-	{
-		_showWarbandCode();
-	};
-};
-
-function showSettings()
-{
-	function _showSettings()
-	{
-		SettingsUi.show();
-	};
-	if (document.getElementById("settings") === null)
-	{
-		PageSnippets.import("settings.xml", _showSettings);
-	}
-	else
-	{
-		_showSettings();
-	};
+	didYouKnow.init();
 };
 
 function showBox(domElement, topPosition = null, leftPosition = null, blurPage = false)

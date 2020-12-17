@@ -78,7 +78,7 @@ class Resources
 		{
 			if (this.loadedUrls.includes(urls[u]) === false)
 			{
-				FileIo.fetchServerFile(urls[u], loaderCallback);
+				fileIo.fetchServerFile(urls[u], loaderCallback);
 				anyNewUrls = true;
 			};
 		};

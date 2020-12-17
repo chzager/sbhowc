@@ -9,8 +9,6 @@ let interactiveMode = (window.location.getParam(urlParam.print) !== "1");
 let owc;
 let view;
 
-let didyouknow;
-
 function initResources(resources, settings)
 {
 	function requireResource(key, lang)
@@ -31,15 +29,6 @@ function initResources(resources, settings)
 		};
 	};
 	resources.import(requiredResoures, main);
-};
-
-function initDidYouKnow()
-{
-	FileIo.fetchServerFile("./res/didyouknow.json", (url, data) =>
-	{
-		didyouknow = new DidYouKnow(document.getElementById("didyouknow_text"), data.hints);
-	}
-	);
 };
 
 function initEventListeners()

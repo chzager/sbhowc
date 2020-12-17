@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <dht:template xmlns:dht="dynamic-html-templates">
-	<dht:stylesheet src="lsrestore.css"/>
+	<dht:stylesheet src="restorer.css"/>
 	<dht:stylesheet src="../bluebox.css"/>
-	<dht:script src="lsrestore.js" x--onloadend="lsrestoreMain"/>
-	<dht:snippet name="lsrestorer">
+	<dht:script src="restorer.js" x--onloadend="restorerMain"/>
+	<dht:snippet name="restorerr">
 		<div id="restorer" class="blue">
 			<h1>Restore warband</h1>
 			<div class="panel">
 				<span>Warbands that are stored in your browser</span>
-				<div class="warning"><b>Warning!</b> This is no way to save your warbands. You may experience <b>full data loss at any time</b> and without predict. The only way to securly save your warbands is via "save to file" to your device.</div>
-				<div id="lsrestore-table-frame">
+				<div class="warning"><b>Warning!</b> This is no way to save your warbands. You may experience a <b>full data loss at any time</b> and without predict. The only way to securly save your warbands is via "save to file" to your device.</div>
+				<div id="restorer-table-frame">
 					<dht:insert-snippet name="table-frame"/>
 				</div>
 				<p>Click any to restore.</p>
@@ -28,8 +28,7 @@
 				<th>Last modified</th>
 				<th/>
 			</tr>
-			<tbody id="lsrestore-tbody">
-				<dht:call-function name="listStoredData"/>
+			<tbody id="restorer-tbody">
 			</tbody>
 		</table>
 	</dht:snippet>

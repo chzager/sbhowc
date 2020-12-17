@@ -1,8 +1,8 @@
 "use strict";
 
-let Warbandcode = {};
+var warbandcode = {};
 
-Warbandcode.show = function ()
+warbandcode.show = function ()
 {
 	if (document.getElementById("warbandcode") === null)
 	{
@@ -10,7 +10,7 @@ Warbandcode.show = function ()
 		{
 			"warbandcode": owc.warband.toString()
 		};
-		document.body.appendChild(PageSnippets.produceFromSnippet("warbandcode", Warbandcode, variables));
+		document.body.appendChild(pageSnippets.produceFromSnippet("warbandcode", warbandcode, variables));
 	};
 	showBox(document.getElementById("warbandcode"), String(Math.floor(document.documentElement.scrollTop + document.body.clientHeight / 15)) + "px", null, true);
 	let warbandcodeEditor = document.querySelector("div#warbandcode textarea");
@@ -18,22 +18,22 @@ Warbandcode.show = function ()
 	warbandcodeEditor.select();
 };
 
-Warbandcode.applyClick = function ()
+warbandcode.applyClick = function ()
 {
 	let codeIsValid = false;
-	let lastGoodWarbandCode = owc.warband.toString();
-	let newWarbandCode = document.querySelector("div#warbandcode textarea").value;
-	console.log(newWarbandCode);
-	if (newWarbandCode !== "")
+	let lastGoodwarbandcode = owc.warband.toString();
+	let newwarbandcode = document.querySelector("div#warbandcode textarea").value;
+	console.log(newwarbandcode);
+	if (newwarbandcode !== "")
 	{
 		try
 		{
-			owc.warband.fromString(newWarbandCode, owc.resources);
+			owc.warband.fromString(newwarbandcode, owc.resources);
 			codeIsValid = true;
 		}
 		catch (ex)
 		{
-			console.error("owc.warband.fromString():", ex, newWarbandCode);
+			console.error("owc.warband.fromString():", ex, newwarbandcode);
 		}
 	}
 	if (codeIsValid === true)
@@ -42,14 +42,14 @@ Warbandcode.applyClick = function ()
 	}
 	else
 	{
-		owc.warband.fromString(lastGoodWarbandCode, owc.resources);
+		owc.warband.fromString(lastGoodwarbandcode, owc.resources);
 		window.alert("The warband code you have entered is invalid.");
 	}
 	printWarband();
 	sweepVolatiles();
 };
 
-Warbandcode.closeClick = function ()
+warbandcode.closeClick = function ()
 {
 	sweepVolatiles();
 };

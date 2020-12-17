@@ -7,6 +7,7 @@
 		
 		<link rel="stylesheet" href="sbh-owc-styles.css"/>
 		<link rel="stylesheet" href="menubox.css"/>
+		<link rel="stylesheet" href="didyouknow.css"/>
 		<link rel="stylesheet" href="tooltip.css"/>
 		<link rel="stylesheet" href="views/classic.css"/>
 		<link rel="stylesheet" href="views/listview.css"/>
@@ -15,9 +16,9 @@
 		<script src="lib/date.prototype.js">//</script>
 		<script src="lib/string.prototype.js">//</script>
 		<script src="lib/location.prototype.js">//</script>
-		<script src="lib/fileio.js">//</script>
+		<script src="lib/fileIo.js">//</script>
 		<script src="lib/dhtml.js">//</script>
-		<script src="lib/pagesnippets.js">//</script>
+		<script src="lib/pageSnippets.js">//</script>
 
 	</head>
 	
@@ -47,26 +48,25 @@
 		
 			<div id="top-menu" class="menu noprint" >
 				<div class="centeredViewport">
-					<div class="button" onclick="newWarband(event);">New warband<br/>
+					<div class="button" onclick="topMenu.newWarbandClick(event);">New warband<br/>
 						<div class="tooltip">Opens the <i>Song of Blades and Heroes Online Warband Creator</i> in a new tab or window where you can design a new warband from scratch.</div>
 					</div>
-					<div class="button" onclick="FileIo.requestClientFile(event, warbandFromFile);">Load from file<br/>
+					<div class="button" onclick="topMenu.warbandFromFileClick(event);">Load from file<br/>
 						<div class="tooltip">Load a warband from a file that you have previously stored on your local drive.</div>
-						<!-- <input type="file" accept="text/plain" id="fileUpload" onchange="warbandFromFile(event);" style="display:none; visibility:hidden;" /> -->
 					</div>
-					<div class="button" onclick="warbandToFile();">Save to file<br/>
+					<div class="button" onclick="topMenu.warbandToFileClick(event);">Save to file<br/>
 						<div class="tooltip">Save your warband to a file on your local drive. May not work in all browsers.</div>
 					</div>
-					<div class="button" id="undoButton" onclick="undo();">Undo<br/>
+					<div class="button" id="undoButton" onclick="topMenu.undoClick(event);">Undo<br/>
 						<div class="tooltip">Undo last change.</div>
 					</div>
-					<div class="button" onclick="showWarbandCode();">Show warband code<br/>
+					<div class="button" onclick="topMenu.showWarbandCodeClick(event);">Show warband code<br/>
 						<div class="tooltip">Displays the warband code so you can copy it to a text-file and save it.</div>
 					</div>
-					<div class="button" onclick="printPreview();">Print<br/>
+					<div class="button" onclick="topMenu.printPreviewClick(event);">Print<br/>
 						<div class="tooltip">Shows this page in a printable version, without buttons etc. Pops up a new window.</div>
 					</div>
-					<div class="button" onclick="showSettings();">Settings<br/>
+					<div class="button" onclick="topMenu.showSettingsClick(event);">Settings<br/>
 						<div class="tooltip">Set Settings like rules scope or data language or display mode.</div>
 					</div>
 				</div>
@@ -76,12 +76,12 @@
 				<div id="warbandCanvas">&#160;</div>
 			</section>
 
-			<div id="didyouknow" class="didyouknow noprint">
-				<span class="icon" style="font-size:24pt; margin:6pt; padding-left:10px; padding-right:10px; border:1px solid #a0a0a0; color:#808080; background-color:#ffffd0; border-radius:2px;">i</span>
-				<p style="font-weight:bold;">Did you know..?</p>
-				<p id="didyouknow_text">...You need to have JavaScript enabled to use the <i>Song of Blades and Heroes Online Warband Creator</i>.</p>
-				<p><a href="javascript:didyouknow.printNextHint();">Show another hint</a></p>
-			</div>
+		<div id="didyouknow" class="noprint">
+			<div class="icon">i</div>
+			<h1>Did you know..?</h1>
+			<p id="didyouknow_text">...You need to have JavaScript enabled to use the <i>Song of Blades and Heroes Online Warband Creator</i>.</p>
+			<p id="didyouknow_next" onclick="didYouKnow.printNextHint();">Show another hint</p>
+		</div>
 			
 			<div id="advertisement" class="centeredViewport" style="margin-top:16pt; margin-bottom:16pt;">
 				<p>Song of Blades and Heroes is (c) by Andrea Sfiligoi - Online Warband Creator is (c) by Christoph Zager</p>
@@ -99,53 +99,15 @@
 			</div>
 		</div>
 		
-		
-		<!-- <div id="settingsPanel" class="blue volatile" x--onclick="stopEventHandling(event);">
-			<h1>Settings</h1>
-			<div class="withFloaters">
-				<p class="label"><span>Rules scope</span></p>
-				<div>
-					<p><input type="checkbox" id="rulesScopeSbh" data-settingsgroup="rules_scope" data-settingskey="sbh" disabled="disabled" checked="checked"/><label for="rulesScopeSbh">Song of Blades and Heroes</label></p>
-					<p><input type="checkbox" id="rulesScopeSgd" data-settingsgroup="rules_scope" data-settingskey="sgd"/><label for="rulesScopeSgd">Song of Gold and Darkness</label></p>
-					<p><input type="checkbox" id="rulesScopeSww" data-settingsgroup="rules_scope" data-settingskey="sww"/><label for="rulesScopeSww">Song of Wind and Water</label></p>
-					<p><input type="checkbox" id="rulesScopeSdg" data-settingsgroup="rules_scope" data-settingskey="sdg"/><label for="rulesScopeSdg">Song of Deeds and Glory</label></p>
-				</div>
-				<div>
-					<p><input type="checkbox" id="rulesScopeSam" data-settingsgroup="rules_scope" data-settingskey="sam"/><label for="rulesScopeSam">Song of Arthur and Merlin</label></p>
-				</div>
-			</div>
-			<div>
-				<p class="label"><span>Data language</span></p>
-				<select data-settingsgroup="language">
-					<option value="en">English</option>
-					<option value="de">Deutsch</option>
-				</select>
-			</div>
-			<div>
-				<p class="label"><span>Display</span></p>
-				<p><input type="radio" id="view_mode_classic" data-settingsgroup="view_mode" data-settingskey="classic" name="view_mode" /><label for="view_mode_classic">Classic unit profiles</label></p>
-				<p><input type="radio" id="view_mode_list" data-settingsgroup="view_mode" data-settingskey="list" name="view_mode" /><label for="view_mode_list">Compact list</label></p>
-			</div>
-			<div>
-				<p class="label"><span>Options</span></p>
-				<p><input type="checkbox" id="option_highlightPersonalities" data-settingsgroup="options" data-settingskey="highlightPersonalities" /><label for="option_highlightPersonalities">Highlight personalities</label></p>
-				<p class="suboption"><input type="checkbox" id="option_personalitiesInPoints" data-settingsgroup="options" data-settingskey="personalitiesInPoints" /><label for="option_personalitiesInPoints">Show personalities points instead of percents</label></p>
-				<p><input type="checkbox" id="option_applyRuleChecks" data-settingsgroup="options" data-settingskey="applyRuleChecks" /><label for="option_applyRuleChecks">Apply rule checks</label></p>
-			</div>
-			<p style="text-align:right;margin-top:0.5em;">
-				<input type="button" value="ok" onclick="applySettings();"/>
-			</p>
-		</div> -->
-
-
 		<div id="blur" class="volatile" onclick="sweepVolatiles();" >&nbsp;</div>
 		<div id="printOverlay">&nbsp;</div>
 	
 		<script src="lib/menubox.class.js">//</script>
 		<script src="lib/undoer.class.js">//</script>
-		<script src="lib/didyouknow.class.js">//</script>
 		<script src="lib/storager.class.js">//</script>
 
+		<script src="./src/didyouknow.js">//</script>
+		
 		<script src="settings.class.js">//</script>
 		<script src="resources.class.js">//</script>
 		<script src="unit.class.js">//</script>
@@ -158,6 +120,7 @@
 		<script src="views/listview.class.js">//</script>
 
 		<script src="sbh-owc.html.js">//</script>
+		<script src="topmenu.js">//</script>
 		<script src="index.js">//</script>
 		<script src="main.js">//</script>
 		<script src="loader.js">//</script>

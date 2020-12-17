@@ -1,6 +1,6 @@
 "use strict";
 
-// let d = new PageSnippets("lsrestore.xml", () => { console.log("Dhlmt callback"); });
+// let d = new pageSnippets("restorer.xml", () => { console.log("Dhlmt callback"); });
 
 function showRestorer()
 {
@@ -8,13 +8,16 @@ function showRestorer()
 	{
 		if (document.getElementById('restorer') === null)
 		{
-		document.body.appendChild(PageSnippets.produceFromSnippet("lsrestorer", Restorer));
+			document.body.appendChild(pageSnippets.produceFromSnippet("restorerr", restorer));
+	// let node = pageSnippets.produceFromSnippet("restorerr", restorer);
+	// document.body.appendChild(node);
 		};
+		restorer.listStoredData();
 		showBox(document.getElementById('restorer'), String(Math.floor(document.documentElement.scrollTop + document.body.clientHeight / 15)) + "px", null, true);
 	};
-	if (typeof lsrestoreMain === "undefined")
+	if (typeof restorerMain === "undefined")
 	{
-		PageSnippets.import("lsrestore.xml", _showRestorer);
+		pageSnippets.import("../snippets/restorer.xml", _showRestorer);
 	}
 	else
 	{
@@ -26,19 +29,22 @@ function showWarbandCode()
 {
 	function _showWarbandCode()
 	{
+		if (document.getElementById('warbandcode') === null)
+		{
+			document.body.appendChild(pageSnippets.produceFromSnippet("warbandcode", warbandcode));
+		};
 		showBox(document.getElementById("warbandcode"), String(Math.floor(document.documentElement.scrollTop + document.body.clientHeight / 15)) + "px", null, true);
 		document.querySelector("div#warbandcode textarea").select();
 	};
 	if (document.getElementById("warbandcode") === null)
 	{
-		PageSnippets.import("warbandcode.xml", _showWarbandCode);
+		pageSnippets.import("../snippets/warbandcode.xml", _showWarbandCode);
 	}
 	else
 	{
 		_showWarbandCode();
 	};
 };
-
 
 function showBox(domElement, topPosition = null, leftPosition = null, blurPage = false)
 {

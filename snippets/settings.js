@@ -1,12 +1,12 @@
 "use strict";
 
-let SettingsUi = {};
+var settingsUi = {};
 
-SettingsUi.show = function ()
+settingsUi.show = function ()
 {
 	if (document.getElementById("settings") === null)
 	{
-		document.body.appendChild(PageSnippets.produceFromSnippet("settings"));
+		document.body.appendChild(pageSnippets.produceFromSnippet("settings"));
 	};
 	let settingsPanel = document.getElementById("settings");
 	showBox(settingsPanel, String(Math.floor(document.documentElement.scrollTop + document.body.clientHeight / 15)) + "px", null, true);
