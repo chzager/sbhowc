@@ -11,7 +11,10 @@ class Resources
 
 	import(urls, callback)
 	{
-		function _append(json)
+		let loadedUrls_ = this.loadedUrls;
+		let defaultLanguage_ = this.defaultLanguage;
+		let data_ = this.data;
+		function append(json)
 		{
 			let currentLang = json.lang || defaultLanguage_;
 			let currentScope = json.scope;
@@ -57,33 +60,31 @@ class Resources
 				};
 			};
 		};
-		function _loaderCallback(url, data)
+		function loaderCallback(url, data)
 		{
-			loadedUrls_.push(url);
-			urlsToGo -= 1;
 			if (data !== null)
 			{
-				_append(data);
+				loadedUrls_.push(url);
+				append(data);
 			};
-			if ((urlsToGo === 0) && (typeof callback !== "undefined"))
+			urls.splice(urls.indexOf(url), 1);
+			if ((urls.length === 0) && (typeof callback !== "undefined"))
 			{
 				callback();
 			};
 		};
-		let loadedUrls_ = this.loadedUrls;
-		let defaultLanguage_ = this.defaultLanguage;
-		let data_ = this.data;
-		let urlsToGo = urls.length;
+		let anyNewUrls = false;
 		for (let u = 0; u < urls.length; u += 1)
 		{
 			if (this.loadedUrls.includes(urls[u]) === false)
 			{
-				fileIo.fetchServerFile(urls[u], _loaderCallback);
-			}
-			else
-			{
-				_loaderCallback(urls[u], null);
+				FileIo.fetchServerFile(urls[u], loaderCallback);
+				anyNewUrls = true;
 			};
+		};
+		if (anyNewUrls === false)
+		{
+			callback();
 		};
 	};
 
@@ -100,7 +101,7 @@ class Resources
 		if (typeof resource !== "undefined")
 		{
 			result = resource[toLanguage];
-			if ((typeof result === "undefined") || (result === ""))
+			if (typeof result === "undefined")
 			{
 				console.warn("Language \"" + toLanguage + "\" not defined for resource \"" + resourceId + "\":", resource);
 				result = this.defaultText(resourceId);

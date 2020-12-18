@@ -2,7 +2,10 @@
 
 class Settings
 {
-	static STORAGE_KEY = "owcSettings";
+	static get StorageKey()
+	{
+		return "owcSettings";
+	};
 
 	constructor()
 	{
@@ -42,7 +45,7 @@ class Settings
 	{
 		if (typeof localStorage !== "undefined")
 		{
-			localStorage.setItem(Settings.STORAGE_KEY, JSON.stringify(this.toJson()));
+			localStorage.setItem(Settings.StorageKey, JSON.stringify(this.toJson()));
 		}
 		else
 		{
@@ -54,7 +57,7 @@ class Settings
 	{
 		if (typeof localStorage !== "undefined")
 		{
-			let storedSettings = JSON.parse(localStorage.getItem(Settings.STORAGE_KEY));
+			let storedSettings = JSON.parse(localStorage.getItem(Settings.StorageKey));
 			if (storedSettings !== null)
 			{
 				this.fromJson(storedSettings);

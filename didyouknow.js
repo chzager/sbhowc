@@ -1,36 +1,10 @@
 "use strict";
 
-var didYouKnow = {};
+let didyouknow;
 
-didYouKnow.init = function ()
-{
-	fileIo.fetchServerFile("./res/didyouknow.json", (url, data) =>
-	{
-		didYouKnow.hints = data.hints;
-		didYouKnow.currentHintIndex = -1;
-		didYouKnow.printRandomHint();
-	}
-	);
-};
+FileIo.fetchServerFile("./res/didyouknow.json", initDidYouKnow);
 
-didYouKnow.printRandomHint = function ()
+function initDidYouKnow(url, data)
 {
-	function randomInteger(max)
-	{
-		let result = Number(Math.random());
-		result = Math.floor(result * max);
-		return result;
-	};
-	didYouKnow.currentHintIndex = Number(randomInteger(didYouKnow.hints.length));
-	document.getElementById("didyouknow_text").innerHTML = didYouKnow.hints[didYouKnow.currentHintIndex];
-};
-
-didYouKnow.printNextHint = function ()
-{
-	didYouKnow.currentHintIndex += 1;
-	if (didYouKnow.currentHintIndex >= didYouKnow.hints.length)
-	{
-		didYouKnow.currentHintIndex = 0;
-	};
-	document.getElementById("didyouknow_text").innerHTML = didYouKnow.hints[didYouKnow.currentHintIndex];
+	didyouknow = new DidYouKnow(document.getElementById("didyouknow_text"), data.hints);
 };

@@ -110,7 +110,7 @@ function getRulesCheckResult(warband, resources, settings)
 	let result = [];
 	checkPersonalityPoints(warband, result);
 	checkAnimalPoints(warband, result);
-	// checkExcludes(warband, resources, result);
+	checkExcludes(warband, resources, result);
 	checkSwarmFigures(warband, result);
 	return result;
 };
