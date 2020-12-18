@@ -5,14 +5,14 @@ var topMenu = {};
 topMenu.newWarbandClick = function (clickEvent)
 {
 	let params = {};
-	params[urlParam.pid] = generateNewPid();
+	params[owc.urlParam.pid] = owc.generateNewPid();
 	window.open(window.location.setParams(params, false, false));
 };
 
 topMenu.printPreviewClick = function (clickEvent)
 {
 	let params = {};
-	params[urlParam.print] = "1";
+	params[owc.urlParam.print] = "1";
 	window.open(window.location.setParams(params, true, false));
 };
 
@@ -50,10 +50,10 @@ topMenu.showSettingsClick = function (clickEvent)
 
 topMenu.undoClick = function (clickEvent)
 {
-	if (owc.undoer.canUndo === true)
+	if (editor.undoer.canUndo === true)
 	{
-		owc.warband.fromString(owc.undoer.undo(), owc.resources);
-		printWarband();
+		owc.warband.fromString(editor.undoer.undo(), owc.resources);
+		ui.printWarband();
 	}
 };
 
@@ -65,8 +65,8 @@ topMenu.warbandFromFileClick = function (clickEvent)
 		try
 		{
 			owc.warband.fromString(warbandCode, owc.resources);
-			owc.undoer.clear();
-			printWarband();
+			editor.undoer.clear();
+			ui.printWarband();
 		}
 		catch (ex)
 		{

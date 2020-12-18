@@ -1,13 +1,16 @@
 "use strict";
 
-function restorerMain()
-{
-	let node = pageSnippets.produceFromSnippet("restorerr", restorer);
-	document.body.appendChild(node);
-	restorer.listStoredData();
-};
-
 var restorer = {};
+
+restorer.show = function ()
+{
+	if (document.getElementById("restorer") === null)
+	{
+		document.body.appendChild(pageSnippets.produceFromSnippet("restorer", restorer));
+	};
+	restorer.listStoredData();
+	ui.showBox(document.getElementById("restorer"), String(Math.floor(document.documentElement.scrollTop + document.body.clientHeight / 15)) + "px", null, true);
+};
 
 restorer.storageItemClick = function (clickEvent)
 {
@@ -25,7 +28,7 @@ restorer.deleteClick = function (clickEvent)
 
 restorer.closeClick = function (clickEvent)
 {
-	sweepVolatiles();
+	ui.sweepVolatiles();
 };
 
 restorer.listStoredData = function ()

@@ -6,10 +6,9 @@ settingsUi.show = function ()
 {
 	if (document.getElementById("settings") === null)
 	{
-		document.body.appendChild(pageSnippets.produceFromSnippet("settings"));
+		document.body.appendChild(pageSnippets.produceFromSnippet("settings", settingsUi));
 	};
 	let settingsPanel = document.getElementById("settings");
-	showBox(settingsPanel, String(Math.floor(document.documentElement.scrollTop + document.body.clientHeight / 15)) + "px", null, true);
 	// set checks for rules scope
 	let rulesScopeChecks = settingsPanel.querySelectorAll("input[data-settingsgroup='rules_scope']");
 	for (let i = 0; i < rulesScopeChecks.length; i += 1)
@@ -26,11 +25,12 @@ settingsUi.show = function ()
 	{
 		settingsPanel.querySelector("input[data-settingsgroup='options'][data-settingskey='" + key + "']").checked = owc.settings.options[key];
 	};
+	ui.showBox(settingsPanel, String(Math.floor(document.documentElement.scrollTop + document.body.clientHeight / 15)) + "px", null, true);
 };
 
-function applySettings() /* OK */
+settingsUi.applySettings=function()
 {
-	function settingsFromGui()
+	function _settingsFromGui()
 	{
 		let settingsPanel = document.getElementById("settings");
 		// get checked rules scope
@@ -42,8 +42,8 @@ function applySettings() /* OK */
 			{
 				let val = rulesScopeChecks[i].getAttribute("data-settingskey");
 				owc.settings.ruleScope.push(val);
-			}
-		}
+			};
+		};
 		// get language
 		let languageDropDown = settingsPanel.querySelector("select[data-settingsgroup='language']");
 		owc.settings.language = languageDropDown[languageDropDown.selectedIndex].value;
@@ -55,8 +55,8 @@ function applySettings() /* OK */
 			{
 				owc.settings.viewMode = availibleViewModes[i].getAttribute("data-settingskey");
 				break;
-			}
-		}
+			};
+		};
 		// get options
 		let optionItems = settingsPanel.querySelectorAll("input[data-settingsgroup='options']");
 		for (let i = 0; i < optionItems.length; i += 1)
@@ -65,10 +65,8 @@ function applySettings() /* OK */
 			owc.settings.options[optionsItem.getAttribute("data-settingskey")] = optionsItem.checked;
 		}
 	};
-	settingsFromGui();
+	_settingsFromGui();
+	ui.sweepVolatiles();
 	owc.settings.save();
-	sweepVolatiles();
-	initResources(owc.resources, owc.settings);
-	initView();
-	printWarband();
+	owc.fetchResources();
 };

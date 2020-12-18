@@ -2,13 +2,18 @@
 <dht:template xmlns:dht="dynamic-html-templates">
 	<dht:stylesheet src="restorer.css"/>
 	<dht:stylesheet src="../bluebox.css"/>
-	<dht:script src="restorer.js" x--onloadend="restorerMain"/>
-	<dht:snippet name="restorerr">
+	<dht:script src="restorer.js"/>
+	<dht:snippet name="restorer">
 		<div id="restorer" class="blue">
 			<h1>Restore warband</h1>
 			<div class="panel">
 				<span>Warbands that are stored in your browser</span>
-				<div class="warning"><b>Warning!</b> This is no way to save your warbands. You may experience a <b>full data loss at any time</b> and without predict. The only way to securly save your warbands is via "save to file" to your device.</div>
+				<div class="warning">
+					<b>Warning!</b>
+					This is no way to save your warbands. You may experience a
+					<b>full data loss at any time</b>
+					and without predict. The only way to securly save your warbands is via "save to file" to your device.
+				</div>
 				<div id="restorer-table-frame">
 					<dht:insert-snippet name="table-frame"/>
 				</div>
@@ -28,8 +33,7 @@
 				<th>Last modified</th>
 				<th/>
 			</tr>
-			<tbody id="restorer-tbody">
-			</tbody>
+			<tbody id="restorer-tbody"/>
 		</table>
 	</dht:snippet>
 	<dht:snippet name="table-row">

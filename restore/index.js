@@ -1,21 +1,12 @@
 "use strict";
 
-// let d = new pageSnippets("restorer.xml", () => { console.log("Dhlmt callback"); });
-
 function showRestorer()
 {
 	function _showRestorer()
 	{
-		if (document.getElementById('restorer') === null)
-		{
-			document.body.appendChild(pageSnippets.produceFromSnippet("restorerr", restorer));
-	// let node = pageSnippets.produceFromSnippet("restorerr", restorer);
-	// document.body.appendChild(node);
-		};
-		restorer.listStoredData();
-		showBox(document.getElementById('restorer'), String(Math.floor(document.documentElement.scrollTop + document.body.clientHeight / 15)) + "px", null, true);
+		restorer.show();
 	};
-	if (typeof restorerMain === "undefined")
+	if (document.getElementById("restorer") === null)
 	{
 		pageSnippets.import("../snippets/restorer.xml", _showRestorer);
 	}
