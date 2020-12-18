@@ -2,7 +2,7 @@
 
 class Unit
 {
-	static QualityCombatCodes = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	static VALUE_CODES = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 	constructor()
 	{
@@ -104,7 +104,7 @@ class Unit
 		{
 			result += String.fromCharCode(String("a").charCodeAt(0) + this.count - 1);
 		};
-		result += Unit.QualityCombatCodes[(this.quality - 2) + (this.combat * 5)];
+		result += Unit.VALUE_CODES[(this.quality - 2) + (this.combat * 5)];
 		result += this.name.replace(/[\s*]/g, "+");
 		if (this.specialrules.length > 0)
 		{
@@ -144,7 +144,7 @@ class Unit
 			};
 			let codedName = unitString.substr(offset).match(/^[^*]+/);
 			this.name = (codedName !== null) ? codedName[0].replace("+", " ") : "";
-			let qcCode = Number(Unit.QualityCombatCodes.indexOf(unitString.substr(offset - 1, 1)));
+			let qcCode = Number(Unit.VALUE_CODES.indexOf(unitString.substr(offset - 1, 1)));
 			this.combat = Math.floor(qcCode / 5);
 			this.quality = qcCode - (this.combat * 5) + 2;
 			if (unitString.indexOf("*") > -1)
@@ -171,5 +171,4 @@ class Unit
 			throw "Unknown version \"" + version + "\"";
 		};
 	};
-
 };
