@@ -2,21 +2,13 @@
 
 class Warband
 {
-	static get CurrentDataVersion()
-	{
-		return "v1";
-	};
-
-	static get UnitSeparator()
-	{
-		return "@";
-	};
+	static CURRENT_VERSION = "v1";
+	static UNIT_SEPARATOR = "@";
 
 	constructor()
 	{
 		this.name = "";
 		this.units = [];
-		this.clear();
 	};
 
 	get points()
@@ -51,6 +43,17 @@ class Warband
 		};
 		return result;
 	};
+	
+	get isEmpty()
+	{
+		/* A warband counts as empty as long as no unit has a name or a special rule. (see #17) */
+		let result = true;
+		for (let u = 0; u < this.units.length; u += 1)
+		{
+			result = result && (this.units[u].name === "") && (this.units[u].specialrules.length === 0);
+		};
+		return result;
+	};
 
 	clear()
 	{
@@ -60,8 +63,8 @@ class Warband
 
 	toString()
 	{
-		let result = String(Warband.CurrentDataVersion + this.name);
-		let unitSeparator = Warband.UnitSeparator;
+		let result = String(Warband.CURRENT_VERSION + this.name);
+		let unitSeparator = Warband.UNIT_SEPARATOR;
 		for (let u = 0; u < this.units.length; u += 1)
 		{
 			result += unitSeparator;
@@ -73,7 +76,7 @@ class Warband
 
 	fromString(warbandString, specialrulesProvider)
 	{
-		let unitSeparator = Warband.UnitSeparator;
+		let unitSeparator = Warband.UNIT_SEPARATOR;
 		warbandString = decodeURI(warbandString).trim();
 		if (warbandString.indexOf("v1") === 0)
 		{
@@ -94,5 +97,4 @@ class Warband
 			throw "Can not determinate data version.";
 		};
 	};
-
 };
