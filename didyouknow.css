@@ -1,0 +1,39 @@
+div#didyouknow {
+	margin-top: 3em;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 600px;
+	border: 1px solid #c8c8c8;
+	background-color: #ffffe8;
+	padding: 0.3em;
+	box-shadow: 1px 1px 3px #c0c0c0;
+	}
+div#didyouknow h1 {
+	font-weight: bold;
+	}
+
+div#didyouknow h1,
+div#didyouknow p {
+	font-size: 10pt;
+	margin: 6pt;
+	margin-left: 38pt;
+	}
+
+div#didyouknow .icon {
+	font-size: 24pt;
+	margin: 6pt;
+	padding-left: 10px;
+	padding-right: 10px;
+	border: 1px solid #a0a0a0;
+	color: #808080;
+	background-color: #ffffd0;
+	border-radius: 2px;
+	position: absolute;
+	}
+
+div#didyouknow p#didyouknow_next
+{
+	color: #0000ff;
+	text-decoration: underline;
+	cursor: pointer;
+	}
