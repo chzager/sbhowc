@@ -10,8 +10,6 @@ owc.urlParam =
 };
 owc.TITLE = "Song of Blades and Heroes Online Warband Creator";
 owc.pid = window.location.getParam(owc.urlParam.pid);
-owc.settings = new Settings();
-owc.resources = new Resources();
 owc.warband = null;
 
 owc.init = function ()
@@ -81,10 +79,10 @@ owc.fetchResources = function ()
 	/* require all resources for default language */
 	for (let r = 0; r < requiredKeys.length; r += 1)
 	{
-		requireResource(requiredKeys[r], owc.resources.defaultLanguage);
+		requireResource(requiredKeys[r], owc.resources.DEFAULT_LANGUAGE);
 	};
 	/* eventually require some resources for set language */
-	if (owc.settings.language !== owc.resources.defaultLanguage)
+	if (owc.settings.language !== owc.resources.DEFAULT_LANGUAGE)
 	{
 		requireResource("meta", owc.settings.language);
 		for (let r = 0; r < owc.settings.ruleScope.length; r += 1)
