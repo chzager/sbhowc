@@ -129,7 +129,7 @@ class ListView extends HtmlFormsView
 		let divNode = dhtml.createNode("div", "addunit",
 			{
 				"data-action": "addunit",
-			}, "Add new unit");
+			}, "Add unit");
 		divNode.onclick = this.dispatchEditorEvent;
 		boxNode.appendChild(divNode);
 		cellNode.appendChild(boxNode);

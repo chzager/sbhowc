@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<dht:template xmlns:dht="dynamic-html-templates">
+	<!-- <dht:stylesheet src="./settings.css"/> -->
+	<dht:stylesheet src="../bluebox.css"/>
+	<dht:script src="settings.js"/>
+	<dht:snippet name="settings">
+		<div id="settings" class="blue">
+			<h1>Settings</h1>
+			<div class="panel withFloaters">
+				<span>Rules scope</span>
+				<div>
+					<p>
+						<input type="checkbox" id="rulesScopeSbh" data-settingsgroup="rules_scope" data-settingskey="sbh" disabled="disabled" checked="checked"/>
+						<label for="rulesScopeSbh">Song of Blades and Heroes</label>
+					</p>
+					<p>
+						<input type="checkbox" id="rulesScopeSgd" data-settingsgroup="rules_scope" data-settingskey="sgd"/>
+						<label for="rulesScopeSgd">Song of Gold and Darkness</label>
+					</p>
+					<p>
+						<input type="checkbox" id="rulesScopeSww" data-settingsgroup="rules_scope" data-settingskey="sww"/>
+						<label for="rulesScopeSww">Song of Wind and Water</label>
+					</p>
+					<p>
+						<input type="checkbox" id="rulesScopeSdg" data-settingsgroup="rules_scope" data-settingskey="sdg"/>
+						<label for="rulesScopeSdg">Song of Deeds and Glory</label>
+					</p>
+				</div>
+				<div>
+					<p>
+						<input type="checkbox" id="rulesScopeSam" data-settingsgroup="rules_scope" data-settingskey="sam"/>
+						<label for="rulesScopeSam">Song of Arthur and Merlin</label>
+					</p>
+				</div>
+			</div>
+			<div class="panel">
+					<span>Data language</span>
+				<select data-settingsgroup="language">
+					<option value="en">English</option>
+					<option value="de">Deutsch</option>
+				</select>
+			</div>
+			<div class="panel">
+					<span>Display</span>
+				<p>
+					<input type="radio" id="view_mode_classic" data-settingsgroup="view_mode" data-settingskey="classic" name="view_mode"/>
+					<label for="view_mode_classic">Classic unit profiles</label>
+				</p>
+				<p>
+					<input type="radio" id="view_mode_list" data-settingsgroup="view_mode" data-settingskey="list" name="view_mode"/>
+					<label for="view_mode_list">Compact list</label>
+				</p>
+			</div>
+			<div class="panel">
+					<span>Options</span>
+				<p>
+					<input type="checkbox" id="option_highlightPersonalities" data-settingsgroup="options" data-settingskey="highlightPersonalities"/>
+					<label for="option_highlightPersonalities">Highlight personalities</label>
+				</p>
+				<p class="suboption">
+					<input type="checkbox" id="option_personalitiesInPoints" data-settingsgroup="options" data-settingskey="personalitiesInPoints"/>
+					<label for="option_personalitiesInPoints">Show personalities points instead of percents</label>
+				</p>
+				<p>
+					<input type="checkbox" id="option_applyRuleChecks" data-settingsgroup="options" data-settingskey="applyRuleChecks"/>
+					<label for="option_applyRuleChecks">Apply rule checks</label>
+				</p>
+			</div>
+			<div class="buttons">
+				<input type="button" value="ok" dht:onclick="applySettings"/>
+			</div>
+		</div>
+	</dht:snippet>
+</dht:template>
