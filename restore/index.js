@@ -24,7 +24,7 @@ function showWarbandCode()
 		{
 			document.body.appendChild(pageSnippets.produceFromSnippet("warbandcode", warbandcode));
 		};
-		showBox(document.getElementById("warbandcode"), String(Math.floor(document.documentElement.scrollTop + document.body.clientHeight / 15)) + "px", null, true);
+		ui.showBox(document.getElementById("warbandcode"), String(Math.floor(document.documentElement.scrollTop + document.body.clientHeight / 15)) + "px", null, true);
 		document.querySelector("div#warbandcode textarea").select();
 	};
 	if (document.getElementById("warbandcode") === null)

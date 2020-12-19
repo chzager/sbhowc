@@ -10,9 +10,9 @@ div#blur { position:fixed; top:0px; left:0px; height:100%; width:100%; z-index:9
 		<!-- <link rel="stylesheet" href="../sbh-owc-styles.css"/> -->
 		<!-- <link rel="stylesheet" href="../bluebox.css"/> -->
 
-		<script src="../lib/date.prototype.js">//</script>
-		<script src="../lib/htmlelement.prototype.js">//</script>
-		<script src="../lib/location.prototype.js">//</script>
+		<script src="../lib/proto/date.prototype.js">//</script>
+		<script src="../lib/proto/htmlelement.prototype.js">//</script>
+		<script src="../lib/proto/location.prototype.js">//</script>
 		<script src="../lib/fileIo.js">//</script>
 		<script src="../lib/pageSnippets.js">//</script>
 
@@ -26,6 +26,6 @@ div#blur { position:fixed; top:0px; left:0px; height:100%; width:100%; z-index:9
 	<body>
 		<span onclick="showWarbandCode();">Warband Code</span>
 		<span onclick="showRestorer();">Restorer</span>
-		<div id="blur" class="volatile" onclick="sweepVolatiles();" >&nbsp;</div>
+		<div id="blur" class="volatile" onclick="ui.sweepVolatiles();" >&nbsp;</div>
 	</body>
 </html>
