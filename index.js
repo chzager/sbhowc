@@ -3,6 +3,7 @@
 /* owc.init() returns false if no PID given and page needs to be reloaded */
 if (owc.init() === true)
 {
+	owc.settings.load();
 	owc.fetchResources();
 };
 
