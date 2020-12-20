@@ -3,7 +3,8 @@
 class Unit
 {
 	static VALUE_CODES = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
+	static DEFALUT_TEXT_KEY = "en";
+	
 	constructor()
 	{
 		this.count = 1;
@@ -62,13 +63,13 @@ class Unit
 		return result;
 	};
 
-	addSpecialrule(specialruleKey, resources)
+	addSpecialrule(specialruleKey, specialrulesDictionary)
 	{
 		let result = false;
-		let resource = resources.data[specialruleKey];
+		let resource = specialrulesDictionary[specialruleKey];
 		if (resource !== undefined)
 		{
-			let hasAdditionalText = (resources.defaultText(specialruleKey).indexOf("...") > -1);
+			let hasAdditionalText = (specialrulesDictionary[specialruleKey][Unit.DEFALUT_TEXT_KEY].indexOf("...") > -1);
 			if ((this.hasSpecialrule(specialruleKey) === false) || (hasAdditionalText === true))
 			{
 				let specialrule =
@@ -125,7 +126,7 @@ class Unit
 		return result;
 	};
 
-	fromString(unitString, version, resources)
+	fromString(unitString, version, specialrulesDictionary)
 	{
 		let offset = 0;
 		switch (version)
@@ -154,7 +155,7 @@ class Unit
 				let numberOfSpecialTexts = 0;
 				for (let s = 0; s < unitsSpecialRules.length; s += 1)
 				{
-					this.addSpecialrule(unitsSpecialRules[s], resources);
+					this.addSpecialrule(unitsSpecialRules[s], specialrulesDictionary);
 					let currentSpecialrule = this.specialrules[this.specialrules.length - 1];
 					if (currentSpecialrule.additionalText !== undefined)
 					{

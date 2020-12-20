@@ -52,7 +52,7 @@ topMenu.undoClick = function (clickEvent)
 {
 	if (editor.undoer.canUndo === true)
 	{
-		owc.warband.fromString(editor.undoer.undo(), owc.resources);
+		owc.warband.fromString(editor.undoer.undo(), owc.resources.data);
 		ui.printWarband();
 	}
 };
@@ -64,7 +64,7 @@ topMenu.warbandFromFileClick = function (clickEvent)
 		let warbandCode = fileEvent.target.result;
 		try
 		{
-			owc.warband.fromString(warbandCode, owc.resources);
+			owc.warband.fromString(warbandCode, owc.resources.data);
 			editor.undoer.clear();
 			ui.printWarband();
 		}

@@ -27,7 +27,7 @@ warbandcode.applyClick = function (clickEvent)
 	{
 		try
 		{
-			owc.warband.fromString(newwarbandcode, owc.resources);
+			owc.warband.fromString(newwarbandcode, owc.resources.data);
 			codeIsValid = true;
 		}
 		catch (ex)
@@ -41,7 +41,7 @@ warbandcode.applyClick = function (clickEvent)
 	}
 	else
 	{
-		owc.warband.fromString(lastGoodwarbandcode, owc.resources);
+		owc.warband.fromString(lastGoodwarbandcode, owc.resources.data);
 		window.alert("The warband code you have entered is invalid.");
 	}
 	ui.printWarband();

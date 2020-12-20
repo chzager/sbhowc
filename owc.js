@@ -107,7 +107,7 @@ owc.main = function ()
 		let warbandCode = storedData.data;
 		if (warbandCode !== "")
 		{
-			owc.warband.fromString(warbandCode, owc.resources);
+			owc.warband.fromString(warbandCode, owc.resources.data);
 		};
 	};
 

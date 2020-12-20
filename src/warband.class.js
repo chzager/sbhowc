@@ -46,7 +46,7 @@ class Warband
 	
 	get isEmpty()
 	{
-		/* A warband counts as empty as long as no unit has a name or a special rule. (see #17) */
+		/* A warband counts as empty as long as no unit has a name or a special rule. (see https://github.com/Suppenhuhn79/sbhowc/issues/17) */
 		let result = true;
 		for (let u = 0; u < this.units.length; u += 1)
 		{
@@ -74,7 +74,7 @@ class Warband
 		return encodeURI(result);
 	};
 
-	fromString(warbandString, specialrulesProvider)
+	fromString(warbandString, specialrulesDictionary)
 	{
 		let unitSeparator = Warband.UNIT_SEPARATOR;
 		warbandString = decodeURI(warbandString).trim();
@@ -88,7 +88,7 @@ class Warband
 			while (unitsFind = unitsRegex.exec(warbandString))
 			{
 				let unit = new Unit();
-				unit.fromString(unitsFind[1], "v1", specialrulesProvider);
+				unit.fromString(unitsFind[1], "v1", specialrulesDictionary);
 				this.units.push(unit);
 			};
 		}

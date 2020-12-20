@@ -132,7 +132,7 @@ editor.addUnit = function (unitCode = "")
 	let newUnit = new Unit();
 	if (unitCode !== "")
 	{
-		newUnit.fromString(unitCode, Warband.CURRENT_VERSION, owc.resources);
+		newUnit.fromString(unitCode, Warband.CURRENT_VERSION, owc.resources.data);
 	};
 	editor.setUndoPoint("Add unit");
 	owc.warband.units.push(newUnit);
@@ -142,7 +142,7 @@ editor.duplicateUnit = function (unitIndex)
 {
 	editor.setUndoPoint("Duplicate " + owc.warband.units[unitIndex].name.notEmpty(owc.resources.defaultText("defaultUnitName")));
 	let copiedUnit = new Unit();
-	copiedUnit.fromString(owc.warband.units[unitIndex].toString(), Warband.CURRENT_VERSION, owc.resources);
+	copiedUnit.fromString(owc.warband.units[unitIndex].toString(), Warband.CURRENT_VERSION, owc.resources.data);
 	owc.warband.units.splice(unitIndex, 0, copiedUnit);
 };
 
@@ -223,7 +223,7 @@ editor.addSpecialrule = function (unitIndex, specialruleKey)
 {
 	let nativeText = owc.resources.defaultText(specialruleKey);
 	editor.setUndoPoint("Add \"" + nativeText + "\" special rule to " + owc.warband.units[unitIndex].name.notEmpty(owc.resources.defaultText("defaultUnitName")));
-	if (owc.warband.units[unitIndex].addSpecialrule(specialruleKey, owc.resources) === true)
+	if (owc.warband.units[unitIndex].addSpecialrule(specialruleKey, owc.resources.data) === true)
 	{
 		let specialrule = owc.resources.data[specialruleKey];
 		if (specialrule.replaces !== undefined)
