@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <dht:template xmlns:dht="dynamic-html-templates">
 	<!-- <dht:stylesheet src="./settings.css"/> -->
-	<dht:stylesheet src="../bluebox.css"/>
+	<dht:stylesheet src="../styles/bluebox.css"/>
 	<dht:script src="settings.js"/>
 	<dht:snippet name="settings">
 		<div id="settings" class="blue">

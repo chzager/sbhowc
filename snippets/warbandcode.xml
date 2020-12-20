@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <dht:template xmlns:dht="dynamic-html-templates">
 	<dht:stylesheet src="warbandcode.css"/>
-	<dht:stylesheet src="../bluebox.css"/>
+	<dht:stylesheet src="../styles/bluebox.css"/>
 	<dht:script src="warbandcode.js"/>
 	<dht:snippet name="warbandcode">
 		<div id="warbandcode" class="blue">
