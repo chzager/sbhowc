@@ -6,7 +6,7 @@ ui.volatileSelectors = [".volatile", ".blue"];
 ui.isInteractive = (window.location.getParam(owc.urlParam.print) !== "1");
 ui.visualizer = null;
 
-ui.showBox = function (domElement, topPosition = null, leftPosition = null, blurPage = false)
+ui.showElement = function (domElement, topPosition = null, leftPosition = null, blurPage = false)
 {
 	domElement.style.display = "block";
 	domElement.style.visibility = "visible";
@@ -20,7 +20,7 @@ ui.showBox = function (domElement, topPosition = null, leftPosition = null, blur
 	};
 	if (blurPage === true)
 	{
-		ui.showBox(document.getElementById("blur"));
+		ui.showElement(document.getElementById("blur"));
 	};
 };
 

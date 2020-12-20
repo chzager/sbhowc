@@ -14,7 +14,7 @@ warbandcode.show = function ()
 	};
 	let warbandcodeEditor = document.querySelector("div#warbandcode textarea");
 	warbandcodeEditor.value = owc.warband.toString();
-	ui.showBox(document.getElementById("warbandcode"), String(Math.floor(document.documentElement.scrollTop + document.body.clientHeight / 15)) + "px", null, true);
+	ui.showElement(document.getElementById("warbandcode"), String(Math.floor(document.documentElement.scrollTop + document.body.clientHeight / 15)) + "px", null, true);
 	warbandcodeEditor.select();
 };
 

@@ -9,7 +9,7 @@ restorer.show = function ()
 		document.body.appendChild(pageSnippets.produceFromSnippet("restorer", restorer));
 	};
 	restorer.listStoredData();
-	ui.showBox(document.getElementById("restorer"), String(Math.floor(document.documentElement.scrollTop + document.body.clientHeight / 15)) + "px", null, true);
+	ui.showElement(document.getElementById("restorer"), String(Math.floor(document.documentElement.scrollTop + document.body.clientHeight / 15)) + "px", null, true);
 };
 
 restorer.storageItemClick = function (clickEvent)
