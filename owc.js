@@ -111,8 +111,9 @@ owc.main = function ()
 		};
 	};
 
+	editor.getSpecialrulesList();
 	ui.initView();
-	ui.printWarband();
+	// ui.printWarband();
 
 	if (ui.isInteractive === true)
 	{

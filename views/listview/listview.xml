@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<dht:template xmlns:dht="dynamic-html-templates">
+	<dht:stylesheet src="listview.css"/>
+	<dht:script src="../htmlforms.js"/>
+	<dht:script src="listview.js"/>
+	<dht:snippet name="quality-selector">
+		<select size="1" data-editor="quality">
+			<dht:call-function name="produceQualitySelector"/>
+		</select>
+	</dht:snippet>
+	<dht:snippet name="combat-selector">
+		<select size="1" data-editor="combat">
+			<dht:call-function name="produceCombatSelector"/>
+		</select>
+	</dht:snippet>
+	<dht:snippet name="specialrules-selector">
+		<select size="1" data-action="addspecialrule">
+			<dht:call-function name="produceSpecialrulesSelector"/>
+		</select>
+	</dht:snippet>
+
+	<dht:snippet name="listview">
+		<div class="listview screenfx">
+			<div id="warbandheader" class="interactive">
+				<span data-valueof="warbandname">{{warband-name}}</span>
+				<input type="text" maxlength="150" data-editor="warbandname" placeholder="{{default-warband-name}}" value="{{warband-name}}" dht:onmouseout="dispatchEditorEvent"/>
+			</div>
+			<table id="units">
+				<tr id="unitsheader">
+					<th id="count">{{count}}</th>
+					<th id="name">{{name}}</th>
+					<th id="points">{{points}}</th>
+					<th id="quality">{{quality}}</th>
+					<th id="combat">{{combat}}</th>
+					<th id="specialrules">{{specialrules}}</th>
+				</tr>
+				<dht:call-function name="listUnits"/>
+				<tr class="addunit">
+					<td colspan="6">
+						<div id="additmes-container">
+							<div class="addunit" data-action="addunit" dht:onclick="dispatchEditorEvent">Add unit</div>
+						</div>
+					</td>
+				</tr>
+			</table>
+			<div id="warbandfooter">{{warband-summary}}</div>
+		</div>
+	</dht:snippet>
+	<dht:snippet name="listview-unit-row">
+		<tr class="interactive" data-unitindex="{{unit-index}}">
+			<td>
+				<span data-valueof="count">{{unit-count}}</span>
+				<input type="number" min="1" max="25" maxlength="2" data-editor="count" dht:onchange="dispatchEditorEvent"/>
+			</td>
+			<td>
+				<span data-valueof="name">{{unit-name}}</span>
+				<input type="text" maxlength="150" placeholder="{{default-unit-name}}" data-editor="name" dht:onmouseout="dispatchEditorEvent"/>
+			</td>
+			<td class="points" data-action="showunitmenu">
+				<span data-staticvalueof="points">{{unit-points}}</span>
+			</td>
+			<td class="quality">
+				<span data-valueof="quality">{{unit-quality}}</span>
+				<dht:call-function name="appendQualitySelector"/>
+			</td>
+			<td class="combatscore">
+				<span data-valueof="combat">{{unit-combat}}</span>
+				<dht:call-function name="appendCombatSelector"/>
+			</td>
+			<td>
+				<span data-staticvalueof="specialrules">
+					<!-- <dht:call-function name="listSpecialRules"/> -->
+				</span>
+				<dht:call-function name="appendSpecialrulesSelector"/>
+			</td>
+		</tr>
+	</dht:snippet>
+		<dht:snippet name="specialrule">
+		<span class="specialrule-wrapper">
+			<span class="specialrule interactive" data-action="removespecialrule" data-specialruleindex="{{index}}">
+				<!-- <dht:call-function name="getSpecialRuleHtml"/> -->
+				<div class="tooltip nowrap">{{hint}}</div>
+			</span>
+		</span>
+	</dht:snippet>
+
+</dht:template>

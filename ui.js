@@ -41,27 +41,45 @@ ui.sweepVolatiles = function ()
 
 ui.initView = function ()
 {
-	switch (owc.settings.viewMode)
+	function _importFinished1()
 	{
-	case "list":
-		ui.visualizer = new ListView(owc.settings, owc.resources, document.getElementById("warbandCanvas"));
-		break;
-	default:
-		ui.visualizer = new ClassicView(owc.settings, owc.resources, document.getElementById("warbandCanvas"));
+		console.log("_importFinished1");
+		pageSnippets.import("./views/listview/listview.xml", _importFinished2);
 	};
+	function _importFinished2()
+	{
+		console.log("_importFinished2");
+		ui.visualizer.init();
+		ui.printWarband();
+	};
+	// pageSnippets.import("./views/htmlforms.xml", _importFinished1);
+	pageSnippets.import("./views/listview/listview.xml", _importFinished2);
+	/*
+	switch (owc.settings.viewMode)
+{
+	case "list":
+	ui.visualizer = new ListView(owc.settings, owc.resources, document.getElementById("warbandCanvas"));
+	break;
+	default:
+	ui.visualizer = new ClassicView(owc.settings, owc.resources, document.getElementById("warbandCanvas"));
+	};
+	 */
 };
 
 ui.printUnit = function (unitIndex)
 {
-	ui.visualizer.printUnit(owc.warband.units[unitIndex], unitIndex);
-	ui.visualizer.printWarbandSummary(owc.warband);
+	ui.visualizer.refreshUnit(unitIndex);
+	// ui.visualizer.printWarbandSummary(owc.warband);
 	ui.refreshUndoButton();
 	ui.refreshWindowTitle();
 };
 
 ui.printWarband = function ()
 {
-	ui.visualizer.printWarband(owc.warband, ui.isInteractive);
+	// ui.visualizer.printWarband(owc.warband, ui.isInteractive);
+	let warbandCanvas = document.getElementById("warbandCanvas");
+	warbandCanvas.removeAllChildred();
+	warbandCanvas.appendChild(ui.visualizer.getWarbandHtml(owc.warband, ui.isInteractive));
 	ui.refreshWindowTitle();
 	if (ui.isInteractive === true)
 	{
@@ -74,10 +92,21 @@ ui.printWarband = function ()
 	};
 };
 
+ui.PrintWarbandName = function ()
+{
+	ui.visualizer.printWarbandName();
+	ui.refreshWindowTitle();
+};
+
 ui.refreshWindowTitle = function ()
 {
 	document.title = owc.warband.name.notEmpty(owc.resources.defaultText("defaultWarbandName")) + " (" + owc.warband.points + " " + owc.resources.translate("points", owc.settings.language) + ") - " + owc.TITLE;
 	owc.storeWarband();
+};
+
+ui.translate = function (key, variables)
+{
+	return owc.resources.translate(key, owc.settings.language, variables);
 };
 
 ui.refreshUndoButton = function ()

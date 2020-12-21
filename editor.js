@@ -4,17 +4,16 @@ var editor = {};
 
 editor.UNIT_CLIPBOARD_KEY = "owcUnitClipboard";
 editor.undoer = new Undoer();
+editor.specialrulesList = [];
 
 editor.eventListener = function (editorEvent)
 {
-	// console.log("editorEvent", editorEvent.detail);
-	let unitIndex = Number(editorEvent.detail.unitindex);
+	console.log("editorEvent", editorEvent.detail);
+	let unitIndex = Number(editorEvent.detail.unitIndex);
 	switch (editorEvent.detail.editor)
 	{
 	case "warbandname":
 		editor.setWarbandName(editorEvent.detail.value);
-		ui.visualizer.printWarbandName(owc.warband);
-		ui.refreshWindowTitle();
 		break;
 	case "name":
 		editor.setUnitName(unitIndex, editorEvent.detail.value);
@@ -49,7 +48,8 @@ editor.eventListener = function (editorEvent)
 		editorEvent.detail.originalEvent.target.value = "";
 		break;
 	case "removespecialrule":
-		editor.removeSpecialrule(unitIndex, editorEvent.detail.value);
+		// editor.removeSpecialrule(unitIndex, editorEvent.detail.value);
+		editor.removeSpecialrule(unitIndex, Number(editorEvent.detail.specialruleindex));
 		ui.printUnit(unitIndex);
 		break;
 	case "showunitmenu":
@@ -79,6 +79,51 @@ editor.eventListener = function (editorEvent)
 		ui.printWarband();
 		break;
 	};
+};
+
+editor.getSpecialrulesList = function ()
+{
+	function _compareByText(a, b)
+	{
+		let compareResult = 0;
+		let aCompareValue = a.text.toLowerCase();
+		let bCompareValue = b.text.toLowerCase();
+		if (aCompareValue < bCompareValue)
+		{
+			compareResult = -1;
+		}
+		else if (aCompareValue > bCompareValue)
+		{
+			compareResult = 1;
+		};
+		return compareResult;
+	};
+	function _isSpecialruleInScope(specialruleKey)
+	{
+		let result = owc.settings.ruleScope.includes(owc.resources.data[specialruleKey].scope);
+		return result;
+	};
+	let specialruleCollecion = [];
+	for (let key in owc.resources.data)
+	{
+		let resource = owc.resources.data[key];
+		if (_isSpecialruleInScope(key) === true)
+		{
+			let specialrule = {};
+			specialrule["key"] = key;
+			specialrule["text"] = ui.translate(key);
+			specialruleCollecion.push(specialrule);
+		};
+	};
+	specialruleCollecion.sort(_compareByText);
+	specialruleCollecion.splice(0, 0,
+	{
+		"key": "",
+		"text": ui.translate("addSpecialrule")
+	}
+	);
+	editor.specialrulesList = specialruleCollecion;
+	console.log("editor.specialrulesList", editor.specialrulesList);
 };
 
 editor.refreshPasteUnitButton = function ()
@@ -124,6 +169,8 @@ editor.setWarbandName = function (newName)
 	{
 		editor.setUndoPoint("Rename warband");
 		owc.warband.name = newName;
+		ui.visualizer.refreshWarbandName();
+		ui.refreshWindowTitle();
 	};
 };
 
