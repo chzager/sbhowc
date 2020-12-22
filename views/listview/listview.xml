@@ -5,12 +5,16 @@
 	<dht:script src="listview.js"/>
 	<dht:snippet name="quality-selector">
 		<select size="1" data-editor="quality">
-			<dht:call-function name="produceQualitySelector"/>
+			<dht:for-each list="quality-values">
+				<option value="{{value}}">{{text}}</option>
+			</dht:for-each>
 		</select>
 	</dht:snippet>
 	<dht:snippet name="combat-selector">
 		<select size="1" data-editor="combat">
-			<dht:call-function name="produceCombatSelector"/>
+			<dht:for-each list="combat-values">
+				<option value="{{value}}">{{value}}</option>
+			</dht:for-each>
 		</select>
 	</dht:snippet>
 	<dht:snippet name="specialrules-selector">
@@ -18,11 +22,10 @@
 			<dht:call-function name="produceSpecialrulesSelector"/>
 		</select>
 	</dht:snippet>
-
 	<dht:snippet name="listview">
 		<div class="listview screenfx">
 			<div id="warbandheader" class="interactive">
-				<span data-valueof="warbandname">{{warband-name}}</span>
+				<span data-valueof="warbandname">{{warband-name-notempty}}</span>
 				<input type="text" maxlength="150" data-editor="warbandname" placeholder="{{default-warband-name}}" value="{{warband-name}}" dht:onmouseout="dispatchEditorEvent"/>
 			</div>
 			<table id="units">
@@ -43,45 +46,64 @@
 					</td>
 				</tr>
 			</table>
-			<div id="warbandfooter">{{warband-summary}}</div>
+			<div id="warbandfooter"/>
 		</div>
 	</dht:snippet>
 	<dht:snippet name="listview-unit-row">
 		<tr class="interactive" data-unitindex="{{unit-index}}">
 			<td>
-				<span data-valueof="count">{{unit-count}}</span>
+				<span data-valueof="count"/>
 				<input type="number" min="1" max="25" maxlength="2" data-editor="count" dht:onchange="dispatchEditorEvent"/>
 			</td>
 			<td>
-				<span data-valueof="name">{{unit-name}}</span>
+				<span data-valueof="name"/>
 				<input type="text" maxlength="150" placeholder="{{default-unit-name}}" data-editor="name" dht:onmouseout="dispatchEditorEvent"/>
 			</td>
 			<td class="points" data-action="showunitmenu">
-				<span data-staticvalueof="points">{{unit-points}}</span>
+				<span data-staticvalueof="points"/>
 			</td>
 			<td class="quality">
-				<span data-valueof="quality">{{unit-quality}}</span>
+				<span data-valueof="quality"/>
 				<dht:call-function name="appendQualitySelector"/>
 			</td>
 			<td class="combatscore">
-				<span data-valueof="combat">{{unit-combat}}</span>
+				<span data-valueof="combat"/>
 				<dht:call-function name="appendCombatSelector"/>
 			</td>
 			<td>
-				<span data-staticvalueof="specialrules">
-					<!-- <dht:call-function name="listSpecialRules"/> -->
-				</span>
+				<span data-staticvalueof="specialrules"/>
 				<dht:call-function name="appendSpecialrulesSelector"/>
 			</td>
 		</tr>
 	</dht:snippet>
-		<dht:snippet name="specialrule">
-		<span class="specialrule-wrapper">
-			<span class="specialrule interactive" data-action="removespecialrule" data-specialruleindex="{{index}}">
-				<!-- <dht:call-function name="getSpecialRuleHtml"/> -->
-				<div class="tooltip nowrap">{{hint}}</div>
-			</span>
+	<dht:snippet name="simple-specialrule">
+		<span class="specialrule interactive" data-action="removespecialrule" data-specialruleindex="{{index}}" dht:onclick="dispatchEditorEvent">
+			<span>{{specialrule-text}}</span>
+			<div class="tooltip nowrap">{{hint}}</div>
 		</span>
 	</dht:snippet>
-
+	<dht:snippet name="complex-specialrule">
+		<span class="specialrule interactive" data-action="removespecialrule" data-specialruleindex="{{index}}" dht:onclick="dispatchEditorEvent">
+			<span>{{specialrule-text-before}}</span>
+			<span data-valueof="additionaltext">{{specialrule-additional-text}}</span>
+			<input maxlength="40" value="{{specialrule-additional-text}}" data-editor="specialruletext" data-specialruleindex="{{index}}" data-spaceafter="1em" dht:onmouseout="dispatchEditorEvent"/>
+			<span style="color:red;">{{specialrule-text-after}}</span>
+			<div class="tooltip nowrap">{{hint}}</div>
+		</span>
+	</dht:snippet>
+	<dht:snippet name="warband-summary">
+		<p>{{warband-summary}}</p>
+	</dht:snippet>
+	<dht:snippet name="rulescheck">
+		<div class="rulescheck">
+			<p>
+				<b>{{rules-violations}}</b>
+			</p>
+			<ul class="rulecheck-list">
+				<dht:for-each list="rule-violations">
+					<li>{{text}}</li>
+				</dht:for-each>
+			</ul>
+		</div>
+	</dht:snippet>
 </dht:template>

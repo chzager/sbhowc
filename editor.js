@@ -43,12 +43,13 @@ editor.eventListener = function (editorEvent)
 		ui.printWarband();
 		break;
 	case "addspecialrule":
+		console.group("addspecialrule");
 		editor.addSpecialrule(unitIndex, editorEvent.detail.value);
 		ui.printUnit(unitIndex);
 		editorEvent.detail.originalEvent.target.value = "";
+		console.groupEnd("addspecialrule");
 		break;
 	case "removespecialrule":
-		// editor.removeSpecialrule(unitIndex, editorEvent.detail.value);
 		editor.removeSpecialrule(unitIndex, Number(editorEvent.detail.specialruleindex));
 		ui.printUnit(unitIndex);
 		break;
@@ -116,12 +117,6 @@ editor.getSpecialrulesList = function ()
 		};
 	};
 	specialruleCollecion.sort(_compareByText);
-	specialruleCollecion.splice(0, 0,
-	{
-		"key": "",
-		"text": ui.translate("addSpecialrule")
-	}
-	);
 	editor.specialrulesList = specialruleCollecion;
 	console.log("editor.specialrulesList", editor.specialrulesList);
 };

@@ -174,11 +174,10 @@
 	border-bottom: 0.1em dotted red;
 	}
 
-.listview .rulecheck-header,
-.listview .rulecheck-list {
+.listview .rulescheck {
 	color: red;
 	}
 	
-.listview .rulecheck-list li {
+.listview .rulescheck li {
 	margin-left: 2em;
 	}

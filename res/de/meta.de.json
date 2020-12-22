@@ -15,7 +15,7 @@
 		"addSpecialrule": "Sonderregel hinzufügen",
 		"personalitiesPoints": "{Q} Punkte für Persönlichkeiten",
 		"personalitiesPercent": "{P}% Persönlichkeiten",
-		"ruleViolation": "<b>Regelverletzung:</b>",
+		"ruleViolation": "Regelverletzung:",
 		"personalityPointsViolated": "Höchstens {M} Punkte für Persönlichkeiten erlaubt.",
 		"animalPointsViolated": "Höchstens {M} Punkte für Tiere erlaubt (aktuell: {C}).",
 		"specialRuleMismatch": "{U} kann nicht <i>{A}</i> und <i>{B}</i> gleichzeitig haben.",

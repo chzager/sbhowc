@@ -15,7 +15,7 @@
 		"addSpecialrule": "add special rule",
 		"personalitiesPoints": "{Q} points in personalities",
 		"personalitiesPercent": "{P}% personalities",
-		"ruleViolation": "<b>Rule violation:</b>",
+		"ruleViolation": "Rule violation:",
 		"personalityPointsViolated": "At most {M} points in personalities allowed.",
 		"animalPointsViolated": "At most {M} points for animals allowed (current: {C}).",
 		"specialRuleMismatch": "{U} must not have <i>{A}</i> and <i>{B}</i> at the same time.",

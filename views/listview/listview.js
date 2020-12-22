@@ -2,6 +2,7 @@
 
 var listview = {};
 
+/* TODO: this must be done in a function! */
 ui.visualizer = listview;
 
 listview.init = function ()
@@ -27,8 +28,9 @@ listview.getWarbandHtml = function ()
 		"quality": ui.translate("quality"),
 		"combat": ui.translate("combat"),
 		"specialrules": ui.translate("specialrules"),
+		"warband-name": owc.warband.name,
+		"warband-name-notempty": warbandName,
 		"default-warband-name": ui.translate("defaultWarbandName"),
-		"warband-name": warbandName,
 		"warband-summary": "## TODO ##"
 	};
 	result = pageSnippets.produceFromSnippet("listview", listview, variables);
@@ -64,57 +66,18 @@ listview.getUnitHtml = function (unitIndex)
 		"default-unit-name": ui.translate("defaultUnitName")
 	};
 	result = pageSnippets.produceFromSnippet("listview-unit-row", htmlForm, variables);
-	htmlForm.listSpecialRules(result.querySelector("[data-staticvalueof=\"specialrules\"]"), unitIndex);
-	listview.fillinUnitValues(result);
+	htmlForm.refreshUnit(unitIndex, result);
 	return result;
 };
 
-listview.fillinUnitValues = function (refNode)
+listview.refreshUnit = function (unitIndex, refNode = null)
 {
-	let unitIndex = htmlForm.getUnitIndex(refNode);
-	let unit = owc.warband.units[unitIndex];
-	let unitName = unit.name;
-	refNode.querySelector("[data-valueof=\"name\"]").innerText = unitName.notEmpty(ui.translate("defaultUnitName"));
-	refNode.querySelector("[data-editor=\"name\"]").value = unit.name;
-	if ((unit.isPersonality === true) && (owc.settings.options.highlightPersonalities === true))
-	{
-		refNode.querySelector("[data-valueof=\"name\"]").classList.add("personality");
-	}
-	else
-	{
-		refNode.querySelector("[data-valueof=\"name\"]").classList.remove("personality");
-	};
-	let unitCountText = "&#160;";
-	if (unit.count > 1)
-	{
-		unitCountText = unit.count.toString() + "&#160;x";
-	};
-	refNode.querySelector("[data-valueof=\"count\"]").innerHTML = unitCountText;
-	refNode.querySelector("[data-editor=\"count\"]").value = unit.count;
-	refNode.querySelector("[data-staticvalueof=\"points\"]").innerText = unit.points;
-	refNode.querySelector("[data-valueof=\"quality\"]").innerText = String(unit.quality) + "+";
-	refNode.querySelector("[data-editor=\"quality\"]").value = unit.quality;
-	refNode.querySelector("[data-valueof=\"combat\"]").innerText = unit.combat;
-	refNode.querySelector("[data-editor=\"combat\"]").value = unit.combat;
+	htmlForm.refreshUnit(unitIndex, refNode);
 };
 
-
-listview.refreshUnit = function (unitIndex)
+listview.refreshWarbandSummary = function ()
 {
-	console.log("listview.refreshUnit", unitIndex);
-	listview.fillinUnitValues(document.querySelector("[data-unitindex=\"" + unitIndex + "\"]"));
-};
-
-listview.refreshWarbandName = function ()
-{
-	let warbandName = owc.warband.name;
-	let targetNode = document.getElementById("warbandheader");
-	if (warbandName === "")
-	{
-		warbandName = ui.translate("defaultWarbandName");
-	};
-	targetNode.querySelector("[data-valueof=\"warbandname\"]").innerText = warbandName;
-	targetNode.querySelector("[data-editor=\"warbandname\"]").value = owc.warband.name;
+	htmlForm.refreshWarbandSummary();
 };
 
 listview.dispatchEditorEvent = function (editorEvent)

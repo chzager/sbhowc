@@ -41,19 +41,14 @@ ui.sweepVolatiles = function ()
 
 ui.initView = function ()
 {
-	function _importFinished1()
+	function _importFinished()
 	{
-		console.log("_importFinished1");
-		pageSnippets.import("./views/listview/listview.xml", _importFinished2);
-	};
-	function _importFinished2()
-	{
-		console.log("_importFinished2");
+		console.log("_importFinished");
 		ui.visualizer.init();
 		ui.printWarband();
 	};
 	// pageSnippets.import("./views/htmlforms.xml", _importFinished1);
-	pageSnippets.import("./views/listview/listview.xml", _importFinished2);
+	pageSnippets.import("./views/listview/listview.xml", _importFinished);
 	/*
 	switch (owc.settings.viewMode)
 {
@@ -69,17 +64,22 @@ ui.initView = function ()
 ui.printUnit = function (unitIndex)
 {
 	ui.visualizer.refreshUnit(unitIndex);
-	// ui.visualizer.printWarbandSummary(owc.warband);
+	ui.visualizer.refreshWarbandSummary();
 	ui.refreshUndoButton();
 	ui.refreshWindowTitle();
 };
 
 ui.printWarband = function ()
 {
-	// ui.visualizer.printWarband(owc.warband, ui.isInteractive);
+	let currentScrollPos =
+	{
+		"x": window.scrollX,
+		"y": window.scrollY
+	};
 	let warbandCanvas = document.getElementById("warbandCanvas");
 	warbandCanvas.removeAllChildred();
 	warbandCanvas.appendChild(ui.visualizer.getWarbandHtml(owc.warband, ui.isInteractive));
+	ui.visualizer.refreshWarbandSummary();
 	ui.refreshWindowTitle();
 	if (ui.isInteractive === true)
 	{
@@ -90,11 +90,12 @@ ui.printWarband = function ()
 	{
 		dhtml.removeNodesByQuerySelectors([".noprint", ".tooltip"]);
 	};
+	window.scrollTo(currentScrollPos.x, currentScrollPos.y);
 };
 
-ui.PrintWarbandName = function ()
+ui.refreshWarbandName = function ()
 {
-	ui.visualizer.printWarbandName();
+	ui.visualizer.refreshWarbandName();
 	ui.refreshWindowTitle();
 };
 
