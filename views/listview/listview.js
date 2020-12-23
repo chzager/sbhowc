@@ -9,6 +9,7 @@ listview.init = function ()
 {
 	console.log("listview.init");
 	htmlForm.init();
+	listview.unitMenu = htmlForm.unitMenu;
 };
 
 listview.getWarbandHtml = function ()
@@ -30,23 +31,15 @@ listview.getWarbandHtml = function ()
 		"specialrules": ui.translate("specialrules"),
 		"warband-name": owc.warband.name,
 		"warband-name-notempty": warbandName,
-		"default-warband-name": ui.translate("defaultWarbandName"),
-		"warband-summary": "## TODO ##"
+		"default-warband-name": ui.translate("defaultWarbandName")
 	};
 	result = pageSnippets.produceFromSnippet("listview", listview, variables);
+	if (ui.isInteractive === false)
+	{
+		dhtml.removeNodesByQuerySelectors(["select", "[data-editor]", ".specialruleEditorSeparator", ".addunit"], result);
+		dhtml.removeClasses(["interactive", "screenfx", "out-of-scope"], result);
+	};
 	return result;
-	/*
-	if (interactive === true)
-{
-	htmlNode.classList.add("screenfx");
-	};
-	if (interactive === false)
-{
-	dhtml.removeNodesByQuerySelectors(["select", "[data-editor]", ".specialruleEditorSeparator", ".addunit"], htmlNode);
-	dhtml.removeClasses(["interactive", "screenfx", "out-of-scope"], htmlNode);
-	};
-	this.html.appendChild(htmlNode);
-	 */
 };
 
 listview.listUnits = function (refNode)

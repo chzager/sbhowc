@@ -57,7 +57,7 @@ editor.eventListener = function (editorEvent)
 		ui.visualizer.unitMenu.popup(editorEvent.detail.originalEvent, unitIndex);
 		break;
 	case "duplicate":
-		editor.duplicateUnit(unitIndex, editorEvent.detail.value);
+		editor.duplicateUnit(unitIndex);
 		ui.printWarband();
 		break;
 	case "copy":

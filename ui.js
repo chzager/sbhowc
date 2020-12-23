@@ -47,7 +47,6 @@ ui.initView = function ()
 		ui.visualizer.init();
 		ui.printWarband();
 	};
-	// pageSnippets.import("./views/htmlforms.xml", _importFinished1);
 	pageSnippets.import("./views/listview/listview.xml", _importFinished);
 	/*
 	switch (owc.settings.viewMode)
@@ -78,7 +77,7 @@ ui.printWarband = function ()
 	};
 	let warbandCanvas = document.getElementById("warbandCanvas");
 	warbandCanvas.removeAllChildred();
-	warbandCanvas.appendChild(ui.visualizer.getWarbandHtml(owc.warband, ui.isInteractive));
+	warbandCanvas.appendChild(ui.visualizer.getWarbandHtml());
 	ui.visualizer.refreshWarbandSummary();
 	ui.refreshWindowTitle();
 	if (ui.isInteractive === true)

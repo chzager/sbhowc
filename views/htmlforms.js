@@ -9,7 +9,8 @@ htmlForm.init = function ()
 	let variables =
 	{
 		"quality-values": [],
-		"combat-values": []
+		"combat-values": [],
+		"specialrules-list": []
 	};
 	for (let q = 2; q <= 6; q += 1)
 	{
@@ -28,9 +29,36 @@ htmlForm.init = function ()
 		}
 		);
 	};
+	variables["specialrules-list"].push(
+	{
+		"key": "",
+		"text": ui.translate("addSpecialrule")
+	}
+	);
+	for (let s = 0; s < editor.specialrulesList.length; s += 1)
+	{
+		variables["specialrules-list"].push(
+		{
+			"key": editor.specialrulesList[s].key,
+			"text": editor.specialrulesList[s].text
+		}
+		);
+	};
 	htmlForm.editors.qualitySelector = pageSnippets.produceFromSnippet("quality-selector", htmlForm, variables);
 	htmlForm.editors.combatSelector = pageSnippets.produceFromSnippet("combat-selector", htmlForm, variables);
-	htmlForm.editors.specialrulesSelector = pageSnippets.produceFromSnippet("specialrules-selector", htmlForm);
+	htmlForm.editors.specialrulesSelector = pageSnippets.produceFromSnippet("specialrules-selector", htmlForm, variables);
+
+	htmlForm.unitMenu = new Menubox("unitMenu",
+	{
+		"duplicate": "Duplicate unit",
+		"copy": "Copy unit",
+		"remove": "Remove unit",
+		"x1": null,
+		"moveup": "Move unit up",
+		"movedown": "Move unit down"
+	}
+		);
+	window.addEventListener("menubox", htmlForm.menuboxEventListener);
 };
 
 htmlForm.appendQualitySelector = function (refNode)
@@ -54,18 +82,19 @@ htmlForm.appendSpecialrulesSelector = function (refNode)
 	refNode.appendChild(selectorNode);
 };
 
-htmlForm.produceSpecialrulesSelector = function (refNode)
+htmlForm.menuboxEventListener = function (menuboxEvent)
 {
-	refNode.removeAllChildred();
-	refNode.appendChild(dhtml.createNode("option", "",
-		{}, ui.translate("addSpecialrule")));
-	for (let s = 0; s < editor.specialrulesList.length; s += 1)
+	console.log("htmlForm.menuboxEventListener()", menuboxEvent);
+	let editorEventData =
 	{
-		refNode.appendChild(dhtml.createNode("option", "",
-			{
-				"value": editor.specialrulesList[s].key
-			}, editor.specialrulesList[s].text));
+		"detail":
+		{
+			"action": menuboxEvent.detail.itemKey,
+			"unitIndex": menuboxEvent.detail.context,
+			"originalEvent": menuboxEvent
+		}
 	};
+	window.dispatchEvent(new CustomEvent("editor", editorEventData));
 };
 
 htmlForm.dispatchEditorEvent = function (editorEvent)

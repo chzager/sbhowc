@@ -19,7 +19,9 @@
 	</dht:snippet>
 	<dht:snippet name="specialrules-selector">
 		<select size="1" data-action="addspecialrule">
-			<dht:call-function name="produceSpecialrulesSelector"/>
+			<dht:for-each list="specialrules-list">
+				<option value="{{key}}">{{text}}</option>
+			</dht:for-each>
 		</select>
 	</dht:snippet>
 	<dht:snippet name="listview">
@@ -59,7 +61,7 @@
 				<span data-valueof="name"/>
 				<input type="text" maxlength="150" placeholder="{{default-unit-name}}" data-editor="name" dht:onmouseout="dispatchEditorEvent"/>
 			</td>
-			<td class="points" data-action="showunitmenu">
+			<td class="points" data-action="showunitmenu" dht:onclick="dispatchEditorEvent">
 				<span data-staticvalueof="points"/>
 			</td>
 			<td class="quality">
