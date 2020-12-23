@@ -73,6 +73,23 @@ listview.refreshWarbandSummary = function ()
 	htmlForm.refreshWarbandSummary();
 };
 
+listview.notifyCanPaste = function (unitName, unitCode)
+{
+	let addunitContainer = document.querySelector("#additmes-container");
+	let pasteUnitNode = addunitContainer.querySelector("[data-action=\"pasteunit\"]");
+	if (pasteUnitNode !== null)
+	{
+		pasteUnitNode.remove();
+	};
+	let variables =
+	{
+		"unit-name": unitName,
+		"unit-code": unitCode
+	};
+	pasteUnitNode = pageSnippets.produceFromSnippet("paste-unit", htmlForm, variables);
+	addunitContainer.appendChild(pasteUnitNode);
+};
+
 listview.dispatchEditorEvent = function (editorEvent)
 {
 	htmlForm.dispatchEditorEvent(editorEvent)

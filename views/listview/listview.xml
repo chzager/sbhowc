@@ -108,4 +108,7 @@
 			</ul>
 		</div>
 	</dht:snippet>
+	<dht:snippet name="paste-unit">
+		<div class="addunit" data-action="pasteunit" data-unitcode="{{unit-code}}" dht:onclick="dispatchEditorEvent">Add {{unit-name}}</div>
+	</dht:snippet>
 </dht:template>
