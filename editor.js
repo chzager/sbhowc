@@ -133,9 +133,9 @@ editor.refreshPasteUnitButton = function ()
 			localStorage.removeItem(editor.UNIT_CLIPBOARD_KEY);
 			clipboardData.data = null;
 		};
-		if (ui.visualizer["notifyCanPaste"] !== undefined)
+		if (typeof ui.visualizer.refreshPasteUnitButton === "function")
 		{
-			ui.visualizer.notifyCanPaste(clipboardData.title, clipboardData.data);
+			ui.visualizer.refreshPasteUnitButton(clipboardData.title, clipboardData.data);
 		};
 	};
 };

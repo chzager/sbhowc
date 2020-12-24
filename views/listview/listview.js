@@ -73,7 +73,7 @@ listview.refreshWarbandSummary = function ()
 	htmlForm.refreshWarbandSummary();
 };
 
-listview.notifyCanPaste = function (unitName, unitCode)
+listview.refreshPasteUnitButton = function (unitName, unitCode)
 {
 	let addunitContainer = document.querySelector("#additmes-container");
 	let pasteUnitNode = addunitContainer.querySelector("[data-action=\"pasteunit\"]");
