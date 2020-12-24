@@ -204,7 +204,6 @@ htmlForm.refreshSpecialrules = function (unitIndex, refNode)
 		return result;
 	};
 	console.log("htmlForm.refreshSpecialrules", unitIndex, refNode);
-	// console.trace();
 	refNode.removeAllChildred();
 	let unit = owc.warband.units[unitIndex];
 	for (let s = 0; s < unit.specialrules.length; s += 1)
@@ -244,6 +243,10 @@ htmlForm.refreshSpecialrules = function (unitIndex, refNode)
 		{
 			refNode.appendChild(dhtml.createNode("span", "", {}, ",\u00A0"));
 		};
+	};
+	if (unit.specialrules.length > 0)
+	{
+		refNode.appendChild(dhtml.createNode("span", "specialruleEditorSeparator", {}, ",\u00A0"));
 	};
 };
 

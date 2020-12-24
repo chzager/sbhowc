@@ -161,9 +161,10 @@
 	font-weight: bold;
 	}
 
-.listview table.unit span.specialrule {
+.listview table#units span.specialrule {
 	display: inline-block;
 	}
+	
 .listview table#units .interactive span.specialrule:hover {
 	text-decoration: line-through;
 	color: red;

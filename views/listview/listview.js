@@ -10,6 +10,8 @@ listview.init = function ()
 	console.log("listview.init");
 	htmlForm.init();
 	listview.unitMenu = htmlForm.unitMenu;
+	listview.refreshWarbandName = htmlForm.refreshWarbandName;
+	listview.dispatchEditorEvent = htmlForm.dispatchEditorEvent;
 };
 
 listview.getWarbandHtml = function ()
@@ -31,7 +33,7 @@ listview.getWarbandHtml = function ()
 		"specialrules": ui.translate("specialrules"),
 		"warband-name": owc.warband.name,
 		"warband-name-notempty": warbandName,
-		"default-warband-name": ui.translate("defaultWarbandName")
+		"warband-name-prompt": ui.translate("warbandNamePrompt")
 	};
 	result = pageSnippets.produceFromSnippet("listview", listview, variables);
 	if (ui.isInteractive === false)
@@ -56,7 +58,7 @@ listview.getUnitHtml = function (unitIndex)
 	let variables =
 	{
 		"unit-index": unitIndex,
-		"default-unit-name": ui.translate("defaultUnitName")
+		"unit-name-prompt": ui.translate("unitNamePrompt")
 	};
 	result = pageSnippets.produceFromSnippet("listview-unit-row", htmlForm, variables);
 	htmlForm.refreshUnit(unitIndex, result);
@@ -88,9 +90,4 @@ listview.refreshPasteUnitButton = function (unitName, unitCode)
 	};
 	pasteUnitNode = pageSnippets.produceFromSnippet("paste-unit", htmlForm, variables);
 	addunitContainer.appendChild(pasteUnitNode);
-};
-
-listview.dispatchEditorEvent = function (editorEvent)
-{
-	htmlForm.dispatchEditorEvent(editorEvent)
 };

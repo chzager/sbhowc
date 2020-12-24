@@ -28,7 +28,7 @@
 		<div class="listview screenfx">
 			<div id="warbandheader" class="interactive">
 				<span data-valueof="warbandname">{{warband-name-notempty}}</span>
-				<input type="text" maxlength="150" data-editor="warbandname" placeholder="{{default-warband-name}}" value="{{warband-name}}" dht:onmouseout="dispatchEditorEvent"/>
+				<input type="text" maxlength="150" data-editor="warbandname" placeholder="{{warband-name-prompt}}" value="{{warband-name}}" dht:onmouseout="dispatchEditorEvent"/>
 			</div>
 			<table id="units">
 				<tr id="unitsheader">
@@ -59,7 +59,7 @@
 			</td>
 			<td>
 				<span data-valueof="name"/>
-				<input type="text" maxlength="150" placeholder="{{default-unit-name}}" data-editor="name" dht:onmouseout="dispatchEditorEvent"/>
+				<input type="text" maxlength="150" placeholder="{{unit-name-prompt}}" data-editor="name" dht:onmouseout="dispatchEditorEvent"/>
 			</td>
 			<td class="points" data-action="showunitmenu" dht:onclick="dispatchEditorEvent">
 				<span data-staticvalueof="points"/>
