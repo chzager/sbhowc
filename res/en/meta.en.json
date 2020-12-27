@@ -19,6 +19,6 @@
 		"personalityPointsViolated": "At most {M} points in personalities allowed.",
 		"animalPointsViolated": "At most {M} points for animals allowed (currently: {C}).",
 		"specialRuleMismatch": "{U} must not have <i>{A}</i> and <i>{B}</i> at the same time.",
-		"swarmCountViolated": "A swarm must have at least two figures (bases)."
+		"swarmCountViolated": "A swarm must have at least two units/bases."
 	}
 }

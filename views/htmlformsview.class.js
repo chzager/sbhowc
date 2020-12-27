@@ -294,14 +294,14 @@ class HtmlFormsView extends AbstractView
 		wrapperNode.appendChild(warbandSummaryNode);
 		if (this.settings.options.applyRuleChecks === true)
 		{
-			let rulesCheckResult = getRulesCheckResultAsTexts(warband, this.resources, this.settings);
+			let rulesCheckResult = owc.rulecheck.checkAll();
 			if (rulesCheckResult.length > 0)
 			{
 				let rulesViolationNode = dhtml.createNode("p", "rulecheck-header", {}, this.translate("ruleViolation"));
 				let violationList = dhtml.createNode("ul", "rulecheck-list");
 				for (let v = 0; v < rulesCheckResult.length; v += 1)
 				{
-					violationList.appendChild(dhtml.createNode("li", "", {}, rulesCheckResult[v]));
+					violationList.appendChild(dhtml.createNode("li", "", {}, owc.rulecheck.getText(rulesCheckResult[v])));
 				};
 				wrapperNode.appendChild(rulesViolationNode);
 				wrapperNode.appendChild(violationList);
