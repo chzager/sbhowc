@@ -25,19 +25,16 @@
 		</select>
 	</dht:snippet>
 	<dht:snippet name="listview">
-		<div class="listview screenfx">
-			<div id="warbandheader" class="interactive">
-				<span data-valueof="warbandname">{{warband-name-notempty}}</span>
-				<input type="text" maxlength="150" data-editor="warbandname" placeholder="{{warband-name-prompt}}" value="{{warband-name}}" dht:onmouseout="dispatchEditorEvent"/>
-			</div>
+		<div class="listview screenfx interactive">
+			<div id="warbandheader" data-editor="warbandname" data-defaultvalue="{{default-warband-name}}" dht:postrender="makeEditable">{{warband-name}}</div>
 			<table id="units">
-				<tr id="unitsheader">
-					<th id="count">{{count}}</th>
-					<th id="name">{{name}}</th>
-					<th id="points">{{points}}</th>
-					<th id="quality">{{quality}}</th>
-					<th id="combat">{{combat}}</th>
-					<th id="specialrules">{{specialrules}}</th>
+				<tr class="unitsheader">
+					<th class="count">{{count}}</th>
+					<th class="name">{{name}}</th>
+					<th class="points">{{points}}</th>
+					<th class="quality">{{quality}}</th>
+					<th class="combat">{{combat}}</th>
+					<th class="specialrules">{{specialrules}}</th>
 				</tr>
 				<dht:call-function name="listUnits"/>
 				<tr class="addunit">
@@ -52,60 +49,75 @@
 		</div>
 	</dht:snippet>
 	<dht:snippet name="listview-unit-row">
-		<tr class="interactive" data-unitindex="{{unit-index}}">
-			<td>
+		<tr data-unitindex="{{unit-index}}">
+			<td class="editor">
 				<span data-valueof="count"/>
 				<input type="number" min="1" max="25" maxlength="2" data-editor="count" dht:onchange="dispatchEditorEvent"/>
 			</td>
 			<td>
-				<span data-valueof="name"/>
-				<input type="text" maxlength="150" placeholder="{{unit-name-prompt}}" data-editor="name" dht:onmouseout="dispatchEditorEvent"/>
+				<div data-editor="name" data-defaultvalue="{{default-unit-name}}" dht:postrender="makeEditable"/>
 			</td>
 			<td class="points" data-action="showunitmenu" dht:onclick="dispatchEditorEvent">
 				<span data-staticvalueof="points"/>
 			</td>
-			<td class="quality">
+			<td class="quality editor">
 				<span data-valueof="quality"/>
 				<dht:call-function name="appendQualitySelector"/>
 			</td>
-			<td class="combatscore">
+			<td class="combatscore editor">
 				<span data-valueof="combat"/>
 				<dht:call-function name="appendCombatSelector"/>
 			</td>
-			<td>
+			<td class="specialrules">
 				<span data-staticvalueof="specialrules"/>
 				<dht:call-function name="appendSpecialrulesSelector"/>
 			</td>
 		</tr>
 	</dht:snippet>
-	<dht:snippet name="simple-specialrule">
-		<span class="specialrule interactive" data-action="removespecialrule" data-specialruleindex="{{index}}" dht:onclick="dispatchEditorEvent">
-			<span>{{specialrule-text}}</span>
-			<div class="tooltip nowrap">{{hint}}</div>
-		</span>
-	</dht:snippet>
-	<dht:snippet name="complex-specialrule">
-		<span class="specialrule interactive" data-action="removespecialrule" data-specialruleindex="{{index}}" dht:onclick="dispatchEditorEvent">
-			<span>{{specialrule-text-before}}</span>
-			<span data-valueof="additionaltext">{{specialrule-additional-text}}</span>
-			<input maxlength="40" value="{{specialrule-additional-text}}" data-editor="specialruletext" data-specialruleindex="{{index}}" data-spaceafter="1em" dht:onmouseout="dispatchEditorEvent"/>
-			<span style="color:red;">{{specialrule-text-after}}</span>
-			<div class="tooltip nowrap">{{hint}}</div>
+	<dht:snippet name="specialrule">
+		<span class="specialrule interactive">
+			<span data-specialruleindex="{{index}}">
+				<dht:if test="('{{specialrule-additional-text}}' === '')">
+					<dht:then>
+						<span data-action="removespecialrule" dht:onclick="dispatchEditorEvent">{{specialrule-text}}</span>
+					</dht:then>
+					<dht:else>
+						<span data-action="removespecialrule" dht:onclick="dispatchEditorEvent">{{specialrule-text-before}}</span>
+						<span data-editor="additionaltext" data-defaultvalue="{{default-additional-text}}" dht:postrender="makeEditable">{{specialrule-additional-text}}</span>
+						<span>{{specialrule-text-after}}</span>
+					</dht:else>
+				</dht:if>
+				<div class="tooltip nowrap">{{hint}}</div>
+			</span>
+			<dht:if test="{{index}} &lt; {{specialrules-count}} -1">
+				<dht:then>
+					<span>,&#160;</span>
+				</dht:then>
+			</dht:if>
+			<dht:if test="{{index}} === {{specialrules-count}} -1">
+				<dht:then>
+					<span class="specialruleEditorSeparator">,&#160;</span>
+				</dht:then>
+			</dht:if>
 		</span>
 	</dht:snippet>
 	<dht:snippet name="warband-summary">
-		<p>{{warband-summary}}</p>
-	</dht:snippet>
-	<dht:snippet name="rulescheck">
-		<div class="rulescheck">
-			<p>
-				<b>{{rules-violations}}</b>
-			</p>
-			<ul class="rulecheck-list">
-				<dht:for-each list="rule-violations">
-					<li>{{text}}</li>
-				</dht:for-each>
-			</ul>
+		<div>
+			<p>{{warband-summary}}</p>
+			<dht:if test="{{vioalated-rules-count}} &gt; 0">
+				<dht:then>
+					<div class="rulescheck">
+						<p>
+							<b>{{rules-violations}}</b>
+						</p>
+						<ul class="rulecheck-list">
+							<dht:for-each list="rule-violations">
+								<li>{{text}}</li>
+							</dht:for-each>
+						</ul>
+					</div>
+				</dht:then>
+			</dht:if>
 		</div>
 	</dht:snippet>
 	<dht:snippet name="paste-unit">

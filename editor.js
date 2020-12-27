@@ -10,6 +10,7 @@ editor.eventListener = function (editorEvent)
 {
 	console.log("editorEvent", editorEvent.detail);
 	let unitIndex = Number(editorEvent.detail.unitIndex);
+	let specialruleIndex = Number(editorEvent.detail.specialruleIndex);
 	switch (editorEvent.detail.editor)
 	{
 	case "warbandname":
@@ -24,15 +25,15 @@ editor.eventListener = function (editorEvent)
 		ui.printUnit(unitIndex);
 		break;
 	case "quality":
-		editor.setUnitQuality(unitIndex, editorEvent.detail.value);
+		editor.setUnitQuality(unitIndex, Number(editorEvent.detail.value));
 		ui.printUnit(unitIndex);
 		break;
 	case "combat":
-		editor.setUnitCombatscore(unitIndex, editorEvent.detail.value);
+		editor.setUnitCombatscore(unitIndex, Number(editorEvent.detail.value));
 		ui.printUnit(unitIndex);
 		break;
-	case "specialruletext":
-		editor.setSpecialruleText(unitIndex, editorEvent.detail.specialruleindex, editorEvent.detail.value);
+	case "additionaltext":
+		editor.setSpecialruleText(unitIndex, specialruleIndex, editorEvent.detail.value);
 		ui.printUnit(unitIndex);
 		break;
 	}
@@ -43,14 +44,13 @@ editor.eventListener = function (editorEvent)
 		ui.printWarband();
 		break;
 	case "addspecialrule":
-		console.group("addspecialrule");
 		editor.addSpecialrule(unitIndex, editorEvent.detail.value);
 		ui.printUnit(unitIndex);
+		/* reset the specialrule select */
 		editorEvent.detail.originalEvent.target.value = "";
-		console.groupEnd("addspecialrule");
 		break;
 	case "removespecialrule":
-		editor.removeSpecialrule(unitIndex, Number(editorEvent.detail.specialruleindex));
+		editor.removeSpecialrule(unitIndex, specialruleIndex);
 		ui.printUnit(unitIndex);
 		break;
 	case "showunitmenu":
@@ -99,16 +99,11 @@ editor.getSpecialrulesList = function ()
 		};
 		return compareResult;
 	};
-	function _isSpecialruleInScope(specialruleKey)
-	{
-		let result = owc.settings.ruleScope.includes(owc.resources.data[specialruleKey].scope);
-		return result;
-	};
 	let specialruleCollecion = [];
 	for (let key in owc.resources.data)
 	{
 		let resource = owc.resources.data[key];
-		if (_isSpecialruleInScope(key) === true)
+		if (owc.settings.ruleScope.includes(owc.resources.data[key].scope) === true)
 		{
 			let specialrule = {};
 			specialrule["key"] = key;
@@ -118,7 +113,6 @@ editor.getSpecialrulesList = function ()
 	};
 	specialruleCollecion.sort(_compareByText);
 	editor.specialrulesList = specialruleCollecion;
-	console.log("editor.specialrulesList", editor.specialrulesList);
 };
 
 editor.refreshPasteUnitButton = function ()
