@@ -66,23 +66,23 @@ div#advertisement p { font-size:10pt;  }
 	table.list_view, table.classic_containter { width:100%; }
 }
 
-div.button div.button_menu { position:absolute; visibility:hidden; padding:1pt 2pt; border:1pt solid #ff8e00; border-left:10pt solid #ff561c; background-color:#ffde7e; margin-left:-12pt; cursor:pointer; box-shadow: 1px 1px 3px #95abd7; }
-div.button div.button_menu p { font-family:Arial,sans-serif; font-size:10pt; padding:2pt; border:1px solid #ffde7e; }
-div.button div.button_menu p:hover { background-color:#e0e8f8; border-color:#4080f0; }
-div.button:hover div.button_menu { visibility:visible; }
-
 div#page.blurred { filter:blur(3px); }
-
-/* div#printOverlay { position:fixed; top:0px; left:0px; right:0px; bottom:0px; cursor:not-allowed; } */
-
-/* Required? */
-.inlineBlock { display:inline-block; }
 
 
 /* new */
 
-div#top-menu {
+#top-menu {
 	margin-bottom: 2em;
 	position: sticky;
 	top:0px;
+	}
+
+#top-menu .button.popup {
+	border-left-width: 16pt;
+	}
+#top-menu .button.popup::before {
+	content: "\2630\0020";
+	margin-left: -13pt;
+	margin-right: 5pt;
+	font-size: 80%;
 	}

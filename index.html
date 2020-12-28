@@ -15,6 +15,7 @@
 
 		<script src="lib/proto/array.prototype.js">/**/</script>
 		<script src="lib/proto/date.prototype.js">/**/</script>
+		<script src="lib/proto/htmlelement.prototype.js">/**/</script>
 		<script src="lib/proto/location.prototype.js">/**/</script>
 		<script src="lib/proto/string.prototype.js">/**/</script>
 		<script src="lib/classes/menubox.class.js">/**/</script>
@@ -53,8 +54,7 @@
 		
 			<div id="top-menu" class="menu noprint" >
 				<div class="centeredViewport">
-					<div class="button" onclick="topMenu.newWarbandClick(event);">New warband<br/>
-						<div class="tooltip">Opens the <i>Song of Blades and Heroes Online Warband Creator</i> in a new tab or window where you can design a new warband from scratch.</div>
+					<div class="button popup" onclick="topMenu.warbandMenuClick(event);">Warband menu<br/>
 					</div>
 					<div class="button" onclick="topMenu.warbandFromFileClick(event);">Load from file<br/>
 						<div class="tooltip">Load a warband from a file that you have previously stored on your local drive.</div>
@@ -64,9 +64,6 @@
 					</div>
 					<div class="button" id="undoButton" onclick="topMenu.undoClick(event);">Undo<br/>
 						<div class="tooltip">Undo last change.</div>
-					</div>
-					<div class="button" onclick="topMenu.showWarbandCodeClick(event);">Show warband code<br/>
-						<div class="tooltip">Displays the warband code so you can copy it to a text-file and save it.</div>
 					</div>
 					<div class="button" onclick="topMenu.printPreviewClick(event);">Print<br/>
 						<div class="tooltip">Shows this page in a printable version, without buttons etc. Pops up a new window.</div>

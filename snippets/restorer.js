@@ -15,13 +15,14 @@ restorer.show = function ()
 restorer.storageItemClick = function (clickEvent)
 {
 	let pid = clickEvent.target.parentElement.getAttribute("data-id");
-	window.alert(pid);
+	ui.sweepVolatiles();
+	owc.setPid(pid);
 };
 
 restorer.deleteClick = function (clickEvent)
 {
 	clickEvent.stopPropagation();
-	let pid = clickEvent.target.getParentByTagName("tr").getAttribute("data-id");
+	let pid = clickEvent.target.closest("tr").getAttribute("data-id");
 	localStorage.removeItem(pid);
 	restorer.listStoredData();
 };
@@ -59,7 +60,8 @@ restorer.listStoredData = function ()
 	};
 	let refNode = document.getElementById("restorer-tbody");
 	let storedData = _getLocalStorageData();
-	refNode.removeAllChildred();
+	console.log(refNode);
+	refNode.removeAllChildren();
 	for (let i = 0; i < storedData.length; i += 1)
 	{
 		let data = /^(.*)\[{2}([\d]+);([\d]+)\]{2}$/.exec(storedData[i].title);

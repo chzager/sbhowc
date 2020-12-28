@@ -1,5 +1,5 @@
 
-div#restorer-table-frame {
+#restorer div#restorer-table-frame {
 	display: inline-block;
 	height: 150px;
 	border: 1px solid #808080;
@@ -8,7 +8,7 @@ div#restorer-table-frame {
 	background-color: #ffffff;
 	}
 
-table.localStore {
+#restorer table.localStore {
 	/* font-family: sans-serif; */
 	/* border: 1px solid grey; */
 border-collapse:collapse;
@@ -18,12 +18,12 @@ width: 100%;
 	/* overflow-y: scroll; */
 }
 
-table.localStore tr td,
-table.localStore tr th {
+#restorer table.localStore tr td,
+#restorer table.localStore tr th {
 	padding: 0.2em;
 }
 
-table.localStore tr th {
+#restorer table.localStore tr th {
 	border-bottom: 1px solid #c1c1c1;
 	background: linear-gradient(to bottom, #f2f2f2 70%,#e0e0e0 100%);
 	font-weight: bold;
@@ -32,23 +32,23 @@ table.localStore tr th {
 	padding-right: 1.5em;
 }
 
-table.localStore tr * {
+#restorer table.localStore tr * {
 	text-align: center;
 	}
 
-table.localStore tr[data-id] * {
+#restorer table.localStore tr[data-id] * {
 	cursor: pointer;
 	}
 
-table.localStore tr[data-id] *:first-child {
+#restorer table.localStore tr[data-id] *:first-child {
 	text-align: left;
 }
 
-table.localStore tr[data-id]:hover {
+#restorer table.localStore tr[data-id]:hover {
 	background-color: #e0e8f8;
 }
 
-table.localStore tr[data-id] span.delete {
+#restorer table.localStore tr[data-id] span.delete {
 	font-size: 70%;
 	display: inline-block;
 	background-color: #ff0000;
@@ -60,11 +60,11 @@ table.localStore tr[data-id] span.delete {
 	visibility: hidden;
 }
 
-table.localStore tr[data-id] td:hover span.delete {
+#restorer table.localStore tr[data-id] td:hover span.delete {
 	visibility: visible;
 }
 
-div#restorer div.warning {
+#restorer .warning {
 	border: 2px solid #e10000;
 	background-color: #fcc;
 	padding: 0.3em;

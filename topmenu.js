@@ -2,21 +2,26 @@
 
 var topMenu = {};
 
-topMenu.newWarbandClick = function (clickEvent)
+topMenu.init = function ()
+{
+	topMenu.warbandMenu = new Menubox("warbandMenu",
+	{
+		"newWarband": "New warband",
+		"showWarbandCode": "Show warband code",
+		"restoreWarband": "Restore warband"
+	}
+		);
+	window.addEventListener("menubox", topMenu.onMenuboxEvent);
+};
+
+topMenu.newWarband = function ()
 {
 	let params = {};
 	params[owc.urlParam.pid] = owc.generateNewPid();
 	window.open(window.location.setParams(params, false, false));
 };
 
-topMenu.printPreviewClick = function (clickEvent)
-{
-	let params = {};
-	params[owc.urlParam.print] = "1";
-	window.open(window.location.setParams(params, true, false));
-};
-
-topMenu.showWarbandCodeClick = function (clickEvent)
+topMenu.showWarbandCode = function ()
 {
 	function _showWarbandCode()
 	{
@@ -30,6 +35,29 @@ topMenu.showWarbandCodeClick = function (clickEvent)
 	{
 		_showWarbandCode();
 	};
+};
+
+topMenu.restoreWarband = function ()
+{
+	function _showRestorer()
+	{
+		restorer.show();
+	};
+	if (document.getElementById("restorer") === null)
+	{
+		pageSnippets.import("snippets/restorer.xml", _showRestorer);
+	}
+	else
+	{
+		_showRestorer();
+	};
+};
+
+topMenu.printPreviewClick = function (clickEvent)
+{
+	let params = {};
+	params[owc.urlParam.print] = "1";
+	window.open(window.location.setParams(params, true, false));
 };
 
 topMenu.showSettingsClick = function (clickEvent)
@@ -80,4 +108,27 @@ topMenu.warbandFromFileClick = function (clickEvent)
 topMenu.warbandToFileClick = function (clickEvent)
 {
 	fileIo.offerFileToClient(owc.warband.name.notEmpty(owc.resources.defaultText("defaultWarbandName")) + ".sbh.txt", owc.warband.toString());
+};
+
+topMenu.warbandMenuClick = function (clickEvent)
+{
+	let viewport = clickEvent.target.getBoundingClientRect();
+	clickEvent.stopPropagation();
+	topMenu.warbandMenu.popupAt(Math.floor(viewport.bottom + window.scrollY), Math.floor(viewport.left + window.scrollX));
+};
+
+topMenu.onMenuboxEvent = function (menuboxEvent)
+{
+	switch (menuboxEvent.detail.itemKey)
+	{
+	case "newWarband":
+		topMenu.newWarband();
+		break;
+	case "showWarbandCode":
+		topMenu.showWarbandCode();
+		break;
+	case "restoreWarband":
+		topMenu.restoreWarband();
+		break;
+	};
 };
