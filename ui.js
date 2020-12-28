@@ -47,7 +47,8 @@ ui.initView = function ()
 		ui.visualizer.init();
 		ui.printWarband();
 	};
-	pageSnippets.import("./views/listview/listview.xml", _importFinished);
+	// pageSnippets.import("./views/listview/listview.xml", _importFinished);
+	pageSnippets.import("./views/classicview/classicview.xml", _importFinished);
 	/*
 	switch (owc.settings.viewMode)
 {
