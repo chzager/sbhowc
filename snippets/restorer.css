@@ -1,5 +1,5 @@
 
-#restorer div#restorer-table-frame {
+#restorer #restorer-table-frame {
 	display: inline-block;
 	height: 150px;
 	border: 1px solid #808080;
@@ -9,14 +9,10 @@
 	}
 
 #restorer table.localStore {
-	/* font-family: sans-serif; */
-	/* border: 1px solid grey; */
-border-collapse:collapse;
-border-spacing:0px;
-width: 100%;
-/* height: 200px; */
-	/* overflow-y: scroll; */
-}
+	border-collapse:collapse;
+	border-spacing:0px;
+	width: 100%;
+	}
 
 #restorer table.localStore tr td,
 #restorer table.localStore tr th {
