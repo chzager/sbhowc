@@ -8,8 +8,13 @@
 			<h1>Warband code</h1>
 			<div class="panel">
 				<span>Your warband is encoded like this</span>
+				<p>You can copy this code to a text-file and save your warband, or you can enter a code here to restore a warband.</p>
 				<textarea autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">{{warbandcode}}</textarea>
-				<p>Note that there is no line wrap.</p>
+				<input type="button" value="copy to clipboard" dht:onclick="copyToClipboardClick"/>
+				<span class="copiedNotification">
+					<b>&#x24D8;</b>
+					The code was copied to your system clipboard.
+				</span>
 			</div>
 			<div class="buttons">
 				<input type="button" value="apply" dht:onclick="applyClick"/>

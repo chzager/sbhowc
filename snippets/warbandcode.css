@@ -1,4 +1,4 @@
-div#warbandcode textarea {
+#warbandcode textarea {
 	width: 100%;
 	max-width: 100%;
 	min-width: 100%;
@@ -6,4 +6,27 @@ div#warbandcode textarea {
 	min-height: 4em;
 	font-family: monospace;
 	cursor: text;
+	}
+
+#warbandcode .copiedNotification {
+	border: 2px solid #529b20;
+	background-color: #d2eeca;
+	padding: 0.3em;
+	box-shadow: 0.05em 0.05em 0.2em #00000080;
+	margin: 0.5em 0.2em 0.8em 0.2em;
+	color: #529b20;
+	border-radius: 0.4em;
+	opacity: 0;
+	}
+
+#warbandcode .copiedNotification-visible {
+  animation-name: fadeout;
+  animation-duration: 5s;
+	}
+
+@keyframes fadeout {
+  0%   {opacity: 0;}
+  10%  {opacity: 1;}
+  75%  {opacity: 1;}
+  100% {opacity: 0;}
 	}

@@ -20,7 +20,6 @@ div.blue * {
 	font-size: 10pt;
 	cursor: default;
 	margin: 0px;
-	padding: 0px;
 }
 
 div.blue h1 {
@@ -47,20 +46,6 @@ div.blue div.panel span:first-of-type {
 	width: max-content;
 	}
 
-div.blue div.buttons {
-	margin-left: 0.5em;
-	margin-top: 0.5em;
-	border: none;
-	text-align: right;
-	}
-
-div.blue input[type="button"] {
-	padding: 0.1em 1em;
-	cursor: pointer;
-	margin-right: 0em;
-	margin-left: 0.2em;
-	}
-
 div.blue input,
 div.blue label {
 	cursor: pointer;
@@ -69,6 +54,24 @@ div.blue label {
 
 div.blue label:hover {
 	color: #607080;
+	}
+
+
+div.blue div.buttons input[type="button"] {
+	padding: 0.1em 1em;
+	cursor: pointer;
+	}
+
+div.blue div.buttons {
+	margin-left: 0.5em;
+	margin-top: 0.5em;
+	border: none;
+	text-align: right;
+	}
+
+div.blue div.buttons input[type="button"] {
+	margin-right: 0em;
+	margin-left: 0.2em;
 	}
 
 div.blue div.withFloaters div {
