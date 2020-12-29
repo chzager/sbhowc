@@ -3,9 +3,6 @@
 	font-size: 12pt;
 	}
 
-#warbandCanvas .interactive [data-valueof] {
-	cursor: text;
-}
 #warbandCanvas .interactive [data-editor]:hover,
 #warbandCanvas .interactive *:hover > [data-editor="name"],
 #warbandCanvas .interactive [data-editor]:focus {
