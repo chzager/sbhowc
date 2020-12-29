@@ -106,15 +106,18 @@ ui.translate = function (key, variables)
 
 ui.refreshUndoButton = function ()
 {
-	let undoButton = document.getElementById("undoButton");
-	if (editor.undoer.canUndo === true)
+	if (ui.isInteractive === true)
 	{
-		undoButton.classList.remove("disabled");
-		undoButton.getElementsByClassName("tooltip")[0].innerHTML = "Undo: " + editor.undoer.lastChangeDescription + ".";
-	}
-	else
-	{
-		undoButton.classList.add("disabled");
-		undoButton.getElementsByClassName("tooltip")[0].innerHTML = "Nothing to undo.";
+		let undoButton = document.getElementById("undoButton");
+		if (editor.undoer.canUndo === true)
+		{
+			undoButton.classList.remove("disabled");
+			undoButton.getElementsByClassName("tooltip")[0].innerHTML = "Undo: " + editor.undoer.lastChangeDescription + ".";
+		}
+		else
+		{
+			undoButton.classList.add("disabled");
+			undoButton.getElementsByClassName("tooltip")[0].innerHTML = "Nothing to undo.";
+		};
 	};
 };
