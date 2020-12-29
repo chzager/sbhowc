@@ -9,6 +9,7 @@ editor.specialrulesList = [];
 editor.eventListener = function (editorEvent)
 {
 	console.log("editorEvent", editorEvent.detail);
+	let undoPoints = editor.undoer.snapshots.length;
 	let unitIndex = Number(editorEvent.detail.unitIndex);
 	let specialruleIndex = Number(editorEvent.detail.specialruleIndex);
 	switch (editorEvent.detail.editor)
@@ -80,6 +81,10 @@ editor.eventListener = function (editorEvent)
 		ui.printWarband();
 		break;
 	};
+	if (editor.undoer.snapshots.length !== undoPoints)
+	{
+		owc.storeWarband();
+	};
 };
 
 editor.getSpecialrulesList = function ()
@@ -137,7 +142,6 @@ editor.refreshPasteUnitButton = function ()
 editor.setUndoPoint = function (undoText)
 {
 	editor.undoer.saveSnapshot(owc.warband.toString(), undoText);
-	owc.storeWarband();
 };
 
 editor.newWarband = function ()
