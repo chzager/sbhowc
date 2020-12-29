@@ -260,7 +260,8 @@ htmlForm.refreshWarbandSummary = function ()
 		};
 	};
 	let variables = {
-		"warband-summary": warbandSummaryText
+		"warband-summary": warbandSummaryText,
+		"vioalated-rules-count": null
 	};
 		if (owc.settings.options.applyRuleChecks === true)
 		{
