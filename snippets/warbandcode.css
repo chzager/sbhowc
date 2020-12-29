@@ -17,6 +17,8 @@
 	color: #529b20;
 	border-radius: 0.4em;
 	opacity: 0;
+	display: inline-block;
+	position: absolute;
 	}
 
 #warbandcode .copiedNotification-visible {
