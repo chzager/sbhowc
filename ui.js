@@ -74,7 +74,7 @@ ui.printWarband = function ()
 	warbandCanvas.removeAllChildren();
 	warbandCanvas.appendChild(ui.visualizer.getWarbandHtml());
 	ui.visualizer.refreshWarbandSummary();
-	ui.refreshWindowTitle();
+	ui.refreshWarbandName();
 	if (ui.isInteractive === true)
 	{
 		ui.refreshUndoButton();
@@ -90,6 +90,7 @@ ui.printWarband = function ()
 ui.refreshWarbandName = function ()
 {
 	ui.visualizer.refreshWarbandName();
+	ui.refreshUndoButton();
 	ui.refreshWindowTitle();
 };
 

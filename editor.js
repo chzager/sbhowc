@@ -140,11 +140,6 @@ editor.setUndoPoint = function (undoText)
 	owc.storeWarband();
 };
 
-editor.undo = function ()
-{
-	editor.undoer.undo();
-};
-
 editor.newWarband = function ()
 {
 	owc.warband.clear();
@@ -160,7 +155,7 @@ editor.setWarbandName = function (newName)
 		editor.setUndoPoint("Rename warband");
 		owc.warband.name = newName;
 		ui.visualizer.refreshWarbandName();
-		ui.refreshWindowTitle();
+		ui.refreshWarbandName();
 	};
 };
 
@@ -279,7 +274,7 @@ editor.addSpecialrule = function (unitIndex, specialruleKey)
 	}
 	else
 	{
-		editor.undo();
+		editor.undoer.undo();
 	};
 };
 
