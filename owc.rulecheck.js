@@ -146,6 +146,32 @@ owc.rulecheck.checkExcludes = function ()
 	return result;
 };
 
+owc.rulecheck.checkRabbleSpecialrule = function ()
+{
+	/* check rabble special rule:
+	Rabble models may not be assigned a Quality score better than 4.
+	(SBH revised edition/rules version 5.0, p 34). */
+	let result = [];
+	for (let u = 0; u < owc.warband.units.length; u += 1)
+	{
+		let unit = owc.warband.units[u];
+		if ((unit.hasSpecialrule("ra") === true) && (unit.quality < 4))
+		{
+			let checkResult =
+			{
+				"key": "rabbleSpecialruleViolated",
+				"values":
+				{
+					"U": unit.name.notEmpty(owc.resources.translate("defaultUnitName", owc.settings.language)),
+					"R": owc.resources.translate("ra", owc.settings.language)
+				}
+			};
+			result.push(checkResult);
+		};
+	};
+	return result;
+};
+
 owc.rulecheck.getText = function (ruleViolation)
 {
 	let result = owc.resources.translate(ruleViolation.key, owc.settings.language, ruleViolation.values);

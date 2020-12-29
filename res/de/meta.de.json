@@ -19,6 +19,7 @@
 		"personalityPointsViolated": "Höchstens {M} Punkte für Persönlichkeiten erlaubt.",
 		"animalPointsViolated": "Höchstens {M} Punkte für Tiere erlaubt (aktuell: {C}).",
 		"specialRuleMismatch": "{U} kann nicht \"{A}\" und \"{B}\" gleichzeitig haben.",
-		"swarmCountViolated": "Ein Schwarm muss aus mindestens zwei Einheiten/Basen bestehen."
+		"swarmCountViolated": "Ein Schwarm muss aus mindestens zwei Einheiten/Basen bestehen.",
+		"rabbleSpecialruleViolated": "{U} hat die \"{R}\"-Sonderregel und darf deshalb eine Qualität von höchstens 4+ haben."
 	}
 }
