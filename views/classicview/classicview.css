@@ -1,0 +1,130 @@
+/* units grid (table) */
+
+.classicview #unitsgrid {
+	width: 100%;
+	margin-bottom: 1em;
+	}
+
+.classicview #unitsgrid td.left { width: 50%; vertical-align: top; padding-right: 0.75em; }
+.classicview #unitsgrid td.right { width: 50%; vertical-align: top; padding-left: 0.75em; }
+
+/* units sheet */
+
+.classicview table.unit {
+	border: none;
+	border-collapse: collapse;
+	border-spacing: 0px;
+	table-layout: fixed;
+	width: 100%;
+	max-width: 500px;
+	margin-bottom: 1.5em;
+	cursor: default;
+	}
+.classicview.screenfx table.unit {
+	box-shadow: 0.1em 0.1em 0.3em #0000002f;
+	background: linear-gradient(165deg, #ffffff 75%,#f2f2f2 100%);
+	}
+
+.classicview table.unit th,
+.classicview table.unit td {
+	width: 33%;
+	text-align: left;
+	vertical-align: middle;
+	padding: 0.35em;
+	border: 1px solid black;
+	overflow: auto;
+	}
+
+.classicview table.unit th {
+	width: 100%;
+	background-color: #d8d8d8;
+	font-weight: normal;
+	}
+.classicview.screenfx table.unit th {
+	background: linear-gradient(135deg, #d8d8d8 70%,#c8c8c8 100%);
+	}
+.classicview.screenfx table.unit td[data-action="showunitmenu"] {
+	cursor: pointer;
+	}
+
+.classicview.interactive table.unit td.editor:hover {
+	background-color: #e0e8f8;
+	}
+
+.classicview table.unit [data-editor="name"] {
+	display: inline-block;
+	width: calc(90% - 0.35em);
+	}
+
+.classicview table.unit [data-valueof="count"],
+.classicview table.unit [data-editor="count"] {
+	width: 10%;
+	float: right;
+	text-align: right;
+	}
+
+.classicview table.unit select,
+.classicview table.unit input {
+	border: 1px solid rgba(92, 92, 92, 0.7);
+	border-radius: 0.15em;
+	box-shadow: 0.1em 0.1em 0.5em #00000040;
+	padding: 0px;
+	margin: 0px;
+	display: none;
+	}
+
+.classicview.interactive table.unit td.editor:hover [data-valueof],
+.classicview.interactive table.unit th.editor:hover [data-valueof] {
+	display: none;
+	}
+.classicview.interactive table.unit td.editor:hover select,
+.classicview.interactive table.unit td.editor:hover input,
+.classicview.interactive table.unit th.editor:hover input {
+	display: inline-block;
+	}
+
+.classicview.interactive table.unit [data-action="removespecialrule"]:hover,
+.classicview.interactive table.unit [data-action="removespecialrule"]:hover + span {
+	text-decoration: line-through;
+	color: red;
+	cursor: default;
+	}
+
+.classicview.interactive table.unit [data-editor="additionaltext"]:focus {
+	padding-right: 0.5em;
+	}
+
+.classicview.interactive table.unit .specialruleEditorSeparator {
+	display: none;
+	}
+.classicview.interactive table.unit td:hover .specialruleEditorSeparator {
+	display: inline-block;
+	}
+
+/* add itmes buttons */
+
+.classicview #unitsgrid #additmes-container .addunit {
+	border: 0.15em dashed #bdbdbd;
+	background-color: #f3f3f3;
+	background: linear-gradient(to bottom, #f9f9f9 50%,#efefef 100%);
+	font-family: sans-serif;
+	font-size: smaller;
+	text-align: center;
+	padding: 1.5em;
+	border-radius: 1em;
+	color: #bdbdbd;
+	cursor: pointer;
+	}
+	
+.classicview #unitsgrid #additmes-container .addunit:hover {
+	background: linear-gradient(to bottom, #f3f7fe 50%,#dce3f2 100%);
+	border-color: #8295bd;
+	color: #8295bd;
+	}
+	
+.classicview #unitsgrid #additmes-container .addunit + .addunit {
+	padding-top: 0.3em;
+	padding-bottom: 0.3em;
+	margin-top: 0.5em;
+	border-radius: 0.75em;
+	}

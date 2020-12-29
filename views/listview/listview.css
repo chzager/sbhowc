@@ -1,0 +1,146 @@
+/* units table */
+
+.listview #units {
+	border-collapse: collapse;
+	border-spacing: 0px;
+	margin-bottom: 1em;
+	width: 100%;
+	}
+.listview.screenfx #units {
+	background: linear-gradient(10deg, #ffffff 65%,#f2f2f2 100%);
+	}
+
+.listview #units tr {
+	border-top: 1px solid #b0b8c0;
+	border-bottom: 1px solid #b0b8c0;
+	}
+
+.listview #units th,
+.listview #units td {
+	padding: 0.5em 0.2em;
+	}
+
+/* units header */
+
+.listview #units td.points,
+.listview #units td.quality,
+.listview #units td.combatscore {
+	text-align: center;
+	}
+
+.listview #units td.points {
+	cursor: pointer;
+	}
+
+.listview #units tr.unitsheader {
+	background-color: #d8d8d8;
+	font-weight: bold;
+	}
+.listview.screenfx #units tr.unitsheader {
+	background: linear-gradient(135deg, #d8d8d8 60%, #b8b8b8 100%);
+	}
+
+.listview #units tr.unitsheader th.count { width: 7%; }
+.listview #units tr.unitsheader th.name { width: 32%; }
+.listview #units tr.unitsheader th.points { width: 8%; }
+.listview #units tr.unitsheader th.quality { width: 8%; }
+.listview #units tr.unitsheader th.combat { width: 8%; }
+.listview #units tr.unitsheader th.specialrules { width: 37%; }
+
+.listview.interactive #units tr:hover {
+	background-color: #e0e8f8;
+	}
+
+/* unit rows */
+
+.listview #units [data-valueof="count"] {
+	text-align: right;
+	display: inline-block;
+	width: 100%;
+	}
+.listview #units input[data-editor="count"] {
+	text-align: right;
+	width: 100%;
+	}
+
+.listview #units input,
+.listview #units select {
+	border: 1px solid rgba(92, 92, 92, 0.7);
+	border-radius: 0.15em;
+	box-shadow: 0.1em 0.1em 0.5em #00000040;
+	padding: 0px;
+	margin: 0px;
+	display: none;
+	}
+.listview.interactive #units td.editor:hover [data-valueof] {
+	display: none;
+	}
+.listview.interactive #units td.editor:hover select,
+.listview.interactive #units td.editor:hover input {
+	display: inline-block;
+	}
+
+/* Special rules */
+
+.listview.interactive [data-editor="additionaltext"]:focus {
+	padding-right: 0.5em;
+}
+
+.listview.interactive #units td.specialrules:hover select[data-action="addspecialrule"],
+.listview.interactive #units td.specialrules:hover .specialruleEditorSeparator {
+	display: initial;
+	}
+
+.listview.interactive #units [data-action="removespecialrule"]:hover,
+.listview.interactive #units [data-action="removespecialrule"]:hover + span {
+	text-decoration: line-through;
+	color: red;
+	cursor: default;
+	}
+
+.listview.interactive #units .specialruleEditorSeparator {
+	display: none;
+	}
+.listview.interactive #units td:hover .specialruleEditorSeparator {
+	display: inline-block;
+	}
+
+/* add itmes buttons */
+
+.listview #additmes-container .addunit {
+	border: 0.15em dashed #bdbdbd;
+	background-color: #f3f3f3;
+	background: linear-gradient(to bottom, #f9f9f9 50%,#efefef 100%);
+	font-family: sans-serif;
+	font-size: smaller;
+	text-align: center;
+	padding: 0.2em 1.5em;
+	border-radius: 0.5em;
+	color: #bdbdbd;
+	cursor: pointer;
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	}
+	
+.listview #additmes-container .addunit:hover {
+	background: linear-gradient(to bottom, #f3f7fe 50%,#dce3f2 100%);
+	border-color: #8295bd;
+	color: #8295bd;
+	}
+
+.listview #units tr.addunit {
+	border-bottom: none;
+	}
+.listview #units tr.addunit:hover {
+	background-color: initial;
+}
+
+.listview #units #additmes-container {
+	display: flex;
+	padding: 0px 12%;
+	}
+	
+.listview #units #additmes-container div.addunit + div.addunit {
+	margin-left: 1em;
+	}

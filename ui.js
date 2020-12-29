@@ -41,27 +41,39 @@ ui.sweepVolatiles = function ()
 
 ui.initView = function ()
 {
-	switch (owc.settings.viewMode)
+	if (ui.visualizer !== null)
 	{
-	case "list":
-		ui.visualizer = new ListView(owc.settings, owc.resources, document.getElementById("warbandCanvas"));
-		break;
-	default:
-		ui.visualizer = new ClassicView(owc.settings, owc.resources, document.getElementById("warbandCanvas"));
+		ui.visualizer.unload();
 	};
+	let viewFullName = owc.settings.viewMode + "view";
+	pageSnippets.import("./views/" + viewFullName + "/" + viewFullName + ".xml", () =>
+	{
+		ui.visualizer = window[viewFullName];
+		ui.visualizer.init();
+		ui.printWarband();
+	}
+	);
 };
 
 ui.printUnit = function (unitIndex)
 {
-	ui.visualizer.printUnit(owc.warband.units[unitIndex], unitIndex);
-	ui.visualizer.printWarbandSummary(owc.warband);
+	ui.visualizer.refreshUnit(unitIndex);
+	ui.visualizer.refreshWarbandSummary();
 	ui.refreshUndoButton();
 	ui.refreshWindowTitle();
 };
 
 ui.printWarband = function ()
 {
-	ui.visualizer.printWarband(owc.warband, ui.isInteractive);
+	let currentScrollPos =
+	{
+		"x": window.scrollX,
+		"y": window.scrollY
+	};
+	let warbandCanvas = document.getElementById("warbandCanvas");
+	warbandCanvas.removeAllChildred();
+	warbandCanvas.appendChild(ui.visualizer.getWarbandHtml());
+	ui.visualizer.refreshWarbandSummary();
 	ui.refreshWindowTitle();
 	if (ui.isInteractive === true)
 	{
@@ -72,12 +84,24 @@ ui.printWarband = function ()
 	{
 		dhtml.removeNodesByQuerySelectors([".noprint", ".tooltip"]);
 	};
+	window.scrollTo(currentScrollPos.x, currentScrollPos.y);
+};
+
+ui.refreshWarbandName = function ()
+{
+	ui.visualizer.refreshWarbandName();
+	ui.refreshWindowTitle();
 };
 
 ui.refreshWindowTitle = function ()
 {
 	document.title = owc.warband.name.notEmpty(owc.resources.defaultText("defaultWarbandName")) + " (" + owc.warband.points + " " + owc.resources.translate("points", owc.settings.language) + ") - " + owc.TITLE;
 	owc.storeWarband();
+};
+
+ui.translate = function (key, variables)
+{
+	return owc.resources.translate(key, owc.settings.language, variables);
 };
 
 ui.refreshUndoButton = function ()

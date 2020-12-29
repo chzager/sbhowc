@@ -13,7 +13,6 @@ function initEventListeners()
 	window.addEventListener("resize", windowEventListener);
 	window.addEventListener("focus", onWindowFocus);
 	window.addEventListener("editor", editor.eventListener);
-	window.addEventListener("menubox", windowEventListener);
 };
 
 function windowEventListener(windowEvent)

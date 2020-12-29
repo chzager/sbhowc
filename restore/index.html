@@ -16,15 +16,23 @@ div#blur { position:fixed; top:0px; left:0px; height:100%; width:100%; z-index:9
 		<script src="../lib/fileIo.js">//</script>
 		<script src="../lib/pageSnippets.js">//</script>
 
-		<script src="../settings.class.js">//</script>
-		<script src="../resources.class.js">//</script>
-		<script src="../owc.js">//</script>
+		<script src="../src/unit.class.js">//</script>
+		<script src="../src/warband.class.js">//</script>
+
+		<script src="../storager.js">//</script>
+		<script src="../didyouknow.js">//</script>
+		<script src="../owc.js" defer="defer">//</script>
+		<script src="../owc.settings.js" defer="defer">//</script>
+		<script src="../owc.resources.js" defer="defer">//</script>
 		<script src="../ui.js">//</script>
+		<script src="../editor.js">//</script>
+		<script src="../topmenu.js">//</script>
+		<script src="../index.js" defer="defer">//</script>
 		
-		<script src="index.js">//</script>
+		<script src="index.js" defer="defer">//</script>
 	</head>
 	<body>
-		<span onclick="showWarbandCode();">Warband Code</span>
+		<span onclick="topMenu.showWarbandCodeClick(event);">Warband Code</span>
 		<span onclick="showRestorer();">Restorer</span>
 		<div id="blur" class="volatile" onclick="ui.sweepVolatiles();" >&nbsp;</div>
 	</body>

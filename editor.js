@@ -4,17 +4,17 @@ var editor = {};
 
 editor.UNIT_CLIPBOARD_KEY = "owcUnitClipboard";
 editor.undoer = new Undoer();
+editor.specialrulesList = [];
 
 editor.eventListener = function (editorEvent)
 {
-	// console.log("editorEvent", editorEvent.detail);
-	let unitIndex = Number(editorEvent.detail.unitindex);
+	console.log("editorEvent", editorEvent.detail);
+	let unitIndex = Number(editorEvent.detail.unitIndex);
+	let specialruleIndex = Number(editorEvent.detail.specialruleIndex);
 	switch (editorEvent.detail.editor)
 	{
 	case "warbandname":
 		editor.setWarbandName(editorEvent.detail.value);
-		ui.visualizer.printWarbandName(owc.warband);
-		ui.refreshWindowTitle();
 		break;
 	case "name":
 		editor.setUnitName(unitIndex, editorEvent.detail.value);
@@ -25,15 +25,15 @@ editor.eventListener = function (editorEvent)
 		ui.printUnit(unitIndex);
 		break;
 	case "quality":
-		editor.setUnitQuality(unitIndex, editorEvent.detail.value);
+		editor.setUnitQuality(unitIndex, Number(editorEvent.detail.value));
 		ui.printUnit(unitIndex);
 		break;
 	case "combat":
-		editor.setUnitCombatscore(unitIndex, editorEvent.detail.value);
+		editor.setUnitCombatscore(unitIndex, Number(editorEvent.detail.value));
 		ui.printUnit(unitIndex);
 		break;
-	case "specialruletext":
-		editor.setSpecialruleText(unitIndex, editorEvent.detail.specialruleindex, editorEvent.detail.value);
+	case "additionaltext":
+		editor.setSpecialruleText(unitIndex, specialruleIndex, editorEvent.detail.value);
 		ui.printUnit(unitIndex);
 		break;
 	}
@@ -46,17 +46,18 @@ editor.eventListener = function (editorEvent)
 	case "addspecialrule":
 		editor.addSpecialrule(unitIndex, editorEvent.detail.value);
 		ui.printUnit(unitIndex);
+		/* reset the specialrule select */
 		editorEvent.detail.originalEvent.target.value = "";
 		break;
 	case "removespecialrule":
-		editor.removeSpecialrule(unitIndex, editorEvent.detail.value);
+		editor.removeSpecialrule(unitIndex, specialruleIndex);
 		ui.printUnit(unitIndex);
 		break;
 	case "showunitmenu":
 		ui.visualizer.unitMenu.popup(editorEvent.detail.originalEvent, unitIndex);
 		break;
 	case "duplicate":
-		editor.duplicateUnit(unitIndex, editorEvent.detail.value);
+		editor.duplicateUnit(unitIndex);
 		ui.printWarband();
 		break;
 	case "copy":
@@ -81,6 +82,39 @@ editor.eventListener = function (editorEvent)
 	};
 };
 
+editor.getSpecialrulesList = function ()
+{
+	function _compareByText(a, b)
+	{
+		let compareResult = 0;
+		let aCompareValue = a.text.toLowerCase();
+		let bCompareValue = b.text.toLowerCase();
+		if (aCompareValue < bCompareValue)
+		{
+			compareResult = -1;
+		}
+		else if (aCompareValue > bCompareValue)
+		{
+			compareResult = 1;
+		};
+		return compareResult;
+	};
+	let specialruleCollecion = [];
+	for (let key in owc.resources.data)
+	{
+		let resource = owc.resources.data[key];
+		if (owc.settings.ruleScope.includes(owc.resources.data[key].scope) === true)
+		{
+			let specialrule = {};
+			specialrule["key"] = key;
+			specialrule["text"] = ui.translate(key);
+			specialruleCollecion.push(specialrule);
+		};
+	};
+	specialruleCollecion.sort(_compareByText);
+	editor.specialrulesList = specialruleCollecion;
+};
+
 editor.refreshPasteUnitButton = function ()
 {
 	let clipboardData = storager.retrieve(editor.UNIT_CLIPBOARD_KEY);
@@ -93,9 +127,9 @@ editor.refreshPasteUnitButton = function ()
 			localStorage.removeItem(editor.UNIT_CLIPBOARD_KEY);
 			clipboardData.data = null;
 		};
-		if (ui.visualizer["notifyCanPaste"] !== undefined)
+		if (typeof ui.visualizer.refreshPasteUnitButton === "function")
 		{
-			ui.visualizer.notifyCanPaste(clipboardData.title, clipboardData.data);
+			ui.visualizer.refreshPasteUnitButton(clipboardData.title, clipboardData.data);
 		};
 	};
 };
@@ -124,6 +158,8 @@ editor.setWarbandName = function (newName)
 	{
 		editor.setUndoPoint("Rename warband");
 		owc.warband.name = newName;
+		ui.visualizer.refreshWarbandName();
+		ui.refreshWindowTitle();
 	};
 };
 
