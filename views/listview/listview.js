@@ -25,7 +25,7 @@ listview.getWarbandHtml = function ()
 		"quality": ui.translate("quality"),
 		"combat": ui.translate("combat"),
 		"specialrules": ui.translate("specialrules"),
-		"warband-name": owc.warband.name,
+		"warband-name": owc.warband.name.notEmpty(ui.translate("defaultWarbandName")),
 		"default-warband-name": ui.translate("defaultWarbandName")
 	};
 	result = pageSnippets.produceFromSnippet("listview", listview, variables);
