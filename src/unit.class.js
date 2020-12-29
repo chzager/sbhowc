@@ -144,7 +144,7 @@ class Unit
 				offset = 2;
 			};
 			let codedName = unitString.substr(offset).match(/^[^*]+/);
-			this.name = (codedName !== null) ? codedName[0].replace("+", " ") : "";
+			this.name = (codedName !== null) ? codedName[0].replace(/[+]/g, " ") : "";
 			let qcCode = Number(Unit.VALUE_CODES.indexOf(unitString.substr(offset - 1, 1)));
 			this.combat = Math.floor(qcCode / 5);
 			this.quality = qcCode - (this.combat * 5) + 2;
