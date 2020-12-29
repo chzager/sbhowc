@@ -16,9 +16,9 @@
 		"personalitiesPoints": "{Q} points in personalities",
 		"personalitiesPercent": "{P}% personalities",
 		"ruleViolation": "Rule violation:",
-		"personalityPointsViolated": "At most {M} points in personalities allowed.",
+		"personalityPointsViolated": "At most {M} points for personalities allowed.",
 		"animalPointsViolated": "At most {M} points for animals allowed (currently: {C}).",
-		"specialRuleMismatch": "{U} must not have <i>{A}</i> and <i>{B}</i> at the same time.",
+		"specialRuleMismatch": "{U} must not have \"{A}\" and \"{B}\" at the same time.",
 		"swarmCountViolated": "A swarm must have at least two units/bases."
 	}
 }

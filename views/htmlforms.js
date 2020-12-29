@@ -205,7 +205,7 @@ htmlForm.refreshSpecialrules = function (unitIndex, refNode)
 		result += ",\u00A0" + owc.resources.data[specialruleKey].scope.toUpperCase();
 		return result;
 	};
-	refNode.removeAllChildred();
+	refNode.removeAllChildren();
 	let unit = owc.warband.units[unitIndex];
 	let specialrulesCount = unit.specialrules.length;
 	for (let s = 0; s < specialrulesCount; s += 1)
@@ -259,44 +259,25 @@ htmlForm.refreshWarbandSummary = function ()
 			) + ")";
 		};
 	};
-	let rulesCheckResult = [];
-	if (owc.settings.options.applyRuleChecks === true)
-	{
-		rulesCheckResult = getRulesCheckResultAsTexts(owc.warband, owc.resources, owc.settings);
-		if (rulesCheckResult.length > 0)
+	let variables = {
+		"warband-summary": warbandSummaryText
+	};
+		if (owc.settings.options.applyRuleChecks === true)
 		{
-			let variables =
+			let rulecheckResult = owc.rulecheck.checkAll();
+			if (rulecheckResult.length > 0)
 			{
-				"rules-violations": ui.translate("ruleViolation"),
-				"rule-violations": []
-			};
-			for (let v = 0; v < rulesCheckResult.length; v += 1)
-			{
-				variables["rule-violations"].push(
+				variables["vioalated-rules-count"] = rulecheckResult.length;
+				variables["rules-violations"] = ui.translate("ruleViolation");
+				variables["rule-violations"] = [];
+				for (let v = 0; v < rulecheckResult.length; v += 1)
 				{
-					"text": rulesCheckResult[v]
-				}
-				);
+					variables["rule-violations"].push({"text": owc.rulecheck.getText(rulecheckResult[v])});
+				};
 			};
 		};
-	};
-	let variables =
-	{
-		"warband-summary": warbandSummaryText,
-		"vioalated-rules-count": rulesCheckResult.length,
-		"rules-violations": ui.translate("ruleViolation"),
-		"rule-violations": []
-	};
-	for (let v = 0; v < rulesCheckResult.length; v += 1)
-	{
-		variables["rule-violations"].push(
-		{
-			"text": rulesCheckResult[v]
-		}
-		);
-	};
 	let wrapperNode = document.querySelector("#warbandfooter");
-	wrapperNode.removeAllChildred();
+	wrapperNode.removeAllChildren();
 	wrapperNode.appendChild(pageSnippets.produceFromSnippet("warband-summary", null, variables));
 };
 

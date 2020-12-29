@@ -71,7 +71,7 @@ ui.printWarband = function ()
 		"y": window.scrollY
 	};
 	let warbandCanvas = document.getElementById("warbandCanvas");
-	warbandCanvas.removeAllChildred();
+	warbandCanvas.removeAllChildren();
 	warbandCanvas.appendChild(ui.visualizer.getWarbandHtml());
 	ui.visualizer.refreshWarbandSummary();
 	ui.refreshWindowTitle();
