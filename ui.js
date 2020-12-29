@@ -96,7 +96,6 @@ ui.refreshWarbandName = function ()
 ui.refreshWindowTitle = function ()
 {
 	document.title = owc.warband.name.notEmpty(owc.resources.defaultText("defaultWarbandName")) + " (" + owc.warband.points + " " + owc.resources.translate("points", owc.settings.language) + ") - " + owc.TITLE;
-	owc.storeWarband();
 };
 
 ui.translate = function (key, variables)

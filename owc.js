@@ -113,7 +113,6 @@ owc.main = function ()
 
 	editor.getSpecialrulesList();
 	ui.initView();
-	// ui.printWarband();
 
 	if (ui.isInteractive === true)
 	{

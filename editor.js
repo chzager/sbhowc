@@ -137,6 +137,7 @@ editor.refreshPasteUnitButton = function ()
 editor.setUndoPoint = function (undoText)
 {
 	editor.undoer.saveSnapshot(owc.warband.toString(), undoText);
+	owc.storeWarband();
 };
 
 editor.undo = function ()
