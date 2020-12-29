@@ -33,18 +33,17 @@ owc.rulecheck.checkPersonalityPoints = function ()
 {
 	/* check personality points: max 1/3 of warband points */
 	let result = null;
-	let warbandPoints = Number(owc.warband.points);
-	let warbandPersonalitiesPoints = Number(owc.warband.personalityPoints);
-	let personalityPointsAllowed = Number(Math.floor(warbandPoints * 0.34));
-	if (warbandPersonalitiesPoints > personalityPointsAllowed)
+	let personalityPercent = Math.floor(owc.warband.personalityPoints / owc.warband.points * 100);
+	if (personalityPercent > 33)
 	{
+		let personalityPointsAllowed = Number(Math.floor(owc.warband.points / 3));
 		result =
 		{
 			"key": "personalityPointsViolated",
 			"values":
 			{
 				"M": personalityPointsAllowed,
-				"C": warbandPersonalitiesPoints
+				"C": owc.warband.personalityPoints
 			}
 		};
 	};
