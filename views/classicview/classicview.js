@@ -2,24 +2,28 @@
 
 var classicview = {};
 
-/* TODO: this must be done in a function! */
-ui.visualizer = classicview;
-
 classicview.init = function ()
 {
-	console.log("classicview.init");
 	htmlForm.init();
+	classicview.columnCount = null;
 	classicview.unitMenu = htmlForm.unitMenu;
 	classicview.refreshWarbandName = htmlForm.refreshWarbandName;
 	classicview.refreshUnit = htmlForm.refreshUnit;
 	classicview.refreshWarbandSummary = htmlForm.refreshWarbandSummary;
 	classicview.dispatchEditorEvent = htmlForm.dispatchEditorEvent;
 	classicview.makeEditable = htmlForm.makeEditable;
+	window.addEventListener("resize", classicview.onWindowResize);
+	classicview.onWindowResize();
+};
+
+classicview.unload = function ()
+{
+	htmlForm.unload();
+	window.removeEventListener("resize", classicview.onWindowResize);
 };
 
 classicview.getWarbandHtml = function ()
 {
-	console.log("classicview.getWarbandHtml");
 	let result;
 	let variables =
 	{
@@ -48,19 +52,24 @@ classicview.getWarbandHtml = function ()
 
 classicview.listUnits = function (refNode)
 {
-	/* TODO: distinguish between single column and two column mode */
-	let requiredCells = Math.ceil((owc.warband.units.length + 1) / 2);
-	for (let c = 0; c < requiredCells; c += 1)
+	let snippetName = "classicview-two-columns-row";
+	let requiredRows = Math.ceil((owc.warband.units.length + 1) / 2);
+	if (classicview.columnCount === 1)
 	{
-		let gridNode = pageSnippets.produceFromSnippet("classicview-two-columns-row", classicview);
+		snippetName = "classicview-single-column-row";
+		requiredRows = owc.warband.units.length + 1;
+	};
+	/* requiredRows is unit count +1 because we produce one extra cell for add-items buttons */
+	for (let c = 0; c < requiredRows; c += 1)
+	{
+		let gridNode = pageSnippets.produceFromSnippet(snippetName, classicview);
 		refNode.appendChild(gridNode);
 	};
 	classicview.insertUnitSheets(refNode);
 	let addItemsCell = refNode.querySelectorAll("#unitsgrid > tr > td")[owc.warband.units.length];
 	addItemsCell.removeAttribute("data-unitindex");
 	addItemsCell.id = "additmes-container"
-		console.log(addItemsCell);
-	addItemsCell.appendChild(pageSnippets.produceFromSnippet("add-unit", htmlForm));
+		addItemsCell.appendChild(pageSnippets.produceFromSnippet("add-unit", htmlForm));
 };
 
 classicview.insertUnitSheets = function (refNode)
@@ -101,4 +110,20 @@ classicview.refreshPasteUnitButton = function (unitName, unitCode)
 	};
 	pasteUnitNode = pageSnippets.produceFromSnippet("paste-unit", htmlForm, variables);
 	addunitContainer.appendChild(pasteUnitNode);
+};
+
+classicview.onWindowResize = function (resizeEvent)
+{
+	const thresholdWidth = 650;
+	let setColumnCount = 2;
+	if (Number(document.body.clientWidth) <= thresholdWidth)
+	{
+		setColumnCount = 1;
+	};
+
+	if (classicview.columnCount !== setColumnCount)
+	{
+		classicview.columnCount = setColumnCount;
+		ui.printWarband();
+	};
 };

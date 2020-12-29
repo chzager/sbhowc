@@ -41,7 +41,9 @@
 		</tr>
 	</dht:snippet>
 	<dht:snippet name="classicview-single-column-row">
-		<td/>
+		<tr>
+			<td/>
+		</tr>
 	</dht:snippet>
 	<dht:snippet name="classicview-unit-sheet">
 		<table class="unit" data-unitindex="{{unit-index}}">

@@ -2,13 +2,10 @@
 
 var listview = {};
 
-/* TODO: this must be done in a function! */
-ui.visualizer = listview;
-
 listview.init = function ()
 {
-	console.log("listview.init");
 	htmlForm.init();
+	listview.unload = htmlForm.unload;
 	listview.unitMenu = htmlForm.unitMenu;
 	listview.refreshWarbandName = htmlForm.refreshWarbandName;
 	listview.refreshUnit = htmlForm.refreshUnit;
@@ -19,7 +16,6 @@ listview.init = function ()
 
 listview.getWarbandHtml = function ()
 {
-	console.log("listview.getWarbandHtml");
 	let result;
 	let variables =
 	{
@@ -78,4 +74,3 @@ listview.refreshPasteUnitButton = function (unitName, unitCode)
 	pasteUnitNode = pageSnippets.produceFromSnippet("paste-unit", htmlForm, variables);
 	addunitContainer.appendChild(pasteUnitNode);
 };
-

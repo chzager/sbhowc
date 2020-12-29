@@ -41,24 +41,18 @@ ui.sweepVolatiles = function ()
 
 ui.initView = function ()
 {
-	function _importFinished()
+	if (ui.visualizer !== null)
 	{
-		console.log("_importFinished");
+		ui.visualizer.unload();
+	};
+	let viewFullName = owc.settings.viewMode + "view";
+	pageSnippets.import("./views/" + viewFullName + "/" + viewFullName + ".xml", () =>
+	{
+		ui.visualizer = window[viewFullName];
 		ui.visualizer.init();
 		ui.printWarband();
-	};
-	// pageSnippets.import("./views/listview/listview.xml", _importFinished);
-	pageSnippets.import("./views/classicview/classicview.xml", _importFinished);
-	/*
-	switch (owc.settings.viewMode)
-{
-	case "list":
-	ui.visualizer = new ListView(owc.settings, owc.resources, document.getElementById("warbandCanvas"));
-	break;
-	default:
-	ui.visualizer = new ClassicView(owc.settings, owc.resources, document.getElementById("warbandCanvas"));
-	};
-	 */
+	}
+	);
 };
 
 ui.printUnit = function (unitIndex)

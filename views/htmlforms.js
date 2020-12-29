@@ -4,7 +4,6 @@ var htmlForm = {};
 
 htmlForm.init = function ()
 {
-	console.log("htmlForm.init()");
 	htmlForm.editors = {};
 	let variables =
 	{
@@ -59,6 +58,11 @@ htmlForm.init = function ()
 	}
 		);
 	window.addEventListener("menubox", htmlForm.menuboxEventListener);
+};
+
+htmlForm.unload = function()
+{
+	window.removeEventListener("menubox", htmlForm.menuboxEventListener);
 };
 
 htmlForm.appendQualitySelector = function (refNode)
