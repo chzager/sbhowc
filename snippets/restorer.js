@@ -64,7 +64,6 @@ restorer.listStoredData = function ()
 	for (let i = 0; i < storedData.length; i += 1)
 	{
 		let data = /^(.*)\[{2}([\d]+);([\d]+)\]{2}$/.exec(storedData[i].title);
-		console.log(data);
 		if (data !== null)
 		{
 			let variables =
