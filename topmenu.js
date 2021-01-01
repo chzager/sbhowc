@@ -92,9 +92,7 @@ topMenu.warbandFromFileClick = function (clickEvent)
 		let warbandCode = fileEvent.target.result;
 		try
 		{
-			owc.warband.fromString(warbandCode, owc.resources.data);
-			editor.undoer.clear();
-			ui.printWarband();
+			owc.importWarband(warbandCode);
 		}
 		catch (ex)
 		{

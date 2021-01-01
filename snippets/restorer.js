@@ -64,14 +64,18 @@ restorer.listStoredData = function ()
 	for (let i = 0; i < storedData.length; i += 1)
 	{
 		let data = /^(.*)\[{2}([\d]+);([\d]+)\]{2}$/.exec(storedData[i].title);
-		let variables =
+		console.log(data);
+		if (data !== null)
 		{
-			"pid": storedData[i].pid,
-			"warband-name": data[1],
-			"figure-count": data[2],
-			"points": data[3],
-			"last-modified": new Date().fromIsoString(storedData[i].date).toIsoFormatText()
+			let variables =
+			{
+				"pid": storedData[i].pid,
+				"warband-name": data[1],
+				"figure-count": data[2],
+				"points": data[3],
+				"last-modified": new Date().fromIsoString(storedData[i].date).toIsoFormatText()
+			};
+			refNode.appendChild(pageSnippets.produceFromSnippet("table-row", restorer, variables));
 		};
-		refNode.appendChild(pageSnippets.produceFromSnippet("table-row", restorer, variables));
 	};
 };
