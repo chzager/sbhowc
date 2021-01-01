@@ -163,9 +163,8 @@ editor.setWarbandName = function (newName)
 	{
 		editor.setUndoPoint("Rename warband");
 		owc.warband.name = newName;
-		ui.visualizer.refreshWarbandName();
-		ui.refreshWarbandName();
 	};
+	ui.refreshWarbandName();
 };
 
 editor.addUnit = function (unitCode = "")

@@ -324,10 +324,6 @@ htmlForm.makeEditable = function (refNode)
 	{
 		let defaulValue = blurEvent.target.getAttribute("data-defaultvalue") || "";
 		let newValue = blurEvent.target.innerText.replaceAll(/[\r\n]/, "");
-		if (newValue === "")
-		{
-			newValue = defaulValue;
-		};
 		blurEvent.target.innerText = newValue;
 		htmlForm.dispatchEditorEvent(blurEvent);
 	};
