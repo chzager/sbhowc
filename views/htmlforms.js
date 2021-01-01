@@ -57,12 +57,34 @@ htmlForm.init = function ()
 		"movedown": "Move unit down"
 	}
 		);
+	window.addEventListener("focus", htmlForm.focusEventListener);
 	window.addEventListener("menubox", htmlForm.menuboxEventListener);
 };
 
-htmlForm.unload = function()
+htmlForm.unload = function(menuboxEvent)
 {
+	window.removeEventListener("focus", htmlForm.focusEventListener);
 	window.removeEventListener("menubox", htmlForm.menuboxEventListener);
+};
+
+htmlForm.focusEventListener = function (focusEvent)
+{
+	console.log("window got focus");
+	editor.manangeUnitClipboard();
+};
+
+htmlForm.menuboxEventListener = function (menuboxEvent)
+{
+	let editorEventData =
+	{
+		"detail":
+		{
+			"action": menuboxEvent.detail.itemKey,
+			"unitIndex": menuboxEvent.detail.context,
+			"originalEvent": menuboxEvent
+		}
+	};
+	window.dispatchEvent(new CustomEvent("editor", editorEventData));
 };
 
 htmlForm.appendQualitySelector = function (refNode)
@@ -84,20 +106,6 @@ htmlForm.appendSpecialrulesSelector = function (refNode)
 	let selectorNode = htmlForm.editors.specialrulesSelector.cloneNode(true);
 	selectorNode.onchange = htmlForm.dispatchEditorEvent;
 	refNode.appendChild(selectorNode);
-};
-
-htmlForm.menuboxEventListener = function (menuboxEvent)
-{
-	let editorEventData =
-	{
-		"detail":
-		{
-			"action": menuboxEvent.detail.itemKey,
-			"unitIndex": menuboxEvent.detail.context,
-			"originalEvent": menuboxEvent
-		}
-	};
-	window.dispatchEvent(new CustomEvent("editor", editorEventData));
 };
 
 htmlForm.dispatchEditorEvent = function (editorEvent)
@@ -280,6 +288,23 @@ htmlForm.refreshWarbandSummary = function ()
 	let wrapperNode = document.querySelector("#warbandfooter");
 	wrapperNode.removeAllChildren();
 	wrapperNode.appendChild(pageSnippets.produceFromSnippet("warband-summary", null, variables));
+};
+
+htmlForm.refreshPasteUnitButton = function (unitName, unitCode)
+{
+	let addunitContainer = document.querySelector("#additmes-container");
+	let pasteUnitNode = addunitContainer.querySelector("[data-action=\"pasteunit\"]");
+	if (pasteUnitNode !== null)
+	{
+		pasteUnitNode.remove();
+	};
+	let variables =
+	{
+		"unit-name": unitName,
+		"unit-code": unitCode
+	};
+	pasteUnitNode = pageSnippets.produceFromSnippet("paste-unit", htmlForm, variables);
+	addunitContainer.appendChild(pasteUnitNode);
 };
 
 htmlForm.makeEditable = function (refNode)

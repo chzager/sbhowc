@@ -78,7 +78,7 @@ ui.printWarband = function ()
 	if (ui.isInteractive === true)
 	{
 		ui.refreshUndoButton();
-		editor.refreshPasteUnitButton();
+		editor.manangeUnitClipboard();
 		dhtml.removeNodesByQuerySelectors([".only-print"]);
 	}
 	else

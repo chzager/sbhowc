@@ -117,7 +117,6 @@ owc.main = function ()
 
 	if (ui.isInteractive === true)
 	{
-		window.initEventListeners();
 		didYouKnow.init();
 	};
 };

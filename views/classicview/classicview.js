@@ -10,6 +10,7 @@ classicview.init = function ()
 	classicview.refreshWarbandName = htmlForm.refreshWarbandName;
 	classicview.refreshUnit = htmlForm.refreshUnit;
 	classicview.refreshWarbandSummary = htmlForm.refreshWarbandSummary;
+	classicview.refreshPasteUnitButton = htmlForm.refreshPasteUnitButton;
 	classicview.dispatchEditorEvent = htmlForm.dispatchEditorEvent;
 	classicview.makeEditable = htmlForm.makeEditable;
 	window.addEventListener("resize", classicview.onWindowResize);
@@ -93,23 +94,6 @@ classicview.insertUnitSheets = function (refNode)
 		htmlForm.refreshUnit(u, unitSheetNode);
 		unitSheetCells[u].appendChild(unitSheetNode);
 	};
-};
-
-classicview.refreshPasteUnitButton = function (unitName, unitCode)
-{
-	let addunitContainer = document.querySelector("#additmes-container");
-	let pasteUnitNode = addunitContainer.querySelector("[data-action=\"pasteunit\"]");
-	if (pasteUnitNode !== null)
-	{
-		pasteUnitNode.remove();
-	};
-	let variables =
-	{
-		"unit-name": unitName,
-		"unit-code": unitCode
-	};
-	pasteUnitNode = pageSnippets.produceFromSnippet("paste-unit", htmlForm, variables);
-	addunitContainer.appendChild(pasteUnitNode);
 };
 
 classicview.onWindowResize = function (resizeEvent)

@@ -6,6 +6,11 @@ editor.UNIT_CLIPBOARD_KEY = "owcUnitClipboard";
 editor.undoer = new Undoer();
 editor.specialrulesList = [];
 
+editor.init = function ()
+{
+	window.addEventListener("editor", editor.eventListener);
+};
+
 editor.eventListener = function (editorEvent)
 {
 	console.log("editorEvent", editorEvent.detail);
@@ -120,7 +125,7 @@ editor.getSpecialrulesList = function ()
 	editor.specialrulesList = specialruleCollecion;
 };
 
-editor.refreshPasteUnitButton = function ()
+editor.manangeUnitClipboard = function ()
 {
 	let clipboardData = storager.retrieve(editor.UNIT_CLIPBOARD_KEY);
 	if (clipboardData !== null)
@@ -185,7 +190,7 @@ editor.duplicateUnit = function (unitIndex)
 editor.copyUnitToClipboard = function (unitIndex)
 {
 	storager.store(editor.UNIT_CLIPBOARD_KEY, owc.warband.units[unitIndex].name.notEmpty(owc.resources.defaultText("defaultUnitName")), owc.warband.units[unitIndex].toString());
-	editor.refreshPasteUnitButton();
+	editor.manangeUnitClipboard();
 };
 
 editor.removeUnit = function (unitIndex)

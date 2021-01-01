@@ -10,6 +10,7 @@ listview.init = function ()
 	listview.refreshWarbandName = htmlForm.refreshWarbandName;
 	listview.refreshUnit = htmlForm.refreshUnit;
 	listview.refreshWarbandSummary = htmlForm.refreshWarbandSummary;
+	listview.refreshPasteUnitButton = htmlForm.refreshPasteUnitButton;
 	listview.dispatchEditorEvent = htmlForm.dispatchEditorEvent;
 	listview.makeEditable = htmlForm.makeEditable;
 };
@@ -56,21 +57,4 @@ listview.listUnits = function (refNode)
 		htmlForm.refreshUnit(u, unitNode);
 		refNode.appendChild(unitNode);
 	};
-};
-
-listview.refreshPasteUnitButton = function (unitName, unitCode)
-{
-	let addunitContainer = document.querySelector("#additmes-container");
-	let pasteUnitNode = addunitContainer.querySelector("[data-action=\"pasteunit\"]");
-	if (pasteUnitNode !== null)
-	{
-		pasteUnitNode.remove();
-	};
-	let variables =
-	{
-		"unit-name": unitName,
-		"unit-code": unitCode
-	};
-	pasteUnitNode = pageSnippets.produceFromSnippet("paste-unit", htmlForm, variables);
-	addunitContainer.appendChild(pasteUnitNode);
 };
