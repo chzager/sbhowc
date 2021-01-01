@@ -6,6 +6,7 @@ if (owc.init() === true)
 	topMenu.init();
 	owc.settings.load();
 	owc.fetchResources();
+	document.getElementById("version").innerText = owc.VERSION;
 };
 
 function initEventListeners()

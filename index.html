@@ -10,9 +10,6 @@
 		<link rel="stylesheet" href="styles/didyouknow.css"/>
 		<link rel="stylesheet" href="styles/tooltip.css"/>
 
-		<!-- <link rel="stylesheet" href="views/classic.css"/> -->
-		<!-- <link rel="stylesheet" href="views/listview.css"/> -->
-
 		<script src="lib/proto/array.prototype.js">/**/</script>
 		<script src="lib/proto/date.prototype.js">/**/</script>
 		<script src="lib/proto/htmlelement.prototype.js">/**/</script>
@@ -30,20 +27,20 @@
 	
 	<body>
 		<div id="page">
-			<div id="title">
+			<div id="title" class="noprint">
 				<h1>Song of&nbsp;Blades and&nbsp;Heroes</h1>
 				<h2>Online Warband Creator</h2>
 				<p>
-					Version 1.2 -
-					Complies with SBH Revised Edition (rules version 5.0)
-					<span id="noprint_head" class="noprint">-
-						<a href="doc/sbh-owc-changelog.html">Changelog</a>
+					<span id="version">...</span>-
+					<span>Complies with SBH Revised Edition (rules version 5.0)</span>
+					<span>-
+						<a href="https://github.com/Suppenhuhn79/sbhowc/releases" target="_blank">Changelog</a>
 					</span>
 				</p>
 			</div>
 
 			<noscript>
-				<div class="center block noscript">
+				<div class="center noscript">
 					<span class="icon icon_warning">!</span>
 					<span class="icon icon_warning" style="float:right;">!</span>
 					<p>
@@ -74,29 +71,25 @@
 				</div>
 			</div>
 			
-			<section>
-				<div id="warbandCanvas">&#160;</div>
-			</section>
+			<div id="warbandCanvas" class="centeredViewport">&#160;</div>
 
-		<div id="didyouknow" class="noprint">
-			<div class="icon">i</div>
-			<h1>Did you know..?</h1>
-			<p id="didyouknow_text">...You need to have JavaScript enabled to use the <i>Song of Blades and Heroes Online Warband Creator</i>.</p>
-			<p id="didyouknow_next" onclick="didYouKnow.printNextHint();">Show another hint</p>
-		</div>
+			<div id="didyouknow" class="noprint">
+				<div class="icon">i</div>
+				<h1>Did you know..?</h1>
+				<p id="didyouknow_text">...You need to have JavaScript enabled to use the <i>Song of Blades and Heroes Online Warband Creator</i>.</p>
+				<p id="didyouknow_next" onclick="didYouKnow.printNextHint();">Show another hint</p>
+			</div>
 			
-			<div id="advertisement" class="centeredViewport" style="margin-top:16pt; margin-bottom:16pt;">
-				<p>Song of Blades and Heroes is (c) by Andrea Sfiligoi - Online Warband Creator is (c) by Christoph Zager</p>
-				<p>Find out more about Song of Blades and Heroes at <a href="http://songofblades.blogspot.com/" target="_blank">http://songofblades.blogspot.com</a></p>     
-				<p>Buy Song of Blades and Heroes at <a href="http://www.ganeshagames.net/index.php?cPath=1_6" target="_blank">http://www.ganeshagames.net</a></p>
-				<p>Join the Song of Blades and Heroes Group at <a href="http://games.groups.yahoo.com/group/songofblades" target="_blank">http://games.groups.yahoo.com/group/songofblades</a></p>
-				<p>Post any comments on the Online Warband Creator to <a href="javascript:mailTo('crdfdfdmctcwdpbodqdadhbadjdrdwdybjbkbhdldydx');">contact (at) sbh.host (twenty-two) .com</a></p>
+			<div id="advertisement" class="centeredViewport">
 				<div class="noprint">
-					<p>Powered by <a href="http://www.000webhost.com" target="_blank">000webhost.com</a> - <i>&ldquo;better than paid hosting&rdquo;</i></p>
-					<p style="margin-top:4px;">
-						<a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10.png" alt="Valid XHTML 1.0 Transitional" height="31" width="88" style="border:0;" /></a>
-						<a href="http://jigsaw.w3.org/css-validator/check/referer"><img style="border:0;width:88px;height:31px" src="http://jigsaw.w3.org/css-validator/images/vcss.png" alt="Valid CSS!" /></a>
-					</p>
+					<p>Song of Blades and Heroes is (c) by Andrea Sfiligoi - Online Warband Creator is (c) by Christoph Zager</p>
+					<p>Find out more about Song of Blades and Heroes at <a href="https://songofblades.blogspot.com/" target="_blank">songofblades.blogspot.com</a></p>     
+					<p>Buy Song of Blades and Heroes at <a href="https://www.ganeshagames.net/index.php?cPath=1_6" target="_blank">www.ganeshagames.net</a></p>
+					<p>Got questions or ideas? Create an issue at <a href="https://github.com/Suppenhuhn79/sbhowc" traget="_blank">github.com/Suppenhuhn79/sbhowc</a></p>
+					<p>Please respect the <a href="license.txt">license</a></p>
+				</div>
+				<div class="only-print">
+					<p id="printFooter">...</p>
 				</div>
 			</div>
 		</div>
@@ -104,11 +97,6 @@
 		<div id="blur" class="volatile" onclick="ui.sweepVolatiles();" >&nbsp;</div>
 		<div id="printOverlay">&nbsp;</div>
 	
-		<!-- <script src="views/abstractview.class.js">/**/</script> -->
-		<!-- <script src="views/htmlformsview.class.js">/**/</script> -->
-		<!-- <script src="views/classicview.class.js">/**/</script> -->
-		<!-- <script src="views/listview.class.js">/**/</script> -->
-
 		<script src="storager.js">/**/</script>
 		<script src="didyouknow.js">/**/</script>
 		<script src="owc.js">/**/</script>

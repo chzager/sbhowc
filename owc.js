@@ -9,6 +9,7 @@ owc.urlParam =
 	"pid": "pid"
 };
 owc.TITLE = "Song of Blades and Heroes Online Warband Creator";
+owc.VERSION = "Jan21 release";
 owc.pid = window.location.getParam(owc.urlParam.pid);
 owc.warband = null;
 
