@@ -31,6 +31,32 @@ owc.init = function ()
 	return result;
 };
 
+owc.main = function ()
+{
+	owc.warband = new Warband();
+	let storedData = storager.retrieve(owc.pid);
+	if (storedData === null)
+	{
+		editor.newWarband();
+	}
+	else
+	{
+		let warbandCode = storedData.data;
+		if (warbandCode !== "")
+		{
+			owc.warband.fromString(warbandCode, owc.resources.data);
+		};
+	};
+
+	editor.getSpecialrulesList();
+	ui.initView();
+
+	if (ui.isInteractive === true)
+	{
+		didYouKnow.init();
+	};
+};
+
 owc.setPid = function (newPid, newWindow = false)
 {
 	let pidParam = {};
@@ -92,33 +118,6 @@ owc.fetchResources = function ()
 		};
 	};
 	owc.resources.import(requiredResoures, owc.main);
-};
-
-owc.main = function ()
-{
-	console.debug("owc.main()");
-	owc.warband = new Warband();
-	let storedData = storager.retrieve(owc.pid);
-	if (storedData === null)
-	{
-		editor.newWarband();
-	}
-	else
-	{
-		let warbandCode = storedData.data;
-		if (warbandCode !== "")
-		{
-			owc.warband.fromString(warbandCode, owc.resources.data);
-		};
-	};
-
-	editor.getSpecialrulesList();
-	ui.initView();
-
-	if (ui.isInteractive === true)
-	{
-		didYouKnow.init();
-	};
 };
 
 owc.storeWarband = function ()

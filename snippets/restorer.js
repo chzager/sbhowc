@@ -60,7 +60,6 @@ restorer.listStoredData = function ()
 	};
 	let refNode = document.getElementById("restorer-tbody");
 	let storedData = _getLocalStorageData();
-	console.log(refNode);
 	refNode.removeAllChildren();
 	for (let i = 0; i < storedData.length; i += 1)
 	{

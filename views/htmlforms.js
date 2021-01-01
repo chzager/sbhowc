@@ -69,7 +69,6 @@ htmlForm.unload = function(menuboxEvent)
 
 htmlForm.focusEventListener = function (focusEvent)
 {
-	console.log("window got focus");
 	editor.manangeUnitClipboard();
 };
 
