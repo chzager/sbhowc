@@ -37,7 +37,7 @@ topMenu.showWarbandCode = function ()
 	};
 };
 
-topMenu.restoreWarband = function ()
+topMenu.showWarbandRestorer = function ()
 {
 	function _showRestorer()
 	{
@@ -128,7 +128,7 @@ topMenu.onMenuboxEvent = function (menuboxEvent)
 		topMenu.showWarbandCode();
 		break;
 	case "restoreWarband":
-		topMenu.restoreWarband();
+		topMenu.showWarbandRestorer();
 		break;
 	};
 };
