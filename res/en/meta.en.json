@@ -20,6 +20,7 @@
 		"animalPointsViolated": "At most {M} points for animals allowed (currently: {C}).",
 		"specialRuleMismatch": "{U} must not have \"{A}\" and \"{B}\" at the same time.",
 		"swarmCountViolated": "A swarm must have at least two units/bases.",
-		"rabbleSpecialruleViolated": "{U} has the \"{R}\" special rule and therefore must not have a quality better than 4+."
+		"paladinSpecialruleViolated": "A {PALADIN} can not be part of a warband that includes {EVIL} models.",
+		"rabbleSpecialruleViolated": "{U} has the \"{RABBLE}\" special rule and therefore must not have a quality better than 4+."
 	}
 }

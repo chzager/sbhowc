@@ -145,6 +145,39 @@ owc.rulecheck.checkExcludes = function ()
 	return result;
 };
 
+owc.rulecheck.checkPaladinSpecialrule = function ()
+{
+	/* check animal points: max 1/2 of warband points */
+	let result = null;
+	let paladinCount = 0;
+	let evilCount = 0;
+	for (let u = 0; u < owc.warband.units.length; u += 1)
+	{
+		let unit = owc.warband.units[u];
+		if (unit.hasSpecialrule("pl") === true)
+		{
+			paladinCount += unit.count;
+		};
+		if (unit.hasSpecialrule("ev") === true)
+		{
+			evilCount += unit.count;
+		};
+	};
+	if ((paladinCount > 0) && (evilCount > 0))
+	{
+		result =
+		{
+			"key": "paladinSpecialruleViolated",
+			"values":
+			{
+				"PALADIN": owc.resources.translate("pl", owc.settings.language),
+				"EVIL": owc.resources.translate("ev", owc.settings.language)
+			}
+		};
+	};
+	return result;
+};
+
 owc.rulecheck.checkRabbleSpecialrule = function ()
 {
 	/* check rabble special rule:
@@ -162,7 +195,7 @@ owc.rulecheck.checkRabbleSpecialrule = function ()
 				"values":
 				{
 					"U": unit.name.notEmpty(owc.resources.translate("defaultUnitName", owc.settings.language)),
-					"R": owc.resources.translate("ra", owc.settings.language)
+					"RABBLE": owc.resources.translate("ra", owc.settings.language)
 				}
 			};
 			result.push(checkResult);

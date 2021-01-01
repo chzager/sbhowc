@@ -20,6 +20,7 @@
 		"animalPointsViolated": "Höchstens {M} Punkte für Tiere erlaubt (aktuell: {C}).",
 		"specialRuleMismatch": "{U} kann nicht \"{A}\" und \"{B}\" gleichzeitig haben.",
 		"swarmCountViolated": "Ein Schwarm muss aus mindestens zwei Einheiten/Basen bestehen.",
-		"rabbleSpecialruleViolated": "{U} hat die \"{R}\"-Sonderregel und darf deshalb eine Qualität von höchstens 4+ haben."
+		"paladinSpecialruleViolated": "Ein {PALADIN} darf nicht in einer Schlachtgruppe sein, die Einheiten mit der \"{EVIL}\"-Sonderregel enthält.",
+		"rabbleSpecialruleViolated": "{U} hat die \"{RABBLE}\"-Sonderregel und darf deshalb eine Qualität von höchstens 4+ haben."
 	}
 }
