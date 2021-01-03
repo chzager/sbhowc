@@ -23,7 +23,7 @@ class Unit
 			combat = 1 / 5;
 		};
 		let specialsPoints = 0;
-		for (let s = 0; s < this.specialrules.length; s += 1)
+		for (let s = 0, ss = this.specialrules.length; s < ss; s += 1)
 		{
 			specialsPoints = specialsPoints + this.specialrules[s].points;
 		};
@@ -38,7 +38,7 @@ class Unit
 	get isPersonality()
 	{
 		let result = false;
-		for (let s = 0; s < this.specialrules.length; s += 1)
+		for (let s = 0, ss = this.specialrules.length; s < ss; s += 1)
 		{
 			if (this.specialrules[s].isPersonality === true)
 			{
@@ -52,7 +52,7 @@ class Unit
 	hasSpecialrule(specialruleKey)
 	{
 		let result = false;
-		for (let s = 0; s < this.specialrules.length; s += 1)
+		for (let s = 0, ss = this.specialrules.length; s < ss; s += 1)
 		{
 			if (this.specialrules[s].key === specialruleKey)
 			{
@@ -112,7 +112,7 @@ class Unit
 			result += "*";
 			let specialsCode = "";
 			let specialTextsCode = "";
-			for (let s = 0; s < this.specialrules.length; s += 1)
+			for (let s = 0, ss = this.specialrules.length; s < ss; s += 1)
 			{
 				let specialrule = this.specialrules[s];
 				specialsCode += specialrule.key;
@@ -153,7 +153,7 @@ class Unit
 				let unitsSpecialRules = String(unitString.match(/[*].[^!]*/g)).match(/[a-z0-9]{2}/g);
 				let unitsSpecialTexts = unitString.match(/![^!]+/g);
 				let numberOfSpecialTexts = 0;
-				for (let s = 0; s < unitsSpecialRules.length; s += 1)
+				for (let s = 0, ss = unitsSpecialRules.length; s < ss; s += 1)
 				{
 					this.addSpecialrule(unitsSpecialRules[s], specialrulesDictionary);
 					let currentSpecialrule = this.specialrules[this.specialrules.length - 1];

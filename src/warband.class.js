@@ -14,7 +14,7 @@ class Warband
 	get points()
 	{
 		let result = 0;
-		for (let u = 0; u < this.units.length; u += 1)
+		for (let u = 0, uu = this.units.length; u < uu; u += 1)
 		{
 			result += this.units[u].count * this.units[u].points;
 		};
@@ -24,7 +24,7 @@ class Warband
 	get personalityPoints()
 	{
 		let result = 0;
-		for (let u = 0; u < this.units.length; u += 1)
+		for (let u = 0, uu = this.units.length; u < uu; u += 1)
 		{
 			if (this.units[u].isPersonality === true)
 			{
@@ -37,7 +37,7 @@ class Warband
 	get figureCount()
 	{
 		let result = 0;
-		for (let u = 0; u < this.units.length; u += 1)
+		for (let u = 0, uu = this.units.length; u < uu; u += 1)
 		{
 			result += this.units[u].count;
 		};
@@ -48,7 +48,7 @@ class Warband
 	{
 		/* A warband counts as empty as long as no unit has a name or a special rule. (see https://github.com/Suppenhuhn79/sbhowc/issues/17) */
 		let result = true;
-		for (let u = 0; u < this.units.length; u += 1)
+		for (let u = 0, uu = this.units.length; u < uu; u += 1)
 		{
 			result = result && (this.units[u].name === "") && (this.units[u].specialrules.length === 0);
 		};
@@ -58,7 +58,7 @@ class Warband
 	unitsBySpecialrule(specialruleKey)
 	{
 		let result = [];
-		for (let u = 0; u < this.units.length; u += 1)
+		for (let u = 0, uu = this.units.length; u < uu; u += 1)
 		{
 			if (this.units[u].hasSpecialrule(specialruleKey) === true)
 			{
@@ -78,7 +78,7 @@ class Warband
 	{
 		let result = String(Warband.CURRENT_VERSION + this.name);
 		let unitSeparator = Warband.UNIT_SEPARATOR;
-		for (let u = 0; u < this.units.length; u += 1)
+		for (let u = 0, uu = this.units.length; u < uu; u += 1)
 		{
 			result += unitSeparator;
 			result += this.units[u].toString().replace(RegExp(unitSeparator, "g"), "+");
