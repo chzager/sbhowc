@@ -11,7 +11,7 @@ settingsUi.show = function ()
 	let settingsPanel = document.getElementById("settings");
 	/* set checks for rules scope */
 	let rulesScopeChecks = settingsPanel.querySelectorAll("input[data-settingsgroup=\"rules_scope\"]");
-	for (let i = 0; i < rulesScopeChecks.length; i += 1)
+	for (let i = 0, ii = rulesScopeChecks.length; i < ii; i += 1)
 	{
 		let val = rulesScopeChecks[i].getAttribute("data-settingskey");
 		rulesScopeChecks[i].checked = owc.settings.ruleScope.includes(val);
@@ -36,7 +36,7 @@ settingsUi.applySettings=function()
 		/* get checked rules scope */
 		let rulesScopeChecks = settingsPanel.querySelectorAll("input[data-settingsgroup=\"rules_scope\"]");
 		targetObj.ruleScope = [];
-		for (let i = 0; i < rulesScopeChecks.length; i += 1)
+		for (let i = 0, ii = rulesScopeChecks.length; i < ii; i += 1)
 		{
 			if (rulesScopeChecks[i].checked === true)
 			{
@@ -49,7 +49,7 @@ settingsUi.applySettings=function()
 		targetObj.language = languageDropDown[languageDropDown.selectedIndex].value;
 		/* get view mode */
 		let availibleViewModes = settingsPanel.querySelectorAll("input[data-settingsgroup=\"view_mode\"]");
-		for (let i = 0; i < availibleViewModes.length; i += 1)
+		for (let i = 0, ii = availibleViewModes.length; i < ii; i += 1)
 		{
 			if (availibleViewModes[i].checked === true)
 			{
@@ -59,7 +59,7 @@ settingsUi.applySettings=function()
 		};
 		/* get options */
 		let optionItems = settingsPanel.querySelectorAll("input[data-settingsgroup=\"options\"]");
-		for (let i = 0; i < optionItems.length; i += 1)
+		for (let i = 0, ii = optionItems.length; i < ii; i += 1)
 		{
 			let optionsItem = optionItems[i];
 			targetObj.options[optionsItem.getAttribute("data-settingskey")] = optionsItem.checked;

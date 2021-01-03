@@ -268,9 +268,9 @@ editor.addSpecialrule = function (unitIndex, specialruleKey)
 		let specialrule = owc.resources.data[specialruleKey];
 		if (specialrule.replaces !== undefined)
 		{
-			for (let r = 0; r < specialrule.replaces.length; r += 1)
+			for (let r = 0, rr = specialrule.replaces.length; r < rr; r += 1)
 			{
-				for (let s = 0; s < owc.warband.units[unitIndex].specialrules.length; s += 1)
+				for (let s = 0, ss = owc.warband.units[unitIndex].specialrules.length; s < ss; s += 1)
 				{
 					if (owc.warband.units[unitIndex].specialrules[s].key === specialrule.replaces[r])
 					{

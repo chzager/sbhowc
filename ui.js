@@ -26,10 +26,10 @@ ui.showElement = function (domElement, topPosition = null, leftPosition = null, 
 
 ui.sweepVolatiles = function ()
 {
-	for (let s = 0; s < ui.volatileSelectors.length; s += 1)
+	for (let s = 0, ss = ui.volatileSelectors.length; s < ss; s += 1)
 	{
 		let volatileElements = document.body.querySelectorAll(ui.volatileSelectors[s]);
-		for (let e = 0; e < volatileElements.length; e += 1)
+		for (let e = 0, ee = volatileElements.length; e < ee; e += 1)
 		{
 			if (volatileElements[e])
 			{

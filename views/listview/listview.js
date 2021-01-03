@@ -35,7 +35,7 @@ listview.getWarbandHtml = function ()
 		htmlBuilder.removeNodesByQuerySelectors(["select", "input", ".specialruleEditorSeparator", ".addunit"], result);
 		htmlBuilder.removeClasses(["interactive", "screenfx", "out-of-scope"], result);
 		let editableNodes = result.querySelectorAll("[contenteditable]");
-		for (let e = 0; e < editableNodes.length; e += 1)
+		for (let e = 0, ee = editableNodes.length; e < ee; e += 1)
 		{
 			editableNodes[e].setAttribute("contenteditable", "false");
 		};
@@ -50,7 +50,7 @@ listview.listUnits = function (refNode)
 		"unit-index": null,
 		"default-unit-name": ui.translate("defaultUnitName")
 	};
-	for (let u = 0; u < owc.warband.units.length; u += 1)
+	for (let u = 0, uu = owc.warband.units.length; u < uu; u += 1)
 	{
 		variables["unit-index"] = u;
 		let unitNode = pageSnippets.produceFromSnippet("listview-unit-row", htmlForm, variables);

@@ -61,7 +61,7 @@ restorer.listStoredData = function ()
 	let refNode = document.getElementById("restorer-tbody");
 	let storedData = _getLocalStorageData();
 	refNode.removeAllChildren();
-	for (let i = 0; i < storedData.length; i += 1)
+	for (let i = 0, ii = storedData.length; i < ii; i += 1)
 	{
 		let data = /^(.*)\[{2}([\d]+);([\d]+)\]{2}$/.exec(storedData[i].title);
 		if (data !== null)

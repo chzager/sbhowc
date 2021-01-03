@@ -68,7 +68,7 @@ owc.resources.import = function (urls, callback)
 		};
 	};
 	let urlsToGo = urls.length;
-	for (let u = 0; u < urls.length; u += 1)
+	for (let u = 0, uu = urls.length; u < uu; u += 1)
 	{
 		if (owc.resources.loadedUrls.includes(urls[u]) === false)
 		{

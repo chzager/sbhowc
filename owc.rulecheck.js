@@ -61,7 +61,7 @@ owc.rulecheck.checkAnimalPoints = function ()
 	let animalPoints = 0;
 	let animalPointsAllowed = Number(Math.floor(owc.warband.points / 2));
 	let animalUnits = owc.warband.unitsBySpecialrule(animalKey).concat(owc.warband.unitsBySpecialrule(swarmKey));
-	for (let u = 0; u < animalUnits.length; u += 1)
+	for (let u = 0, uu = animalUnits.length; u < uu; u += 1)
 	{
 		animalPoints += animalUnits[u].points * animalUnits[u].count;
 	};
@@ -89,7 +89,7 @@ owc.rulecheck.checkSwarmFigures = function ()
 	let result = null;
 	let swarmUnits = owc.warband.unitsBySpecialrule(swarmKey);
 	let swarmFigures = 0;
-	for (let u = 0; u < swarmUnits.length; u += 1)
+	for (let u = 0, uu = swarmUnits.length; u < uu; u += 1)
 	{
 		swarmFigures += swarmUnits[u].count;
 	};
@@ -134,7 +134,7 @@ owc.rulecheck.checkRabbleSpecialrule = function ()
 	const rabbleKey = "ra";
 	let result = [];
 	let rabbleUnits = owc.warband.unitsBySpecialrule(rabbleKey);
-	for (let u = 0; u < rabbleUnits.length; u += 1)
+	for (let u = 0, uu = rabbleUnits.length; u < uu; u += 1)
 	{
 		if (rabbleUnits[u].quality < 4)
 		{
@@ -158,16 +158,16 @@ owc.rulecheck.checkExcludes = function ()
 	/* check special rules that exclude each other */
 	function _checkExcludes(excludingKey, resultsRecipient)
 	{
-		for (let u = 0; u < owc.warband.units.length; u += 1)
+		for (let u = 0, uu = owc.warband.units.length; u < uu; u += 1)
 		{
 			let unit = owc.warband.units[u];
 			let index = [];
-			for (let s = 0; s < unit.specialrules.length; s += 1)
+			for (let s = 0, ss = unit.specialrules.length; s < ss; s += 1)
 			{
 				let excludings = owc.resources.data[unit.specialrules[s].key][excludingKey];
 				if (excludings !== undefined)
 				{
-					for (let e = 0; e < excludings.length; e += 1)
+					for (let e = 0, ee = excludings.length; e < ee; e += 1)
 					{
 						if ((unit.hasSpecialrule(excludings[e]) === true) && (index.includes(excludings[e] + unit.specialrules[s].key) === false))
 						{

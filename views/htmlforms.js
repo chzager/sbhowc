@@ -34,7 +34,7 @@ htmlForm.init = function ()
 		"text": ui.translate("addSpecialrule")
 	}
 	);
-	for (let s = 0; s < editor.specialrulesList.length; s += 1)
+	for (let s = 0, ss = editor.specialrulesList.length; s < ss; s += 1)
 	{
 		variables["specialrules-list"].push(
 		{
@@ -148,7 +148,7 @@ htmlForm.dispatchEditorEvent = function (editorEvent)
 			"originalEvent": editorEvent
 		}
 	};
-	for (let a = 0; a < eventOrigin.attributes.length; a += 1)
+	for (let a = 0, aa = eventOrigin.attributes.length; a < aa; a += 1)
 	{
 		if (eventOrigin.attributes[a].nodeName.startsWith("data-") === true)
 		{
@@ -278,7 +278,7 @@ htmlForm.refreshWarbandSummary = function ()
 				variables["vioalated-rules-count"] = rulecheckResult.length;
 				variables["rules-violations"] = ui.translate("ruleViolation");
 				variables["rule-violations"] = [];
-				for (let v = 0; v < rulecheckResult.length; v += 1)
+				for (let v = 0, vv = rulecheckResult.length; v < vv; v += 1)
 				{
 					variables["rule-violations"].push({"text": owc.rulecheck.getText(rulecheckResult[v])});
 				};
