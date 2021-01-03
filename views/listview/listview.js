@@ -32,8 +32,8 @@ listview.getWarbandHtml = function ()
 	result = pageSnippets.produceFromSnippet("listview", listview, variables);
 	if (ui.isInteractive === false)
 	{
-		dhtml.removeNodesByQuerySelectors(["select", "input", ".specialruleEditorSeparator", ".addunit"], result);
-		dhtml.removeClasses(["interactive", "screenfx", "out-of-scope"], result);
+		htmlBuilder.removeNodesByQuerySelectors(["select", "input", ".specialruleEditorSeparator", ".addunit"], result);
+		htmlBuilder.removeClasses(["interactive", "screenfx", "out-of-scope"], result);
 		let editableNodes = result.querySelectorAll("[contenteditable]");
 		for (let e = 0; e < editableNodes.length; e += 1)
 		{

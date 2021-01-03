@@ -79,11 +79,11 @@ ui.printWarband = function ()
 	{
 		ui.refreshUndoButton();
 		editor.manangeUnitClipboard();
-		dhtml.removeNodesByQuerySelectors([".only-print"]);
+		htmlBuilder.removeNodesByQuerySelectors([".only-print"]);
 	}
 	else
 	{
-		dhtml.removeNodesByQuerySelectors([".noprint", ".tooltip"]);
+		htmlBuilder.removeNodesByQuerySelectors([".noprint", ".tooltip"]);
 		document.getElementById("printFooter").innerText = "Created with Song of Blades and Heroes Online Warband Creator, " + owc.VERSION + ", at " + location.plainLocation();
 	};
 	window.scrollTo(currentScrollPos.x, currentScrollPos.y);
