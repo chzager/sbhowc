@@ -274,7 +274,9 @@ editor.addSpecialrule = function (unitIndex, specialruleKey)
 				{
 					if (owc.warband.units[unitIndex].specialrules[s].key === specialrule.replaces[r])
 					{
-						owc.warband.units[unitIndex].removeSpecialrule(specialrule.replaces[r]);
+						owc.warband.units[unitIndex].specialrules.copyWithin(s, ss-1);
+						owc.warband.units[unitIndex].specialrules.pop();
+						break;
 					};
 				}
 			};

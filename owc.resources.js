@@ -64,7 +64,48 @@ owc.resources.import = function (urls, callback)
 		};
 		if ((urlsToGo === 0) && (typeof callback !== "undefined"))
 		{
+			_manageCrossreferences();
 			callback();
+		};
+	};
+	function _manageCrossreferences()
+	{
+		function __copyAllReferences(originResourceKey, referredResourceKey, attribute)
+		{
+			let originResource = owc.resources.data[originResourceKey];
+			let referredResource = owc.resources.data[referredResourceKey];
+			if (referredResource[attribute] === undefined)
+			{
+				referredResource[attribute] = [];
+			};
+			if (referredResource[attribute].includes(originResourceKey) === false)
+			{
+				referredResource[attribute].push(originResourceKey);
+			};
+			for (let r = 0, rr = originResource[attribute].length; r < rr; r += 1)
+			{
+				let referredValue = originResource[attribute][r];
+				if ((referredValue !== referredResourceKey) && (referredResource[attribute].includes(referredValue) === false))
+				{
+					referredResource[attribute].push(referredValue);
+				};
+			};
+		};
+		const attributes = ["replaces", "exclusive"];
+		for (let key in owc.resources.data)
+		{
+			let originResource = owc.resources.data[key];
+			for (let p = 0, pp = attributes.length; p < pp; p += 1)
+			{
+				let attribute = attributes[p];
+				if (originResource[attribute] !== undefined)
+				{
+					for (let r = 0, rr = originResource[attribute].length; r < rr; r += 1)
+					{
+						__copyAllReferences(key, originResource[attribute][r], attribute);
+					};
+				};
+			};
 		};
 	};
 	let urlsToGo = urls.length;
