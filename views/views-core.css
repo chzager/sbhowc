@@ -42,7 +42,7 @@
 	display: inline-block;
 	}
 
-#warbandCanvas .interactive .specialrule.out-of-scope {
+#warbandCanvas .interactive .specialrule .out-of-scope {
 	border-bottom: 0.1em dotted red;
 	}
 

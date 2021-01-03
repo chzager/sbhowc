@@ -233,7 +233,7 @@ htmlForm.refreshSpecialrules = function (unitIndex, refNode)
 		specialruleNode = pageSnippets.produceFromSnippet("specialrule", htmlForm, variables);
 		if (owc.settings.ruleScope.includes(owc.resources.data[unit.specialrules[s].key].scope) === false)
 		{
-			specialruleNode.classList.add("out-of-scope");
+			specialruleNode.children[0].classList.add("out-of-scope");
 		};
 		refNode.appendChild(specialruleNode);
 	};
