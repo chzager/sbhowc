@@ -43,7 +43,7 @@ class Warband
 		};
 		return result;
 	};
-	
+
 	get isEmpty()
 	{
 		/* A warband counts as empty as long as no unit has a name or a special rule. (see https://github.com/Suppenhuhn79/sbhowc/issues/17) */
@@ -51,6 +51,19 @@ class Warband
 		for (let u = 0; u < this.units.length; u += 1)
 		{
 			result = result && (this.units[u].name === "") && (this.units[u].specialrules.length === 0);
+		};
+		return result;
+	};
+
+	unitsBySpecialrule(specialruleKey)
+	{
+		let result = [];
+		for (let u = 0; u < this.units.length; u += 1)
+		{
+			if (this.units[u].hasSpecialrule(specialruleKey) === true)
+			{
+				result.push(this.units[u]);
+			};
 		};
 		return result;
 	};

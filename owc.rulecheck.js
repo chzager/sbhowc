@@ -14,10 +14,7 @@ owc.rulecheck.checkAll = function ()
 			{
 				if (checkResult.constructor === Array)
 				{
-					for (let r = 0; r < checkResult.length; r += 1)
-					{
-						result.push(checkResult[r]);
-					};
+					result = result.concat(checkResult);
 				}
 				else
 				{
@@ -31,7 +28,9 @@ owc.rulecheck.checkAll = function ()
 
 owc.rulecheck.checkPersonalityPoints = function ()
 {
-	/* check personality points: max 1/3 of warband points */
+	/* check personality points: max 1/3 of warband points:
+	>> players may not have more than one third of the total [...] spent on Personalities <<
+	(SBH revised edition/rules version 5.0, p 6). */
 	let result = null;
 	let personalityPercent = Math.floor(owc.warband.personalityPoints / owc.warband.points * 100);
 	if (personalityPercent > 33)
@@ -52,18 +51,19 @@ owc.rulecheck.checkPersonalityPoints = function ()
 
 owc.rulecheck.checkAnimalPoints = function ()
 {
-	/* check animal points: max 1/2 of warband points */
+	/* check animal points: max 1/2 of warband points:
+	>> No more than 50% of the members of a warband may be animals. <<
+	(SHB 4.3, p 11)
+	Though this is not stated in SHB 5.0, I believe it's still valid.	*/
+	const animalKey = "an";
+	const swarmKey = "sw";
 	let result = null;
-	let warbandPoints = owc.warband.points;
-	let animalPointsAllowed = Number(Math.floor(warbandPoints / 2));
 	let animalPoints = 0;
-	for (let u = 0; u < owc.warband.units.length; u += 1)
+	let animalPointsAllowed = Number(Math.floor(owc.warband.points / 2));
+	let animalUnits = owc.warband.unitsBySpecialrule(animalKey).concat(owc.warband.unitsBySpecialrule(swarmKey));
+	for (let u = 0; u < animalUnits.length; u += 1)
 	{
-		let unit = owc.warband.units[u];
-		if ((unit.hasSpecialrule("an") === true) || (unit.hasSpecialrule("sw") === true))
-		{
-			animalPoints += unit.points * unit.count;
-		};
+		animalPoints += animalUnits[u].points * animalUnits[u].count;
 	};
 	if (animalPoints > animalPointsAllowed)
 	{
@@ -82,22 +82,72 @@ owc.rulecheck.checkAnimalPoints = function ()
 
 owc.rulecheck.checkSwarmFigures = function ()
 {
-	/* check swarm figures: must be at least two units with "swarm" special rule */
+	/* check swarm figures:
+	>> A complete Swarm is represented by two or more swarm bases. <<
+	(SBH revised edition/rules version 5.0, p 35). */
+	const swarmKey = "sw";
 	let result = null;
+	let swarmUnits = owc.warband.unitsBySpecialrule(swarmKey);
 	let swarmFigures = 0;
-	for (let u = 0; u < owc.warband.units.length; u += 1)
+	for (let u = 0; u < swarmUnits.length; u += 1)
 	{
-		let unit = owc.warband.units[u];
-		if (unit.hasSpecialrule("sw") === true)
-		{
-			swarmFigures += unit.count;
-		};
+		swarmFigures += swarmUnits[u].count;
 	};
 	if ((swarmFigures > 0) && (swarmFigures < 2))
 	{
 		result =
 		{
 			"key": "swarmCountViolated"
+		};
+	};
+	return result;
+};
+
+owc.rulecheck.checkPaladinSpecialrule = function ()
+{
+	/* check paladin special rule:
+	>> A Paladin cannot be part of a warband that includes Evil models. <<
+	(SGD 4.3, p9) */
+	const paladinKey = "pl";
+	const evilKey = "ev";
+	let result = null;
+	if ((owc.warband.unitsBySpecialrule(paladinKey).length > 0) && (owc.warband.unitsBySpecialrule(evilKey).length > 0))
+	{
+		result =
+		{
+			"key": "paladinSpecialruleViolated",
+			"values":
+			{
+				"PALADIN": owc.resources.translate(paladinKey, owc.settings.language),
+				"EVIL": owc.resources.translate(evilKey, owc.settings.language)
+			}
+		};
+	};
+	return result;
+};
+
+owc.rulecheck.checkRabbleSpecialrule = function ()
+{
+	/* check rabble special rule:
+	>> Rabble models may not be assigned a Quality score better than 4. <<
+	(SBH revised edition/rules version 5.0, p 34). */
+	const rabbleKey = "ra";
+	let result = [];
+	let rabbleUnits = owc.warband.unitsBySpecialrule(rabbleKey);
+	for (let u = 0; u < rabbleUnits.length; u += 1)
+	{
+		if (rabbleUnits[u].quality < 4)
+		{
+			let checkResult =
+			{
+				"key": "rabbleSpecialruleViolated",
+				"values":
+				{
+					"U": rabbleUnits[u].name.notEmpty(owc.resources.translate("defaultUnitName", owc.settings.language)),
+					"RABBLE": owc.resources.translate(rabbleKey, owc.settings.language)
+				}
+			};
+			result.push(checkResult);
 		};
 	};
 	return result;
@@ -142,65 +192,6 @@ owc.rulecheck.checkExcludes = function ()
 	let result = [];
 	_checkExcludes("exclusive", result);
 	_checkExcludes("excludes", result);
-	return result;
-};
-
-owc.rulecheck.checkPaladinSpecialrule = function ()
-{
-	/* check animal points: max 1/2 of warband points */
-	let result = null;
-	let paladinCount = 0;
-	let evilCount = 0;
-	for (let u = 0; u < owc.warband.units.length; u += 1)
-	{
-		let unit = owc.warband.units[u];
-		if (unit.hasSpecialrule("pl") === true)
-		{
-			paladinCount += unit.count;
-		};
-		if (unit.hasSpecialrule("ev") === true)
-		{
-			evilCount += unit.count;
-		};
-	};
-	if ((paladinCount > 0) && (evilCount > 0))
-	{
-		result =
-		{
-			"key": "paladinSpecialruleViolated",
-			"values":
-			{
-				"PALADIN": owc.resources.translate("pl", owc.settings.language),
-				"EVIL": owc.resources.translate("ev", owc.settings.language)
-			}
-		};
-	};
-	return result;
-};
-
-owc.rulecheck.checkRabbleSpecialrule = function ()
-{
-	/* check rabble special rule:
-	Rabble models may not be assigned a Quality score better than 4.
-	(SBH revised edition/rules version 5.0, p 34). */
-	let result = [];
-	for (let u = 0; u < owc.warband.units.length; u += 1)
-	{
-		let unit = owc.warband.units[u];
-		if ((unit.hasSpecialrule("ra") === true) && (unit.quality < 4))
-		{
-			let checkResult =
-			{
-				"key": "rabbleSpecialruleViolated",
-				"values":
-				{
-					"U": unit.name.notEmpty(owc.resources.translate("defaultUnitName", owc.settings.language)),
-					"RABBLE": owc.resources.translate("ra", owc.settings.language)
-				}
-			};
-			result.push(checkResult);
-		};
-	};
 	return result;
 };
 
