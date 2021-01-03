@@ -21,7 +21,7 @@
 				<p>Click any to restore.</p>
 			</div>
 			<div class="buttons">
-				<input type="button" value="cancel" dht:onclick="closeClick"/>
+				<input type="button" value="close" dht:onclick="closeClick"/>
 			</div>
 		</div>
 	</dht:snippet>
