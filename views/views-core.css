@@ -38,7 +38,8 @@
 
 /* specialrules */
 
-#warbandCanvas .specialrule {
+#warbandCanvas .specialrule,
+#warbandCanvas .specialrule [data-specialruleindex] {
 	display: inline-block;
 	}
 

@@ -76,8 +76,8 @@
 		</tr>
 	</dht:snippet>
 	<dht:snippet name="specialrule">
-		<span class="specialrule">
-			<span data-specialruleindex="{{index}}">
+		<div class="specialrule">
+			<div data-specialruleindex="{{index}}">
 				<dht:if test="('{{specialrule-additional-text}}' === '')">
 					<dht:then>
 						<span data-action="removespecialrule" dht:onclick="dispatchEditorEvent">{{specialrule-text}}</span>
@@ -89,7 +89,7 @@
 					</dht:else>
 				</dht:if>
 				<div class="tooltip">{{hint}}</div>
-			</span>
+			</div>
 			<dht:if test="{{index}} &lt; {{specialrules-count}} -1">
 				<dht:then>
 					<span>,&#160;</span>
@@ -100,7 +100,7 @@
 					<span class="specialruleEditorSeparator">,&#160;</span>
 				</dht:then>
 			</dht:if>
-		</span>
+		</div>
 	</dht:snippet>
 	<dht:snippet name="warband-summary">
 		<div>

@@ -90,6 +90,7 @@
 	}
 
 .classicview.interactive table.unit [data-editor="additionaltext"]:focus {
+	display: inline-block;
 	padding-right: 0.5em;
 	}
 
