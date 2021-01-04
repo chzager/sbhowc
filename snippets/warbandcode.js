@@ -24,7 +24,7 @@ warbandcode.applyClick = function (clickEvent)
 	let newWarbandCode = document.querySelector("#warbandcode textarea").value;
 	if (newWarbandCode !== "")
 	{
-		newWarbandCode = newWarbandCode.replaceAll(/[\s]/g, "");
+		newWarbandCode = newWarbandCode.replace(/[\s]/g, "");
 		try
 		{
 			owc.warband.fromString(newWarbandCode, owc.resources.data);
