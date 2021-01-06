@@ -88,7 +88,7 @@ class Unit
 		}
 		else
 		{
-			throw "No resource for specialrule \"" + specialruleKey + "\"";
+			throw new Error("No resource for specialrule \"" + specialruleKey + "\".");
 		};
 		return result;
 	};
@@ -169,7 +169,7 @@ class Unit
 			};
 			break;
 		default:
-			throw "Unknown version \"" + version + "\"";
+			throw new Error("Unknown data version \"" + version + "\".");
 		};
 	};
 };

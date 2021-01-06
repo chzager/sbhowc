@@ -50,7 +50,7 @@ owc.resources.import = function (urls, callback)
 				console.log("Existing resource:", owc.resources.data[key]);
 				console.log("Resource to import:", json.data[key]);
 				console.groupEnd("Duplicate resource identifier");
-				throw "Duplicate resource identifier \"" + key + "\"";
+				throw new Error("Duplicate resource identifier \"" + key + "\".");
 			};
 		};
 	};

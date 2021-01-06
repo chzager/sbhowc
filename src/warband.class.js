@@ -107,7 +107,7 @@ class Warband
 		}
 		else
 		{
-			throw "Can not determinate data version.";
+			throw new Error("Can not determine data version in warband code \"" + warbandString + "\".");
 		};
 	};
 };
