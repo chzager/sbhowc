@@ -128,31 +128,31 @@ class Unit
 
 	fromString(unitString, version, specialrulesDictionary)
 	{
-		let offset = 0;
+		const RXGROUP_COUNT = 1;
+		const RYGROUP_QUALITY_COMBAT_VALUE = 2;
+		const RXGROUP_NAME = 3;
+		const RXGROUP_SPECIALRULES = 4;
 		switch (version)
 		{
 		case "v1":
-			offset = 0;
-			if (unitString.charCodeAt(0) < String("a").charCodeAt(0))
+			let rexResult = /([a-z]?)([A-Z0-9])([^*]*)(\*[^!]+)?/.exec(unitString);
+			if (rexResult[RXGROUP_COUNT] === "")
 			{
 				this.count = 1;
-				offset = 1;
 			}
 			else
 			{
 				this.count = unitString.charCodeAt(0) - String("a").charCodeAt(0) + 1;
-				offset = 2;
 			};
-			let codedName = unitString.substr(offset).match(/^[^*]+/);
-			this.name = (codedName !== null) ? codedName[0].replace(/[+]/g, " ") : "";
-			let qcCode = Number(Unit.VALUE_CODES.indexOf(unitString.substr(offset - 1, 1)));
+			let qcCode = Number(Unit.VALUE_CODES.indexOf(rexResult[RYGROUP_QUALITY_COMBAT_VALUE]));
 			this.combat = Math.floor(qcCode / 5);
 			this.quality = qcCode - (this.combat * 5) + 2;
-			if (unitString.indexOf("*") > -1)
+			this.name = rexResult[RXGROUP_NAME].replace(/[+]/g, " ");
+			if (rexResult[RXGROUP_SPECIALRULES] !== undefined)
 			{
-				let unitsSpecialRules = String(unitString.match(/[*].[^!]*/g)).match(/[a-z0-9]{2}/g);
+				let unitsSpecialRules = rexResult[RXGROUP_SPECIALRULES].match(/[a-z0-9]{2}/g);
 				let unitsSpecialTexts = unitString.match(/![^!]+/g);
-				let numberOfSpecialTexts = 0;
+				let additionalTextIndex = 0;
 				for (let s = 0, ss = unitsSpecialRules.length; s < ss; s += 1)
 				{
 					this.addSpecialrule(unitsSpecialRules[s], specialrulesDictionary);
@@ -161,9 +161,9 @@ class Unit
 					{
 						if (unitsSpecialTexts !== null)
 						{
-							currentSpecialrule.additionalText = String(unitsSpecialTexts[numberOfSpecialTexts]).substr(1);
+							currentSpecialrule.additionalText = String(unitsSpecialTexts[additionalTextIndex]).substr(1);
 						};
-						numberOfSpecialTexts += 1;
+						additionalTextIndex += 1;
 					};
 				};
 			};
