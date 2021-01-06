@@ -20,21 +20,17 @@ warbandcode.show = function ()
 warbandcode.applyClick = function (clickEvent)
 {
 	let codeIsValid = false;
-	let lastGoodwarbandcode = owc.warband.toString();
-	let newWarbandCode = document.querySelector("#warbandcode textarea").value;
-	if (newWarbandCode !== "")
+	let lastGoodWarbandCode = owc.warband.toString();
+	let newWarbandCode = document.querySelector("#warbandcode textarea").value.replace(/[\s]/g, "");
+	try
 	{
-		newWarbandCode = newWarbandCode.replace(/[\s]/g, "");
-		try
-		{
-			owc.warband.fromString(newWarbandCode, owc.resources.data);
-			codeIsValid = true;
-		}
-		catch (ex)
-		{
-			console.error("owc.warband.fromString():", ex, newWarbandCode);
-		}
+		owc.warband.fromString(newWarbandCode, owc.resources.data);
+		codeIsValid = true;
 	}
+	catch (ex)
+	{
+		console.error(ex.message);
+	};
 	if (codeIsValid === true)
 	{
 		editor.undoer.clear();
@@ -43,9 +39,9 @@ warbandcode.applyClick = function (clickEvent)
 	}
 	else
 	{
-		owc.warband.fromString(lastGoodwarbandcode, owc.resources.data);
+		owc.warband.fromString(lastGoodWarbandCode, owc.resources.data);
 		window.alert("The warband code you have entered is invalid.");
-	}
+	};
 };
 
 warbandcode.closeClick = function (clickEvent)
