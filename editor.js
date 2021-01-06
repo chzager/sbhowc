@@ -132,15 +132,16 @@ editor.manangeUnitClipboard = function ()
 	{
 		/* discard clipboard data if it's older than 30 minutes (#18) */
 		let diffMinutes = Math.abs(clipboardData.date - Date.now()) / (1000 * 60);
+		console.log(diffMinutes);
 		if (diffMinutes > 30)
 		{
 			localStorage.removeItem(editor.UNIT_CLIPBOARD_KEY);
 			clipboardData.data = null;
 		};
-		if (typeof ui.visualizer.refreshPasteUnitButton === "function")
-		{
-			ui.visualizer.refreshPasteUnitButton(clipboardData.title, clipboardData.data);
-		};
+	};
+	if (typeof ui.visualizer.refreshPasteUnitButton === "function")
+	{
+		ui.visualizer.refreshPasteUnitButton(clipboardData);
 	};
 };
 

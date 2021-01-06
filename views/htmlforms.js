@@ -289,7 +289,7 @@ htmlForm.refreshWarbandSummary = function ()
 	wrapperNode.appendChild(pageSnippets.produceFromSnippet("warband-summary", null, variables));
 };
 
-htmlForm.refreshPasteUnitButton = function (unitName, unitCode)
+htmlForm.refreshPasteUnitButton = function (clipboardData)
 {
 	let addunitContainer = document.querySelector("#additmes-container");
 	let pasteUnitNode = addunitContainer.querySelector("[data-action=\"pasteunit\"]");
@@ -297,13 +297,16 @@ htmlForm.refreshPasteUnitButton = function (unitName, unitCode)
 	{
 		pasteUnitNode.remove();
 	};
+	if (clipboardData !== null)
+	{
 	let variables =
 	{
-		"unit-name": unitName,
-		"unit-code": unitCode
+		"unit-name": clipboardData.title,
+		"unit-code": clipboardData.data
 	};
 	pasteUnitNode = pageSnippets.produceFromSnippet("paste-unit", htmlForm, variables);
 	addunitContainer.appendChild(pasteUnitNode);
+	};
 };
 
 htmlForm.makeEditable = function (refNode)
