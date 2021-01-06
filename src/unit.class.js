@@ -95,7 +95,7 @@ class Unit
 
 	removeSpecialrule(specialruleIndex)
 	{
-		this.specialrules.remove(specialruleIndex);
+		this.specialrules.splice(specialruleIndex, 1);
 	};
 
 	toString()

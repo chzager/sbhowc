@@ -195,14 +195,14 @@ editor.copyUnitToClipboard = function (unitIndex)
 editor.removeUnit = function (unitIndex)
 {
 	editor.setUndoPoint("Delete " + owc.warband.units[unitIndex].name.notEmpty(owc.resources.defaultText("defaultUnitName")));
-	owc.warband.units.remove(unitIndex);
+	owc.warband.units.splice(unitIndex, 1);
 };
 
 editor.moveUnitUp = function (unitIndex)
 {
 	if (unitIndex > 0)
 	{
-		owc.warband.units.swap(unitIndex, unitIndex - 1);
+		[owc.warband.units[unitIndex], owc.warband.units[unitIndex - 1]] = [owc.warband.units[unitIndex - 1], owc.warband.units[unitIndex]];
 	};
 };
 
@@ -210,7 +210,7 @@ editor.moveUnitDown = function (unitIndex)
 {
 	if (unitIndex < owc.warband.units.length - 1)
 	{
-		owc.warband.units.swap(unitIndex + 1, unitIndex);
+		[owc.warband.units[unitIndex], owc.warband.units[unitIndex + 1]] = [owc.warband.units[unitIndex + 1], owc.warband.units[unitIndex]];
 	};
 };
 
@@ -274,7 +274,7 @@ editor.addSpecialrule = function (unitIndex, specialruleKey)
 				{
 					if (owc.warband.units[unitIndex].specialrules[s].key === specialrule.replaces[r])
 					{
-						owc.warband.units[unitIndex].specialrules.copyWithin(s, ss-1);
+						owc.warband.units[unitIndex].specialrules.copyWithin(s, ss - 1);
 						owc.warband.units[unitIndex].specialrules.pop();
 						break;
 					};
