@@ -3,11 +3,12 @@
 var editor = {};
 
 editor.UNIT_CLIPBOARD_KEY = "owcUnitClipboard";
-editor.undoer = new Undoer();
+editor.undoer = null;
 editor.specialrulesList = [];
 
 editor.init = function ()
 {
+	editor.undoer = new Undoer();
 	window.addEventListener("editor", editor.eventListener);
 };
 
@@ -92,37 +93,22 @@ editor.eventListener = function (editorEvent)
 	};
 };
 
-editor.getSpecialrulesList = function ()
+editor.buildSpecialrulesCollection = function ()
 {
-	function _compareByText(a, b)
-	{
-		let compareResult = 0;
-		let aCompareValue = a.text.toLowerCase();
-		let bCompareValue = b.text.toLowerCase();
-		if (aCompareValue < bCompareValue)
-		{
-			compareResult = -1;
-		}
-		else if (aCompareValue > bCompareValue)
-		{
-			compareResult = 1;
-		};
-		return compareResult;
-	};
-	let specialruleCollecion = [];
+	editor.specialrulesList = [];
 	for (let key in owc.resources.data)
 	{
-		let resource = owc.resources.data[key];
 		if (owc.settings.ruleScope.includes(owc.resources.data[key].scope) === true)
 		{
-			let specialrule = {};
-			specialrule["key"] = key;
-			specialrule["text"] = ui.translate(key);
-			specialruleCollecion.push(specialrule);
+			editor.specialrulesList.push(
+			{
+				"key": key,
+				"text": ui.translate(key)
+			}
+			);
 		};
 	};
-	specialruleCollecion.sort(_compareByText);
-	editor.specialrulesList = specialruleCollecion;
+	editor.specialrulesList.sort((a, b) => a.text.localeCompare(b.text));
 };
 
 editor.manangeUnitClipboard = function ()

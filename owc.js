@@ -55,7 +55,7 @@ owc.main = function ()
 		};
 	};
 
-	editor.getSpecialrulesList();
+	editor.buildSpecialrulesCollection();
 	ui.initView();
 
 	if (ui.isInteractive === true)
