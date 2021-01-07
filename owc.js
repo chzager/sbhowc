@@ -60,7 +60,12 @@ owc.main = function ()
 
 	if (owc.ui.isInteractive === true)
 	{
-		didYouKnow.init();
+		fileIo.fetchServerFile("./res/didyouknow.json", (url, data) =>
+		{
+			owc.didYouKnow = new DidYouKnow(document.getElementById("didyouknow_text"), data.hints);
+			owc.didYouKnow.printRandomHint();
+		}
+		);
 	};
 };
 
