@@ -135,12 +135,12 @@ owc.storeWarband = function (pid = owc.pid)
 		/* do not store an empty warband (#17) */
 		if (owc.warband.isEmpty === false)
 		{
-			storager.store(pid, owc.warband.name.notEmpty(owc.resources.defaultText("defaultWarbandName")) + "[[" + owc.warband.figureCount + ";" + owc.warband.points + "]]", warbandCode);
+			storager.store(pid, owc.helper.getWarbandName() + "[[" + owc.warband.figureCount + ";" + owc.warband.points + "]]", warbandCode);
 		};
 	};
 };
 
-owc.importWarband = function(warbandCode)
+owc.importWarband = function (warbandCode)
 {
 	console.debug("owc.importWarband", warbandCode);
 	let newPid = "";
@@ -167,5 +167,9 @@ owc.importWarband = function(warbandCode)
 	};
 	console.debug("reloading with pid", newPid);
 	owc.setPid(newPid);
-
 };
+
+/* helper functions */
+owc.helper = {};
+owc.helper.getUnitName = (unitIndex) => owc.warband.units[unitIndex].name.notEmpty(owc.resources.defaultText("defaultUnitName"));
+owc.helper.getWarbandName = () => owc.warband.name.notEmpty(owc.resources.defaultText("defaultWarbandName"));

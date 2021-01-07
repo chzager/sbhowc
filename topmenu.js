@@ -105,7 +105,7 @@ topMenu.warbandFromFileClick = function (clickEvent)
 
 topMenu.warbandToFileClick = function (clickEvent)
 {
-	fileIo.offerFileToClient(owc.warband.name.notEmpty(owc.resources.defaultText("defaultWarbandName")) + ".sbh.txt", owc.warband.toString());
+	fileIo.offerFileToClient(owc.helper.getWarbandName() + ".sbh.txt", owc.warband.toString());
 };
 
 topMenu.warbandMenuClick = function (clickEvent)

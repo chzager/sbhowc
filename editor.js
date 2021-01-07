@@ -165,7 +165,7 @@ editor.addUnit = function (unitCode = "")
 
 editor.duplicateUnit = function (unitIndex)
 {
-	editor.setUndoPoint("Duplicate " + owc.warband.units[unitIndex].name.notEmpty(owc.resources.defaultText("defaultUnitName")));
+	editor.setUndoPoint("Duplicate " + owc.helper.getUnitName(unitIndex));
 	let copiedUnit = new Unit();
 	copiedUnit.fromString(owc.warband.units[unitIndex].toString(), Warband.CURRENT_VERSION, owc.resources.data);
 	owc.warband.units.splice(unitIndex, 0, copiedUnit);
@@ -173,13 +173,13 @@ editor.duplicateUnit = function (unitIndex)
 
 editor.copyUnitToClipboard = function (unitIndex)
 {
-	storager.store(editor.UNIT_CLIPBOARD_KEY, owc.warband.units[unitIndex].name.notEmpty(owc.resources.defaultText("defaultUnitName")), owc.warband.units[unitIndex].toString());
+	storager.store(editor.UNIT_CLIPBOARD_KEY, owc.helper.getUnitName(unitIndex), owc.warband.units[unitIndex].toString());
 	editor.manangeUnitClipboard();
 };
 
 editor.removeUnit = function (unitIndex)
 {
-	editor.setUndoPoint("Delete " + owc.warband.units[unitIndex].name.notEmpty(owc.resources.defaultText("defaultUnitName")));
+	editor.setUndoPoint("Delete " + owc.helper.getUnitName(unitIndex));
 	owc.warband.units.splice(unitIndex, 1);
 };
 
@@ -221,7 +221,7 @@ editor.setUnitCount = function (unitIndex, newCount)
 	};
 	if (owc.warband.units[unitIndex].count !== newCount)
 	{
-		editor.setUndoPoint("Set count of " + owc.warband.units[unitIndex].name.notEmpty(owc.resources.defaultText("defaultUnitName")));
+		editor.setUndoPoint("Set count of " + owc.helper.getUnitName(unitIndex));
 		owc.warband.units[unitIndex].count = newCount;
 	};
 };
@@ -230,7 +230,7 @@ editor.setUnitQuality = function (unitIndex, newQuality)
 {
 	if (owc.warband.units[unitIndex].quality !== newQuality)
 	{
-		editor.setUndoPoint("Set quality value of " + owc.warband.units[unitIndex].name.notEmpty(owc.resources.defaultText("defaultUnitName")));
+		editor.setUndoPoint("Set quality value of " + owc.helper.getUnitName(unitIndex));
 		owc.warband.units[unitIndex].quality = newQuality;
 	};
 };
@@ -239,7 +239,7 @@ editor.setUnitCombatscore = function (unitIndex, newCombatscore)
 {
 	if (owc.warband.units[unitIndex].combat !== newCombatscore)
 	{
-		editor.setUndoPoint("Set combat value of " + owc.warband.units[unitIndex].name.notEmpty(owc.resources.defaultText("defaultUnitName")));
+		editor.setUndoPoint("Set combat value of " + owc.helper.getUnitName(unitIndex));
 		owc.warband.units[unitIndex].combat = newCombatscore;
 	};
 };
@@ -247,7 +247,7 @@ editor.setUnitCombatscore = function (unitIndex, newCombatscore)
 editor.addSpecialrule = function (unitIndex, specialruleKey)
 {
 	let nativeText = owc.resources.defaultText(specialruleKey);
-	editor.setUndoPoint("Add \"" + nativeText + "\" special rule to " + owc.warband.units[unitIndex].name.notEmpty(owc.resources.defaultText("defaultUnitName")));
+	editor.setUndoPoint("Add \"" + nativeText + "\" special rule to " + owc.helper.getUnitName(unitIndex));
 	if (owc.warband.units[unitIndex].addSpecialrule(specialruleKey, owc.resources.data) === true)
 	{
 		let specialrule = owc.resources.data[specialruleKey];
@@ -276,7 +276,7 @@ editor.addSpecialrule = function (unitIndex, specialruleKey)
 editor.removeSpecialrule = function (unitIndex, specialruleIndex)
 {
 	let nativeText = owc.resources.defaultText(owc.warband.units[unitIndex].specialrules[specialruleIndex].key);
-	editor.setUndoPoint("Revoke \"" + nativeText + "\" special rule from " + owc.warband.units[unitIndex].name.notEmpty(owc.resources.defaultText("defaultUnitName")));
+	editor.setUndoPoint("Revoke \"" + nativeText + "\" special rule from " + owc.helper.getUnitName(unitIndex));
 	owc.warband.units[unitIndex].removeSpecialrule(specialruleIndex);
 };
 
@@ -289,7 +289,7 @@ editor.setSpecialruleText = function (unitIndex, specialruleIndex, newSpecialrul
 	};
 	if (owc.warband.units[unitIndex].specialrules[specialruleIndex].additionalText !== newSpecialruleText)
 	{
-		editor.setUndoPoint("Specify \"" + nativeText + "\" special rule for " + owc.warband.units[unitIndex].name.notEmpty(owc.resources.defaultText("defaultUnitName")));
+		editor.setUndoPoint("Specify \"" + nativeText + "\" special rule for " + owc.helper.getUnitName(unitIndex));
 		owc.warband.units[unitIndex].specialrules[specialruleIndex].additionalText = newSpecialruleText;
 	};
 };
