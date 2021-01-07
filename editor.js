@@ -14,38 +14,36 @@ editor.init = function ()
 
 editor.eventListener = function (editorEvent)
 {
-	console.log("editorEvent", editorEvent.detail);
+	let action = (editorEvent.detail.action !== undefined) ? editorEvent.detail.action : "set-" + editorEvent.detail.editor;
+	console.log("editor.eventListener()", action, editorEvent.detail);
 	let undoPoints = editor.undoer.snapshots.length;
 	let unitIndex = Number(editorEvent.detail.unitIndex);
 	let specialruleIndex = Number(editorEvent.detail.specialruleIndex);
-	switch (editorEvent.detail.editor)
+	switch (action)
 	{
-	case "warbandname":
+	case "set-warbandname":
 		editor.setWarbandName(editorEvent.detail.value);
 		break;
-	case "name":
+	case "set-name":
 		editor.setUnitName(unitIndex, editorEvent.detail.value);
 		ui.printUnit(unitIndex);
 		break;
-	case "count":
+	case "set-count":
 		editor.setUnitCount(unitIndex, Number(editorEvent.detail.value));
 		ui.printUnit(unitIndex);
 		break;
-	case "quality":
+	case "set-quality":
 		editor.setUnitQuality(unitIndex, Number(editorEvent.detail.value));
 		ui.printUnit(unitIndex);
 		break;
-	case "combat":
+	case "set-combat":
 		editor.setUnitCombatscore(unitIndex, Number(editorEvent.detail.value));
 		ui.printUnit(unitIndex);
 		break;
-	case "additionaltext":
+	case "set-additionaltext":
 		editor.setSpecialruleText(unitIndex, specialruleIndex, editorEvent.detail.value);
 		ui.printUnit(unitIndex);
 		break;
-	}
-	switch (editorEvent.detail.action)
-	{
 	case "addunit":
 		editor.addUnit();
 		ui.printWarband();
