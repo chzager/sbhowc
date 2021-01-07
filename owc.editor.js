@@ -187,6 +187,7 @@ owc.editor.moveUnitUp = function (unitIndex)
 {
 	if (unitIndex > 0)
 	{
+		owc.editor.setUndoPoint("Move " + owc.helper.getUnitName(unitIndex) + " up");
 		[owc.warband.units[unitIndex], owc.warband.units[unitIndex - 1]] = [owc.warband.units[unitIndex - 1], owc.warband.units[unitIndex]];
 	};
 };
@@ -195,6 +196,7 @@ owc.editor.moveUnitDown = function (unitIndex)
 {
 	if (unitIndex < owc.warband.units.length - 1)
 	{
+		owc.editor.setUndoPoint("Move " + owc.helper.getUnitName(unitIndex) + " down");
 		[owc.warband.units[unitIndex], owc.warband.units[unitIndex + 1]] = [owc.warband.units[unitIndex + 1], owc.warband.units[unitIndex]];
 	};
 };
