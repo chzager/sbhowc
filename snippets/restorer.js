@@ -9,13 +9,13 @@ restorer.show = function ()
 		document.body.appendChild(pageSnippets.produceFromSnippet("restorer", restorer));
 	};
 	restorer.listStoredData();
-	ui.showElement(document.getElementById("restorer"), String(Math.floor(document.documentElement.scrollTop + document.body.clientHeight / 15)) + "px", null, true);
+	owc.ui.showElement(document.getElementById("restorer"), String(Math.floor(document.documentElement.scrollTop + document.body.clientHeight / 15)) + "px", null, true);
 };
 
 restorer.storageItemClick = function (clickEvent)
 {
 	let pid = clickEvent.target.parentElement.getAttribute("data-id");
-	ui.sweepVolatiles();
+	owc.ui.sweepVolatiles();
 	owc.setPid(pid);
 };
 
@@ -29,7 +29,7 @@ restorer.deleteClick = function (clickEvent)
 
 restorer.closeClick = function (clickEvent)
 {
-	ui.sweepVolatiles();
+	owc.ui.sweepVolatiles();
 };
 
 restorer.listStoredData = function ()

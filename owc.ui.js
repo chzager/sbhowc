@@ -1,12 +1,12 @@
 "use strict";
 
-var ui = {};
+owc.ui = {};
 
-ui.volatileSelectors = [".volatile", ".blue"];
-ui.isInteractive = (window.location.getParam(owc.urlParam.print) !== "1");
-ui.visualizer = null;
+owc.ui.volatileSelectors = [".volatile", ".blue"];
+owc.ui.isInteractive = (window.location.getParam(owc.urlParam.print) !== "1");
+owc.ui.visualizer = null;
 
-ui.showElement = function (domElement, topPosition = null, leftPosition = null, blurPage = false)
+owc.ui.showElement = function (domElement, topPosition = null, leftPosition = null, blurPage = false)
 {
 	domElement.style.display = "block";
 	domElement.style.visibility = "visible";
@@ -20,15 +20,15 @@ ui.showElement = function (domElement, topPosition = null, leftPosition = null, 
 	};
 	if (blurPage === true)
 	{
-		ui.showElement(document.getElementById("blur"));
+		owc.ui.showElement(document.getElementById("blur"));
 	};
 };
 
-ui.sweepVolatiles = function ()
+owc.ui.sweepVolatiles = function ()
 {
-	for (let s = 0, ss = ui.volatileSelectors.length; s < ss; s += 1)
+	for (let s = 0, ss = owc.ui.volatileSelectors.length; s < ss; s += 1)
 	{
-		let volatileElements = document.body.querySelectorAll(ui.volatileSelectors[s]);
+		let volatileElements = document.body.querySelectorAll(owc.ui.volatileSelectors[s]);
 		for (let e = 0, ee = volatileElements.length; e < ee; e += 1)
 		{
 			if (volatileElements[e])
@@ -39,31 +39,31 @@ ui.sweepVolatiles = function ()
 	};
 };
 
-ui.initView = function ()
+owc.ui.initView = function ()
 {
-	if (ui.visualizer !== null)
+	if (owc.ui.visualizer !== null)
 	{
-		ui.visualizer.unload();
+		owc.ui.visualizer.unload();
 	};
 	let viewFullName = owc.settings.viewMode + "view";
 	pageSnippets.import("./views/" + viewFullName + "/" + viewFullName + ".xml", () =>
 	{
-		ui.visualizer = window[viewFullName];
-		ui.visualizer.init();
-		ui.printWarband();
+		owc.ui.visualizer = window[viewFullName];
+		owc.ui.visualizer.init();
+		owc.ui.printWarband();
 	}
 	);
 };
 
-ui.printUnit = function (unitIndex)
+owc.ui.printUnit = function (unitIndex)
 {
-	ui.visualizer.refreshUnit(unitIndex);
-	ui.visualizer.refreshWarbandSummary();
-	ui.refreshUndoButton();
-	ui.refreshWindowTitle();
+	owc.ui.visualizer.refreshUnit(unitIndex);
+	owc.ui.visualizer.refreshWarbandSummary();
+	owc.ui.refreshUndoButton();
+	owc.ui.refreshWindowTitle();
 };
 
-ui.printWarband = function ()
+owc.ui.printWarband = function ()
 {
 	let currentScrollPos =
 	{
@@ -72,13 +72,13 @@ ui.printWarband = function ()
 	};
 	let warbandCanvas = document.getElementById("warbandCanvas");
 	warbandCanvas.removeAllChildren();
-	warbandCanvas.appendChild(ui.visualizer.getWarbandHtml());
-	ui.visualizer.refreshWarbandSummary();
-	ui.refreshWarbandName();
-	if (ui.isInteractive === true)
+	warbandCanvas.appendChild(owc.ui.visualizer.getWarbandHtml());
+	owc.ui.visualizer.refreshWarbandSummary();
+	owc.ui.refreshWarbandName();
+	if (owc.ui.isInteractive === true)
 	{
-		ui.refreshUndoButton();
-		editor.manangeUnitClipboard();
+		owc.ui.refreshUndoButton();
+		owc.editor.manangeUnitClipboard();
 		htmlBuilder.removeNodesByQuerySelectors([".only-print"]);
 	}
 	else
@@ -89,32 +89,32 @@ ui.printWarband = function ()
 	window.scrollTo(currentScrollPos.x, currentScrollPos.y);
 };
 
-ui.refreshWarbandName = function ()
+owc.ui.refreshWarbandName = function ()
 {
-	ui.visualizer.refreshWarbandName();
-	ui.refreshUndoButton();
-	ui.refreshWindowTitle();
+	owc.ui.visualizer.refreshWarbandName();
+	owc.ui.refreshUndoButton();
+	owc.ui.refreshWindowTitle();
 };
 
-ui.refreshWindowTitle = function ()
+owc.ui.refreshWindowTitle = function ()
 {
 	document.title = owc.helper.getWarbandName() + " (" + owc.warband.points + " " + owc.resources.translate("points", owc.settings.language) + ") - " + owc.TITLE;
 };
 
-ui.translate = function (key, variables)
+owc.ui.translate = function (key, variables)
 {
 	return owc.resources.translate(key, owc.settings.language, variables);
 };
 
-ui.refreshUndoButton = function ()
+owc.ui.refreshUndoButton = function ()
 {
-	if (ui.isInteractive === true)
+	if (owc.ui.isInteractive === true)
 	{
 		let undoButton = document.getElementById("undoButton");
-		if (editor.undoer.canUndo === true)
+		if (owc.editor.undoer.canUndo === true)
 		{
 			undoButton.classList.remove("disabled");
-			undoButton.getElementsByClassName("tooltip")[0].innerHTML = "Undo: " + editor.undoer.lastChangeDescription + ".";
+			undoButton.getElementsByClassName("tooltip")[0].innerHTML = "Undo: " + owc.editor.undoer.lastChangeDescription + ".";
 		}
 		else
 		{

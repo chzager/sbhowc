@@ -25,7 +25,7 @@ settingsUi.show = function ()
 	{
 		settingsPanel.querySelector("input[data-settingsgroup=\"options\"][data-settingskey=\"" + key + "\"]").checked = owc.settings.options[key];
 	};
-	ui.showElement(settingsPanel, String(Math.floor(document.documentElement.scrollTop + document.body.clientHeight / 15)) + "px", null, true);
+	owc.ui.showElement(settingsPanel, String(Math.floor(document.documentElement.scrollTop + document.body.clientHeight / 15)) + "px", null, true);
 };
 
 settingsUi.applySettings=function()
@@ -66,7 +66,7 @@ settingsUi.applySettings=function()
 		}
 	};
 	_applyFromGui(owc.settings);
-	ui.sweepVolatiles();
+	owc.ui.sweepVolatiles();
 	owc.settings.save();
 	owc.fetchResources();
 };

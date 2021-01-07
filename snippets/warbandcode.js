@@ -14,7 +14,7 @@ warbandcode.show = function ()
 	};
 	let warbandcodeEditor = document.querySelector("#warbandcode textarea");
 	warbandcodeEditor.value = owc.warband.toString();
-	ui.showElement(document.getElementById("warbandcode"), String(Math.floor(document.documentElement.scrollTop + document.body.clientHeight / 15)) + "px", null, true);
+	owc.ui.showElement(document.getElementById("warbandcode"), String(Math.floor(document.documentElement.scrollTop + document.body.clientHeight / 15)) + "px", null, true);
 };
 
 warbandcode.applyClick = function (clickEvent)
@@ -33,9 +33,9 @@ warbandcode.applyClick = function (clickEvent)
 	};
 	if (codeIsValid === true)
 	{
-		editor.undoer.clear();
-		ui.printWarband();
-		ui.sweepVolatiles();
+		owc.editor.undoer.clear();
+		owc.ui.printWarband();
+		owc.ui.sweepVolatiles();
 	}
 	else
 	{
@@ -46,7 +46,7 @@ warbandcode.applyClick = function (clickEvent)
 
 warbandcode.closeClick = function (clickEvent)
 {
-	ui.sweepVolatiles();
+	owc.ui.sweepVolatiles();
 };
 
 warbandcode.copyToClipboardClick = function (clickEvent)

@@ -44,7 +44,7 @@ owc.main = function ()
 	let storedData = storager.retrieve(owc.pid);
 	if (storedData === null)
 	{
-		editor.newWarband();
+		owc.editor.newWarband();
 	}
 	else
 	{
@@ -55,10 +55,10 @@ owc.main = function ()
 		};
 	};
 
-	editor.buildSpecialrulesCollection();
-	ui.initView();
+	owc.editor.buildSpecialrulesCollection();
+	owc.ui.initView();
 
-	if (ui.isInteractive === true)
+	if (owc.ui.isInteractive === true)
 	{
 		didYouKnow.init();
 	};
@@ -173,3 +173,4 @@ owc.importWarband = function (warbandCode)
 owc.helper = {};
 owc.helper.getUnitName = (unitIndex) => owc.warband.units[unitIndex].name.notEmpty(owc.resources.defaultText("defaultUnitName"));
 owc.helper.getWarbandName = () => owc.warband.name.notEmpty(owc.resources.defaultText("defaultWarbandName"));
+owc.helper.translate = (key, variables) => owc.resources.translate(key, owc.settings.language, variables);

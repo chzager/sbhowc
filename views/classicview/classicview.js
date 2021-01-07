@@ -28,17 +28,17 @@ classicview.getWarbandHtml = function ()
 	let result;
 	let variables =
 	{
-		"count": ui.translate("count"),
-		"name": ui.translate("name"),
-		"points": ui.translate("points"),
-		"quality": ui.translate("quality"),
-		"combat": ui.translate("combat"),
-		"specialrules": ui.translate("specialrules"),
+		"count": owc.helper.translate("count"),
+		"name": owc.helper.translate("name"),
+		"points": owc.helper.translate("points"),
+		"quality": owc.helper.translate("quality"),
+		"combat": owc.helper.translate("combat"),
+		"specialrules": owc.helper.translate("specialrules"),
 		"warband-name": owc.helper.getWarbandName(),
-		"default-warband-name": ui.translate("defaultWarbandName")
+		"default-warband-name": owc.helper.translate("defaultWarbandName")
 	};
 	result = pageSnippets.produceFromSnippet("classicview", classicview, variables);
-	if (ui.isInteractive === false)
+	if (owc.ui.isInteractive === false)
 	{
 		htmlBuilder.removeNodesByQuerySelectors(["select", "input", ".specialruleEditorSeparator", ".addunit"], result);
 		htmlBuilder.removeClasses(["interactive", "screenfx", "out-of-scope"], result);
@@ -79,13 +79,13 @@ classicview.insertUnitSheets = function (refNode)
 	let variables =
 	{
 		"unit-index": null,
-		"default-unit-name": ui.translate("defaultUnitName"),
-		"count": ui.translate("count"),
-		"name": ui.translate("name"),
-		"points": ui.translate("points"),
-		"quality": ui.translate("quality"),
-		"combat": ui.translate("combat"),
-		"specialrules": ui.translate("specialrules")
+		"default-unit-name": owc.helper.translate("defaultUnitName"),
+		"count": owc.helper.translate("count"),
+		"name": owc.helper.translate("name"),
+		"points": owc.helper.translate("points"),
+		"quality": owc.helper.translate("quality"),
+		"combat": owc.helper.translate("combat"),
+		"specialrules": owc.helper.translate("specialrules")
 	};
 	for (let u = 0, uu = owc.warband.units.length; u < uu; u += 1)
 	{
@@ -108,6 +108,6 @@ classicview.onWindowResize = function (resizeEvent)
 	if (classicview.columnCount !== setColumnCount)
 	{
 		classicview.columnCount = setColumnCount;
-		ui.printWarband();
+		owc.ui.printWarband();
 	};
 };

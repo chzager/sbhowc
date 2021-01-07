@@ -1,27 +1,27 @@
 "use strict";
 
-var topMenu = {};
+owc.topMenu = {};
 
-topMenu.init = function ()
+owc.topMenu.init = function ()
 {
-	topMenu.warbandMenu = new Menubox("warbandMenu",
+	owc.topMenu.warbandMenu = new Menubox("warbandMenu",
 	{
 		"newWarband": "New warband",
 		"showWarbandCode": "Show warband code",
 		"restoreWarband": "Restore warband"
 	}
 		);
-	window.addEventListener("menubox", topMenu.onMenuboxEvent);
+	window.addEventListener("menubox", owc.topMenu.menuboxEventListener);
 };
 
-topMenu.newWarband = function ()
+owc.topMenu.newWarband = function ()
 {
 	let params = {};
 	params[owc.urlParam.pid] = owc.generateNewPid();
 	window.open(window.location.setParams(params, false, false));
 };
 
-topMenu.showWarbandCode = function ()
+owc.topMenu.showWarbandCode = function ()
 {
 	function _showWarbandCode()
 	{
@@ -37,7 +37,7 @@ topMenu.showWarbandCode = function ()
 	};
 };
 
-topMenu.showWarbandRestorer = function ()
+owc.topMenu.showWarbandRestorer = function ()
 {
 	function _showRestorer()
 	{
@@ -53,14 +53,14 @@ topMenu.showWarbandRestorer = function ()
 	};
 };
 
-topMenu.printPreviewClick = function (clickEvent)
+owc.topMenu.printPreviewClick = function (clickEvent)
 {
 	let params = {};
 	params[owc.urlParam.print] = "1";
 	window.open(window.location.setParams(params, true, false));
 };
 
-topMenu.showSettingsClick = function (clickEvent)
+owc.topMenu.showSettingsClick = function (clickEvent)
 {
 	function _showSettings()
 	{
@@ -76,16 +76,16 @@ topMenu.showSettingsClick = function (clickEvent)
 	};
 };
 
-topMenu.undoClick = function (clickEvent)
+owc.topMenu.undoClick = function (clickEvent)
 {
-	if (editor.undoer.canUndo === true)
+	if (owc.editor.undoer.canUndo === true)
 	{
-		owc.warband.fromString(editor.undoer.undo(), owc.resources.data);
-		ui.printWarband();
+		owc.warband.fromString(owc.editor.undoer.undo(), owc.resources.data);
+		owc.ui.printWarband();
 	}
 };
 
-topMenu.warbandFromFileClick = function (clickEvent)
+owc.topMenu.warbandFromFileClick = function (clickEvent)
 {
 	fileIo.requestClientFile(clickEvent, (fileEvent) =>
 	{
@@ -103,30 +103,30 @@ topMenu.warbandFromFileClick = function (clickEvent)
 	);
 };
 
-topMenu.warbandToFileClick = function (clickEvent)
+owc.topMenu.warbandToFileClick = function (clickEvent)
 {
 	fileIo.offerFileToClient(owc.helper.getWarbandName() + ".sbh.txt", owc.warband.toString());
 };
 
-topMenu.warbandMenuClick = function (clickEvent)
+owc.topMenu.warbandMenuClick = function (clickEvent)
 {
 	let viewport = clickEvent.target.getBoundingClientRect();
 	clickEvent.stopPropagation();
-	topMenu.warbandMenu.popupAt(Math.floor(viewport.bottom + window.scrollY), Math.floor(viewport.left + window.scrollX));
+	owc.topMenu.warbandMenu.popupAt(Math.floor(viewport.bottom + window.scrollY), Math.floor(viewport.left + window.scrollX));
 };
 
-topMenu.onMenuboxEvent = function (menuboxEvent)
+owc.topMenu.menuboxEventListener = function (menuboxEvent)
 {
 	switch (menuboxEvent.detail.itemKey)
 	{
 	case "newWarband":
-		topMenu.newWarband();
+		owc.topMenu.newWarband();
 		break;
 	case "showWarbandCode":
-		topMenu.showWarbandCode();
+		owc.topMenu.showWarbandCode();
 		break;
 	case "restoreWarband":
-		topMenu.showWarbandRestorer();
+		owc.topMenu.showWarbandRestorer();
 		break;
 	};
 };

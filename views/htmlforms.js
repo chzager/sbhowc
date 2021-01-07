@@ -31,15 +31,15 @@ htmlForm.init = function ()
 	variables["specialrules-list"].push(
 	{
 		"key": "",
-		"text": ui.translate("addSpecialrule")
+		"text": owc.helper.translate("addSpecialrule")
 	}
 	);
-	for (let s = 0, ss = editor.specialrulesList.length; s < ss; s += 1)
+	for (let s = 0, ss = owc.editor.specialrulesList.length; s < ss; s += 1)
 	{
 		variables["specialrules-list"].push(
 		{
-			"key": editor.specialrulesList[s].key,
-			"text": editor.specialrulesList[s].text
+			"key": owc.editor.specialrulesList[s].key,
+			"text": owc.editor.specialrulesList[s].text
 		}
 		);
 	};
@@ -69,7 +69,7 @@ htmlForm.unload = function(menuboxEvent)
 
 htmlForm.focusEventListener = function (focusEvent)
 {
-	editor.manangeUnitClipboard();
+	owc.editor.manangeUnitClipboard();
 };
 
 htmlForm.menuboxEventListener = function (menuboxEvent)
@@ -164,7 +164,7 @@ htmlForm.refreshWarbandName = function ()
 	let targetNode = document.getElementById("warbandheader");
 	if (warbandName === "")
 	{
-		warbandName = ui.translate("defaultWarbandName");
+		warbandName = owc.helper.translate("defaultWarbandName");
 	};
 	targetNode.innerText = warbandName;
 };
@@ -176,7 +176,7 @@ htmlForm.refreshUnit = function (unitIndex, refNode = null)
 		refNode = document.querySelector("[data-unitindex=\"" + unitIndex + "\"]");
 	};
 	let unit = owc.warband.units[unitIndex];
-	refNode.querySelector("[data-editor=\"name\"]").innerText = unit.name.notEmpty(ui.translate("defaultUnitName"));
+	refNode.querySelector("[data-editor=\"name\"]").innerText = unit.name.notEmpty(owc.helper.translate("defaultUnitName"));
 	if ((unit.isPersonality === true) && (owc.settings.options.highlightPersonalities === true))
 	{
 		refNode.querySelector("[data-editor=\"name\"]").classList.add("personality");
@@ -218,7 +218,7 @@ htmlForm.refreshSpecialrules = function (unitIndex, refNode)
 	for (let s = 0; s < specialrulesCount; s += 1)
 	{
 		let specialruleNode;
-		let specialruleText = ui.translate(unit.specialrules[s].key);
+		let specialruleText = owc.helper.translate(unit.specialrules[s].key);
 		let variables =
 		{
 			"index": s,
@@ -241,7 +241,7 @@ htmlForm.refreshSpecialrules = function (unitIndex, refNode)
 
 htmlForm.refreshWarbandSummary = function ()
 {
-	let warbandSummaryText = ui.translate("totalPoints",
+	let warbandSummaryText = owc.helper.translate("totalPoints",
 	{
 		"F": owc.warband.figureCount,
 		"P": owc.warband.points
@@ -251,7 +251,7 @@ htmlForm.refreshWarbandSummary = function ()
 	{
 		if (owc.settings.options.personalitiesInPoints === true)
 		{
-			warbandSummaryText += " (" + ui.translate("personalitiesPoints",
+			warbandSummaryText += " (" + owc.helper.translate("personalitiesPoints",
 			{
 				"Q": owc.warband.personalityPoints
 			}
@@ -259,7 +259,7 @@ htmlForm.refreshWarbandSummary = function ()
 		}
 		else
 		{
-			warbandSummaryText += " (" + ui.translate("personalitiesPercent",
+			warbandSummaryText += " (" + owc.helper.translate("personalitiesPercent",
 			{
 				"P": Math.floor(owc.warband.personalityPoints / owc.warband.points * 100)
 			}
@@ -276,7 +276,7 @@ htmlForm.refreshWarbandSummary = function ()
 			if (rulecheckResult.length > 0)
 			{
 				variables["vioalated-rules-count"] = rulecheckResult.length;
-				variables["rules-violations"] = ui.translate("ruleViolation");
+				variables["rules-violations"] = owc.helper.translate("ruleViolation");
 				variables["rule-violations"] = [];
 				for (let v = 0, vv = rulecheckResult.length; v < vv; v += 1)
 				{
