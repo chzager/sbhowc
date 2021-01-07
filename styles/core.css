@@ -101,6 +101,44 @@ select { cursor:pointer; padding:0pt 1pt; }
 	font-size:10pt;
 	}
 
+#loading-warpper {
+	position: absolute;
+	top: 35%;
+	left: 30%;
+	width: 40%;
+	background-color: #ffffff;
+	padding: 1em 1.5em;
+	border-radius: 1em;
+	font-family: sans-serif;
+	box-shadow: 1em 1em 4em rgba(0, 0, 0, 0.4);
+	cursor: wait;
+ 	z-index:90100;
+	}
+#loading-warpper .loading-text {
+	margin-bottom: 0.5em;
+	font-size: 90%;
+	}
+#loading-warpper .loading-gradient {
+    width: 100%;
+    background-size: 150% 100%;
+		border-radius:1em;
+    background-image: repeating-linear-gradient(
+		100deg,
+		#d0dcf4 0%,
+		#f3f7fe 35%,
+		#ffde7e 35.1%,
+		#ffde7e 50%,
+		#ff8e00 50.1%,
+		#ff8e00 60%,
+		#f3f7fe 60.1%,
+		#d0dcf4 100%
+	);
+  animation: loading-gradient linear 1s infinite;
+	}
+@keyframes loading-gradient {
+    0% {background-position: 200% 0%}
+    100% {background-position: -100% 0%}
+	}
 #blur {
 	position:fixed;
 	top:0px;

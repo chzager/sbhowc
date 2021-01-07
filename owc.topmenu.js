@@ -26,7 +26,9 @@ owc.topMenu.showWarbandCode = function ()
 	function _showWarbandCode()
 	{
 		warbandcode.show();
+		owc.ui.waitEnd();
 	};
+	owc.ui.wait();
 	if (document.getElementById("warbandcode") === null)
 	{
 		pageSnippets.import("./snippets/warbandcode.xml", _showWarbandCode);
@@ -42,7 +44,9 @@ owc.topMenu.showWarbandRestorer = function ()
 	function _showRestorer()
 	{
 		restorer.show();
+		owc.ui.waitEnd();
 	};
+	owc.ui.wait();
 	if (document.getElementById("restorer") === null)
 	{
 		pageSnippets.import("snippets/restorer.xml", _showRestorer);
@@ -65,7 +69,9 @@ owc.topMenu.showSettingsClick = function (clickEvent)
 	function _showSettings()
 	{
 		settingsUi.show();
+		owc.ui.waitEnd();
 	};
+	owc.ui.wait();
 	if (document.getElementById("settings") === null)
 	{
 		pageSnippets.import("./snippets/settings.xml", _showSettings);
@@ -87,12 +93,14 @@ owc.topMenu.undoClick = function (clickEvent)
 
 owc.topMenu.warbandFromFileClick = function (clickEvent)
 {
+	owc.ui.wait();
 	fileIo.requestClientFile(clickEvent, (fileEvent) =>
 	{
 		let warbandCode = fileEvent.target.result;
 		try
 		{
 			owc.importWarband(warbandCode);
+			owc.ui.waitEnd();
 		}
 		catch (ex)
 		{

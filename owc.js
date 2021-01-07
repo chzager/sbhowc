@@ -54,10 +54,8 @@ owc.main = function ()
 			owc.warband.fromString(warbandCode, owc.resources.data);
 		};
 	};
-
 	owc.editor.buildSpecialrulesCollection();
 	owc.ui.initView();
-
 	if (owc.ui.isInteractive === true)
 	{
 		fileIo.fetchServerFile("./res/didyouknow.json", (url, data) =>
@@ -67,6 +65,7 @@ owc.main = function ()
 		}
 		);
 	};
+	owc.ui.waitEnd();
 };
 
 owc.setPid = function (newPid, newWindow = false)

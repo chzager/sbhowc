@@ -123,3 +123,6 @@ owc.ui.refreshUndoButton = function ()
 		};
 	};
 };
+
+owc.ui.wait = () => document.getElementById("loading-warpper").style.visibility = "visible";
+owc.ui.waitEnd = () => document.getElementById("loading-warpper").style.visibility = "hidden";
