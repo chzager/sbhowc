@@ -16,7 +16,7 @@
 					and without predict. The only way to securly save your warbands is via "save to file" to your device.
 				</div>
 				<div id="restorer-table-frame">
-					<dht:insert-snippet name="table-frame"/>
+					<dht:insert-snippet name="{{snippet-name}}"/>
 				</div>
 				<p>Click any to restore.</p>
 			</div>
@@ -45,6 +45,29 @@
 			<td>{{last-modified}}</td>
 			<td>
 				<span dht:onclick="deleteClick" class="delete">&#x2716;</span>
+			</td>
+		</tr>
+	</dht:snippet>
+	<dht:snippet name="table-frame-small">
+		<table class="localStore">
+			<tr>
+				<th>Warband</th>
+				<th>Details</th>
+			</tr>
+			<tbody id="restorer-tbody"/>
+		</table>
+	</dht:snippet>
+	<dht:snippet name="table-row-small">
+		<tr data-id="{{pid}}" dht:onclick="storageItemClick">
+			<td>{{warband-name}}</td>
+			<td>
+				<div>
+					<span class="x50pc">{{figure-count}} Figs.</span>
+					<span class="x50pc">{{points}} Pts.</span>
+				</div>
+				<div>
+					<span class="x100pc">{{last-modified}}</span>
+				</div>
 			</td>
 		</tr>
 	</dht:snippet>

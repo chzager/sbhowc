@@ -17,7 +17,7 @@
 #restorer table.localStore tr td,
 #restorer table.localStore tr th {
 	padding: 0.2em;
-}
+	}
 
 #restorer table.localStore tr th {
 	border-bottom: 1px solid #c1c1c1;
@@ -26,7 +26,7 @@
 	position:  sticky;
 	top: 0px;
 	padding-right: 1.5em;
-}
+	}
 
 #restorer table.localStore tr * {
 	text-align: center;
@@ -38,11 +38,11 @@
 
 #restorer table.localStore tr[data-id] *:first-child {
 	text-align: left;
-}
+	}
 
 #restorer table.localStore tr[data-id]:hover {
 	background-color: #e0e8f8;
-}
+	}
 
 #restorer table.localStore tr[data-id] span.delete {
 	font-size: 70%;
@@ -54,11 +54,27 @@
 	border-radius: 0.3em;
 	padding: 0.2em 0.35em;
 	visibility: hidden;
-}
+	}
 
 #restorer table.localStore tr[data-id] td:hover span.delete {
 	visibility: visible;
-}
+	}
+
+#restorer table.localStore tr[data-id] span.x50pc {
+	font-size: 75%;
+	text-align: center;
+	display: inline-block;
+	width: 50%;
+	color: #969696;
+	}
+#restorer table.localStore tr[data-id] span.x100pc {
+	font-size: 75%;
+	text-align: center;
+	display: inline-block;
+	width: 100%;	
+	white-space: nowrap;
+	color: #969696;
+	}
 
 #restorer .warning {
 	border: 2px solid #e10000;
@@ -68,4 +84,3 @@
 	margin: 0.5em 0.2em 0.8em 0.2em;
 	color: #d00000;
 	}
-	

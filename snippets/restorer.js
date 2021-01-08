@@ -4,9 +4,12 @@ var restorer = {};
 
 restorer.show = function ()
 {
+	let variables = {
+		"snippet-name": restorer._snippetVariant("table-frame")
+	};
 	if (document.getElementById("restorer") === null)
 	{
-		document.body.appendChild(pageSnippets.produceFromSnippet("restorer", restorer));
+		document.body.appendChild(pageSnippets.produceFromSnippet("restorer", restorer, variables));
 	};
 	restorer.listStoredData();
 	owc.ui.showElement(document.getElementById("restorer"), String(Math.floor(document.documentElement.scrollTop + document.body.clientHeight / 10)) + "px", null, true);
@@ -74,7 +77,20 @@ restorer.listStoredData = function ()
 				"points": data[3],
 				"last-modified": new Date().fromIsoString(storedData[i].date).toIsoFormatText()
 			};
-			refNode.appendChild(pageSnippets.produceFromSnippet("table-row", restorer, variables));
+			refNode.appendChild(pageSnippets.produceFromSnippet(restorer._snippetVariant("table-row"), restorer, variables));
 		};
 	};
 };
+
+restorer._snippetVariant = function(snippetName)
+{
+	const thresholdWidth = 400;
+	let result = snippetName;
+	if (Number(document.body.clientWidth) <= thresholdWidth)
+	{
+		result += "-small";
+	};
+	console.log(result);
+	return result;
+};
+

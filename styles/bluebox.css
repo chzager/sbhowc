@@ -20,7 +20,7 @@ div.blue * {
 	font-size: 10pt;
 	cursor: default;
 	margin: 0px;
-}
+	}
 
 div.blue h1 {
 	font-size: 12pt;
@@ -36,7 +36,7 @@ div.blue div.panel {
 	margin-top: 1em;
 	}
 
-div.blue div.panel span:first-of-type {
+div.blue div.panel > span {
 	display: block;
 	margin-top: -1.2em;
 	margin-bottom: 0.5em;
