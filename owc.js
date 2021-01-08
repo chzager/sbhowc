@@ -14,7 +14,7 @@ owc.warband = null;
 
 owc.init = function (pid)
 {
-	console.debug("owc.init", pid);
+	console.debug("owc.init()", pid);
 	let result = (pid !== "");
 	if (result === false)
 	{
@@ -39,7 +39,7 @@ owc.init = function (pid)
 
 owc.main = function ()
 {
-	console.debug("owc.main");
+	console.debug("owc.main()");
 	owc.warband = new Warband();
 	let storedData = storager.retrieve(owc.pid);
 	if (storedData === null)
