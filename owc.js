@@ -112,6 +112,7 @@ owc.fetchResources = function ()
 	{
 		requiredResoures.push("./res/" + lang + "/" + key + "." + lang + ".json");
 	};
+	owc.ui.wait();
 	let requiredResoures = [];
 	let requiredKeys = ["meta", "specialrules-sbh", "specialrules-sww", "specialrules-sgd", "specialrules-sdg", "specialrules-sam"];
 	/* require all resources for default language */
