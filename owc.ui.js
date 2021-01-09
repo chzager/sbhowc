@@ -101,28 +101,25 @@ owc.ui.refreshWindowTitle = function ()
 	document.title = owc.helper.getWarbandName() + " (" + owc.warband.points + " " + owc.resources.translate("points", owc.settings.language) + ") - " + owc.TITLE;
 };
 
-owc.ui.translate = function (key, variables)
-{
-	return owc.resources.translate(key, owc.settings.language, variables);
-};
-
 owc.ui.refreshUndoButton = function ()
 {
 	if (owc.ui.isInteractive === true)
 	{
 		let undoButton = document.getElementById("undoButton");
+		let undoTooltip = undoButton.querySelector(".tooltip");
 		if (owc.editor.undoer.canUndo === true)
 		{
 			undoButton.classList.remove("disabled");
-			undoButton.getElementsByClassName("tooltip")[0].innerHTML = "Undo: " + owc.editor.undoer.lastChangeDescription + ".";
+			(undoTooltip !== null) ? undoTooltip.innerHTML = "Undo: " + owc.editor.undoer.lastChangeDescription + "." : null;
 		}
 		else
 		{
 			undoButton.classList.add("disabled");
-			undoButton.getElementsByClassName("tooltip")[0].innerHTML = "Nothing to undo.";
+			(undoTooltip !== null) ? undoTooltip.innerHTML = "Nothing to undo." : null;
 		};
 	};
 };
 
 owc.ui.wait = () => document.getElementById("loading-warpper").style.visibility = "visible";
 owc.ui.waitEnd = () => document.getElementById("loading-warpper").style.visibility = "hidden";
+owc.ui.isTouchDevice = ("ontouchstart" in document.documentElement);

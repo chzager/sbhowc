@@ -12,6 +12,11 @@ owc.topMenu.init = function ()
 	}
 		);
 	window.addEventListener("menubox", owc.topMenu.menuboxEventListener);
+	/* remove tooltips on touch devices */
+	if (owc.ui.isTouchDevice === true)
+	{
+		htmlBuilder.removeNodesByQuerySelectors([".tooltip"], document.getElementById("top-menu"))
+	};
 };
 
 owc.topMenu.newWarband = function ()

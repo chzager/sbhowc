@@ -2,16 +2,19 @@
 
 owc.settings = {};
 
-owc.settings.STORAGE_KEY = "owcSettings";
-owc.settings.ruleScope = ["sbh", "sgd", "sww"];
-owc.settings.options =
+owc.settings.init = function ()
 {
-	"highlightPersonalities": true,
-	"personalitiesInPoints": false,
-	"applyRuleChecks": true
+	owc.settings.STORAGE_KEY = "owcSettings";
+	owc.settings.ruleScope = ["sbh", "sgd", "sww"];
+	owc.settings.options =
+	{
+		"highlightPersonalities": true,
+		"personalitiesInPoints": false,
+		"applyRuleChecks": true
+	};
+	owc.settings.language = "en";
+	owc.settings.viewMode = (owc.ui.isTouchDevice === true) ? "classic" : "classic"; // TODO: "classic-touch" for touch devices
 };
-owc.settings.language= "en";
-owc.settings.viewMode = "classic";
 
 owc.settings.toJson = function ()
 {
@@ -43,6 +46,7 @@ owc.settings.save = function ()
 
 owc.settings.load = function ()
 {
+	owc.settings.init();
 	if (typeof localStorage !== "undefined")
 	{
 		let storedSettings = JSON.parse(localStorage.getItem(owc.settings.STORAGE_KEY));
