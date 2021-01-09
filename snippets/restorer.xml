@@ -51,21 +51,17 @@
 		<table class="localStore">
 			<tr>
 				<th>Warband</th>
-				<th>Details</th>
+				<th colspan="2">Details</th>
 			</tr>
 			<tbody id="restorer-tbody">
 				<dht:for-each list="cached-warbands">
 					<tr data-id="{{pid}}" dht:onclick="storageItemClick">
-						<td>{{warband-name}}</td>
-						<td>
-							<div>
-								<span class="x50pc">{{figure-count}} Figs.</span>
-								<span class="x50pc">{{points}} Pts.</span>
-							</div>
-							<div>
-								<span class="x100pc">{{last-modified}}</span>
-							</div>
-						</td>
+						<td rowspan="2">{{warband-name}}</td>
+						<td class="small top">{{figure-count}} Figs.</td>
+						<td class="small top">{{points}} Pts.</td>
+					</tr>
+					<tr data-id="{{pid}}" dht:onclick="storageItemClick">
+						<td colspan="2" class="small bottom">{{last-modified}}</td>
 					</tr>
 				</dht:for-each>
 			</tbody>

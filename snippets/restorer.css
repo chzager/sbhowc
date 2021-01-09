@@ -60,20 +60,19 @@
 	visibility: visible;
 	}
 
-#restorer table.localStore tr[data-id] span.x50pc {
+#restorer table.localStore td.small {
 	font-size: 75%;
-	text-align: center;
-	display: inline-block;
-	width: 50%;
+	text-align: center !important;
 	color: #969696;
-	}
-#restorer table.localStore tr[data-id] span.x100pc {
-	font-size: 75%;
-	text-align: center;
-	display: inline-block;
-	width: 100%;	
 	white-space: nowrap;
-	color: #969696;
+	}
+#restorer table.localStore td.small.top {
+	padding-bottom: 0.15em;
+	vertical-align: bottom;
+	}
+#restorer table.localStore td.small.bottom {
+	padding-top: 0.15em;
+	vertical-align: top;
 	}
 
 #restorer .warning {
