@@ -14,18 +14,20 @@
 	padding: 0.3em;
 	box-shadow: 0.05em 0.05em 0.2em #00000080;
 	margin-top: -0.2em;
+	margin-left: -10em;
 	color: #529b20;
+	font-weight: normal;
 	border-radius: 0.4em;
 	opacity: 0;
+	visibility: hidden;
 	display: inline-block;
 	position: absolute;
 	}
-
 #warbandcode .copiedNotification-visible {
+	visibility: visible;
   animation-name: fadeout;
   animation-duration: 5s;
 	}
-
 @keyframes fadeout {
   0%   {opacity: 0;}
   10%  {opacity: 1;}

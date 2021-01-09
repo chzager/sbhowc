@@ -33,9 +33,7 @@ warbandcode.applyClick = function (clickEvent)
 	};
 	if (codeIsValid === true)
 	{
-		owc.editor.undoer.clear();
-		owc.ui.printWarband();
-		owc.ui.sweepVolatiles();
+		owc.importWarband(newWarbandCode);
 	}
 	else
 	{
