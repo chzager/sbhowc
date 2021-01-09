@@ -13,7 +13,7 @@ classicview.init = function ()
 	classicview.refreshPasteUnitButton = htmlForm.refreshPasteUnitButton;
 	classicview.dispatchEditorEvent = htmlForm.dispatchEditorEvent;
 	classicview.makeEditable = htmlForm.makeEditable;
-	window.addEventListener("resize", classicview.onWindowResize);
+	(owc.ui.isInteractive === true) ? window.addEventListener("resize", classicview.onWindowResize) : null;
 	classicview.onWindowResize();
 };
 
@@ -100,14 +100,16 @@ classicview.onWindowResize = function (resizeEvent)
 {
 	const thresholdWidth = 650;
 	let setColumnCount = 2;
-	if (Number(document.body.clientWidth) <= thresholdWidth)
+	if (owc.ui.isInteractive === true)
 	{
-		setColumnCount = 1;
-	};
-
-	if (classicview.columnCount !== setColumnCount)
-	{
-		classicview.columnCount = setColumnCount;
-		owc.ui.printWarband();
+		if (Number(document.body.clientWidth) <= thresholdWidth)
+		{
+			setColumnCount = 1;
+		};
+		if (classicview.columnCount !== setColumnCount)
+		{
+			classicview.columnCount = setColumnCount;
+			owc.ui.printWarband();
+		};
 	};
 };
