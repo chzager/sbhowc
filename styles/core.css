@@ -102,7 +102,7 @@ select { cursor:pointer; padding:0pt 1pt; }
 	}
 
 #loading-warpper {
-	position: absolute;
+	position: fixed;
 	top: 35%;
 	left: 30%;
 	width: 40%;
