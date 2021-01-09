@@ -17,7 +17,7 @@ restorer.show = function ()
 
 restorer.storageItemClick = function (clickEvent)
 {
-	let pid = clickEvent.target.parentElement.getAttribute("data-id");
+	let pid = clickEvent.target.closest("[data-id]").getAttribute("data-id");
 	owc.ui.sweepVolatiles();
 	owc.setPid(pid);
 };
