@@ -69,8 +69,8 @@ classicview.listUnits = function (refNode)
 	classicview.insertUnitSheets(refNode);
 	let addItemsCell = refNode.querySelectorAll("#unitsgrid > tr > td")[owc.warband.units.length];
 	addItemsCell.removeAttribute("data-unitindex");
-	addItemsCell.id = "additmes-container"
-		addItemsCell.appendChild(pageSnippets.produceFromSnippet("add-unit", htmlForm));
+	addItemsCell.id = "additmes-container";
+	addItemsCell.appendChild(pageSnippets.produceFromSnippet("add-unit", htmlForm));
 };
 
 classicview.insertUnitSheets = function (refNode)
