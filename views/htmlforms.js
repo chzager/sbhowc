@@ -268,22 +268,16 @@ htmlForm.refreshWarbandSummary = function ()
 	};
 	let variables = {
 		"warband-summary": warbandSummaryText,
-		"vioalated-rules-count": null
+		"rule-violations": []
 	};
-		if (owc.settings.options.applyRuleChecks === true)
+	if (owc.settings.options.applyRuleChecks === true)
+	{
+		let rulecheckResult = owc.rulecheck.checkAll();
+		for (let v = 0, vv = rulecheckResult.length; v < vv; v += 1)
 		{
-			let rulecheckResult = owc.rulecheck.checkAll();
-			if (rulecheckResult.length > 0)
-			{
-				variables["vioalated-rules-count"] = rulecheckResult.length;
-				variables["rules-violations"] = owc.helper.translate("ruleViolation");
-				variables["rule-violations"] = [];
-				for (let v = 0, vv = rulecheckResult.length; v < vv; v += 1)
-				{
-					variables["rule-violations"].push({"text": owc.rulecheck.getText(rulecheckResult[v])});
-				};
-			};
+			variables["rule-violations"].push({"text": owc.rulecheck.getText(rulecheckResult[v])});
 		};
+	};
 	let wrapperNode = document.querySelector("#warbandfooter");
 	wrapperNode.removeAllChildren();
 	wrapperNode.appendChild(pageSnippets.produceFromSnippet("warband-summary", null, variables));

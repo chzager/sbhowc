@@ -109,20 +109,9 @@
 	<dht:snippet name="warband-summary">
 		<div>
 			<p>{{warband-summary}}</p>
-			<dht:if test="{{vioalated-rules-count}} &gt; 0">
-				<dht:then>
-					<div class="rulescheck">
-						<p>
-							<b>{{rules-violations}}</b>
-						</p>
-						<ul class="rulecheck-list">
-							<dht:for-each list="rule-violations">
-								<li>{{text}}</li>
-							</dht:for-each>
-						</ul>
-					</div>
-				</dht:then>
-			</dht:if>
+			<dht:for-each list="rule-violations">
+				<p class="rule-violation">{{text}}</p>
+			</dht:for-each>
 		</div>
 	</dht:snippet>
 	<dht:snippet name="add-unit">

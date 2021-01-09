@@ -57,10 +57,16 @@
 	padding-top: 0.5em;
 	}
 
-#warbandCanvas #warbandfooter .rulescheck {
+#warbandCanvas #warbandfooter .rule-violation {
 	color: red;
+	padding-left: 1.6em;
 	}
-	
-#warbandCanvas #warbandfooter .rulescheck li {
-	margin-left: 2em;
+
+#warbandCanvas #warbandfooter .rule-violation:before {
+	content: "\24D8";
+	color: red;
+	display: inline-block;
+	position: relative;
+	margin-left: -1.2em;
+	width: 1.2em;
 	}

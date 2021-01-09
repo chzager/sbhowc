@@ -63,7 +63,7 @@
 				</p>
 				<p>
 					<input type="checkbox" id="option_applyRuleChecks" data-settingsgroup="options" data-settingskey="applyRuleChecks"/>
-					<label for="option_applyRuleChecks">Apply rule checks</label>
+					<label for="option_applyRuleChecks">Check rule compliance</label>
 				</p>
 			</div>
 			<div class="buttons">
