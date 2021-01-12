@@ -143,7 +143,7 @@ owc.rulecheck.checkRabbleSpecialrule = function ()
 				"key": "rabbleSpecialruleViolated",
 				"values":
 				{
-					"U": rabbleUnits[u].name.notEmpty(owc.resources.translate("defaultUnitName", owc.settings.language)),
+					"U": owc.helper.nonBlankUnitName(rabbleUnits[u]),
 					"RABBLE": owc.resources.translate(rabbleKey, owc.settings.language)
 				}
 			};
@@ -176,7 +176,7 @@ owc.rulecheck.checkExcludes = function ()
 								"key": "specialRuleMismatch",
 								"values":
 								{
-									"U": unit.name.notEmpty(owc.resources.translate("defaultUnitName", owc.settings.language)),
+									"U": owc.helper.nonBlankUnitName(unit),
 									"A": owc.resources.translate(unit.specialrules[s].key, owc.settings.language),
 									"B": owc.resources.translate(excludings[e], owc.settings.language)
 								}

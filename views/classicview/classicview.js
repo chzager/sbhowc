@@ -34,7 +34,7 @@ classicview.getWarbandHtml = function ()
 		"quality": owc.helper.translate("quality"),
 		"combat": owc.helper.translate("combat"),
 		"specialrules": owc.helper.translate("specialrules"),
-		"warband-name": owc.helper.getWarbandName(),
+		"warband-name": owc.helper.nonBlankWarbandName(),
 		"default-warband-name": owc.helper.translate("defaultWarbandName")
 	};
 	result = pageSnippets.produceFromSnippet("classicview", classicview, variables);

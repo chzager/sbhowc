@@ -176,7 +176,7 @@ htmlForm.refreshUnit = function (unitIndex, refNode = null)
 		refNode = document.querySelector("[data-unitindex=\"" + unitIndex + "\"]");
 	};
 	let unit = owc.warband.units[unitIndex];
-	refNode.querySelector("[data-editor=\"name\"]").innerText = unit.name.notEmpty(owc.helper.translate("defaultUnitName"));
+	refNode.querySelector("[data-editor=\"name\"]").innerText = owc.helper.nonBlankUnitName(unit);
 	if ((unit.isPersonality === true) && (owc.settings.options.highlightPersonalities === true))
 	{
 		refNode.querySelector("[data-editor=\"name\"]").classList.add("personality");

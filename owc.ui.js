@@ -98,7 +98,7 @@ owc.ui.refreshWarbandName = function ()
 
 owc.ui.refreshWindowTitle = function ()
 {
-	document.title = owc.helper.getWarbandName() + " (" + owc.warband.points + " " + owc.resources.translate("points", owc.settings.language) + ") - " + owc.TITLE;
+	document.title = owc.helper.nonBlankWarbandName() + " (" + owc.warband.points + " " + owc.resources.translate("points", owc.settings.language) + ") - " + owc.TITLE;
 };
 
 owc.ui.refreshUndoButton = function ()
