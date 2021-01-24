@@ -84,7 +84,6 @@ owc.ui.printWarband = function ()
 	else
 	{
 		htmlBuilder.removeNodesByQuerySelectors([".noprint", ".tooltip"]);
-		document.getElementById("printFooter").innerText = "Created with Song of Blades and Heroes Online Warband Creator, " + owc.VERSION + ", at " + location.plainLocation();
 	};
 	window.scrollTo(currentScrollPos.x, currentScrollPos.y);
 };

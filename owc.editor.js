@@ -116,7 +116,6 @@ owc.editor.manangeUnitClipboard = function ()
 	{
 		/* discard clipboard data if it's older than 30 minutes (#18) */
 		let diffMinutes = Math.abs(clipboardData.date - Date.now()) / (1000 * 60);
-		console.log(diffMinutes);
 		if (diffMinutes > 30)
 		{
 			localStorage.removeItem(owc.editor.UNIT_CLIPBOARD_KEY);

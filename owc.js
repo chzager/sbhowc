@@ -10,6 +10,7 @@ owc.urlParam =
 };
 owc.TITLE = "Song of Blades and Heroes Online Warband Creator";
 owc.VERSION = "Jan21 release";
+owc.ORIGIN = "https://github.com/Suppenhuhn79/sbhowc";
 owc.warband = null;
 
 owc.init = function (pid)
