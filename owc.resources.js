@@ -8,7 +8,7 @@ owc.resources.loadedUrls = [];
 
 owc.resources.import = function (urls, callback)
 {
-	function _append(json)
+	function _append(json, url)
 	{
 		let currentLang = json.lang || owc.resources.DEFAULT_LANGUAGE;
 		let currentScope = json.scope;
@@ -45,7 +45,7 @@ owc.resources.import = function (urls, callback)
 			}
 			else
 			{
-				console.warn("Duplicate resource identifier \"" + key + "\".",
+				console.warn("Duplicate resource identifier \"" + key + "\" while importing \"" + url + "\".",
 				{
 					"Existing resource": owc.resources.data[key],
 					"Resource to import": json.data[key]
@@ -64,7 +64,7 @@ owc.resources.import = function (urls, callback)
 		}
 		else if (data !== null)
 		{
-			_append(data);
+			_append(data, url);
 		};
 		if ((urlsToGo === 0) && (typeof callback !== "undefined"))
 		{
