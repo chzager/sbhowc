@@ -45,12 +45,12 @@ owc.resources.import = function (urls, callback)
 			}
 			else
 			{
-				console.group("Duplicate resource identifier");
-				console.log("Resource key:", key);
-				console.log("Existing resource:", owc.resources.data[key]);
-				console.log("Resource to import:", json.data[key]);
-				console.groupEnd("Duplicate resource identifier");
-				throw new Error("Duplicate resource identifier \"" + key + "\".");
+				console.warn("Duplicate resource identifier \"" + key + "\".",
+				{
+					"Existing resource": owc.resources.data[key],
+					"Resource to import": json.data[key]
+				}
+				);
 			};
 		};
 	};
@@ -58,7 +58,7 @@ owc.resources.import = function (urls, callback)
 	{
 		owc.resources.loadedUrls.push(url);
 		urlsToGo -= 1;
-		if (error !== null)
+		if (error instanceof Error)
 		{
 			console.error(error);
 		}
