@@ -54,11 +54,15 @@ owc.resources.import = function (urls, callback)
 			};
 		};
 	};
-	function _loaderCallback(url, data)
+	function _loaderCallback(url, data, error)
 	{
 		owc.resources.loadedUrls.push(url);
 		urlsToGo -= 1;
-		if (data !== null)
+		if (error !== null)
+		{
+			console.error(error);
+		}
+		else if (data !== null)
 		{
 			_append(data);
 		};
@@ -117,7 +121,7 @@ owc.resources.import = function (urls, callback)
 		}
 		else
 		{
-			_loaderCallback(urls[u], null);
+			_loaderCallback(urls[u], null, null);
 		};
 	};
 };

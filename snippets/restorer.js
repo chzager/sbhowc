@@ -6,7 +6,7 @@ restorer.show = function ()
 {
 	if (document.getElementById("restorer") === null)
 	{
-		document.body.appendChild(pageSnippets.produceFromSnippet("restorer", restorer));
+		document.body.appendChild(pageSnippets.produce("restorer", restorer));
 	};
 	restorer.listStoredData();
 	owc.ui.showElement(document.getElementById("restorer"), String(Math.floor(document.documentElement.scrollTop + document.body.clientHeight / 10)) + "px", null, true);
@@ -74,5 +74,5 @@ restorer.listStoredData = function ()
 	const thresholdWidth = 400;
 	let snippetName = (Number(document.body.clientWidth) <= thresholdWidth) ? "table-frame-small" : "table-frame-normal";
 	refNode.removeAllChildren();
-	refNode.appendChild(pageSnippets.produceFromSnippet(snippetName, restorer, variables));
+	refNode.appendChild(pageSnippets.produce(snippetName, restorer, variables));
 };

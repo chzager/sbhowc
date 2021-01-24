@@ -37,7 +37,7 @@ classicview.getWarbandHtml = function ()
 		"warband-name": owc.helper.nonBlankWarbandName(),
 		"default-warband-name": owc.helper.translate("defaultWarbandName")
 	};
-	result = pageSnippets.produceFromSnippet("classicview", classicview, variables);
+	result = pageSnippets.produce("classicview", classicview, variables);
 	if (owc.ui.isInteractive === false)
 	{
 		htmlBuilder.removeNodesByQuerySelectors(["select", "input", ".specialruleEditorSeparator", ".addunit"], result);
@@ -63,14 +63,14 @@ classicview.listUnits = function (refNode)
 	/* requiredRows is unit count +1 because we produce one extra cell for add-items buttons */
 	for (let c = 0; c < requiredRows; c += 1)
 	{
-		let gridNode = pageSnippets.produceFromSnippet(snippetName, classicview);
+		let gridNode = pageSnippets.produce(snippetName, classicview);
 		refNode.appendChild(gridNode);
 	};
 	classicview.insertUnitSheets(refNode);
 	let addItemsCell = refNode.querySelectorAll("#unitsgrid > tr > td")[owc.warband.units.length];
 	addItemsCell.removeAttribute("data-unitindex");
 	addItemsCell.id = "additmes-container";
-	addItemsCell.appendChild(pageSnippets.produceFromSnippet("add-unit", htmlForm));
+	addItemsCell.appendChild(pageSnippets.produce("add-unit", htmlForm));
 };
 
 classicview.insertUnitSheets = function (refNode)
@@ -90,7 +90,7 @@ classicview.insertUnitSheets = function (refNode)
 	for (let u = 0, uu = owc.warband.units.length; u < uu; u += 1)
 	{
 		variables["unit-index"] = u;
-		let unitSheetNode = pageSnippets.produceFromSnippet("classicview-unit-sheet", htmlForm, variables);
+		let unitSheetNode = pageSnippets.produce("classicview-unit-sheet", htmlForm, variables);
 		htmlForm.refreshUnit(u, unitSheetNode);
 		unitSheetCells[u].appendChild(unitSheetNode);
 	};

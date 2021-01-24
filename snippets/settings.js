@@ -6,7 +6,7 @@ settingsUi.show = function ()
 {
 	if (document.getElementById("settings") === null)
 	{
-		document.body.appendChild(pageSnippets.produceFromSnippet("settings", settingsUi));
+		document.body.appendChild(pageSnippets.produce("settings", settingsUi));
 	};
 	let settingsPanel = document.getElementById("settings");
 	/* set checks for rules scope */

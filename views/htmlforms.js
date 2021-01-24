@@ -43,9 +43,9 @@ htmlForm.init = function ()
 		}
 		);
 	};
-	htmlForm.editors.qualitySelector = pageSnippets.produceFromSnippet("quality-selector", htmlForm, variables);
-	htmlForm.editors.combatSelector = pageSnippets.produceFromSnippet("combat-selector", htmlForm, variables);
-	htmlForm.editors.specialrulesSelector = pageSnippets.produceFromSnippet("specialrules-selector", htmlForm, variables);
+	htmlForm.editors.qualitySelector = pageSnippets.produce("quality-selector", htmlForm, variables);
+	htmlForm.editors.combatSelector = pageSnippets.produce("combat-selector", htmlForm, variables);
+	htmlForm.editors.specialrulesSelector = pageSnippets.produce("specialrules-selector", htmlForm, variables);
 
 	htmlForm.unitMenu = new Menubox("unitMenu",
 	{
@@ -230,7 +230,7 @@ htmlForm.refreshSpecialrules = function (unitIndex, refNode)
 			"default-additional-text": "...",
 			"specialrules-count": specialrulesCount
 		};
-		specialruleNode = pageSnippets.produceFromSnippet("specialrule", htmlForm, variables);
+		specialruleNode = pageSnippets.produce("specialrule", htmlForm, variables);
 		if (owc.settings.ruleScope.includes(owc.resources.data[unit.specialrules[s].key].scope) === false)
 		{
 			specialruleNode.children[0].classList.add("out-of-scope");
@@ -280,7 +280,7 @@ htmlForm.refreshWarbandSummary = function ()
 	};
 	let wrapperNode = document.querySelector("#warbandfooter");
 	wrapperNode.removeAllChildren();
-	wrapperNode.appendChild(pageSnippets.produceFromSnippet("warband-summary", null, variables));
+	wrapperNode.appendChild(pageSnippets.produce("warband-summary", null, variables));
 };
 
 htmlForm.refreshPasteUnitButton = function (clipboardData)
@@ -298,7 +298,7 @@ htmlForm.refreshPasteUnitButton = function (clipboardData)
 		"unit-name": clipboardData.title,
 		"unit-code": clipboardData.data
 	};
-	pasteUnitNode = pageSnippets.produceFromSnippet("paste-unit", htmlForm, variables);
+	pasteUnitNode = pageSnippets.produce("paste-unit", htmlForm, variables);
 	addunitContainer.appendChild(pasteUnitNode);
 	};
 };

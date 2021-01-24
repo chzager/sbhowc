@@ -29,7 +29,7 @@ listview.getWarbandHtml = function ()
 		"warband-name": owc.helper.nonBlankWarbandName(),
 		"default-warband-name": owc.helper.translate("defaultWarbandName")
 	};
-	result = pageSnippets.produceFromSnippet("listview", listview, variables);
+	result = pageSnippets.produce("listview", listview, variables);
 	if (owc.ui.isInteractive === false)
 	{
 		htmlBuilder.removeNodesByQuerySelectors(["select", "input", ".specialruleEditorSeparator", ".addunit"], result);
@@ -53,7 +53,7 @@ listview.listUnits = function (refNode)
 	for (let u = 0, uu = owc.warband.units.length; u < uu; u += 1)
 	{
 		variables["unit-index"] = u;
-		let unitNode = pageSnippets.produceFromSnippet("listview-unit-row", htmlForm, variables);
+		let unitNode = pageSnippets.produce("listview-unit-row", htmlForm, variables);
 		htmlForm.refreshUnit(u, unitNode);
 		refNode.appendChild(unitNode);
 	};

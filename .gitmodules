@@ -1,0 +1,3 @@
+[submodule "lib/tools"]
+	path = lib/tools
+	url = https://github.com/Suppenhuhn79/vanilla-tools.git

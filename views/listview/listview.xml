@@ -27,7 +27,7 @@
 	</dht:snippet>
 	<dht:snippet name="listview">
 		<div class="listview screenfx interactive">
-			<div id="warbandheader" data-editor="warbandname" data-defaultvalue="{{default-warband-name}}" dht:postrender="makeEditable">{{warband-name}}</div>
+			<div id="warbandheader" data-editor="warbandname" data-defaultvalue="{{default-warband-name}}" dht:postproduction="makeEditable">{{warband-name}}</div>
 			<table id="units">
 				<tr class="unitsheader">
 					<th class="count">{{count}}</th>
@@ -56,7 +56,7 @@
 				<input type="number" min="1" max="25" maxlength="2" data-editor="count" dht:onchange="dispatchEditorEvent"/>
 			</td>
 			<td>
-				<div data-editor="name" data-defaultvalue="{{default-unit-name}}" dht:postrender="makeEditable"/>
+				<div data-editor="name" data-defaultvalue="{{default-unit-name}}" dht:postproduction="makeEditable"/>
 			</td>
 			<td class="points" data-action="showunitmenu" dht:onclick="dispatchEditorEvent">
 				<span data-staticvalueof="points"/>
@@ -84,7 +84,7 @@
 					</dht:then>
 					<dht:else>
 						<span data-action="removespecialrule" dht:onclick="dispatchEditorEvent">{{specialrule-text-before}}</span>
-						<span data-editor="additionaltext" data-defaultvalue="{{default-additional-text}}" dht:postrender="makeEditable">{{specialrule-additional-text}}</span>
+						<span data-editor="additionaltext" data-defaultvalue="{{default-additional-text}}" dht:postproduction="makeEditable">{{specialrule-additional-text}}</span>
 						<span>{{specialrule-text-after}}</span>
 					</dht:else>
 				</dht:if>

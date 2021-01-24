@@ -10,7 +10,7 @@ warbandcode.show = function ()
 		{
 			"warbandcode": owc.warband.toString()
 		};
-		document.body.appendChild(pageSnippets.produceFromSnippet("warbandcode", warbandcode, variables));
+		document.body.appendChild(pageSnippets.produce("warbandcode", warbandcode, variables));
 	};
 	let warbandcodeEditor = document.querySelector("#warbandcode textarea");
 	warbandcodeEditor.value = owc.warband.toString();
