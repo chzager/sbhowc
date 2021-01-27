@@ -1,6 +1,6 @@
-# Song of Blades and Heroes Online Warband Creator #
+# Online Warband Creator for Song of Blades and Heroes
 
-_Song of Blades and Heroes_ (SBH) is an easy to learn, fast play, skirmish level fantasy tabletop rule system by Andrea Sfiligoi, published by Ganesha Games (https://www.ganeshagames.net). With this system, figures from any manufacturer at any scale can be used. Besides a ton of prefactured units, players can create their own units with any abilities ("special rules") they see fit.
+_Song of Blades and Heroes_ (SBH) is a slim, easy to learn, fast play, skirmish level fantasy tabletop rule system by Andrea Sfiligoi, published by Ganesha Games (https://www.ganeshagames.net). With this system, figures from any manufacturer at any scale can be used. Besides a ton of prefactured unit profiles, players can create their own units with any abilities ("special rules") they see fit.
 
 **_Online Warband Creator_ (SBHOWC) is a tool for designing units and calculating warband points.**
 
@@ -13,23 +13,39 @@ Key features:
   * Song of Deeds and Glory
   * Song of Arthur and Merlin
 * Up to date with errata form Ganesha Games "Free Hack" magazine
-* Checks if units/warband is rules compliant
+* Checks rule compliance of units and warband
 * Localized for various languages
 * Printer-friendly output
 
-## How to use ##
-* **Use the web version at [link-to-webpage]**
-* Follow these instructions to use it offline on your Windows PC [link-to-wiki]
-* Follow these instructions to use it on your Android device  [link-to-wiki]
+## How to use
+Just go to https://suppenhuhn79.github.io/sbhowc/
 
-## Licence ##
-For the complete license text please refer the license.txt file. In a nutshell:
-* You may use SBHOWC for your personal purpose for free.
-* You must not use SBHOWC or parts of it for any commercial means.
+## Licence
+This software and source is licensed under the [GNU Affero General Public License, Version 3, 19 November 2007](https://www.gnu.org/licenses/agpl-3.0.html)
 
-## Development notes ##
-This project is vanilla JavaScript, meaning no third party libraries are used.
+```
+Copyright (C) 2021 Christoph Zager
 
-Functionality is tested with the latest versions of Mozilla Firefox and Google Chrome (may work with Microsoft Edge or on iOS, but I don't care).
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
 
-Versioning does not follow the usual sequences but versions are numbered after the year and month of their release.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+```
+
+See the full license text at https://www.gnu.org/licenses/agpl-3.0.html.
+
+**You are welcome to contribute.** :heart:
+
+## Developer's notes
+This project is vanilla JavaScript, meaning no third party libraries or frameworks are used.
+
+Functionality is tested with the latest versions of Mozilla Firefox (sometimes on Google Chrome, too, and rarely even on Microsoft Edge). I expect users to always have the latest version of their browser installed - for their own sake. I do not do workarounds for issues caused by a browsers poor implementation of JavaScript or CSS.
+
+Versioning does not follow the usual sequences, but versions are numbered after the year and month of their release.
+
+If you want to clone this repository, please note that submodules are used.
