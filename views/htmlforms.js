@@ -1,5 +1,12 @@
 "use strict";
 
+/*
+This file is part of the ONLINE WARBAND CREATOR (https://github.com/suppenhuhn79/sbhowc)
+Copyright 2021 Christoph Zager
+Licensed unter the GNU Affero General Public License, Version 3
+See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
+ */
+
 var htmlForm = {};
 
 htmlForm.init = function ()
@@ -61,7 +68,7 @@ htmlForm.init = function ()
 	window.addEventListener("menubox", htmlForm.menuboxEventListener);
 };
 
-htmlForm.unload = function(menuboxEvent)
+htmlForm.unload = function (menuboxEvent)
 {
 	window.removeEventListener("focus", htmlForm.focusEventListener);
 	window.removeEventListener("menubox", htmlForm.menuboxEventListener);
@@ -266,7 +273,8 @@ htmlForm.refreshWarbandSummary = function ()
 			) + ")";
 		};
 	};
-	let variables = {
+	let variables =
+	{
 		"warband-summary": warbandSummaryText,
 		"rule-violations": []
 	};
@@ -275,7 +283,11 @@ htmlForm.refreshWarbandSummary = function ()
 		let rulecheckResult = owc.rulecheck.checkAll();
 		for (let v = 0, vv = rulecheckResult.length; v < vv; v += 1)
 		{
-			variables["rule-violations"].push({"text": owc.rulecheck.getText(rulecheckResult[v])});
+			variables["rule-violations"].push(
+			{
+				"text": owc.rulecheck.getText(rulecheckResult[v])
+			}
+			);
 		};
 	};
 	let wrapperNode = document.querySelector("#warbandfooter");
@@ -293,13 +305,13 @@ htmlForm.refreshPasteUnitButton = function (clipboardData)
 	};
 	if (clipboardData !== null)
 	{
-	let variables =
-	{
-		"unit-name": clipboardData.title,
-		"unit-code": clipboardData.data
-	};
-	pasteUnitNode = pageSnippets.produce("paste-unit", htmlForm, variables);
-	addunitContainer.appendChild(pasteUnitNode);
+		let variables =
+		{
+			"unit-name": clipboardData.title,
+			"unit-code": clipboardData.data
+		};
+		pasteUnitNode = pageSnippets.produce("paste-unit", htmlForm, variables);
+		addunitContainer.appendChild(pasteUnitNode);
 	};
 };
 
