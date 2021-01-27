@@ -3,9 +3,14 @@
 	font-size: 12pt;
 	}
 
+#warbandCanvas .interactive [data-editor],
+#warbandCanvas .interactive * > [data-editor="name"] {
+	border: 1px solid transparent;
+	}
 #warbandCanvas .interactive [data-editor]:hover,
 #warbandCanvas .interactive *:hover > [data-editor="name"],
-#warbandCanvas .interactive [data-editor]:focus {
+#warbandCanvas .interactive [data-editor]:focus,
+#warbandCanvas .interactive select[data-editor] {
 	border: 1px solid rgba(92, 92, 92, 0.7);
 	border-radius: 0.15em;
 	box-shadow: 0.1em 0.1em 0.5em #00000040;
