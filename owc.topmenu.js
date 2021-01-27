@@ -43,7 +43,7 @@ owc.topMenu.showWarbandCode = function ()
 	if (document.getElementById("warbandcode") === null)
 	{
 		owc.ui.wait();
-		pageSnippets.import("./snippets/warbandcode.xml", _showWarbandCode);
+		pageSnippets.import("./snippets/warbandcode.xml").then(_showWarbandCode);
 	}
 	else
 	{
@@ -61,7 +61,7 @@ owc.topMenu.showWarbandRestorer = function ()
 	if (document.getElementById("restorer") === null)
 	{
 		owc.ui.wait();
-		pageSnippets.import("snippets/restorer.xml", _showRestorer);
+		pageSnippets.import("snippets/restorer.xml").then(_showRestorer);
 	}
 	else
 	{
@@ -86,7 +86,7 @@ owc.topMenu.showSettingsClick = function (clickEvent)
 	if (document.getElementById("settings") === null)
 	{
 		owc.ui.wait();
-		pageSnippets.import("./snippets/settings.xml", _showSettings);
+		pageSnippets.import("./snippets/settings.xml").then(_showSettings);
 	}
 	else
 	{
@@ -129,8 +129,7 @@ owc.topMenu.warbandToFileClick = function (clickEvent)
 owc.topMenu.warbandMenuClick = function (clickEvent)
 {
 	let viewport = clickEvent.target.getBoundingClientRect();
-	clickEvent.stopPropagation();
-	owc.topMenu.warbandMenu.popupAt(Math.floor(viewport.bottom + window.scrollY), Math.floor(viewport.left + window.scrollX));
+	owc.topMenu.warbandMenu.popupAt(Math.floor(viewport.bottom + window.scrollY), Math.floor(viewport.left + window.scrollX), null, clickEvent);
 };
 
 owc.topMenu.menuboxEventListener = function (menuboxEvent)

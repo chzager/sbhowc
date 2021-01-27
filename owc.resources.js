@@ -15,7 +15,22 @@ owc.resources.loadedUrls = [];
 
 owc.resources.import = function (urls, callback)
 {
-	function _append(json, url)
+	function _allSettled(promises)
+	{
+		for (let p = 0, pp = promises.length; p < pp; p += 1)
+		{
+			if (promises[p].status === "fulfilled")
+			{
+				_append(promises[p].value);
+			}
+			else
+			{
+				console.error(promises[p].reason);
+			};
+		};
+		_manageCrossreferences();
+	};
+	function _append(json)
 	{
 		let currentLang = json.lang || owc.resources.DEFAULT_LANGUAGE;
 		let currentScope = json.scope;
@@ -52,31 +67,13 @@ owc.resources.import = function (urls, callback)
 			}
 			else
 			{
-				console.warn("Duplicate resource identifier \"" + key + "\" while importing \"" + url + "\".",
+				console.warn("Duplicate resource identifier \"" + key + "\".",
 				{
 					"Existing resource": owc.resources.data[key],
-					"Resource to import": json.data[key]
+					"Data to import": json
 				}
 				);
 			};
-		};
-	};
-	function _loaderCallback(url, data, error)
-	{
-		owc.resources.loadedUrls.push(url);
-		urlsToGo -= 1;
-		if (error instanceof Error)
-		{
-			console.error(error);
-		}
-		else if (data !== null)
-		{
-			_append(data, url);
-		};
-		if ((urlsToGo === 0) && (typeof callback !== "undefined"))
-		{
-			_manageCrossreferences();
-			callback();
 		};
 	};
 	function _manageCrossreferences()
@@ -119,18 +116,26 @@ owc.resources.import = function (urls, callback)
 			};
 		};
 	};
-	let urlsToGo = urls.length;
-	for (let u = 0, uu = urls.length; u < uu; u += 1)
+
+	return new Promise((resolve, reject) =>
 	{
-		if (owc.resources.loadedUrls.includes(urls[u]) === false)
+		let executors = [];
+		for (let u = 0, uu = urls.length; u < uu; u += 1)
 		{
-			fileIo.fetchServerFile(urls[u], _loaderCallback);
-		}
-		else
-		{
-			_loaderCallback(urls[u], null, null);
+			if (owc.resources.loadedUrls.includes(urls[u]) === false)
+			{
+				executors.push(fileIo.fetchServerFile(urls[u]));
+				owc.resources.loadedUrls.push(urls[u]);
+			};
 		};
-	};
+		Promise.allSettled(executors).then((promises) =>
+		{
+			_allSettled(promises);
+			resolve();
+		}
+		);
+	}
+	);
 };
 
 owc.resources.defaultText = function (resourceId)

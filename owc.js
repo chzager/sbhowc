@@ -15,9 +15,11 @@ owc.urlParam =
 	"print": "print",
 	"pid": "pid"
 };
-owc.TITLE = "Song of Blades and Heroes Online Warband Creator";
+
+owc.TITLE = "Online Warband Creator for Song of Blades and Heroes";
 owc.VERSION = "Jan21 release";
-owc.ORIGIN = "https://github.com/Suppenhuhn79/sbhowc";
+owc.ORIGIN = "https://github.com/suppenhuhn79/sbhowc";
+
 owc.warband = null;
 
 owc.init = function (pid)
@@ -137,7 +139,7 @@ owc.fetchResources = function ()
 			requireResource("specialrules-" + owc.settings.ruleScope[r], owc.settings.language);
 		};
 	};
-	owc.resources.import(requiredResoures, owc.main);
+	owc.resources.import(requiredResoures).then(owc.main);
 };
 
 owc.storeWarband = function (pid = owc.pid)

@@ -53,7 +53,7 @@ owc.ui.initView = function ()
 		owc.ui.visualizer.unload();
 	};
 	let viewFullName = owc.settings.viewMode + "view";
-	pageSnippets.import("./views/" + viewFullName + "/" + viewFullName + ".xml", () =>
+	pageSnippets.import("./views/" + viewFullName + "/" + viewFullName + ".xml").then(() =>
 	{
 		owc.ui.visualizer = window[viewFullName];
 		owc.ui.visualizer.init();

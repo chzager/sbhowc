@@ -26,6 +26,7 @@ if (owc.init(window.location.getParam(owc.urlParam.pid)) === true)
 
 	_autoFill(
 	{
+		"title": owc.TITLE,
 		"version": owc.VERSION,
 		"origin": owc.ORIGIN
 	}
