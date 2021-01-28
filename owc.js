@@ -68,9 +68,9 @@ owc.main = function ()
 	owc.ui.initView();
 	if (owc.ui.isInteractive === true)
 	{
-		fileIo.fetchServerFile("./res/didyouknow.json", (url, data) =>
+		fileIo.fetchServerFile("./res/didyouknow.json").then((values) =>
 		{
-			owc.didYouKnow = new DidYouKnow(document.getElementById("didyouknow_text"), data.hints);
+			owc.didYouKnow = new DidYouKnow(document.getElementById("didyouknow_text"), values.hints);
 			owc.didYouKnow.printRandomHint();
 		}
 		);
