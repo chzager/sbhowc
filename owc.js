@@ -75,7 +75,7 @@ owc.main = function ()
 		}
 		);
 	};
-	owc.ui.waitEnd();
+	/* We won't waitEnd() here, because there is an async process running: rendering in initView() */
 };
 
 owc.setPid = function (newPid, newWindow = false)
@@ -122,7 +122,7 @@ owc.fetchResources = function ()
 	{
 		requiredResoures.push("./res/" + lang + "/" + key + "." + lang + ".json");
 	};
-	owc.ui.wait();
+	owc.ui.wait("Loading resources");
 	let requiredResoures = [];
 	let requiredKeys = ["meta", "specialrules-sbh", "specialrules-sww", "specialrules-sgd", "specialrules-sdg", "specialrules-sam"];
 	/* require all resources for default language */

@@ -48,6 +48,7 @@ owc.ui.sweepVolatiles = function ()
 
 owc.ui.initView = function ()
 {
+	owc.ui.wait("Rendering");
 	if (owc.ui.visualizer !== null)
 	{
 		owc.ui.visualizer.unload();
@@ -58,6 +59,7 @@ owc.ui.initView = function ()
 		owc.ui.visualizer = window[viewFullName];
 		owc.ui.visualizer.init();
 		owc.ui.printWarband();
+		owc.ui.waitEnd();
 	}
 	);
 };
@@ -126,6 +128,10 @@ owc.ui.refreshUndoButton = function ()
 	};
 };
 
-owc.ui.wait = () => document.getElementById("loading-warpper").style.visibility = "visible";
-owc.ui.waitEnd = () => document.getElementById("loading-warpper").style.visibility = "hidden";
+owc.ui.wait = function (message = "Working")
+{
+	document.querySelector("#loading-wrapper .loading-text").innerText = message + "...";
+	document.getElementById("loading-wrapper").style.visibility = "visible";
+};
+owc.ui.waitEnd = () => document.getElementById("loading-wrapper").style.visibility = "hidden";
 owc.ui.isTouchDevice = ("ontouchstart" in document.documentElement);

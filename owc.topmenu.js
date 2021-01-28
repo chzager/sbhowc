@@ -42,7 +42,7 @@ owc.topMenu.showWarbandCode = function ()
 	};
 	if (document.getElementById("warbandcode") === null)
 	{
-		owc.ui.wait();
+		owc.ui.wait("Loading");
 		pageSnippets.import("./snippets/warbandcode.xml").then(_showWarbandCode);
 	}
 	else
@@ -60,7 +60,7 @@ owc.topMenu.showWarbandRestorer = function ()
 	};
 	if (document.getElementById("restorer") === null)
 	{
-		owc.ui.wait();
+		owc.ui.wait("Loading");
 		pageSnippets.import("snippets/restorer.xml").then(_showRestorer);
 	}
 	else
@@ -85,7 +85,7 @@ owc.topMenu.showSettingsClick = function (clickEvent)
 	};
 	if (document.getElementById("settings") === null)
 	{
-		owc.ui.wait();
+		owc.ui.wait("Loading");
 		pageSnippets.import("./snippets/settings.xml").then(_showSettings);
 	}
 	else

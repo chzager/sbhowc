@@ -132,7 +132,7 @@ select { cursor: pointer; padding: 0pt 1pt; }
 	margin-bottom: 0.5em;
 	}
 
-#loading-warpper {
+#loading-wrapper {
 	position: fixed;
 	top: 35vh;
 	left: 30vw;
@@ -146,13 +146,13 @@ select { cursor: pointer; padding: 0pt 1pt; }
  	z-index: 90100;
 	}
 @media screen and (max-width: 430px) {
-	#loading-warpper { left: 5vw; width: 80vw; }
+	#loading-wrapper { left: 5vw; width: 80vw; }
 	}
-#loading-warpper .loading-text {
+#loading-wrapper .loading-text {
 	margin-bottom: 0.5em;
 	font-size: 90%;
 	}
-#loading-warpper .loading-gradient {
+#loading-wrapper .loading-gradient {
     width: 100%;
     background-size: 150% 100%;
 		border-radius: 1em;
