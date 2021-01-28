@@ -35,7 +35,7 @@ body { overflow-x: hidden; width: 100%; }
 }
 @media screen and (max-width: 430px) {
 	#title h1 { font-size: 20pt; }
-	#title h2 { font-size: 14pt; }
+	#title h2 { font-size: 15pt; }
 	#title p { font-size: 10pt; }
 	body, table, input, select, option, h3, h4, p, th, td { font-size: 11pt; }
 }
