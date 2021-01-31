@@ -21,9 +21,9 @@ class Warband
 	get points()
 	{
 		let result = 0;
-		for (let u = 0, uu = this.units.length; u < uu; u += 1)
+		for (let unit of this.units)
 		{
-			result += this.units[u].count * this.units[u].points;
+			result += unit.count * unit.points;
 		};
 		return result;
 	};
@@ -31,12 +31,9 @@ class Warband
 	get personalityPoints()
 	{
 		let result = 0;
-		for (let u = 0, uu = this.units.length; u < uu; u += 1)
+		for (let unit of this.units)
 		{
-			if (this.units[u].isPersonality === true)
-			{
-				result += this.units[u].count * this.units[u].points;
-			};
+			result += (unit.isPersonality === true) ? unit.count * unit.points : 0;
 		};
 		return result;
 	};
@@ -44,9 +41,9 @@ class Warband
 	get figureCount()
 	{
 		let result = 0;
-		for (let u = 0, uu = this.units.length; u < uu; u += 1)
+		for (let unit of this.units)
 		{
-			result += this.units[u].count;
+			result += unit.count;
 		};
 		return result;
 	};
@@ -55,9 +52,9 @@ class Warband
 	{
 		/* A warband counts as empty as long as no unit has a name or a special rule. (see https://github.com/Suppenhuhn79/sbhowc/issues/17) */
 		let result = true;
-		for (let u = 0, uu = this.units.length; u < uu; u += 1)
+		for (let unit of this.units)
 		{
-			result = result && (this.units[u].name === "") && (this.units[u].specialrules.length === 0);
+			result = result && (unit.name === "") && (unit.specialrules.length === 0);
 		};
 		return result;
 	};
@@ -65,11 +62,11 @@ class Warband
 	unitsBySpecialrule(specialruleKey)
 	{
 		let result = [];
-		for (let u = 0, uu = this.units.length; u < uu; u += 1)
+		for (let unit of this.units)
 		{
-			if (this.units[u].hasSpecialrule(specialruleKey) === true)
+			if (unit.hasSpecialrule(specialruleKey) === true)
 			{
-				result.push(this.units[u]);
+				result.push(unit);
 			};
 		};
 		return result;
@@ -85,10 +82,10 @@ class Warband
 	{
 		let result = String(Warband.CURRENT_VERSION + this.name);
 		let unitSeparator = Warband.UNIT_SEPARATOR;
-		for (let u = 0, uu = this.units.length; u < uu; u += 1)
+		for (let unit of this.units)
 		{
 			result += unitSeparator;
-			result += this.units[u].toString().replace(RegExp(unitSeparator, "g"), "+");
+			result += unit.toString().replace(RegExp(unitSeparator, "g"), "+");
 		};
 		result = result.replace(/\s/g, "+") + unitSeparator;
 		return encodeURI(result);

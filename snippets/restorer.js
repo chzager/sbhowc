@@ -57,23 +57,22 @@ restorer.listStoredData = function ()
 		return result;
 	};
 	let refNode = document.getElementById("restorer-table-frame");
-	let storedData = _getLocalStorageData();
 	let variables =
 	{
 		"cached-warbands": []
 	};
-	for (let i = 0, ii = storedData.length; i < ii; i += 1)
+	for (let storedData of _getLocalStorageData())
 	{
-		let data = /^(.*)\[{2}([\d]+);([\d]+)\]{2}$/.exec(storedData[i].title);
+		let data = /^(.*)\[{2}([\d]+);([\d]+)\]{2}$/.exec(storedData.title);
 		if (data !== null)
 		{
 			variables["cached-warbands"].push(
 			{
-				"pid": storedData[i].pid,
+				"pid": storedData.pid,
 				"warband-name": data[1],
 				"figure-count": data[2],
 				"points": data[3],
-				"last-modified": new Date().fromIsoString(storedData[i].date).toIsoFormatText()
+				"last-modified": new Date().fromIsoString(storedData.date).toIsoFormatText()
 			}
 			);
 		};

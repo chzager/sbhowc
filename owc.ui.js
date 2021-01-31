@@ -33,15 +33,11 @@ owc.ui.showElement = function (domElement, topPosition = null, leftPosition = nu
 
 owc.ui.sweepVolatiles = function ()
 {
-	for (let s = 0, ss = owc.ui.volatileSelectors.length; s < ss; s += 1)
+	for (let volatileSelector of owc.ui.volatileSelectors)
 	{
-		let volatileElements = document.body.querySelectorAll(owc.ui.volatileSelectors[s]);
-		for (let e = 0, ee = volatileElements.length; e < ee; e += 1)
+		for (let volatileElement of document.body.querySelectorAll(volatileSelector))
 		{
-			if (volatileElements[e])
-			{
-				volatileElements[e].style.visibility = "hidden";
-			};
+			volatileElement.style.visibility = "hidden";
 		};
 	};
 };

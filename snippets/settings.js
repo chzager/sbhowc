@@ -17,11 +17,10 @@ settingsUi.show = function ()
 	};
 	let settingsPanel = document.getElementById("settings");
 	/* set checks for rules scope */
-	let rulesScopeChecks = settingsPanel.querySelectorAll("input[data-settingsgroup=\"rules_scope\"]");
-	for (let i = 0, ii = rulesScopeChecks.length; i < ii; i += 1)
+	for (let rulesScopeCheck of settingsPanel.querySelectorAll("input[data-settingsgroup=\"rules_scope\"]"))
 	{
-		let val = rulesScopeChecks[i].getAttribute("data-settingskey");
-		rulesScopeChecks[i].checked = owc.settings.ruleScope.includes(val);
+		let val = rulesScopeCheck.getAttribute("data-settingskey");
+		rulesScopeCheck.checked = owc.settings.ruleScope.includes(val);
 	};
 	/* set language */
 	settingsPanel.querySelector("select[data-settingsgroup=\"language\"]").value = owc.settings.language;
@@ -41,13 +40,12 @@ settingsUi.applySettings = function ()
 	{
 		let settingsPanel = document.getElementById("settings");
 		/* get checked rules scope */
-		let rulesScopeChecks = settingsPanel.querySelectorAll("input[data-settingsgroup=\"rules_scope\"]");
 		targetObj.ruleScope = [];
-		for (let i = 0, ii = rulesScopeChecks.length; i < ii; i += 1)
+		for (let rulesScopeCheck of settingsPanel.querySelectorAll("input[data-settingsgroup=\"rules_scope\"]"))
 		{
-			if (rulesScopeChecks[i].checked === true)
+			if (rulesScopeCheck.checked === true)
 			{
-				let val = rulesScopeChecks[i].getAttribute("data-settingskey");
+				let val = rulesScopeCheck.getAttribute("data-settingskey");
 				targetObj.ruleScope.push(val);
 			};
 		};
@@ -55,20 +53,17 @@ settingsUi.applySettings = function ()
 		let languageDropDown = settingsPanel.querySelector("select[data-settingsgroup=\"language\"]");
 		targetObj.language = languageDropDown[languageDropDown.selectedIndex].value;
 		/* get view mode */
-		let availibleViewModes = settingsPanel.querySelectorAll("input[data-settingsgroup=\"view_mode\"]");
-		for (let i = 0, ii = availibleViewModes.length; i < ii; i += 1)
+		for (let availibleViewMode of settingsPanel.querySelectorAll("input[data-settingsgroup=\"view_mode\"]"))
 		{
-			if (availibleViewModes[i].checked === true)
+			if (availibleViewMode.checked === true)
 			{
-				targetObj.viewMode = availibleViewModes[i].getAttribute("data-settingskey");
+				targetObj.viewMode = availibleViewMode.getAttribute("data-settingskey");
 				break;
 			};
 		};
 		/* get options */
-		let optionItems = settingsPanel.querySelectorAll("input[data-settingsgroup=\"options\"]");
-		for (let i = 0, ii = optionItems.length; i < ii; i += 1)
+		for (let optionsItem of settingsPanel.querySelectorAll("input[data-settingsgroup=\"options\"]"))
 		{
-			let optionsItem = optionItems[i];
 			targetObj.options[optionsItem.getAttribute("data-settingskey")] = optionsItem.checked;
 		}
 	};

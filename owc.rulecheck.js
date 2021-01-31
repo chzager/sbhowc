@@ -67,10 +67,9 @@ owc.rulecheck.checkAnimalPoints = function ()
 	let result = null;
 	let animalPoints = 0;
 	let animalPointsAllowed = Number(Math.floor(owc.warband.points / 2));
-	let animalUnits = owc.warband.unitsBySpecialrule(animalKey).concat(owc.warband.unitsBySpecialrule(swarmKey));
-	for (let u = 0, uu = animalUnits.length; u < uu; u += 1)
+	for (let animalUnit of owc.warband.unitsBySpecialrule(animalKey).concat(owc.warband.unitsBySpecialrule(swarmKey)))
 	{
-		animalPoints += animalUnits[u].points * animalUnits[u].count;
+		animalPoints += animalUnit.points * animalUnit.count;
 	};
 	if (animalPoints > animalPointsAllowed)
 	{
@@ -94,11 +93,10 @@ owc.rulecheck.checkSwarmFigures = function ()
 	(SBH revised edition/rules version 5.0, p 35). */
 	const swarmKey = "sw";
 	let result = null;
-	let swarmUnits = owc.warband.unitsBySpecialrule(swarmKey);
 	let swarmFigures = 0;
-	for (let u = 0, uu = swarmUnits.length; u < uu; u += 1)
+	for (let swarmUnit of owc.warband.unitsBySpecialrule(swarmKey))
 	{
-		swarmFigures += swarmUnits[u].count;
+		swarmFigures += swarmUnit.count;
 	};
 	if ((swarmFigures > 0) && (swarmFigures < 2))
 	{
@@ -140,17 +138,16 @@ owc.rulecheck.checkRabbleSpecialrule = function ()
 	(SBH revised edition/rules version 5.0, p 34). */
 	const rabbleKey = "ra";
 	let result = [];
-	let rabbleUnits = owc.warband.unitsBySpecialrule(rabbleKey);
-	for (let u = 0, uu = rabbleUnits.length; u < uu; u += 1)
+	for (let rabbleUnit of owc.warband.unitsBySpecialrule(rabbleKey))
 	{
-		if (rabbleUnits[u].quality < 4)
+		if (rabbleUnit.quality < 4)
 		{
 			let checkResult =
 			{
 				"key": "rabbleSpecialruleViolated",
 				"values":
 				{
-					"U": owc.helper.nonBlankUnitName(rabbleUnits[u]),
+					"U": owc.helper.nonBlankUnitName(rabbleUnit),
 					"RABBLE": owc.resources.translate(rabbleKey, owc.settings.language)
 				}
 			};
@@ -165,18 +162,17 @@ owc.rulecheck.checkExcludes = function ()
 	/* check special rules that exclude each other */
 	function _checkExcludes(excludingKey, resultsRecipient)
 	{
-		for (let u = 0, uu = owc.warband.units.length; u < uu; u += 1)
+		for (let unit of owc.warband.units)
 		{
-			let unit = owc.warband.units[u];
 			let index = [];
-			for (let s = 0, ss = unit.specialrules.length; s < ss; s += 1)
+			for (let specialrule of unit.specialrules)
 			{
-				let excludings = owc.resources.data[unit.specialrules[s].key][excludingKey];
+				let excludings = owc.resources.data[specialrule.key][excludingKey];
 				if (excludings !== undefined)
 				{
-					for (let e = 0, ee = excludings.length; e < ee; e += 1)
+					for (let excluding of excludings)
 					{
-						if ((unit.hasSpecialrule(excludings[e]) === true) && (index.includes(excludings[e] + unit.specialrules[s].key) === false))
+						if ((unit.hasSpecialrule(excluding) === true) && (index.includes(excluding + unit.specialrules[s].key) === false))
 						{
 							let checkResult =
 							{
@@ -185,11 +181,11 @@ owc.rulecheck.checkExcludes = function ()
 								{
 									"U": owc.helper.nonBlankUnitName(unit),
 									"A": owc.resources.translate(unit.specialrules[s].key, owc.settings.language),
-									"B": owc.resources.translate(excludings[e], owc.settings.language)
+									"B": owc.resources.translate(excluding, owc.settings.language)
 								}
 							};
 							resultsRecipient.push(checkResult);
-							index.push(unit.specialrules[s].key + excludings[e]);
+							index.push(unit.specialrules[s].key + excluding);
 						};
 					};
 				};

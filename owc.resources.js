@@ -17,15 +17,15 @@ owc.resources.import = function (urls, callback)
 {
 	function _allSettled(promises)
 	{
-		for (let p = 0, pp = promises.length; p < pp; p += 1)
+		for (let promise of promises)
 		{
-			if (promises[p].status === "fulfilled")
+			if (promise.status === "fulfilled")
 			{
-				_append(promises[p].value);
+				_append(promise.value);
 			}
 			else
 			{
-				console.error(promises[p].reason);
+				console.error(promise.reason);
 			};
 		};
 		_manageCrossreferences();
@@ -90,9 +90,8 @@ owc.resources.import = function (urls, callback)
 			{
 				referredResource[attribute].push(originResourceKey);
 			};
-			for (let r = 0, rr = originResource[attribute].length; r < rr; r += 1)
+			for (let referredValue of originResource[attribute])
 			{
-				let referredValue = originResource[attribute][r];
 				if ((referredValue !== referredResourceKey) && (referredResource[attribute].includes(referredValue) === false))
 				{
 					referredResource[attribute].push(referredValue);
@@ -103,14 +102,13 @@ owc.resources.import = function (urls, callback)
 		for (let key in owc.resources.data)
 		{
 			let originResource = owc.resources.data[key];
-			for (let p = 0, pp = attributes.length; p < pp; p += 1)
+			for (let attribute of attributes)
 			{
-				let attribute = attributes[p];
 				if (originResource[attribute] !== undefined)
 				{
-					for (let r = 0, rr = originResource[attribute].length; r < rr; r += 1)
+					for (let originAttribute of originResource[attribute])
 					{
-						__copyAllReferences(key, originResource[attribute][r], attribute);
+						__copyAllReferences(key, originAttribute, attribute);
 					};
 				};
 			};
@@ -120,12 +118,12 @@ owc.resources.import = function (urls, callback)
 	return new Promise((resolve, reject) =>
 	{
 		let executors = [];
-		for (let u = 0, uu = urls.length; u < uu; u += 1)
+		for (let url of urls)
 		{
-			if (owc.resources.loadedUrls.includes(urls[u]) === false)
+			if (owc.resources.loadedUrls.includes(url) === false)
 			{
-				executors.push(fileIo.fetchServerFile(urls[u]));
-				owc.resources.loadedUrls.push(urls[u]);
+				executors.push(fileIo.fetchServerFile(url));
+				owc.resources.loadedUrls.push(url);
 			};
 		};
 		Promise.allSettled(executors).then((promises) =>

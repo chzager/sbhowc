@@ -126,17 +126,17 @@ owc.fetchResources = function ()
 	let requiredResoures = [];
 	let requiredKeys = ["meta", "specialrules-sbh", "specialrules-sww", "specialrules-sgd", "specialrules-sdg", "specialrules-sam"];
 	/* require all resources for default language */
-	for (let r = 0, rr = requiredKeys.length; r < rr; r += 1)
+	for (let resource of requiredKeys)
 	{
-		requireResource(requiredKeys[r], owc.resources.DEFAULT_LANGUAGE);
+		requireResource(resource, owc.resources.DEFAULT_LANGUAGE);
 	};
 	/* eventually require some resources for set language */
 	if (owc.settings.language !== owc.resources.DEFAULT_LANGUAGE)
 	{
 		requireResource("meta", owc.settings.language);
-		for (let r = 0, rr = owc.settings.ruleScope.length; r < rr; r += 1)
+		for (let translatedRules of owc.settings.ruleScope)
 		{
-			requireResource("specialrules-" + owc.settings.ruleScope[r], owc.settings.language);
+			requireResource("specialrules-" + translatedRules, owc.settings.language);
 		};
 	};
 	owc.resources.import(requiredResoures).then(owc.main);
