@@ -186,6 +186,6 @@ owc.importWarband = function (warbandCode)
 
 /* helper functions */
 owc.helper = {};
-owc.helper.nonBlankUnitName = (unit) => (unit.name.length > 0) ? unit.name : owc.resources.defaultText("defaultUnitName");
-owc.helper.nonBlankWarbandName = () => (owc.warband.name.length > 0) ? owc.warband.name : owc.resources.defaultText("defaultWarbandName");
+owc.helper.nonBlankUnitName = (unit) => (unit.name.trim() !== "") ? unit.name : owc.helper.translate("defaultUnitName");
+owc.helper.nonBlankWarbandName = () => (owc.warband.name.trim() !== "") ? owc.warband.name : owc.helper.translate("defaultWarbandName");
 owc.helper.translate = (key, variables) => owc.resources.translate(key, owc.settings.language, variables);
