@@ -16,7 +16,7 @@ restorer.show = function ()
 		document.body.appendChild(pageSnippets.produce("restorer", restorer));
 	};
 	restorer.listStoredData();
-	owc.ui.showElement(document.getElementById("restorer"), String(Math.floor(document.documentElement.scrollTop + document.body.clientHeight / 10)) + "px", null, true);
+	owc.ui.showElement(document.getElementById("restorer"), (document.documentElement.scrollTop + document.body.clientHeight / 10), null, true);
 };
 
 restorer.storageItemClick = function (clickEvent)

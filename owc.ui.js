@@ -13,17 +13,17 @@ owc.ui.volatileSelectors = [".volatile", ".blue"];
 owc.ui.isInteractive = (window.location.getParam(owc.urlParam.print) !== "1");
 owc.ui.visualizer = null;
 
-owc.ui.showElement = function (domElement, topPosition = null, leftPosition = null, blurPage = false)
+owc.ui.showElement = function (domElement, topPositionPx = null, leftPositionPx = null, blurPage = false)
 {
 	domElement.style.display = "block";
 	domElement.style.visibility = "visible";
-	if (leftPosition != null)
+	if (topPositionPx !== null)
 	{
-		domElement.style.left = leftPosition;
+		domElement.style.top = String(Math.floor(topPositionPx)) + "px";
 	};
-	if (topPosition !== null)
+	if (leftPositionPx != null)
 	{
-		domElement.style.top = topPosition;
+		domElement.style.left = String(Math.floor(leftPositionPx)) + "px";
 	};
 	if (blurPage === true)
 	{
