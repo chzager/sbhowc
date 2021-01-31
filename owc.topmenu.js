@@ -105,7 +105,7 @@ owc.topMenu.undoClick = function (clickEvent)
 
 owc.topMenu.warbandFromFileClick = function (clickEvent)
 {
-	fileIo.requestClientFile(clickEvent, (fileEvent) =>
+	fileIo.requestClientFile(clickEvent).then((fileEvent) =>
 	{
 		let warbandCode = fileEvent.target.result;
 		try
