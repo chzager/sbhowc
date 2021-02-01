@@ -11,8 +11,8 @@
 	}
 
 .listview #units tr {
-	border-top: 0.7pt solid #b0b8c0;
-	border-bottom: 0.7pt solid #b0b8c0;
+	border-top: 1px solid #b0b8c0;
+	border-bottom: 1px solid #b0b8c0;
 	}
 
 .listview #units th,
@@ -65,7 +65,7 @@
 
 .listview #units input,
 .listview #units select {
-	border: 0.7pt solid rgba(92, 92, 92, 0.7);
+	border: 1px solid rgba(92, 92, 92, 0.7);
 	border-radius: 0.15em;
 	box-shadow: 0.1em 0.1em 0.5em #00000040;
 	padding: 0px;
@@ -109,11 +109,11 @@
 /* add itmes buttons */
 
 .listview #additmes-container .addunit {
-	border: 1.5pt dashed #bdbdbd;
+	border: 2px dashed #bdbdbd;
 	background-color: #f3f3f3;
 	background: linear-gradient(to bottom, #f9f9f9 50%,#efefef 100%);
-	font-family: sans-serif;
-	font-size: smaller;
+	font-family: 'Roboto', sans-serif;
+	font-size: 12px;
 	text-align: center;
 	padding: 0.2em 1.5em;
 	border-radius: 0.5em;

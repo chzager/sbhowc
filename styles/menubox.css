@@ -3,7 +3,7 @@ div[data-menubox] {
 	position: absolute;
 	top: 0px;
 	left: 0px;
-	font-family: sans-serif;
+	font-family: 'Roboto', sans-serif;
 	border: 1px solid #808080;
 	background-color: #ffffff;
 	padding: 0.2em;
@@ -14,7 +14,6 @@ div[data-menubox] {
 div[data-menubox] div[data-menuitem] {
 	border: 1px solid #ffffff;
 	padding: 0.2em 0.4em;
-	font-size: smaller;
 	cursor: pointer;
 }
 

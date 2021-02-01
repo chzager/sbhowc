@@ -5,6 +5,13 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
+		<!-- Google Fonts -->
+		<link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;600&display=swap" rel="stylesheet"> 
+		<link href="https://fonts.googleapis.com/css2?family=Cantata+One&display=swap" rel="stylesheet"> 		
+		<link href="https://fonts.googleapis.com/css2?family=Roboto&family=Source+Serif+Pro:wght@400;600&display=swap" rel="stylesheet"> 
+		<!-- FontAwsome -->
+		<script src="https://kit.fontawesome.com/fa37b6d3d1.js" crossorigin="anonymous">/**/</script>
+
 		<link rel="stylesheet" href="styles/core.css"/>
 		<link rel="stylesheet" href="styles/menubox.css"/>
 		<link rel="stylesheet" href="styles/didyouknow.css"/>
@@ -23,8 +30,6 @@
 
 		<script src="src/unit.class.js">/**/</script>
 		<script src="src/warband.class.js">/**/</script>
-
-		<script src="https://kit.fontawesome.com/fa37b6d3d1.js" crossorigin="anonymous">/**/</script>
 	</head>
 
 	<body>
@@ -33,11 +38,12 @@
 				<h1>Online Warband Creator</h1>
 				<div class="tiny">for</div>
 				<h2>Song of Blades and&nbsp;Heroes</h2>
-				<p>
+			</div>
+			<div class="centeredViewport subline">
 					<span data-autofill="yes">{{version}}&nbsp;-</span>
 					<span>Complies with SBH Revised Edition (rules version&nbsp;5.0)&nbsp;-</span>
 					<a href="https://github.com/suppenhuhn79/sbhowc/releases">Changelog</a>
-				</p>
+				</div>
 			</div>
 
 			<div id="top-menu" class="noprint" >
@@ -89,7 +95,7 @@
 		</div>
 
 		<div id="loading-wrapper">
-			<div class="loading-text">Fetching data...</div>
+			<div class="loading-text sans-serif">Fetching data...</div>
 			<div class="loading-gradient">&#160;</div>
 		</div>
 		<div id="blur" class="volatile" onclick="owc.ui.sweepVolatiles();">&nbsp;</div>

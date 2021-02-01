@@ -3,8 +3,8 @@ div.tooltip {
 	position: absolute !important;
 	visibility: hidden !important;
 	max-width: 20em !important;
-	font-family: sans-serif !important;
-	font-size: 9pt !important;
+	font-family: 'Roboto', sans-serif !important;
+	font-size: 13px !important;
 	white-space: normal !important;
 	color: black !important;
 	padding: 0.2em !important;

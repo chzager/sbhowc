@@ -30,7 +30,7 @@
 	text-align: left;
 	vertical-align: middle;
 	padding: 0.35em;
-	border: 0.7pt solid black;
+	border: 1px solid black;
 	overflow: auto;
 	}
 
@@ -64,7 +64,7 @@
 
 .classicview table.unit select,
 .classicview table.unit input {
-	border: 0.7pt solid rgba(92, 92, 92, 0.7);
+	border: 1px solid rgba(92, 92, 92, 0.7);
 	border-radius: 0.15em;
 	box-shadow: 0.1em 0.1em 0.5em #00000040;
 	padding: 0px;
@@ -105,11 +105,11 @@
 /* add itmes buttons */
 
 .classicview #unitsgrid #additmes-container .addunit {
-	border: 1.5pt dashed #bdbdbd;
+	border: 2px dashed #bdbdbd;
 	background-color: #f3f3f3;
 	background: linear-gradient(to bottom, #f9f9f9 50%,#efefef 100%);
-	font-family: sans-serif;
-	font-size: smaller;
+	font-family: 'Roboto', sans-serif;
+	font-size: 13px;
 	text-align: center;
 	padding: 1.5em;
 	border-radius: 1em;

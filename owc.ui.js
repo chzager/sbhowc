@@ -121,5 +121,8 @@ owc.ui.wait = (message = "Working") =>
 	document.querySelector("#loading-wrapper .loading-text").innerText = message + "...";
 	document.getElementById("loading-wrapper").style.visibility = "visible";
 };
-owc.ui.waitEnd = () => document.getElementById("loading-wrapper").style.visibility = "hidden";
+owc.ui.waitEnd = () =>
+{
+	document.getElementById("loading-wrapper").style.visibility = "hidden"
+};
 owc.ui.isTouchDevice = ("ontouchstart" in document.documentElement);

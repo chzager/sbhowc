@@ -3,16 +3,16 @@
 	margin-left: auto;
 	margin-right: auto;
 	max-width: 600px;
-	border: 1pt solid #c8c8c8;
+	border: 1px solid #c8c8c8;
 	background-color: #ffffe8;
 	padding: 0.3em;
-	box-shadow: 1pt 1pt 3pt #c0c0c0;
+	box-shadow: 1px 1px 5px #c0c0c0;
 	}
 	
 #didyouknow h1,
 #didyouknow p {
-	font-size: 10pt;
-	margin: 6pt;
+	/* font-size: ; */
+	margin: 0.5em;
 	margin-left: 38pt;
 	}
 
@@ -32,10 +32,10 @@
 	margin: 6pt;
 	padding-left: 10px;
 	padding-right: 10px;
-	border: 1pt solid #a0a0a0;
+	border: 1px solid #a0a0a0;
 	color: #808080;
 	background-color: #ffffd0;
-	border-radius: 2pt;
+	border-radius: 5px;
 	position: absolute;
 	}
 

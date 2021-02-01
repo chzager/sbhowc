@@ -1,43 +1,59 @@
 
 * { margin: 0px; padding: 0px; text-align: left; box-sizing: border-box; }
-html, body, table, input, select, option, h1, h2, h3, h4, p, th, td { font-family: serif; font-size: 12pt; }
 
-body { overflow-x: hidden; width: 100%; }
+html, body, table, input, select, option, h1, h2, h3, h4, p, th, td {
+	font-family: 'Source Serif Pro', serif;
+	font-style: normal;
+	font-size: 14px;
+	}
 
+body {
+	overflow-x: hidden;
+	width: 100vw;
+	}
+
+#title {
+	margin-top: 1em;
+	margin-bottom: 1.5em;
+	}
+#title * {
+	font-family: 'Cantata One', serif;
+	font-weight: normal; 
+	text-align: center;
+	}
 #title h1 {
-	font-size: 32pt;
-	font-weight: normal;
+	font-size: 40px;
 	font-variant: small-caps;
-	margin-top: 6pt;
 	}
 #title h2 {
-	font-size: 24pt;
-	font-weight: normal; 
+	font-size: 24px;
 	font-variant: small-caps;
-	margin-top: -2pt;
-	margin-bottom: 12pt;
 	}
 #title div.tiny {
 	font-style: italic;
-	font-size: 8pt;
+	font-size: 10px;
 	overflow: visible;
-}
-
+	}
 #title h1,
 #title h2,
 #title div.tiny {
-	text-shadow: 0.4pt 0.5pt 5pt #00000052;
-}
+	text-shadow: 1px 2px 8px #00000052;
+	}
+div.subline {
+	font-family: 'Source Serif Pro', serif;
+	text-align: center;
+	margin-bottom: 2em;
+	}
 
-@media screen and (min-width: 431px) and (max-width: 520px) {
-	#title h1 { font-size: 26pt; }
-	#title h2 { font-size: 20pt; }
+@media screen and (min-width: 431px) and (max-width: 570px) {
+	#title h1 { font-size: 6vw; }
+	#title h2 { font-size: 3.6vw; }
 }
 @media screen and (max-width: 430px) {
-	#title h1 { font-size: 20pt; }
-	#title h2 { font-size: 15pt; }
-	#title p { font-size: 10pt; }
-	body, table, input, select, option, h3, h4, p, th, td { font-size: 11pt; }
+	#title h1 { font-size: 28px; }
+	#title h2 { font-size: 16.8px; }
+	#title p { font-size: 8px; }
+	body, table, input, select, option, h3, h4, p, th, td { font-size: initial; }
 }
 
 @media print { 
@@ -46,32 +62,29 @@ body { overflow-x: hidden; width: 100%; }
 }
 
 a { color: blue; }
-table { border: none; border-collapse: collapse; border-spacing: 0px;  }
-input[type="text"], input[type="number"] { cursor: text; width: 100%; padding: 1pt; }
+table { border: none; border-collapse: collapse; border-spacing: 0px; }
+input[type="text"], input[type="number"] { cursor: text; width: 100%; padding: 0.1em; }
 input[type="number"] { text-align: right; }
 input[type="file"] { width: 100%; }
 input[type="button"] { padding: 0.1em 1em; }
-select { cursor: pointer; padding: 0pt 1pt; }
+select { cursor: pointer; padding: 0em 0.2em; }
 
-.centeredViewport { margin-left: auto; margin-right: auto; max-width: 800px; padding: 0px 3pt; }
-
-#title { margin-top: 6pt; margin-bottom: 1.5em; }
-#title * { text-align: center; }
+.centeredViewport { margin-left: auto; margin-right: auto; max-width: 800px; padding: 0px 5px; }
 
 #top-menu {
 	margin-bottom: 2em;
 	position: sticky;
 	top: 0px;
-	width: 100%;
-	font-family: sans-serif;
-	font-size: 10pt;
+	width: 100vw;
+	font-family: 'Roboto', sans-serif;
+	font-size: 13px;
 	background-color: #d0dcf4;
-	border-top: 1pt solid #95abd7;
-	border-bottom: 1pt solid #95abd7;
-	padding-bottom: 3pt;
+	border-top: 1px solid #95abd7;
+	border-bottom: 1px solid #95abd7;
+	padding-bottom: 5px;
 	z-index: 20200;
 	background: linear-gradient(135deg, #f3f7fe 0%,#d0dcf4 30%,#f3f7fe 100%);
-	box-shadow: 0px 0.1em 0.5em #0000002f;
+	box-shadow: 0px 0px 0.5em #0000002f;
 	}
 
 #top-menu::after {
@@ -84,14 +97,14 @@ select { cursor: pointer; padding: 0pt 1pt; }
 
 #top-menu .button {
 		float: left;
-		margin-top: 3pt;
-		padding: 1pt 2pt;
-		border: 1pt solid #ff8e00;
-		border-left: 10pt solid #ff8e00;
+		margin-top: 5px;
+		padding: 2px 2px;
+		border: 1px solid #ff8e00;
+		border-left: 15px solid #ff8e00;
 		background-color: #ffde7e;
-		margin-right: 2pt;
+		margin-right: 2px;
 		cursor: pointer;
-		box-shadow: 1pt 1pt 3pt #95ab80;
+		box-shadow: 1px 1px 4px #95ab80;
 		white-space: nowrap;
 		}
 #top-menu .button:hover {
@@ -117,24 +130,24 @@ select { cursor: pointer; padding: 0pt 1pt; }
 	}
 
 #advertisement {
-	margin-top: 16pt;
-	margin-bottom: 16pt;
+	margin-top: 1em;
+	margin-bottom: 1em;
 	}
 #advertisement p {
-	font-size: 10pt;
+	font-size: 14px;
 	margin-bottom: 0.3em;
 	padding-left: 1.5em;
 }
 #advertisement .legal {
 	margin-top: 1em;
 	padding-top: 1em;
-	border-top: 0.5pt solid black;
+	border-top: 1px solid black;
 	}
 #advertisement .legal p {
-	font-family: sans-serif;
-	font-size: 9pt;
+	font-family: 'Roboto', sans-serif;
+	font-size: smaller;
 	margin-bottom: 0.5em;
-	padding: 0pt;
+	padding: 0px;
 	}
 #advertisement .icon {
 	margin-left: -1.5em;
@@ -151,7 +164,6 @@ select { cursor: pointer; padding: 0pt 1pt; }
 	background-color: #ffffff;
 	padding: 1em 1.5em;
 	border-radius: 1em;
-	font-family: sans-serif;
 	box-shadow: 1em 1em 4em rgba(0, 0, 0, 0.4);
 	cursor: wait;
  	z-index: 90100;
@@ -160,8 +172,8 @@ select { cursor: pointer; padding: 0pt 1pt; }
 	#loading-wrapper { left: 5vw; width: 80vw; }
 	}
 #loading-wrapper .loading-text {
+	font-family: 'Open Sans', sans-serif;
 	margin-bottom: 0.5em;
-	font-size: 90%;
 	}
 #loading-wrapper .loading-gradient {
     width: 100%;
