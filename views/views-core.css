@@ -1,10 +1,6 @@
 #warbandCanvas * {
 	}
 
-#warbandCanvas .interactive [data-editor],
-#warbandCanvas .interactive * > [data-editor="name"] {
-	border: 1px solid transparent;
-	}
 #warbandCanvas .interactive [data-editor]:hover,
 #warbandCanvas .interactive *:hover > [data-editor="name"],
 #warbandCanvas .interactive [data-editor]:focus,
