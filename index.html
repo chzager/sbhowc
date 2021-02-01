@@ -3,8 +3,8 @@
 	<head>
 		<title>Song of Blades and Heroes Online Warband Creator</title>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1"> 
-		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
 		<link rel="stylesheet" href="styles/core.css"/>
 		<link rel="stylesheet" href="styles/menubox.css"/>
 		<link rel="stylesheet" href="styles/didyouknow.css"/>
@@ -23,8 +23,10 @@
 
 		<script src="src/unit.class.js">/**/</script>
 		<script src="src/warband.class.js">/**/</script>
+
+		<script src="https://kit.fontawesome.com/fa37b6d3d1.js" crossorigin="anonymous">/**/</script>
 	</head>
-	
+
 	<body>
 		<div id="page">
 			<div id="title" class="noprint">
@@ -59,22 +61,22 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<div id="warbandCanvas" class="centeredViewport">&#160;</div>
 
 			<div id="didyouknow" class="noprint">
 				<div class="icon">i</div>
 				<h1>Did you know..?</h1>
-				<p id="didyouknow_text">...You need to have JavaScript enabled to use the <i>Song of Blades and Heroes Online Warband Creator</i>.</p>
+				<p id="didyouknow_text">...You need to have JavaScript enabled to use the <em>Song of Blades and Heroes Online Warband Creator</em>.</p>
 				<p id="didyouknow_next" onclick="owc.didYouKnow.printNextHint();">Show another hint</p>
 			</div>
-			
+
 			<div id="advertisement" class="centeredViewport">
 				<div class="noprint">
-					<p>"Song of Blades and Heroes" - Copyright Andrea Sfiligoi</p>
-					<p>Find out more about Song of Blades and Heroes at <a href="https://songofblades.blogspot.com/">https://songofblades.blogspot.com</a></p>     
-					<p>Buy Song of Blades and Heroes at <a href="https://www.ganeshagames.net/index.php?cPath=1_6">https://www.ganeshagames.net</a></p>
-					<p>Got questions or ideas? You are welcome to <a href="https://github.com/suppenhuhn79/sbhowc/discussions">https://github.com/suppenhuhn79/sbhowc/discussions</a></p>
+					<p><i class="icon fas fa-star" style="color:gold;"></i>"Song of Blades and Heroes" - Copyright Andrea Sfiligoi</p>
+					<p><i class="icon fab fa-blogger-b" style="color:red;"></i>Find out more about Song of Blades and Heroes at <a href="https://songofblades.blogspot.com/">https://songofblades.blogspot.com</a></p>
+					<p><i class="icon fas fa-shopping-cart" style="color:silver;"></i>Buy Song of Blades and Heroes at <a href="https://www.ganeshagames.net/index.php?cPath=1_6">https://www.ganeshagames.net</a></p>
+					<p><i class="icon fas fa-comments" style="color:dodgerblue;"></i>Got questions or ideas? You are welcome to <a href="https://github.com/suppenhuhn79/sbhowc/discussions">https://github.com/suppenhuhn79/sbhowc/discussions</a></p>
 					<div class="legal">
 						<p>Copyright 2021 Christoph Zager, licensed unter the GNU Affero General Public License, Version 3 (<a href="https://www.gnu.org/licenses/agpl-3.0.en.html">https://www.gnu.org/licenses/agpl-3.0.en.html</a>), source availible at GitHub (<a href="https://github.com/suppenhuhn79/sbhowc">https://github.com/suppenhuhn79/sbhowc</a>)</p>
 						<p>Using Suppenhuhn79's vanilla-tools (<a href="https://github.com/suppenhuhn79/vanilla-tools">https://github.com/suppenhuhn79/vanilla-tools</a>), Copyright 2021 Christoph Zager, licensed unter the Apache License, Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>)</p>
@@ -85,14 +87,14 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div id="loading-wrapper">
 			<div class="loading-text">Fetching data...</div>
 			<div class="loading-gradient">&#160;</div>
 		</div>
 		<div id="blur" class="volatile" onclick="owc.ui.sweepVolatiles();">&nbsp;</div>
 		<div id="printoverlay" class="only-print">&nbsp;</div>
-	
+
 		<script src="owc.js">/**/</script>
 		<script src="owc.settings.js">/**/</script>
 		<script src="owc.resources.js">/**/</script>
@@ -101,7 +103,7 @@
 		<script src="owc.ui.js">/**/</script>
 		<script src="owc.topmenu.js">/**/</script>
 		<script src="index.js">/**/</script>
-	
+
 	</body>
-	
+
 </html>

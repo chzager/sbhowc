@@ -19,9 +19,10 @@ warbandcode.show = function ()
 		};
 		document.body.appendChild(pageSnippets.produce("warbandcode", warbandcode, variables));
 	};
-	let warbandcodeEditor = document.querySelector("#warbandcode textarea");
+	let warbandcodePanel = document.getElementById("warbandcode");
+	let warbandcodeEditor = warbandcodePanel.querySelector("textarea");
 	warbandcodeEditor.value = owc.warband.toString();
-	owc.ui.showElement(document.getElementById("warbandcode"), (document.documentElement.scrollTop + document.body.clientHeight / 10), null, true);
+	owc.ui.showBluebox(warbandcodePanel);
 };
 
 warbandcode.applyClick = function (clickEvent)

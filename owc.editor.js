@@ -256,26 +256,7 @@ owc.editor.addSpecialrule = function (unitIndex, specialruleKey)
 {
 	let nativeText = owc.resources.defaultText(specialruleKey);
 	owc.editor.setUndoPoint("Add \"" + nativeText + "\" special rule to " + owc.helper.nonBlankUnitName(owc.warband.units[unitIndex]));
-	if (owc.warband.units[unitIndex].addSpecialrule(specialruleKey, owc.resources.data) === true)
-	{
-		let newSpecialrule = owc.resources.data[specialruleKey];
-		if (newSpecialrule.replaces !== undefined)
-		{
-			for (let replacesKey of newSpecialrule.replaces)
-			{
-				for (let s = 0, ss = owc.warband.units[unitIndex].specialrules.length; s < ss; s += 1)
-				{
-					if (owc.warband.units[unitIndex].specialrules[s].key === replacesKey)
-					{
-						owc.warband.units[unitIndex].specialrules.copyWithin(s, ss - 1);
-						owc.warband.units[unitIndex].specialrules.pop();
-						break;
-					};
-				}
-			};
-		};
-	}
-	else
+	if (owc.warband.units[unitIndex].addSpecialrule(specialruleKey, owc.resources.data) !== true)
 	{
 		owc.editor.undoer.undo();
 	};

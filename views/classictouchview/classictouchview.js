@@ -7,29 +7,32 @@ Licensed unter the GNU Affero General Public License, Version 3
 See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
  */
 
-var classicview = {};
+var classictouchview = {};
 
-classicview.init = function ()
+classictouchview.init = function ()
 {
-	formsCore.init();
-	classicview.columnCount = null;
-	classicview.unitMenu = formsCore.unitMenu;
-	classicview.refreshWarbandName = formsCore.refreshWarbandName;
-	classicview.refreshUnit = formsCore.refreshUnit;
-	classicview.refreshWarbandSummary = formsCore.refreshWarbandSummary;
-	classicview.refreshPasteUnitButton = formsCore.refreshPasteUnitButton;
-	classicview.makeEditable = formsCore.makeEditable;
-	(owc.ui.isInteractive === true) ? window.addEventListener("resize", classicview.onWindowResize) : null;
-	classicview.onWindowResize();
+	touchCore.init();
+	classictouchview.columnCount = null;
+	classictouchview.unitMenu = touchCore.unitMenu;
+	classictouchview.refreshWarbandName = touchCore.refreshWarbandName;
+	classictouchview.onWarbandNameClick = touchCore.onWarbandNameClick;
+	classictouchview.onUnitNameClick = touchCore.onUnitNameClick;
+	classictouchview.refreshUnit = touchCore.refreshUnit;
+	classictouchview.refreshWarbandSummary = touchCore.refreshWarbandSummary;
+	classictouchview.refreshPasteUnitButton = touchCore.refreshPasteUnitButton;
+	classictouchview.dispatchEditorEvent = touchCore.dispatchEditorEvent;
+	classictouchview.makeEditable = touchCore.makeEditable;
+	(owc.ui.isInteractive === true) ? window.addEventListener("resize", classictouchview.onWindowResize) : null;
+	classictouchview.onWindowResize();
 };
 
-classicview.unload = function ()
+classictouchview.unload = function ()
 {
-	formsCore.unload();
-	window.removeEventListener("resize", classicview.onWindowResize);
+	window.removeEventListener("resize", classictouchview.onWindowResize);
+	touchCore.unload();
 };
 
-classicview.getWarbandHtml = function ()
+classictouchview.getWarbandHtml = function ()
 {
 	let result;
 	let variables =
@@ -43,7 +46,7 @@ classicview.getWarbandHtml = function ()
 		"warband-name": owc.helper.nonBlankWarbandName(),
 		"default-warband-name": owc.helper.translate("defaultWarbandName")
 	};
-	result = pageSnippets.produce("classicview", classicview, variables);
+	result = pageSnippets.produce("classictouchview", classictouchview, variables);
 	if (owc.ui.isInteractive === false)
 	{
 		htmlBuilder.removeNodesByQuerySelectors(["select", "input", ".specialruleEditorSeparator", ".addunit"], result);
@@ -56,29 +59,31 @@ classicview.getWarbandHtml = function ()
 	return result;
 };
 
-classicview.listUnits = function (refNode)
+classictouchview.listUnits = function (refNode)
 {
-	let snippetName = "classicview-two-columns-row";
+	let snippetName = "classictouchview-two-columns-row";
 	let requiredRows = Math.ceil((owc.warband.units.length + 1) / 2);
-	if (classicview.columnCount === 1)
+	if (classictouchview.columnCount === 1)
 	{
-		snippetName = "classicview-single-column-row";
+		snippetName = "classictouchview-single-column-row";
 		requiredRows = owc.warband.units.length + 1;
 	};
 	/* requiredRows is unit count +1 because we produce one extra cell for add-items buttons */
 	for (let c = 0; c < requiredRows; c += 1)
 	{
-		let gridNode = pageSnippets.produce(snippetName, classicview);
+		let gridNode = pageSnippets.produce(snippetName, classictouchview);
 		refNode.appendChild(gridNode);
 	};
-	classicview.insertUnitSheets(refNode);
+	classictouchview.insertUnitSheets(refNode);
 	let addItemsCell = refNode.querySelectorAll("#unitsgrid > tr > td")[owc.warband.units.length];
 	addItemsCell.removeAttribute("data-unitindex");
 	addItemsCell.id = "additmes-container";
-	addItemsCell.appendChild(pageSnippets.produce("add-unit", formsCore, {"add-unit": owc.helper.translate("addUnit")}));
+	let variables = {		"add-unit": owc.helper.translate("addUnit")
+	};
+	addItemsCell.appendChild(pageSnippets.produce("add-unit", touchCore, variables));
 };
 
-classicview.insertUnitSheets = function (refNode)
+classictouchview.insertUnitSheets = function (refNode)
 {
 	let unitSheetCells = refNode.querySelectorAll("td");
 	let variables =
@@ -95,13 +100,13 @@ classicview.insertUnitSheets = function (refNode)
 	for (let u = 0, uu = owc.warband.units.length; u < uu; u += 1)
 	{
 		variables["unit-index"] = u;
-		let unitSheetNode = pageSnippets.produce("classicview-unit-sheet", formsCore, variables);
-		formsCore.refreshUnit(u, unitSheetNode);
+		let unitSheetNode = pageSnippets.produce("classictouchview-unit-sheet", touchCore, variables);
+		touchCore.refreshUnit(u, unitSheetNode);
 		unitSheetCells[u].appendChild(unitSheetNode);
 	};
 };
 
-classicview.onWindowResize = function (resizeEvent)
+classictouchview.onWindowResize = function (resizeEvent)
 {
 	const thresholdWidth = 650;
 	let setColumnCount = 2;
@@ -111,9 +116,9 @@ classicview.onWindowResize = function (resizeEvent)
 		{
 			setColumnCount = 1;
 		};
-		if (classicview.columnCount !== setColumnCount)
+		if (classictouchview.columnCount !== setColumnCount)
 		{
-			classicview.columnCount = setColumnCount;
+			classictouchview.columnCount = setColumnCount;
 			owc.ui.printWarband();
 		};
 	};

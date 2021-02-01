@@ -31,7 +31,7 @@ settingsUi.show = function ()
 	{
 		settingsPanel.querySelector("input[data-settingsgroup=\"options\"][data-settingskey=\"" + key + "\"]").checked = owc.settings.options[key];
 	};
-	owc.ui.showElement(settingsPanel, (document.documentElement.scrollTop + document.body.clientHeight / 10), null, true);
+	owc.ui.showBluebox(settingsPanel);
 };
 
 settingsUi.applySettings = function ()

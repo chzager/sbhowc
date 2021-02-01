@@ -6,7 +6,7 @@ div.blue {
 	top: 20%;
 	left: 25%;
 	width: 50%;
-	display: none;
+	/* display: none; */
 	visibility: hidden;
 	z-index: 90500;
 	box-shadow: 5px 5px 20px #00000072;

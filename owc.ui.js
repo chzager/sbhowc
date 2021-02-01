@@ -13,35 +13,6 @@ owc.ui.volatileSelectors = [".volatile", ".blue"];
 owc.ui.isInteractive = (window.location.getParam(owc.urlParam.print) !== "1");
 owc.ui.visualizer = null;
 
-owc.ui.showElement = function (domElement, topPositionPx = null, leftPositionPx = null, blurPage = false)
-{
-	domElement.style.display = "block";
-	domElement.style.visibility = "visible";
-	if (topPositionPx !== null)
-	{
-		domElement.style.top = String(Math.floor(topPositionPx)) + "px";
-	};
-	if (leftPositionPx != null)
-	{
-		domElement.style.left = String(Math.floor(leftPositionPx)) + "px";
-	};
-	if (blurPage === true)
-	{
-		owc.ui.showElement(document.getElementById("blur"));
-	};
-};
-
-owc.ui.sweepVolatiles = function ()
-{
-	for (let volatileSelector of owc.ui.volatileSelectors)
-	{
-		for (let volatileElement of document.body.querySelectorAll(volatileSelector))
-		{
-			volatileElement.style.visibility = "hidden";
-		};
-	};
-};
-
 owc.ui.initView = function ()
 {
 	owc.ui.wait("Rendering");
@@ -124,7 +95,28 @@ owc.ui.refreshUndoButton = function ()
 	};
 };
 
-owc.ui.wait = function (message = "Working")
+owc.ui.showBluebox = function (element)
+{
+	element.style.visibility = "visible";
+	let perfectTop = document.documentElement.scrollTop + ((window.innerHeight - element.offsetHeight) / 5 * 2);
+	perfectTop = (perfectTop < 0) ? 10 : perfectTop;
+	element.style.top = String(Math.floor(perfectTop)) + "px";
+	owc.ui.blurPage();
+};
+
+owc.ui.sweepVolatiles = function ()
+{
+	for (let volatileSelector of owc.ui.volatileSelectors)
+	{
+		for (let volatileElement of document.body.querySelectorAll(volatileSelector))
+		{
+			volatileElement.style.visibility = "hidden";
+		};
+	};
+};
+
+owc.ui.blurPage = () => document.getElementById("blur").style.visibility = "visible";
+owc.ui.wait = (message = "Working") =>
 {
 	document.querySelector("#loading-wrapper .loading-text").innerText = message + "...";
 	document.getElementById("loading-wrapper").style.visibility = "visible";

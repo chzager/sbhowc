@@ -18,11 +18,27 @@ owc.topMenu.init = function ()
 		"restoreWarband": "Restore warband"
 	}
 		);
-	window.addEventListener("menubox", owc.topMenu.menuboxEventListener);
+	window.addEventListener("menubox", owc.topMenu.onMenuboxEvent);
 	/* remove tooltips on touch devices */
 	if (owc.ui.isTouchDevice === true)
 	{
 		htmlBuilder.removeNodesByQuerySelectors([".tooltip"], document.getElementById("top-menu"))
+	};
+};
+
+owc.topMenu.onMenuboxEvent = function (menuboxEvent)
+{
+	switch (menuboxEvent.detail.itemKey)
+	{
+	case "newWarband":
+		owc.topMenu.newWarband();
+		break;
+	case "showWarbandCode":
+		owc.topMenu.showWarbandCode();
+		break;
+	case "restoreWarband":
+		owc.topMenu.showWarbandRestorer();
+		break;
 	};
 };
 
@@ -130,20 +146,4 @@ owc.topMenu.warbandMenuClick = function (clickEvent)
 {
 	let viewport = clickEvent.target.getBoundingClientRect();
 	owc.topMenu.warbandMenu.popupAt(Math.floor(viewport.bottom + window.scrollY), Math.floor(viewport.left + window.scrollX), null, clickEvent);
-};
-
-owc.topMenu.menuboxEventListener = function (menuboxEvent)
-{
-	switch (menuboxEvent.detail.itemKey)
-	{
-	case "newWarband":
-		owc.topMenu.newWarband();
-		break;
-	case "showWarbandCode":
-		owc.topMenu.showWarbandCode();
-		break;
-	case "restoreWarband":
-		owc.topMenu.showWarbandRestorer();
-		break;
-	};
 };

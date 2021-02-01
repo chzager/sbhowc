@@ -7,11 +7,11 @@ Licensed unter the GNU Affero General Public License, Version 3
 See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
  */
 
-var htmlForm = {};
+var formsCore = {};
 
-htmlForm.init = function ()
+formsCore.init = function ()
 {
-	htmlForm.editors = {};
+	formsCore.editors = {};
 	let variables =
 	{
 		"quality-values": [],
@@ -41,20 +41,19 @@ htmlForm.init = function ()
 		"text": owc.helper.translate("addSpecialrule")
 	}
 	);
-	for (let s = 0, ss = owc.editor.specialrulesList.length; s < ss; s += 1)
+	for (let specialrule of owc.editor.specialrulesList)
 	{
 		variables["specialrules-list"].push(
 		{
-			"key": owc.editor.specialrulesList[s].key,
-			"text": owc.editor.specialrulesList[s].text
+			"key": specialrule.key,
+			"text": specialrule.text
 		}
 		);
 	};
-	htmlForm.editors.qualitySelector = pageSnippets.produce("quality-selector", htmlForm, variables);
-	htmlForm.editors.combatSelector = pageSnippets.produce("combat-selector", htmlForm, variables);
-	htmlForm.editors.specialrulesSelector = pageSnippets.produce("specialrules-selector", htmlForm, variables);
-
-	htmlForm.unitMenu = new Menubox("unitMenu",
+	formsCore.editors.qualitySelector = pageSnippets.produce("quality-selector", formsCore, variables);
+	formsCore.editors.combatSelector = pageSnippets.produce("combat-selector", formsCore, variables);
+	formsCore.editors.specialrulesSelector = pageSnippets.produce("specialrules-selector", formsCore, variables);
+	formsCore.unitMenu = new Menubox("unitMenu",
 	{
 		"duplicate": "Duplicate unit",
 		"copy": "Copy unit",
@@ -64,22 +63,22 @@ htmlForm.init = function ()
 		"movedown": "Move unit down"
 	}
 		);
-	window.addEventListener("focus", htmlForm.focusEventListener);
-	window.addEventListener("menubox", htmlForm.menuboxEventListener);
+	window.addEventListener("focus", formsCore.onWindowFocus);
+	window.addEventListener("menubox", formsCore.onMenuboxEvent);
 };
 
-htmlForm.unload = function (menuboxEvent)
+formsCore.unload = function(menuboxEvent)
 {
-	window.removeEventListener("focus", htmlForm.focusEventListener);
-	window.removeEventListener("menubox", htmlForm.menuboxEventListener);
+	window.removeEventListener("focus", formsCore.onWindowFocus);
+	window.removeEventListener("menubox", formsCore.onMenuboxEvent);
 };
 
-htmlForm.focusEventListener = function (focusEvent)
+formsCore.onWindowFocus = function (focusEvent)
 {
 	owc.editor.manangeUnitClipboard();
 };
 
-htmlForm.menuboxEventListener = function (menuboxEvent)
+formsCore.onMenuboxEvent = function (menuboxEvent)
 {
 	let editorEventData =
 	{
@@ -93,28 +92,30 @@ htmlForm.menuboxEventListener = function (menuboxEvent)
 	window.dispatchEvent(new CustomEvent("editor", editorEventData));
 };
 
-htmlForm.appendQualitySelector = function (refNode)
+formsCore.onValueEdited = (anyEvent) => formsCore.dispatchEditorEvent(anyEvent);
+
+formsCore.appendQualitySelector = function (refNode)
 {
-	let selectorNode = htmlForm.editors.qualitySelector.cloneNode(true);
-	selectorNode.onchange = htmlForm.dispatchEditorEvent;
+	let selectorNode = formsCore.editors.qualitySelector.cloneNode(true);
+	selectorNode.onchange = formsCore.dispatchEditorEvent;
 	refNode.appendChild(selectorNode);
 };
 
-htmlForm.appendCombatSelector = function (refNode)
+formsCore.appendCombatSelector = function (refNode)
 {
-	let selectorNode = htmlForm.editors.combatSelector.cloneNode(true);
-	selectorNode.onchange = htmlForm.dispatchEditorEvent;
+	let selectorNode = formsCore.editors.combatSelector.cloneNode(true);
+	selectorNode.onchange = formsCore.dispatchEditorEvent;
 	refNode.appendChild(selectorNode);
 };
 
-htmlForm.appendSpecialrulesSelector = function (refNode)
+formsCore.appendSpecialrulesSelector = function (refNode)
 {
-	let selectorNode = htmlForm.editors.specialrulesSelector.cloneNode(true);
-	selectorNode.onchange = htmlForm.dispatchEditorEvent;
+	let selectorNode = formsCore.editors.specialrulesSelector.cloneNode(true);
+	selectorNode.onchange = formsCore.dispatchEditorEvent;
 	refNode.appendChild(selectorNode);
 };
 
-htmlForm.dispatchEditorEvent = function (editorEvent)
+formsCore.dispatchEditorEvent = function (editorEvent)
 {
 	let eventOrigin = editorEvent.target;
 	if (editorEvent.type === "click")
@@ -155,28 +156,22 @@ htmlForm.dispatchEditorEvent = function (editorEvent)
 			"originalEvent": editorEvent
 		}
 	};
-	for (let a = 0, aa = eventOrigin.attributes.length; a < aa; a += 1)
+	for (let attribute of eventOrigin.attributes)
 	{
-		if (eventOrigin.attributes[a].nodeName.startsWith("data-") === true)
+		if (attribute.nodeName.startsWith("data-") === true)
 		{
-			editorEventData.detail[eventOrigin.attributes[a].nodeName.substring(5)] = eventOrigin.attributes[a].nodeValue;
+			editorEventData.detail[attribute.nodeName.substring(5)] = attribute.nodeValue;
 		};
 	};
 	window.dispatchEvent(new CustomEvent("editor", editorEventData));
 };
 
-htmlForm.refreshWarbandName = function ()
+formsCore.refreshWarbandName = function ()
 {
-	let warbandName = owc.warband.name;
-	let targetNode = document.getElementById("warbandheader");
-	if (warbandName === "")
-	{
-		warbandName = owc.helper.translate("defaultWarbandName");
-	};
-	targetNode.innerText = warbandName;
+	document.getElementById("warbandheader").innerText = owc.helper.nonBlankWarbandName();
 };
 
-htmlForm.refreshUnit = function (unitIndex, refNode = null)
+formsCore.refreshUnit = function (unitIndex, refNode = null)
 {
 	if (refNode === null)
 	{
@@ -204,10 +199,10 @@ htmlForm.refreshUnit = function (unitIndex, refNode = null)
 	refNode.querySelector("[data-editor=\"quality\"]").value = unit.quality;
 	refNode.querySelector("[data-valueof=\"combat\"]").innerText = unit.combat;
 	refNode.querySelector("[data-editor=\"combat\"]").value = unit.combat;
-	htmlForm.refreshSpecialrules(unitIndex, refNode.querySelector("[data-staticvalueof=\"specialrules\"]"));
+	formsCore.refreshSpecialrules(unitIndex, refNode.querySelector("[data-staticvalueof=\"specialrules\"]"));
 };
 
-htmlForm.refreshSpecialrules = function (unitIndex, refNode)
+formsCore.refreshSpecialrules = function (unitIndex, refNode)
 {
 	function _specialruleHint(specialruleKey)
 	{
@@ -224,21 +219,22 @@ htmlForm.refreshSpecialrules = function (unitIndex, refNode)
 	let specialrulesCount = unit.specialrules.length;
 	for (let s = 0; s < specialrulesCount; s += 1)
 	{
+		let spcialrule = unit.specialrules[s];
 		let specialruleNode;
-		let specialruleText = owc.helper.translate(unit.specialrules[s].key);
+		let specialruleText = owc.helper.translate(spcialrule.key);
 		let variables =
 		{
 			"index": s,
-			"hint": _specialruleHint(unit.specialrules[s].key),
+			"hint": _specialruleHint(spcialrule.key),
 			"specialrule-text": specialruleText,
 			"specialrule-text-before": specialruleText.substring(0, specialruleText.indexOf("...")),
-			"specialrule-additional-text": unit.specialrules[s].additionalText || "",
+			"specialrule-additional-text": spcialrule.additionalText || "",
 			"specialrule-text-after": specialruleText.substring(specialruleText.indexOf("...") + 3),
 			"default-additional-text": "...",
 			"specialrules-count": specialrulesCount
 		};
-		specialruleNode = pageSnippets.produce("specialrule", htmlForm, variables);
-		if (owc.settings.ruleScope.includes(owc.resources.data[unit.specialrules[s].key].scope) === false)
+		specialruleNode = pageSnippets.produce("specialrule", formsCore, variables);
+		if (owc.settings.ruleScope.includes(owc.resources.data[spcialrule.key].scope) === false)
 		{
 			specialruleNode.children[0].classList.add("out-of-scope");
 		};
@@ -246,7 +242,7 @@ htmlForm.refreshSpecialrules = function (unitIndex, refNode)
 	};
 };
 
-htmlForm.refreshWarbandSummary = function ()
+formsCore.refreshWarbandSummary = function ()
 {
 	let warbandSummaryText = owc.helper.translate("totalPoints",
 	{
@@ -280,12 +276,11 @@ htmlForm.refreshWarbandSummary = function ()
 	};
 	if (owc.settings.options.applyRuleChecks === true)
 	{
-		let rulecheckResult = owc.rulecheck.checkAll();
-		for (let v = 0, vv = rulecheckResult.length; v < vv; v += 1)
+		for (let rulecheckResult of owc.rulecheck.checkAll())
 		{
 			variables["rule-violations"].push(
 			{
-				"text": owc.rulecheck.getText(rulecheckResult[v])
+				"text": owc.rulecheck.getText(rulecheckResult)
 			}
 			);
 		};
@@ -295,7 +290,7 @@ htmlForm.refreshWarbandSummary = function ()
 	wrapperNode.appendChild(pageSnippets.produce("warband-summary", null, variables));
 };
 
-htmlForm.refreshPasteUnitButton = function (clipboardData)
+formsCore.refreshPasteUnitButton = function (clipboardData)
 {
 	let addunitContainer = document.querySelector("#additmes-container");
 	let pasteUnitNode = addunitContainer.querySelector("[data-action=\"pasteunit\"]");
@@ -305,17 +300,18 @@ htmlForm.refreshPasteUnitButton = function (clipboardData)
 	};
 	if (clipboardData !== null)
 	{
-		let variables =
-		{
-			"unit-name": clipboardData.title,
-			"unit-code": clipboardData.data
-		};
-		pasteUnitNode = pageSnippets.produce("paste-unit", htmlForm, variables);
-		addunitContainer.appendChild(pasteUnitNode);
+	let variables =
+	{
+		"paste-unit": owc.helper.translate("pasteUnit", {"UNIT": clipboardData.title}),
+		"unit-name": clipboardData.title,
+		"unit-code": clipboardData.data
+	};
+	pasteUnitNode = pageSnippets.produce("paste-unit", formsCore, variables);
+	addunitContainer.appendChild(pasteUnitNode);
 	};
 };
 
-htmlForm.makeEditable = function (refNode)
+formsCore.makeEditable = function (refNode)
 {
 	refNode.setAttribute("contenteditable", "true");
 	refNode.setAttribute("spellcheck", "false");
@@ -333,7 +329,8 @@ htmlForm.makeEditable = function (refNode)
 		let defaulValue = blurEvent.target.getAttribute("data-defaultvalue") || "";
 		let newValue = blurEvent.target.innerText.replace(/[\r\n]/g, "");
 		blurEvent.target.innerText = newValue;
-		htmlForm.dispatchEditorEvent(blurEvent);
+		// blurEvent.target.innerText = (newValue !== "") ? newValue : defaulValue;
+		formsCore.dispatchEditorEvent(blurEvent);
 	};
 	refNode.onkeypress = (keypressEvent) =>
 	{

@@ -20,7 +20,7 @@ owc.settings.init = function ()
 		"applyRuleChecks": true
 	};
 	owc.settings.language = "en";
-	owc.settings.viewMode = (owc.ui.isTouchDevice === true) ? "classic" : "classic"; // TODO: "classic-touch" for touch devices
+	owc.settings.viewMode = (owc.ui.isTouchDevice === true) ? "classictouch" : "classic";
 };
 
 owc.settings.toJson = function ()

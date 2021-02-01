@@ -47,6 +47,10 @@
 					<label for="view_mode_classic">Classic unit profiles</label>
 				</p>
 				<p>
+					<input type="radio" id="view_mode_classic_touch" data-settingsgroup="view_mode" data-settingskey="classictouch" name="view_mode"/>
+					<label for="view_mode_classic_touch">Classic unit profiles (optimized for touchscreen devices)</label>
+				</p>
+				<p>
 					<input type="radio" id="view_mode_list" data-settingsgroup="view_mode" data-settingskey="list" name="view_mode"/>
 					<label for="view_mode_list">Compact list</label>
 				</p>
@@ -57,7 +61,7 @@
 					<input type="checkbox" id="option_highlightPersonalities" data-settingsgroup="options" data-settingskey="highlightPersonalities"/>
 					<label for="option_highlightPersonalities">Highlight personalities</label>
 				</p>
-				<p class="suboption">
+				<p>
 					<input type="checkbox" id="option_personalitiesInPoints" data-settingsgroup="options" data-settingskey="personalitiesInPoints"/>
 					<label for="option_personalitiesInPoints">Show personalities points instead of percents</label>
 				</p>

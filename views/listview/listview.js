@@ -11,15 +11,15 @@ var listview = {};
 
 listview.init = function ()
 {
-	htmlForm.init();
-	listview.unload = htmlForm.unload;
-	listview.unitMenu = htmlForm.unitMenu;
-	listview.refreshWarbandName = htmlForm.refreshWarbandName;
-	listview.refreshUnit = htmlForm.refreshUnit;
-	listview.refreshWarbandSummary = htmlForm.refreshWarbandSummary;
-	listview.refreshPasteUnitButton = htmlForm.refreshPasteUnitButton;
-	listview.dispatchEditorEvent = htmlForm.dispatchEditorEvent;
-	listview.makeEditable = htmlForm.makeEditable;
+	formsCore.init();
+	listview.unload = formsCore.unload;
+	listview.unitMenu = formsCore.unitMenu;
+	listview.refreshWarbandName = formsCore.refreshWarbandName;
+	listview.refreshUnit = formsCore.refreshUnit;
+	listview.refreshWarbandSummary = formsCore.refreshWarbandSummary;
+	listview.refreshPasteUnitButton = formsCore.refreshPasteUnitButton;
+	listview.onValueEdited = formsCore.onValueEdited;
+	listview.makeEditable = formsCore.makeEditable;
 };
 
 listview.getWarbandHtml = function ()
@@ -34,17 +34,17 @@ listview.getWarbandHtml = function ()
 		"combat": owc.helper.translate("combat"),
 		"specialrules": owc.helper.translate("specialrules"),
 		"warband-name": owc.helper.nonBlankWarbandName(),
-		"default-warband-name": owc.helper.translate("defaultWarbandName")
+		"default-warband-name": owc.helper.translate("defaultWarbandName"),
+		"add-unit": owc.helper.translate("addUnit")		
 	};
 	result = pageSnippets.produce("listview", listview, variables);
 	if (owc.ui.isInteractive === false)
 	{
 		htmlBuilder.removeNodesByQuerySelectors(["select", "input", ".specialruleEditorSeparator", ".addunit"], result);
 		htmlBuilder.removeClasses(["interactive", "screenfx", "out-of-scope"], result);
-		let editableNodes = result.querySelectorAll("[contenteditable]");
-		for (let e = 0, ee = editableNodes.length; e < ee; e += 1)
+		for (let editableNode of result.querySelectorAll("[contenteditable]"))
 		{
-			editableNodes[e].setAttribute("contenteditable", "false");
+			editableNode.setAttribute("contenteditable", "false");
 		};
 	};
 	return result;
@@ -60,8 +60,8 @@ listview.listUnits = function (refNode)
 	for (let u = 0, uu = owc.warband.units.length; u < uu; u += 1)
 	{
 		variables["unit-index"] = u;
-		let unitNode = pageSnippets.produce("listview-unit-row", htmlForm, variables);
-		htmlForm.refreshUnit(u, unitNode);
+		let unitNode = pageSnippets.produce("listview-unit-row", formsCore, variables);
+		formsCore.refreshUnit(u, unitNode);
 		refNode.appendChild(unitNode);
 	};
 };

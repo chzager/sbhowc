@@ -90,6 +90,21 @@ class Unit
 					specialrule["additionalText"] = "...";
 				};
 				this.specialrules.push(specialrule);
+				if (resource.replaces !== undefined)
+				{
+					for (let r = 0, rr = resource.replaces.length; r < rr; r += 1)
+					{
+						for (let s = 0, ss = this.specialrules.length; s < ss; s += 1)
+						{
+							if (this.specialrules[s].key === resource.replaces[r])
+							{
+								this.specialrules.copyWithin(s, ss - 1);
+								this.specialrules.pop();
+								break;
+							};
+						}
+					};
+				};
 				result = true;
 			};
 		}

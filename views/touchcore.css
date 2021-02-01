@@ -1,0 +1,180 @@
+
+/* default overwrites */
+
+#warbandCanvas .screenfx.touch #warbandheader:hover,
+#warbandCanvas .screenfx.touch #warbandheader:focus,
+#warbandCanvas .interactive.touch [data-editor]:hover,
+#warbandCanvas .interactive.touch *:hover > [data-editor="name"],
+#warbandCanvas .interactive.touch [data-editor]:focus,
+#warbandCanvas .interactive.touch select[data-editor] {
+	box-shadow: none;
+	background: transparent;
+	border-color: transparent;
+	}
+
+.classicview #unitsgrid #additmes-container .addunit,
+.classicview #unitsgrid #additmes-container .addunit + .addunit {
+	background: #fff;
+	font-size: 12pt;
+	padding: 1em;
+	border-radius: 1em;
+	}
+.classicview #unitsgrid #additmes-container .addunit:hover {
+	background: #f0f0f0;
+	border-color: #808080;
+	color:#808080;
+	}
+
+div[data-menubox="warbandMenu"],
+div[data-menubox="unitMenu"] {
+	font-size: 14pt;
+	}
+
+/* touch view styles */
+
+#unitsgrid table.unit td.specialrules .add-specialrule {
+	display: inline-block;
+	width: 100%;
+	text-align: center;
+	font-family: sans-serif;
+	font-size: 10pt;
+	border: 1pt dashed #bdbdbd;
+	border-radius: 0.3em;
+	padding: 1pt;
+	color: #bdbdbd;
+	}
+#unitsgrid table.unit td.specialrules:hover .add-specialrule {
+	background: #f0f0f0;
+	border-color: #808080;
+	color: #808080;
+	}
+
+/* touch menu */
+
+div[data-menubox].touchmenu {
+	background-color: white;
+	font-family: sans-serif;
+	font-size: 110%;
+	padding: 1em;
+	border: none;
+	border-radius: 1em;
+	box-shadow: 0pt 0pt 20pt 5pt #00000080;
+	min-width: 300px;
+	max-width: 95vw;
+	position: fixed;
+	-webkit-backface-visibility: hidden;	
+	}
+
+div[data-menubox].touchmenu .title {
+	font-weight: bold;
+	text-align: center;
+	color: #808080;
+	border-bottom: 1pt solid #808080;
+	padding-bottom: 0.5em;
+	margin-bottom: 0.5em;
+	}
+
+div[data-menubox].touchmenu .items {
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+	}
+	
+div[data-menubox] [data-menuseparator] {
+	height: 1pt;
+	border-top: 1px solid grey;
+	margin: 0.5em 0px;
+	}
+
+div[data-menubox].touchmenu [data-menuitem] {
+	font-size: initial;
+	padding: 0.5em;
+	border: none;
+	}
+
+div[data-menubox].touchmenu [data-menuitem]:hover {
+	background: #f0f0f0;
+	border: none;
+	}
+
+
+div[data-menubox].touchmenu [data-menuitem]:before {
+	content: "\20";
+	border: 1.5pt solid grey;
+	border-radius: 100%;
+	display: inline-block;
+	width: 0.8em;
+	height: 0.8em;
+	margin-right: 0.5em;
+	position: relative;
+	top: 2pt;
+	background: white;
+	}
+
+div[data-menubox].touchmenu [data-menuitem].selected {
+	color: #000000;
+	font-weight: bold;
+	}
+div[data-menubox].touchmenu [data-menuitem].selected:before {
+	background-color: grey;
+	}
+
+div[data-menubox].touchmenu [data-menuitem] [contenteditable="true"] {
+	font-size: 90%;
+	display: inline-block;
+	min-width: 1em;
+	padding: 0.2em;
+	border: 0.5pt solid transparent;
+	border-radius: 0.3em;
+	background-color: #efefef;
+	cursor: text;
+	}
+div[data-menubox].touchmenu [data-menuitem]:hover [contenteditable="true"],
+div[data-menubox].touchmenu [data-menuitem] [contenteditable="true"]:hover,
+div[data-menubox].touchmenu [data-menuitem] [contenteditable="true"]:focus {
+	border-color: #d8d8d8;
+	}
+
+div[data-menubox].touchmenu .separator {
+	margin: 0.5em 0em;
+	background-color: silver;
+	}
+
+div[data-menubox].touchmenu .buttons {
+	border-top: 1pt solid #808080;
+	padding-top: 0.5em;
+	margin-top: 0.5em;
+	display: flex;
+	}
+
+div[data-menubox].touchmenu [data-menubutton] {
+	border: 2px dotted silver;
+	border-radius: 1em;
+	padding: 0.2em;
+	width: 100%;
+	text-align: center;
+	color: grey;
+	}
+
+div[data-menubox].touchmenu [data-menubutton]:not(:nth-child(1)) {
+	margin-left: 1em;
+	}
+
+div[data-menubox].touchmenu [data-menubutton]:hover {
+	background-color: #f0f0f0;
+	}
+
+/* input menus */
+
+div[data-menubox].inputmenu {
+	width: 780px;
+	}
+
+div[data-menubox].inputmenu [data-menuitem]:hover {
+	background: transparent;
+	border: none;
+	}
+
+
+div[data-menubox].inputmenu [data-menuitem]:before {
+	content: none;
+	}

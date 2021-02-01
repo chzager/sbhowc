@@ -2,7 +2,7 @@
 <dht:template xmlns:dht="dynamic-html-templates">
 	<dht:stylesheet src="../views-core.css"/>
 	<dht:stylesheet src="listview.css"/>
-	<dht:script src="../htmlforms.js"/>
+	<dht:script src="../formscore.js"/>
 	<dht:script src="listview.js"/>
 	<dht:snippet name="quality-selector">
 		<select size="1" data-editor="quality">
@@ -41,7 +41,7 @@
 				<tr class="addunit">
 					<td colspan="6">
 						<div id="additmes-container">
-							<div class="addunit" data-action="addunit" dht:onclick="dispatchEditorEvent">Add unit</div>
+							<div class="addunit" data-action="addunit" dht:onclick="onValueEdited">{{add-unit}}</div>
 						</div>
 					</td>
 				</tr>
@@ -53,12 +53,12 @@
 		<tr data-unitindex="{{unit-index}}">
 			<td class="editor">
 				<span data-valueof="count"/>
-				<input type="number" min="1" max="25" maxlength="2" data-editor="count" dht:onchange="dispatchEditorEvent"/>
+				<input type="number" min="1" max="25" maxlength="2" data-editor="count" dht:onchange="onValueEdited"/>
 			</td>
 			<td>
 				<div data-editor="name" data-defaultvalue="{{default-unit-name}}" dht:postproduction="makeEditable"/>
 			</td>
-			<td class="points" data-action="showunitmenu" dht:onclick="dispatchEditorEvent">
+			<td class="points" data-action="showunitmenu" dht:onclick="onValueEdited">
 				<span data-staticvalueof="points"/>
 			</td>
 			<td class="quality editor">
@@ -80,10 +80,10 @@
 			<div data-specialruleindex="{{index}}">
 				<dht:if test="('{{specialrule-additional-text}}' === '')">
 					<dht:then>
-						<span data-action="removespecialrule" dht:onclick="dispatchEditorEvent">{{specialrule-text}}</span>
+						<span data-action="removespecialrule" dht:onclick="onValueEdited">{{specialrule-text}}</span>
 					</dht:then>
 					<dht:else>
-						<span data-action="removespecialrule" dht:onclick="dispatchEditorEvent">{{specialrule-text-before}}</span>
+						<span data-action="removespecialrule" dht:onclick="onValueEdited">{{specialrule-text-before}}</span>
 						<span data-editor="additionaltext" data-defaultvalue="{{default-additional-text}}" dht:postproduction="makeEditable">{{specialrule-additional-text}}</span>
 						<span>{{specialrule-text-after}}</span>
 					</dht:else>
@@ -111,6 +111,6 @@
 		</div>
 	</dht:snippet>
 	<dht:snippet name="paste-unit">
-		<div class="addunit" data-action="pasteunit" data-unitcode="{{unit-code}}" dht:onclick="dispatchEditorEvent">Add {{unit-name}}</div>
+		<div class="addunit" data-action="pasteunit" data-unitcode="{{unit-code}}" dht:onclick="onValueEdited">{{paste-unit}}</div>
 	</dht:snippet>
 </dht:template>

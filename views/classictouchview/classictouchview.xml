@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<dht:template xmlns:dht="dynamic-html-templates">
+	<dht:stylesheet src="../views-core.css"/>
+	<dht:stylesheet src="../classicview/classicview.css"/>
+	<dht:stylesheet src="../touchcore.css"/>
+	<dht:script src="../touchCore.js"/>
+	<dht:script src="classictouchview.js"/>
+	<dht:snippet name="classictouchview">
+		<div class="classicview screenfx interactive touch">
+			<div id="warbandheader" data-editor="warbandname" data-defaultvalue="{{default-warband-name}}" dht:onclick="onWarbandNameClick">{{warband-name}}</div>
+			<table id="unitsgrid">
+				<dht:call-function name="listUnits"/>
+			</table>
+			<div id="warbandfooter"/>
+		</div>
+	</dht:snippet>
+	<dht:snippet name="classictouchview-two-columns-row">
+		<tr>
+			<td class="left"/>
+			<td class="right"/>
+		</tr>
+	</dht:snippet>
+	<dht:snippet name="classictouchview-single-column-row">
+		<tr>
+			<td/>
+		</tr>
+	</dht:snippet>
+	<dht:snippet name="classictouchview-unit-sheet">
+		<table class="unit" data-unitindex="{{unit-index}}">
+			<tr>
+				<th colspan="3">
+					<div data-editor="name" data-defaultvalue="{{default-unit-name}}" dht:onclick="onUnitNameClick"/>
+					<span data-valueof="count">&#160;</span>
+				</th>
+			</tr>
+			<tr>
+				<td class="points" data-action="showunitmenu" dht:onclick="onValueEdited">
+					<span>{{points}}:&#160;</span>
+					<span data-staticvalueof="points"/>
+				</td>
+				<td class="quality" dht:onclick="onQualityClick">
+					<span>{{quality}}:&#160;</span>
+					<span data-valueof="quality"/>
+				</td>
+				<td class="combatscore" dht:onclick="onCombatClick">
+					<span>{{combat}}:&#160;</span>
+					<span data-valueof="combat"/>
+				</td>
+			</tr>
+			<tr>
+				<td class="passive">{{specialrules}}</td>
+				<td class="specialrules" colspan="2" dht:onclick="onSpecialrulesClick">
+					<span data-staticvalueof="specialrules"/>
+				</td>
+			</tr>
+		</table>
+	</dht:snippet>
+	<dht:snippet name="specialrule">
+		<div class="specialrule">
+			<div data-specialruleindex="{{index}}">
+				<span>{{specialrule-text}}</span>
+			</div>
+			<dht:if test="{{index}} &lt; {{specialrules-count}} -1">
+				<dht:then>
+					<span>,&#160;</span>
+				</dht:then>
+			</dht:if>
+		</div>
+	</dht:snippet>
+	<dht:snippet name="warband-summary">
+		<div>
+			<p>{{warband-summary}}</p>
+			<dht:for-each list="rule-violations">
+				<p class="rule-violation">{{text}}</p>
+			</dht:for-each>
+		</div>
+	</dht:snippet>
+	<dht:snippet name="add-unit">
+		<div class="addunit" data-action="addunit" dht:onclick="onValueEdited">{{add-unit}}</div>
+	</dht:snippet>
+	<dht:snippet name="paste-unit">
+		<div class="addunit" data-action="pasteunit" data-unitcode="{{unit-code}}" dht:onclick="onValueEdited">{{paste-unit}}</div>
+	</dht:snippet>
+</dht:template>

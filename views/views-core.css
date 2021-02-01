@@ -57,9 +57,14 @@
 #warbandCanvas .screenfx #warbandfooter {
 	position: sticky;
 	bottom: 0px;
-	background-color: white;
-	box-shadow: 0px 0em 0.5em 0.7em #ffffff;
-	padding-top: 0.5em;
+	background-color: #ffffffd0;
+	box-shadow: 0pt 0pt 6pt 6pt #ffffffd0;
+	margin-top: 1.5em;
+	text-shadow: 
+		-1pt 1pt 1pt #fff,
+		-1pt -1pt 1pt #fff,
+		1pt -1pt 1pt #fff,
+		1pt 1pt 1pt #fff;
 	}
 
 #warbandCanvas #warbandfooter .rule-violation {
