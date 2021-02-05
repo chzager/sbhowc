@@ -16,41 +16,73 @@ owc.urlParam =
 	"pid": "pid"
 };
 
-owc.TITLE = "Online Warband Creator for Song of Blades and Heroes";
-owc.VERSION = "Feb21 draft";
-owc.ORIGIN = "https://suppenhuhn79.github.io/sbhowc";
+owc.meta = {
+	"title": "Online Warband Creator for Song of Blades and Heroes",
+	"version": "Feb21 draft",
+	"origin": "https://suppenhuhn79.github.io/sbhowc"
+};
 
 owc.warband = null;
 
-owc.init = function (pid)
+owc.init = function ()
 {
-	console.debug("owc.init()", pid);
-	let result = (pid !== "");
-	if (result === false)
+	console.debug("owc.init()");
+	/* autofill values in document */
+	for (let node of document.querySelectorAll("[data-autofill]"))
 	{
-		let warbandCodeUrl = window.location.getParam(owc.urlParam.warband);
-		if (warbandCodeUrl !== "")
+		let text = node.innerText;
+		for (let key in owc.meta)
 		{
-			console.debug("importing warband from url");
-			owc.importWarband(warbandCodeUrl);
-		}
-		else
-		{
-			owc.setPid(owc.generateNewPid());
-			console.debug("new pid set; reloading blank");
+			text = text.replace("{{" + key + "}}", owc.meta[key]);
 		};
+		node.innerText = text;
+	};
+	/* prepare document regarding its status */
+	if (owc.ui.isInteractive === true)
+	{
+		owc.topMenu.init();
+		htmlBuilder.removeNodesByQuerySelectors([".only-print"]);
 	}
 	else
 	{
-		owc.pid = pid;
+		htmlBuilder.removeNodesByQuerySelectors([".noprint", ".tooltip"]);
 	};
-	return result;
+	owc.settings.load();
+	owc.editor.init();
+	/* fetchResources() runs asynchronously; when finished, it calls owc.main() */
+	owc.fetchResources();
 };
 
 owc.main = function ()
 {
 	console.debug("owc.main()");
 	owc.warband = new Warband();
+	/* getting PID (https://github.com/Suppenhuhn79/sbhowc/issues/13#issuecomment-774077538) */
+	owc.pid = window.location.getParam(owc.urlParam.pid);
+	console.debug("PID from url:", owc.pid);
+	if (owc.pid === "")
+	{
+		if (owc.isPid(window.name) === true)
+		{
+			console.debug("getting PID from window.name");
+			owc.pid = window.name;
+		}
+		else
+		{
+			console.debug("generating new PID");
+			owc.pid = owc.generateNewPid();
+		};
+	};
+	let warbandCodeUrl = window.location.getParam(owc.urlParam.warband);
+	if (warbandCodeUrl !== "")
+	{
+		console.debug("importing warband from url");
+		owc.importWarband(warbandCodeUrl);
+	};
+	console.debug("finally PID is", owc.pid);
+	/* storing PID into window.name so it' preserved on page refresh */
+	window.name = owc.pid;
+	/* trying to restore warband from localStorage */
 	let storedData = storager.retrieve(owc.pid);
 	if (storedData === null)
 	{
@@ -64,33 +96,25 @@ owc.main = function ()
 			owc.warband.fromString(warbandCode, owc.resources.data);
 		};
 	};
+	/* continue initialization */
 	owc.editor.buildSpecialrulesCollection();
 	owc.ui.initView();
 	if (owc.ui.isInteractive === true)
 	{
+		/* load additional parts; let's do this parallel asynchronous */
 		fileIo.fetchServerFile("./res/didyouknow.json").then((values) =>
 		{
 			owc.didYouKnow = new DidYouKnow(document.getElementById("didyouknow_text"), values.hints);
 			owc.didYouKnow.printRandomHint();
-		}
-		);
+		});
+		pageSnippets.import("./snippets/warbandcode.xml").then(() => document.body.appendChild(pageSnippets.produce("warbandcode", warbandcode)));
+		pageSnippets.import("snippets/restorer.xml").then(() => document.body.appendChild(pageSnippets.produce("restorer", restorer)));
+		pageSnippets.import("./snippets/settings.xml").then(() => document.body.appendChild(pageSnippets.produce("settings", settingsUi)));
 	};
 	/* We won't waitEnd() here, because there is an async process running: rendering in initView() */
 };
 
-owc.setPid = function (newPid, newWindow = false)
-{
-	let pidParam = {};
-	pidParam[owc.urlParam.pid] = newPid;
-	if (newWindow === true)
-	{
-		window.open(window.location.setParams(pidParam, false, false));
-	}
-	else
-	{
-		location.setParams(pidParam, false);
-	};
-};
+owc.isPid = (string) => (/^(?=\D*\d)[\d\w]{6}$/.test(string));
 
 owc.generateNewPid = function ()
 {
@@ -118,7 +142,7 @@ owc.generateNewPid = function ()
 
 owc.fetchResources = function ()
 {
-	function requireResource(key, lang)
+	function _requireResource(key, lang)
 	{
 		requiredResoures.push("./res/" + lang + "/" + key + "." + lang + ".json");
 	};
@@ -128,15 +152,15 @@ owc.fetchResources = function ()
 	/* require all resources for default language */
 	for (let resource of requiredKeys)
 	{
-		requireResource(resource, owc.resources.DEFAULT_LANGUAGE);
+		_requireResource(resource, owc.resources.DEFAULT_LANGUAGE);
 	};
 	/* eventually require some resources for set language */
 	if (owc.settings.language !== owc.resources.DEFAULT_LANGUAGE)
 	{
-		requireResource("meta", owc.settings.language);
+		_requireResource("meta", owc.settings.language);
 		for (let translatedRules of owc.settings.ruleScope)
 		{
-			requireResource("specialrules-" + translatedRules, owc.settings.language);
+			_requireResource("specialrules-" + translatedRules, owc.settings.language);
 		};
 	};
 	owc.resources.import(requiredResoures).then(owc.main);
@@ -161,7 +185,7 @@ owc.importWarband = function (warbandCode)
 	let newPid = "";
 	for (let key in localStorage)
 	{
-		if (/^(?=\D*\d)[\d\w]{6}$/.test(key) === true)
+		if (owc.isPid(key) === true)
 		{
 			let storedWarbandCode = JSON.parse(localStorage[key]).data;
 			if (storedWarbandCode === warbandCode)
@@ -180,8 +204,7 @@ owc.importWarband = function (warbandCode)
 		owc.warband.fromString(warbandCode, owc.resources.data);
 		owc.storeWarband(newPid);
 	};
-	console.debug("reloading with pid", newPid);
-	owc.setPid(newPid);
+	owc.pid = newPid;
 };
 
 /* helper functions */

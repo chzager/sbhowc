@@ -70,7 +70,7 @@ touchCore.createCombatMenu = function ()
 touchCore.popupMenubox = function (clickEvent, menubox, context)
 {
 	owc.ui.blurPage();
-	menubox.popupAt(0, 0, context, clickEvent);
+	menubox.popup(clickEvent, context, clickEvent.target, "middle center");
 	let x,
 	y;
 	if (menubox.htmlElement.offsetHeight > window.innerHeight)
@@ -97,7 +97,7 @@ touchCore.popupMenubox = function (clickEvent, menubox, context)
 		y = window.innerHeight - menubox.htmlElement.offsetHeight;
 	};
 	y = (y < 0) ? 0 : y;
-	menubox.popupAt(y, x, context, clickEvent);
+	menubox.popup(clickEvent, context, clickEvent.target, "middle center");
 };
 
 touchCore.popupEditor = function (clickEvent, editorMenu, context, text)
@@ -155,14 +155,14 @@ touchCore.onSpecialrulesClick = function (clickEvent)
 				let specialruleKey = itemNode.getAttribute("data-menuitem").substr(0, 2);
 				let specialruleText = owc.helper.translate(specialruleKey);
 				itemNode.removeChild(itemNode.firstChild);
-				let wrapperNode = htmlBuilder.newNode("div");
-				let textPreNode = htmlBuilder.newNode("span",
+				let wrapperNode = htmlBuilder.newElement("div");
+				let textPreNode = htmlBuilder.newElement("span",
 				{
 					"onclick": (clickEvent) => clickEvent.target.parentElement.click(),
 					"innerText": specialruleText.substring(0, specialruleText.indexOf("..."))
 				}
 					);
-				let editorNode = htmlBuilder.newNode("span",
+				let editorNode = htmlBuilder.newElement("span",
 				{
 					"innerText": (specialruleIndex !== null) ? owc.warband.units[unitIndex].specialrules[Number(specialruleIndex[1])].additionalText : "...",
 					"data-isadditionaltext": "yes",
@@ -170,7 +170,7 @@ touchCore.onSpecialrulesClick = function (clickEvent)
 					"onclick": (clickEvent) => touchCore.specialrulesMenu.selectItem(clickEvent.target.closest("[data-menuitem]").getAttribute("data-menuitem"), true)
 				}
 					);
-				let textPostNode = htmlBuilder.newNode("span",
+				let textPostNode = htmlBuilder.newElement("span",
 				{
 					"onclick": (clickEvent) => clickEvent.target.parentElement.click(),
 					"innerText": specialruleText.substring(specialruleText.indexOf("...") + 3)
@@ -419,7 +419,7 @@ touchCore.refreshSpecialrules = function (unitIndex, refNode)
 	}
 	else if (owc.ui.isInteractive === true)
 	{
-		refNode.appendChild(htmlBuilder.newNode("span.add-specialrule", {"innerText": owc.helper.translate("addSpecialrule")}));
+		refNode.appendChild(htmlBuilder.newElement("span.add-specialrule", {"innerText": owc.helper.translate("addSpecialrule")}));
 	};
 };
 

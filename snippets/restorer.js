@@ -22,9 +22,9 @@ restorer.show = function ()
 
 restorer.storageItemClick = function (clickEvent)
 {
-	let pid = clickEvent.target.closest("[data-id]").getAttribute("data-id");
-	owc.ui.sweepVolatiles();
-	owc.setPid(pid);
+	let pidParam = {};
+	pidParam[owc.urlParam.pid] = clickEvent.target.closest("[data-id]").getAttribute("data-id");
+	window.location.setParams(pidParam, false, true);
 };
 
 restorer.deleteClick = function (clickEvent)

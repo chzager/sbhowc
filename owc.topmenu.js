@@ -145,5 +145,5 @@ owc.topMenu.warbandToFileClick = function (clickEvent)
 owc.topMenu.warbandMenuClick = function (clickEvent)
 {
 	let viewport = clickEvent.target.getBoundingClientRect();
-	owc.topMenu.warbandMenu.popupAt(Math.floor(viewport.bottom + window.scrollY), Math.floor(viewport.left + window.scrollX), null, clickEvent);
+	owc.topMenu.warbandMenu.popup(clickEvent, null, clickEvent.target, "below bottom, start left");
 };
