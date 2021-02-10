@@ -19,12 +19,14 @@ owc.ui.init = function ()
 {
 	if (owc.ui.isPrinting === false)
 	{
-	owc.ui.undoButton = document.getElementById("undo-button");
-	if (owc.ui.undoButton !== null)
-	owc.ui.undoButton.addEventListener("animationend", () => owc.ui.undoButton.classList.remove("animated"));
-	owc.ui.blurElement = document.getElementById("blur");
-	window.addEventListener("click", owc.ui.sweepVolatiles);
-};
+		owc.ui.undoButton = document.getElementById("undo-button");
+		if (owc.ui.undoButton !== null)
+		{
+			owc.ui.undoButton.addEventListener("animationend", () => owc.ui.undoButton.classList.remove("animated"));
+		};
+		owc.ui.blurElement = document.getElementById("blur");
+		window.addEventListener("click", owc.ui.sweepVolatiles);
+	};
 	owc.ui.initView()
 };
 

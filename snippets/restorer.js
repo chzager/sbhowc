@@ -9,7 +9,8 @@ See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
 
 var restorer = {};
 
-restorer.sort = {
+restorer.sort =
+{
 	"field": "last-modified",
 	"direction": 1
 };
@@ -20,7 +21,7 @@ restorer.show = function ()
 	restorer.listStoredData();
 };
 
-restorer.getSelectedPid = function()
+restorer.getSelectedPid = function ()
 {
 	let result = null;
 	let selectedItem = document.getElementById("restorer-table-frame").querySelector(".selected");
@@ -48,7 +49,7 @@ restorer.restoreClick = function (clickEvent)
 	{
 		let pidParam = {};
 		pidParam[owc.urlParam.pid] = selectedPid;
-		window.location.setParams(pidParam, false, true);
+		window.location.reloadWithParams(pidParam, ["console"]);
 	};
 };
 
@@ -59,7 +60,7 @@ restorer.discardClick = function (clickEvent)
 	restorer.listStoredData();
 };
 
-restorer.tableheaderClick = function(clickEvent)
+restorer.tableheaderClick = function (clickEvent)
 {
 	let sortField = clickEvent.target.getAttribute("data-sortfield");
 	if (restorer.sort.field === sortField)
@@ -76,41 +77,42 @@ restorer.tableheaderClick = function(clickEvent)
 
 restorer.listStoredData = function ()
 {
-function _naturalPast(pastDate)
-{
-	const wordings= ["just now", "{{n}} minutes ago", "{{6}} hours ago"];
-	const dayWordings = ["today", "yesterday", "two days ago"];
-	let result = "";
-	let now = new Date();
-	let maxHours = Number(/\{{2}(\d+)\}{2}/.exec(wordings[2])[1]);
-	let secondsDiff = (now.getTime() - pastDate.getTime()) / 1000;
-	let diff = {
-		"minutes": secondsDiff / 60,
-		"hours": secondsDiff / 60 / 60,
-		"days": Math.floor((Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) - Date.UTC(pastDate.getFullYear(), pastDate.getMonth(), pastDate.getDate()) ) /(1000 * 60 * 60 * 24))
+	function _naturalPast(pastDate)
+	{
+		const wordings = ["just now", "{{n}} minutes ago", "{{6}} hours ago"];
+		const dayWordings = ["today", "yesterday", "two days ago"];
+		let result = "";
+		let now = new Date();
+		let maxHours = Number(/\{{2}(\d+)\}{2}/.exec(wordings[2])[1]);
+		let secondsDiff = (now.getTime() - pastDate.getTime()) / 1000;
+		let diff =
+		{
+			"minutes": secondsDiff / 60,
+			"hours": secondsDiff / 60 / 60,
+			"days": Math.floor((Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) - Date.UTC(pastDate.getFullYear(), pastDate.getMonth(), pastDate.getDate())) / (1000 * 60 * 60 * 24))
+		};
+		if (secondsDiff < 60)
+		{
+			result = wordings[0];
+		}
+		else if (diff.minutes < 60)
+		{
+			result = wordings[1].replace(/\{{2}.\}{2}/, Math.floor(diff.minutes));
+		}
+		else if (diff.hours < maxHours)
+		{
+			result = wordings[2].replace(/\{{2}.\}{2}/, Math.floor(diff.hours));
+		}
+		else if (diff.days < dayWordings.length)
+		{
+			result = dayWordings[diff.days] + " " + pastDate.toIsoFormatText("HN");
+		}
+		else
+		{
+			result = pastDate.toIsoFormatText();
+		};
+		return result;
 	};
-	if (secondsDiff < 60)
-	{
-		result = wordings[0];
-	}
-	else if (diff.minutes < 60)
-	{
-		result = wordings[1].replace(/\{{2}.\}{2}/, Math.floor(diff.minutes));
-	}
-	else if (diff.hours < maxHours)
-	{
-		result = wordings[2].replace(/\{{2}.\}{2}/, Math.floor(diff.hours));
-	}
-	else if (diff.days < dayWordings.length)
-	{
-		result = dayWordings[diff.days] + " " + pastDate.toIsoFormatText("HN");
-	}
-	else 
-	{
-		result = pastDate.toIsoFormatText();
-	};
-	return result;
-};
 	function _getLocalStorageData()
 	{
 		let result = [];
@@ -123,7 +125,7 @@ function _naturalPast(pastDate)
 				if (titleComponents !== null)
 				{
 					let lastModifiedDate = new Date().fromIsoString(storedData.date)
-					result.push(
+						result.push(
 					{
 						"pid": key,
 						"warband-name": titleComponents[1],
@@ -132,17 +134,17 @@ function _naturalPast(pastDate)
 						"last-modified": lastModifiedDate,
 						"last-modified-text": _naturalPast(lastModifiedDate)
 					}
-					);
+						);
 				};
 			};
 		};
-		switch(restorer.sort.field)
+		switch (restorer.sort.field)
 		{
-			case "warband-name":
-				result.sort((a, b) => (a["warband-name"].localeCompare(b["warband-name"]) * restorer.sort.direction));
-				break;
-			default:
-				result.sort((a, b) => (((a[restorer.sort.field] < b[restorer.sort.field]) ? 1 : -1) * restorer.sort.direction));
+		case "warband-name":
+			result.sort((a, b) => (a["warband-name"].localeCompare(b["warband-name"]) * restorer.sort.direction));
+			break;
+		default:
+			result.sort((a, b) => (((a[restorer.sort.field] < b[restorer.sort.field]) ? 1 : -1) * restorer.sort.direction));
 		};
 		return result;
 	};

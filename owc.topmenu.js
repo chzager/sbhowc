@@ -19,7 +19,7 @@ owc.topMenu.init = function ()
 	window.addEventListener(owc.ui.sweepvolatilesEvent, owc.topMenu.closeShareMenu);
 };
 
-owc.topMenu.preparePopup = function()
+owc.topMenu.preparePopup = function ()
 {
 	owc.ui.sweepVolatiles();
 	owc.ui.blurPage("editor-only");
@@ -69,7 +69,7 @@ owc.topMenu.newWarbandClick = function (clickEvent)
 {
 	let params = {};
 	params[owc.urlParam.pid] = owc.generateNewPid();
-	window.open(window.location.setParams(params, false, false));
+	window.open(window.location.setParams(params, ["console"]));
 };
 
 owc.topMenu.showWarbandCodeClick = function (clickEvent)
@@ -88,7 +88,7 @@ owc.topMenu.printPreviewClick = function (clickEvent)
 {
 	let params = {};
 	params[owc.urlParam.print] = "1";
-	window.open(window.location.setParams(params, true, false));
+	window.open(window.location.setParams(params, ["pid", "console"]));
 };
 
 owc.topMenu.showSettingsClick = function (clickEvent)

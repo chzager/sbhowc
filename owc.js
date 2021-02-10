@@ -16,7 +16,8 @@ owc.urlParam =
 	"pid": "pid"
 };
 
-owc.meta = {
+owc.meta =
+{
 	"title": "Online Warband Creator for Song of Blades and Heroes",
 	"version": "Feb21 draft",
 	"origin": "https://suppenhuhn79.github.io/sbhowc"
@@ -106,7 +107,8 @@ owc.main = function ()
 		{
 			owc.didYouKnow = new DidYouKnow(document.getElementById("didyouknow_text"), values.hints);
 			owc.didYouKnow.printRandomHint();
-		});
+		}
+		);
 		pageSnippets.import("./snippets/warbandcode.xml").then(() => document.body.appendChild(pageSnippets.produce("warbandcode", warbandcode)));
 		pageSnippets.import("snippets/restorer.xml").then(() => document.body.appendChild(pageSnippets.produce("restorer", restorer)));
 		pageSnippets.import("./snippets/settings.xml").then(() => document.body.appendChild(pageSnippets.produce("settings", settingsUi)));
@@ -213,16 +215,16 @@ owc.getWarbandCode = function (includeComments = owc.settings.options.warbandcod
 	let result = "";
 	if (includeComments === true)
 	{
-	let now = new Date();
-	result += "# " + owc.warband.name + "\n";
-	let node = document.getElementById("warbandfooter").querySelector("p");
+		let now = new Date();
+		result += "# " + owc.warband.name + "\n";
+		let node = document.getElementById("warbandfooter").querySelector("p");
 		if (node.innerText !== "")
 		{
 			result += "# " + node.innerText + "\n";
 		};
-	result += "# " + now.toIsoFormatText() + "\n";
-	result += "# " + owc.meta.origin + "\n";
-	result += "\n";
+		result += "# " + now.toIsoFormatText() + "\n";
+		result += "# " + owc.meta.origin + "\n";
+		result += "\n";
 	};
 	result += owc.warband.toString();
 	return result;
@@ -235,18 +237,18 @@ owc.helper.nonBlankWarbandName = () => (owc.warband.name.trim() !== "") ? owc.wa
 owc.helper.translate = (key, variables) => owc.resources.translate(key, owc.settings.language, variables);
 
 owc.share = {};
-owc.share = function(protocol)
+owc.share = function (protocol)
 {
 	let params = {};
 	params[owc.urlParam.warband] = owc.warband.toString();
-	let url = window.location.setParams(params, false, false);
+	let url = window.location.setParams(params, ["console"]);
 	console.log("owc.share", protocol, url);
 	switch (protocol)
 	{
-		case "whatsapp":
+	case "whatsapp":
 		let s = "whatsapp://send?text=" + document.head.querySelector("meta[property=\"og:description\"]").getAttribute("content") + "%0D%0A%0D%0A" + url;
 		console.log(s);
-			window.location.replace(s);
+		window.location.replace(s);
 		break;
 	default:
 		window.location.replace(url);

@@ -1,3 +1,6 @@
 [submodule "lib/tools"]
 	path = lib/tools
 	url = https://github.com/Suppenhuhn79/vanilla-tools.git
+[submodule "lib/on-screen-console"]
+	path = lib/on-screen-console
+	url = https://github.com/Suppenhuhn79/on-screen-console.git
