@@ -38,7 +38,7 @@ owc.init = function ()
 		node.innerText = text;
 	};
 	/* prepare document regarding its status */
-	if (owc.ui.isInteractive === true)
+	if (owc.ui.isPrinting === false)
 	{
 		owc.topMenu.init();
 		htmlBuilder.removeNodesByQuerySelectors([".only-print"]);
@@ -64,13 +64,13 @@ owc.main = function ()
 	{
 		if (owc.isPid(window.name) === true)
 		{
-			console.debug("getting PID from window.name");
+			console.debug("getting PID from window.name:", window.name);
 			owc.pid = window.name;
 		}
 		else
 		{
-			console.debug("generating new PID");
 			owc.pid = owc.generateNewPid();
+			console.debug("generating new PID:", owc.pid);
 		};
 	};
 	let warbandCodeUrl = window.location.getParam(owc.urlParam.warband);
@@ -79,7 +79,7 @@ owc.main = function ()
 		console.debug("importing warband from url");
 		owc.importWarband(warbandCodeUrl);
 	};
-	console.debug("finally PID is", owc.pid);
+	console.debug("finally PID is:", owc.pid);
 	/* storing PID into window.name so it' preserved on page refresh */
 	window.name = owc.pid;
 	/* trying to restore warband from localStorage */
@@ -98,8 +98,8 @@ owc.main = function ()
 	};
 	/* continue initialization */
 	owc.editor.buildSpecialrulesCollection();
-	owc.ui.initView();
-	if (owc.ui.isInteractive === true)
+	owc.ui.init();
+	if (owc.ui.isPrinting === false)
 	{
 		/* load additional parts; let's do this parallel asynchronous */
 		fileIo.fetchServerFile("./res/didyouknow.json").then((values) =>
@@ -179,10 +179,12 @@ owc.storeWarband = function (pid = owc.pid)
 	};
 };
 
-owc.importWarband = function (warbandCode)
+owc.importWarband = function (warbandText)
 {
-	console.debug("owc.importWarband", warbandCode);
-	let newPid = "";
+	console.debug("owc.importWarband", warbandText);
+	owc.warband.fromString(warbandText, owc.resources.data);
+	let warbandCode = owc.warband.toString();
+	let found = false;
 	for (let key in localStorage)
 	{
 		if (owc.isPid(key) === true)
@@ -191,20 +193,39 @@ owc.importWarband = function (warbandCode)
 			if (storedWarbandCode === warbandCode)
 			{
 				console.debug("found warband stored at pid", key);
-				newPid = key;
+				owc.pid = key;
+				found = true;
 				break;
 			}
 		};
 	};
-	if (newPid === "")
+	if (found === false)
 	{
+		owc.pid = owc.generateNewPid();
 		console.debug("not found in localStorage");
-		newPid = owc.generateNewPid();
-		console.debug("new pid is", newPid);
-		owc.warband.fromString(warbandCode, owc.resources.data);
-		owc.storeWarband(newPid);
+		owc.storeWarband(owc.pid);
 	};
-	owc.pid = newPid;
+	window.name = owc.pid;
+};
+
+owc.getWarbandCode = function (includeComments = owc.settings.options.warbandcodeIncludesComments)
+{
+	let result = "";
+	if (includeComments === true)
+	{
+	let now = new Date();
+	result += "# " + owc.warband.name + "\n";
+	let node = document.getElementById("warbandfooter").querySelector("p");
+		if (node.innerText !== "")
+		{
+			result += "# " + node.innerText + "\n";
+		};
+	result += "# " + now.toIsoFormatText() + "\n";
+	result += "# " + owc.meta.origin + "\n";
+	result += "\n";
+	};
+	result += owc.warband.toString();
+	return result;
 };
 
 /* helper functions */
@@ -212,3 +233,24 @@ owc.helper = {};
 owc.helper.nonBlankUnitName = (unit) => (unit.name.trim() !== "") ? unit.name : owc.helper.translate("defaultUnitName");
 owc.helper.nonBlankWarbandName = () => (owc.warband.name.trim() !== "") ? owc.warband.name : owc.helper.translate("defaultWarbandName");
 owc.helper.translate = (key, variables) => owc.resources.translate(key, owc.settings.language, variables);
+
+owc.share = {};
+owc.share = function(protocol)
+{
+	let params = {};
+	params[owc.urlParam.warband] = owc.warband.toString();
+	let url = window.location.setParams(params, false, false);
+	console.log("owc.share", protocol, url);
+	switch (protocol)
+	{
+		case "whatsapp":
+		let s = "whatsapp://send?text=" + document.head.querySelector("meta[property=\"og:description\"]").getAttribute("content") + "%0D%0A%0D%0A" + url;
+		console.log(s);
+			window.location.replace(s);
+		break;
+	default:
+		window.location.replace(url);
+	};
+	// document.head.title = owc.warband.name;
+	// window.location.replace("whatsapp://send?text=" + document.head.querySelector("meta[property=\"og:title\"]").getAttribute("content") + "\r\n" + window.location.setParams(params, false, false));
+};

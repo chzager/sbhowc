@@ -1,36 +1,35 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <dht:template xmlns:dht="dynamic-html-templates">
 	<dht:stylesheet src="restorer.css"/>
-	<dht:stylesheet src="../styles/bluebox.css"/>
 	<dht:script src="restorer.js"/>
 	<dht:snippet name="restorer">
-		<div id="restorer" class="blue">
-			<h1>Restore warband</h1>
-			<div class="panel">
-				<span>Warbands that are stored in your browser</span>
-				<p>Warbands you are working on are cached within your browser using its localStorage.</p>
-				<div class="warning">
-					<b>Warning!</b>
-					This is no way to save your warbands. You may experience a
-					<b>full data loss at any time</b>
-					and without predict. The only way to securly save your warbands is via "save to file" to your device.
+		<div id="restorer" class="blue" onclick="event.stopPropagation();">
+			<div class="blue-viewport">
+				<h1><i class="fas fa-times" onclick="owc.ui.sweepVolatiles();"></i>Restore warband</h1>
+				<div class="panel">
+					<p>Warbands are cached within your browser using its localStorage.</p>
+					<div class="warning">
+						<b>Warning!</b>
+						This is no way to save your warbands. You may experience a
+						<b>full data loss at any time</b>
+						and without predict. The only way to securly save your warbands is via "save to file" to your device.
+					</div>
+					<div id="restorer-table-frame"/>
 				</div>
-				<div id="restorer-table-frame"/>
-				<p>Click any to restore.</p>
-			</div>
-			<div class="buttons">
-				<input type="button" value="close" dht:onclick="closeClick"/>
+				<div class="buttons">
+					<input type="button" value="restore" dht:onclick="restoreClick"/>
+					<input type="button" value="discard" dht:onclick="discardClick"/>
+				</div>
 			</div>
 		</div>
 	</dht:snippet>
 	<dht:snippet name="table-frame-normal">
 		<table class="localStore">
 			<tr>
-				<th>Warband</th>
-				<th>Figure count</th>
-				<th>Points</th>
-				<th>Last modified</th>
-				<th/>
+				<th data-sortfield="warband-name" dht:onclick="tableheaderClick">Warband</th>
+				<th data-sortfield="figure-count" dht:onclick="tableheaderClick">Figures</th>
+				<th data-sortfield="points" dht:onclick="tableheaderClick">Points</th>
+				<th data-sortfield="last-modified" dht:onclick="tableheaderClick">Last modified</th>
 			</tr>
 			<tbody id="restorer-tbody">
 				<dht:for-each list="cached-warbands">
@@ -38,10 +37,7 @@
 						<td>{{warband-name}}</td>
 						<td>{{figure-count}}</td>
 						<td>{{points}}</td>
-						<td>{{last-modified}}</td>
-						<td>
-							<span dht:onclick="deleteClick" class="delete">&#x2716;</span>
-						</td>
+						<td class="nowrap">{{last-modified-text}}</td>
 					</tr>
 				</dht:for-each>
 			</tbody>
@@ -50,18 +46,18 @@
 	<dht:snippet name="table-frame-small">
 		<table class="localStore">
 			<tr>
-				<th>Warband</th>
-				<th colspan="2">Details</th>
+				<th data-sortfield="warband-name" dht:onclick="tableheaderClick">Warband</th>
+				<th data-sortfield="last-modified" dht:onclick="tableheaderClick">Details</th>
 			</tr>
 			<tbody id="restorer-tbody">
 				<dht:for-each list="cached-warbands">
 					<tr data-id="{{pid}}" dht:onclick="storageItemClick">
-						<td rowspan="2">{{warband-name}}</td>
-						<td class="small top">{{figure-count}} Figs.</td>
-						<td class="small top">{{points}} Pts.</td>
-					</tr>
-					<tr data-id="{{pid}}" dht:onclick="storageItemClick">
-						<td colspan="2" class="small bottom">{{last-modified}}</td>
+						<td>{{warband-name}}</td>
+						<td class="small">
+							<span>{{figure-count}} Figs.</span>
+							<span>{{points}} Pts.</span>
+							<span>{{last-modified-text}}</span>
+						</td>
 					</tr>
 				</dht:for-each>
 			</tbody>

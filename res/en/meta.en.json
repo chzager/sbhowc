@@ -3,6 +3,7 @@
 	"data": {
 		"name": "Name",
 		"points": "Points",
+		"figures": "Figures",
 		"quality": "Quality",
 		"combat": "Combat",
 		"specialrules": "Special rules",

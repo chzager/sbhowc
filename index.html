@@ -1,114 +1,155 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>Song of Blades and Heroes Online Warband Creator</title>
+		<title>Online Warband Creator for Song of Blades and Heroes</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<!-- Google Fonts -->
-		<link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;600&display=swap" rel="stylesheet"> 
-		<link href="https://fonts.googleapis.com/css2?family=Cantata+One&display=swap" rel="stylesheet"> 		
-		<link href="https://fonts.googleapis.com/css2?family=Roboto&family=Source+Serif+Pro:wght@400;600&display=swap" rel="stylesheet"> 
-		<!-- FontAwsome -->
-		<script src="https://kit.fontawesome.com/fa37b6d3d1.js" crossorigin="anonymous">/**/</script>
+		<link href="https://fonts.googleapis.com/css2?family=Norican&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Roboto&family=Source+Serif+Pro:wght@400;600&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+		<!-- FontAwesome -->
+		<script src="https://kit.fontawesome.com/fa37b6d3d1.js" crossorigin="anonymous"></script>
 
 		<link rel="stylesheet" href="styles/core.css"/>
 		<link rel="stylesheet" href="styles/menubox.css"/>
-		<link rel="stylesheet" href="styles/didyouknow.css"/>
-		<link rel="stylesheet" href="styles/tooltip.css"/>
+		<link rel="stylesheet" href="styles/bluebox.css"/>
 
-		<script src="lib/proto/date.prototype.js">/**/</script>
-		<script src="lib/proto/htmlelement.prototype.js">/**/</script>
-		<script src="lib/proto/location.prototype.js">/**/</script>
-		<script src="lib/tools/didyouknow.js">/**/</script>
-		<script src="lib/tools/fileio.js">/**/</script>
-		<script src="lib/tools/htmlbuilder.js">/**/</script>
-		<script src="lib/tools/menubox.js">/**/</script>
-		<script src="lib/tools/pagesnippets.js">/**/</script>
-		<script src="lib/tools/storager.js">/**/</script>
-		<script src="lib/tools/undoer.js">/**/</script>
+		<script src="lib/proto/date.prototype.js"></script>
+		<script src="lib/proto/htmlelement.prototype.js"></script>
+		<script src="lib/proto/location.prototype.js"></script>
+		<script src="lib/tools/didyouknow.js"></script>
+		<script src="lib/tools/fileio.js"></script>
+		<script src="lib/tools/htmlbuilder.js"></script>
+		<script src="lib/tools/menubox.js"></script>
+		<script src="lib/tools/pagesnippets.js"></script>
+		<script src="lib/tools/storager.js"></script>
+		<script src="lib/tools/undoer.js"></script>
 
-		<script src="src/unit.class.js">/**/</script>
-		<script src="src/warband.class.js">/**/</script>
+		<script src="src/unit.class.js"></script>
+		<script src="src/warband.class.js"></script>
 	</head>
 
 	<body>
-		<div id="page">
-			<div id="title" class="noprint">
-				<h1>Online Warband Creator</h1>
+
+		<div id="title" class="noprint">
+			<div class="viewport">
+			<h1>Online Warband Creator</h1>
+			<h2>
 				<div class="tiny">for</div>
-				<h2>Song of Blades and&nbsp;Heroes</h2>
+				Song of Blades and&nbsp;Heroes
+				<hr />
+			</h2>
+			<div id="subline">
+				<span data-autofill="yes">{{version}}&nbsp;-</span>
+				<span>Complies with SBH Revised Edition (rules version&nbsp;5.0)&nbsp;-</span>
+				<a href="https://github.com/suppenhuhn79/sbhowc/releases" target="_blank">Changelog</a>
 			</div>
-			<div class="centeredViewport subline">
-					<span data-autofill="yes">{{version}}&nbsp;-</span>
-					<span>Complies with SBH Revised Edition (rules version&nbsp;5.0)&nbsp;-</span>
-					<a href="https://github.com/suppenhuhn79/sbhowc/releases">Changelog</a>
+			</div>
+		</div>
+
+		<div id="top-menu-stripe" class="noprint">
+			<div class="viewport">
+				<div class="flex-box">
+					<i class="far fa-file" onclick="owc.topMenu.newWarbandClick(event);"></i>
+					<i class="fas fa-fw fa-angle-double-down" id="top-menu-toggle-button" onclick="owc.topMenu.warbandMenuClick(event);"></i>
+					<i class="fas fa-fw fa-print" onclick="owc.topMenu.printPreviewClick(event);"></i>
+					<i class="fas fa-fw fa-share-alt" id="share-menu-button" onclick="owc.topMenu.shareClick(event);"></i>
+					<i class="fas fa-fw fa-cog" onclick="owc.topMenu.showSettingsClick(event);"></i>
 				</div>
 			</div>
-
-			<div id="top-menu" class="noprint" >
-				<div class="centeredViewport">
-					<div class="button popup" onclick="owc.topMenu.warbandMenuClick(event);">Warband menu<br/>
-					</div>
-					<div class="button" onclick="owc.topMenu.warbandFromFileClick(event);">Load from file<br/>
-						<div class="tooltip">Load a warband from a file that you have previously stored on your local drive.</div>
-					</div>
-					<div class="button" onclick="owc.topMenu.warbandToFileClick(event);">Save to file<br/>
-						<div class="tooltip">Save your warband to a file on your local drive. May not work in all browsers.</div>
-					</div>
-					<div class="button" id="undoButton" onclick="owc.topMenu.undoClick(event);">Undo<br/>
-						<div class="tooltip">Undo last change.</div>
-					</div>
-					<div class="button" onclick="owc.topMenu.printPreviewClick(event);">Print<br/>
-						<div class="tooltip">Shows this page in a printable version, without buttons etc. Pops up a new window.</div>
-					</div>
-					<div class="button" onclick="owc.topMenu.showSettingsClick(event);">Settings<br/>
-						<div class="tooltip">Set Settings like rules scope or data language or display mode.</div>
-					</div>
-				</div>
+		</div>
+		<div id="top-menu-popup" style="height: 0px; overflow: hidden;">
+			<div>
+				<!-- <div onclick="owc.topMenu.newWarbandClick(event);">New warband</div> -->
+				<div onclick="owc.topMenu.showWarbandCodeClick(event);">Show warband code</div>
+				<div onclick="owc.topMenu.restoreWarbandClick(event);">Restore Warband</div>
+				<div onclick="owc.topMenu.warbandFromFileClick(event);">Load from file</div>
+				<div onclick="owc.topMenu.warbandToFileClick(event);">Save to file</div>
 			</div>
-
-			<div id="warbandCanvas" class="centeredViewport">&#160;</div>
-
-			<div id="didyouknow" class="noprint">
-				<div class="icon">i</div>
-				<h1>Did you know..?</h1>
-				<p id="didyouknow_text">...You need to have JavaScript enabled to use the <em>Song of Blades and Heroes Online Warband Creator</em>.</p>
-				<p id="didyouknow_next" onclick="owc.didYouKnow.printNextHint();">Show another hint</p>
+		</div>
+		<div id="share-popup" style="height: 0px; overflow: hidden;">
+			<div>
+				<div onclick="owc.share('whatsapp');"><i class="fab fa-whatsapp"></i> WhatsApp</div>
+				<div><i class="fab fa-facebook-f"></i> Facebook</div>
+				<div><i class="fab fa-twitter"></i> Twitter</div>
+				<div><i class="fas fa-envelope"></i> E-Mail</div>
+				<div onclick="owc.share();"><i class="fas fa-link"></i>Create Link</div>
 			</div>
+		</div>
 
-			<div id="advertisement" class="centeredViewport">
-				<div class="noprint">
-					<p><i class="icon fas fa-star" style="color:gold;"></i>"Song of Blades and Heroes" - Copyright Andrea Sfiligoi</p>
-					<p><i class="icon fab fa-blogger-b" style="color:red;"></i>Find out more about Song of Blades and Heroes at <a href="https://songofblades.blogspot.com/">https://songofblades.blogspot.com</a></p>
-					<p><i class="icon fas fa-shopping-cart" style="color:silver;"></i>Buy Song of Blades and Heroes at <a href="https://www.ganeshagames.net/index.php?cPath=1_6">https://www.ganeshagames.net</a></p>
-					<p><i class="icon fas fa-comments" style="color:dodgerblue;"></i>Got questions or ideas? You are welcome to <a href="https://github.com/suppenhuhn79/sbhowc/discussions">https://github.com/suppenhuhn79/sbhowc/discussions</a></p>
-					<div class="legal">
-						<p>Copyright 2021 Christoph Zager, licensed unter the GNU Affero General Public License, Version 3 (<a href="https://www.gnu.org/licenses/agpl-3.0.en.html">https://www.gnu.org/licenses/agpl-3.0.en.html</a>), source availible at GitHub (<a href="https://github.com/suppenhuhn79/sbhowc">https://github.com/suppenhuhn79/sbhowc</a>)</p>
-						<p>Using Suppenhuhn79's vanilla-tools (<a href="https://github.com/suppenhuhn79/vanilla-tools">https://github.com/suppenhuhn79/vanilla-tools</a>), Copyright 2021 Christoph Zager, licensed unter the Apache License, Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>)</p>
+
+		<div id="top-menu-floater" class="viewport noprint">
+			<i class="fas fa-fw fa-undo-alt" id="undo-button" onclick="owc.editor.undo();"></i>
+		</div>
+
+		<div id="warbandCanvas" class="viewport">&#160;</div>
+
+		<div class="viewport only-print">
+				<p data-autofill="yes">Created with {{title}}, {{version}}, {{origin}}</p>
+			</div>
+		</div>
+
+		<div id="didyouknow" class="noprint">
+			<h1>Did you know..?</h1>
+			<p id="didyouknow_text">...You need to have JavaScript enabled to use the <em>Song of Blades and Heroes Online Warband Creator</em>.</p>
+			<p id="didyouknow_next" onclick="owc.didYouKnow.printNextHint();">Show another hint</p>
+		</div>
+
+		<div id="footer" class="noprint">
+			<div class="viewport">
+				<div class="flex-container">
+					<div>
+						<div class="block">
+							<span>Song of Blades and Heroes</span>
+							<span>Copyright Andrea&nbsp;Sfiligoi</span>
+						</div>
+						<div class="block iconic">
+							<i class="fab fa-fw fa-blogger-b"></i>
+							<span>Find out more</span>
+							<span>about Song of Blades and Heroes at the <a href="https://songofblades.blogspot.com" target="_blank">SongOfBlades-Blog</a>.</span>
+						</div>
+						<div class="block iconic">
+							<i class="fas fa-fw fa-shopping-cart"></i>
+							<span>Buy</span>
+							<span>Song of Blades and Heroes at <a href="https://www.ganeshagames.net" target="_blank">Ganesha&nbsp;Games</a>.</span>
+						</div>
 					</div>
-				</div>
-				<div class="only-print">
-					<p data-autofill="yes">Created with {{title}}, {{version}}, {{origin}}</p>
+					<div>
+						<div class="block">
+							<span>Online Warband Creator</span>
+							<span>Copyright Christoph&nbsp;Zager, licensed unter the <a href="https://www.gnu.org/licenses/agpl-3.0.en.html" target="_blank">GNU Affero General Public License, Version&nbsp;3</a>.</span>
+						</div>
+						<div class="block iconic">
+							<i class="fas fa-comments"></i>
+							<span>Questions or ideas?</span>
+							<span>You are welcome to <a href="https://github.com/suppenhuhn79/sbhowc/discussions" target="_blank">discussions</a> or you may create an <a href="https://github.com/suppenhuhn79/sbhowc/issues" target="_blank">issue</a>.</span>
+						</div>
+						<div class="block iconic">
+							<i class="fab fa-github"></i>
+							<span>Visit</span>
+							<span>the Online Warband Creator project at <a href="https://github.com/suppenhuhn79/sbhowc" target="_blank">GitHub</a>.</span>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 
 		<div id="loading-wrapper">
 			<div class="loading-text sans-serif">Fetching data...</div>
-			<div class="loading-gradient">&#160;</div>
+			<div class="loading-gradient">&nbsp;</div>
 		</div>
 		<div id="blur" class="volatile" onclick="owc.ui.sweepVolatiles();">&nbsp;</div>
 		<div id="printoverlay" class="only-print">&nbsp;</div>
 
-		<script src="owc.js">/**/</script>
-		<script src="owc.settings.js">/**/</script>
-		<script src="owc.resources.js">/**/</script>
-		<script src="owc.rulecheck.js">/**/</script>
-		<script src="owc.editor.js">/**/</script>
-		<script src="owc.ui.js">/**/</script>
-		<script src="owc.topmenu.js">/**/</script>
-		<!-- <script src="index.js">/**/</script> -->
+		<script src="owc.js"></script>
+		<script src="owc.settings.js"></script>
+		<script src="owc.resources.js"></script>
+		<script src="owc.rulecheck.js"></script>
+		<script src="owc.editor.js"></script>
+		<script src="owc.ui.js"></script>
+		<script src="owc.topmenu.js"></script>
 		<script>
 			owc.init();
 		</script>

@@ -54,6 +54,7 @@ owc.editor.eventListener = function (editorEvent)
 	case "addunit":
 		owc.editor.addUnit();
 		owc.ui.printWarband();
+		owc.ui.scrollToBottom();
 		break;
 	case "addspecialrule":
 		owc.editor.addSpecialrule(unitIndex, editorEvent.detail.value);
@@ -78,6 +79,7 @@ owc.editor.eventListener = function (editorEvent)
 	case "pasteunit":
 		owc.editor.addUnit(editorEvent.detail.unitcode);
 		owc.ui.printWarband();
+		owc.ui.scrollToBottom();
 		break;
 	case "remove":
 		owc.editor.removeUnit(unitIndex, editorEvent.detail.value);
@@ -137,7 +139,21 @@ owc.editor.manangeUnitClipboard = function ()
 
 owc.editor.setUndoPoint = function (undoText)
 {
+	if (owc.ui.undoButton !== null)
+	{
+		owc.ui.undoButton.classList.add("animated");
+	};
 	owc.editor.undoer.saveSnapshot(owc.warband.toString(), undoText);
+};
+
+owc.editor.undo = function ()
+{
+	if (owc.editor.undoer.canUndo === true)
+	{
+		owc.ui.undoButton.classList.add("animated");
+		owc.warband.fromString(owc.editor.undoer.undo(), owc.resources.data);
+		owc.ui.printWarband();
+	};
 };
 
 owc.editor.newWarband = function ()
@@ -149,7 +165,7 @@ owc.editor.newWarband = function ()
 
 owc.editor.setWarbandName = function (newName)
 {
-	newName = newName.trim();
+	newName = newName.replaceAll(/@/g, "X").trim();
 	if (owc.warband.name !== newName)
 	{
 		owc.editor.setUndoPoint("Rename warband");
@@ -209,7 +225,7 @@ owc.editor.moveUnitDown = function (unitIndex)
 
 owc.editor.setUnitName = function (unitIndex, newName)
 {
-	newName = newName.trim();
+	newName = newName.replaceAll(/[@!]/g, "X").trim();
 	if (owc.warband.units[unitIndex].name !== newName)
 	{
 		owc.editor.setUndoPoint("Rename unit");

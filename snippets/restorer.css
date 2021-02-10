@@ -1,31 +1,39 @@
 
 #restorer #restorer-table-frame {
 	display: inline-block;
-	height: 150px;
-	border: 1px solid #808080;
+	min-height: 10em;
+	max-height: 25em;
 	overflow-y: scroll;
 	width: 100%;
+	border: 1px solid #808080;
 	background-color: #ffffff;
 	}
 
 #restorer table.localStore {
 	border-collapse:collapse;
-	border-spacing:0px;
+	border-spacing: 0rem;
 	width: 100%;
 	}
 
 #restorer table.localStore tr td,
 #restorer table.localStore tr th {
-	padding: 0.3em;
+	padding: 0.5em 0.3em;
 	}
 
 #restorer table.localStore tr th {
 	border-bottom: 1px solid #c1c1c1;
-	background: linear-gradient(to bottom, #f2f2f2 70%,#e0e0e0 100%);
+	background: linear-gradient(to bottom,
+		#f2f2f2 70%,
+		#e0e0e0 100%);
 	font-weight: bold;
-	position:  sticky;
-	top: 0px;
 	padding-right: 1.5em;
+	max-height: 200vh
+	}
+#restorer table.localStore tr th:hover {
+	background: linear-gradient(to bottom,
+		#e0e8f8 70%,
+		#ced6e6 100%);
+	cursor: ns-resize;
 	}
 
 #restorer table.localStore tr * {
@@ -41,23 +49,15 @@
 	}
 
 #restorer table.localStore tr[data-id]:hover {
+	background-color: #f0f0f0;
+	}
+
+#restorer table.localStore tr[data-id].selected {
 	background-color: #e0e8f8;
 	}
 
-#restorer table.localStore tr[data-id] span.delete {
-	font-size: 70%;
-	display: inline-block;
-	background-color: #ff0000;
-	color: #ffffff;
-	text-transform: uppercase;
-	font-weight: bold;
-	border-radius: 0.3em;
-	padding: 0.2em 0.35em;
-	visibility: hidden;
-	}
-
-#restorer table.localStore tr[data-id] td:hover span.delete {
-	visibility: visible;
+#restorer table.localStore td.nowrap {
+	white-space: nowrap;
 	}
 
 #restorer table.localStore td.small {
@@ -66,20 +66,21 @@
 	color: #969696;
 	white-space: nowrap;
 	}
-#restorer table.localStore td.small.top {
-	padding-bottom: 0.15em;
-	vertical-align: bottom;
+#restorer table.localStore td.small span {
+	margin: 0.2em 0em;
 	}
-#restorer table.localStore td.small.bottom {
-	padding-top: 0.15em;
-	vertical-align: top;
+#restorer table.localStore td.small span:nth-child(1),
+#restorer table.localStore td.small span:nth-child(2) {
+	display: inline-block;
+	width: 50%;
 	}
 
 #restorer .warning {
-	border: 2px solid #e10000;
-	background-color: #fcc;
+	border: 2px solid var(--color-red-font);
+	border-radius: 0.5rem;
+	border-left-width: 0.75rem;
+	background-color: var(--color-red-background);
+	color: var(--color-red-font);
+	margin: 1rem 0rem;
 	padding: 0.3em;
-	box-shadow: 0.05em 0.05em 0.2em #00000080;
-	margin: 0.5em 0.2em 0.8em 0.2em;
-	color: #d00000;
 	}

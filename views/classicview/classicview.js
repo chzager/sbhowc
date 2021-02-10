@@ -19,7 +19,7 @@ classicview.init = function ()
 	classicview.refreshWarbandSummary = formsCore.refreshWarbandSummary;
 	classicview.refreshPasteUnitButton = formsCore.refreshPasteUnitButton;
 	classicview.makeEditable = formsCore.makeEditable;
-	(owc.ui.isInteractive === true) ? window.addEventListener("resize", classicview.onWindowResize) : null;
+	(owc.ui.isPrinting === false) ? window.addEventListener("resize", classicview.onWindowResize) : null;
 	classicview.onWindowResize();
 };
 
@@ -44,7 +44,7 @@ classicview.getWarbandHtml = function ()
 		"default-warband-name": owc.helper.translate("defaultWarbandName")
 	};
 	result = pageSnippets.produce("classicview", classicview, variables);
-	if (owc.ui.isInteractive === false)
+	if (owc.ui.isPrinting === true)
 	{
 		htmlBuilder.removeNodesByQuerySelectors(["select", "input", ".specialruleEditorSeparator", ".addunit"], result);
 		htmlBuilder.removeClasses(["interactive", "screenfx", "out-of-scope"], result);
@@ -105,7 +105,7 @@ classicview.onWindowResize = function (resizeEvent)
 {
 	const thresholdWidth = 650;
 	let setColumnCount = 2;
-	if (owc.ui.isInteractive === true)
+	if (owc.ui.isPrinting === false)
 	{
 		if (Number(document.body.clientWidth) <= thresholdWidth)
 		{

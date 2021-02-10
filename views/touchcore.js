@@ -69,41 +69,20 @@ touchCore.createCombatMenu = function ()
 
 touchCore.popupMenubox = function (clickEvent, menubox, context)
 {
-	owc.ui.blurPage();
-	menubox.popup(clickEvent, context, clickEvent.target, "middle center");
-	let x,
-	y;
-	if (menubox.htmlElement.offsetHeight > window.innerHeight)
+	owc.ui.sweepVolatiles();
+	owc.ui.blurPage("dim");
+	menubox.popup(clickEvent, context, clickEvent.target, "center middle");
+	if (menubox.element.offsetHeight > window.innerHeight)
 	{
-		let itemsList = menubox.htmlElement.querySelector(".items");
-		itemsList.style.height = (itemsList.offsetHeight - (menubox.htmlElement.offsetHeight - window.innerHeight)) + "px";
+		let itemsList = menubox.element.querySelector(".items");
+		itemsList.style.height = (itemsList.offsetHeight - (menubox.element.offsetHeight - window.innerHeight)) + "px";
 	};
-	if (menubox.htmlElement.classList.contains("inputmenu") === true)
-	{
-		x = ((window.innerWidth - menubox.htmlElement.offsetWidth) / 2);
-	}
-	else
-	{
-		x = clickEvent.clientX - (menubox.htmlElement.offsetWidth / 2);
-		if (x + menubox.htmlElement.offsetWidth > window.innerWidth)
-		{
-			x = window.innerWidth - menubox.htmlElement.offsetWidth;
-		};
-		x = (x < 0) ? 0 : x;
-	};
-	y = clickEvent.clientY - (menubox.htmlElement.offsetHeight / 2);
-	if (y + menubox.htmlElement.offsetHeight > window.innerHeight)
-	{
-		y = window.innerHeight - menubox.htmlElement.offsetHeight;
-	};
-	y = (y < 0) ? 0 : y;
-	menubox.popup(clickEvent, context, clickEvent.target, "middle center");
 };
 
 touchCore.popupEditor = function (clickEvent, editorMenu, context, text)
 {
 	touchCore.popupMenubox(clickEvent, editorMenu, context);
-	let editorNode = editorMenu.htmlElement.querySelector("[data-menuitem=\"editor\"]");
+	let editorNode = editorMenu.element.querySelector("[data-menuitem=\"editor\"]");
 	let range = document.createRange();
 	let selection = window.getSelection();
 	editorNode.innerHTML = text;
@@ -113,10 +92,61 @@ touchCore.popupEditor = function (clickEvent, editorMenu, context, text)
 	selection.addRange(range);
 	/* currently there is no definitive way to response when then virtual keyboard on touch device shrinks available height,
 	so we set the position of the prompt menu to the upper third */
-	editorMenu.htmlElement.style.top = String((window.innerHeight / 3) - (editorMenu.htmlElement.offsetHeight / 2)) + "px";
+	editorMenu.element.style.top = Math.round((window.innerHeight / 3) - (editorMenu.element.offsetHeight / 2)) + "px";
+	editorMenu.element.style.left = Math.round((document.body.clientWidth - editorMenu.element.offsetWidth) / 2) + "px"
 };
 
-touchCore.onValueEdited = (anyEvent) => touchCore.dispatchEditorEvent(anyEvent);
+touchCore.onValueEdited = function (editorEvent)
+{
+	let eventOrigin = editorEvent.target;
+	if (editorEvent.type === "click")
+	{
+		while (eventOrigin.onclick === null)
+		{
+			eventOrigin = eventOrigin.parentNode;
+		};
+	};
+	let unitIndex;
+	let unitNode = eventOrigin.closest("[data-unitindex]");
+	if (unitNode !== null)
+	{
+		unitIndex = unitNode.getAttribute("data-unitindex");
+	};
+	let specialruleIndex;
+	let specialruleNode = eventOrigin.closest("[data-specialruleindex]");
+	if (specialruleNode !== null)
+	{
+		specialruleIndex = specialruleNode.getAttribute("data-specialruleindex");
+	};
+	let eventValue;
+	console.log("eventOrigin", eventOrigin);
+	if (eventOrigin.value !== undefined)
+	{
+		eventValue = eventOrigin.value;
+	}
+	else
+	{
+		eventValue = eventOrigin.innerText;
+	};
+	let editorEventData =
+	{
+		"detail":
+		{
+			"value": eventValue,
+			"unitIndex": unitIndex,
+			"specialruleIndex": specialruleIndex,
+			"originalEvent": editorEvent
+		}
+	};
+	for (let attribute of eventOrigin.attributes)
+	{
+		if (attribute.nodeName.startsWith("data-") === true)
+		{
+			editorEventData.detail[attribute.nodeName.substring(5)] = attribute.nodeValue;
+		};
+	};
+	window.dispatchEvent(new CustomEvent("editor", editorEventData));
+};
 
 touchCore.onWarbandNameClick = function (clickEvent)
 {
@@ -227,7 +257,7 @@ touchCore.onSpecialrulesClick = function (clickEvent)
 		};
 	};
 	touchCore.specialrulesMenu.buildMenuItems(menuItems);
-	_postRender(touchCore.specialrulesMenu.htmlElement, unitIndex);
+	_postRender(touchCore.specialrulesMenu.element, unitIndex);
 	touchCore.popupMenubox(clickEvent, touchCore.specialrulesMenu, unitIndex, clickEvent);
 };
 
@@ -254,7 +284,6 @@ touchCore.onMenuboxEvent = function (menuboxEvent)
 	}
 	else
 	{
-		owc.ui.sweepVolatiles();
 		editorEvent.detail["editor"] = menuboxEvent.detail.menuId;
 		if (menuboxEvent.detail.itemKey !== undefined)
 		{
@@ -283,67 +312,16 @@ touchCore.onMenuboxEvent = function (menuboxEvent)
 			}
 			else if ((menuboxEvent.detail.menuId === "warbandname") && (menuboxEvent.detail.buttonKey === "ok"))
 			{
-				editorEvent.detail["value"] = touchCore.warbandNameMenu.htmlElement.querySelector("[data-menuitem=\"editor\"]").innerText;
+				editorEvent.detail["value"] = touchCore.warbandNameMenu.element.querySelector("[data-menuitem=\"editor\"]").innerText;
 				window.dispatchEvent(editorEvent);
 			}
 			else if ((menuboxEvent.detail.menuId === "name") && (menuboxEvent.detail.buttonKey === "ok"))
 			{
-				editorEvent.detail["value"] = touchCore.unitNameMenu.htmlElement.querySelector("[data-menuitem=\"editor\"]").innerText;
+				editorEvent.detail["value"] = touchCore.unitNameMenu.element.querySelector("[data-menuitem=\"editor\"]").innerText;
 				window.dispatchEvent(editorEvent);
 			};
 		};
 	};
-};
-
-touchCore.dispatchEditorEvent = function (editorEvent)
-{
-	let eventOrigin = editorEvent.target;
-	if (editorEvent.type === "click")
-	{
-		while (eventOrigin.onclick === null)
-		{
-			eventOrigin = eventOrigin.parentNode;
-		};
-	};
-	let unitIndex;
-	let unitNode = eventOrigin.closest("[data-unitindex]");
-	if (unitNode !== null)
-	{
-		unitIndex = unitNode.getAttribute("data-unitindex");
-	};
-	let specialruleIndex;
-	let specialruleNode = eventOrigin.closest("[data-specialruleindex]");
-	if (specialruleNode !== null)
-	{
-		specialruleIndex = specialruleNode.getAttribute("data-specialruleindex");
-	};
-	let eventValue;
-	if (eventOrigin.value !== undefined)
-	{
-		eventValue = eventOrigin.value;
-	}
-	else
-	{
-		eventValue = eventOrigin.innerText;
-	};
-	let editorEventData =
-	{
-		"detail":
-		{
-			"value": eventValue,
-			"unitIndex": unitIndex,
-			"specialruleIndex": specialruleIndex,
-			"originalEvent": editorEvent
-		}
-	};
-	for (let attribute of eventOrigin.attributes)
-	{
-		if (attribute.nodeName.startsWith("data-") === true)
-		{
-			editorEventData.detail[attribute.nodeName.substring(5)] = attribute.nodeValue;
-		};
-	};
-	window.dispatchEvent(new CustomEvent("editor", editorEventData));
 };
 
 touchCore.refreshWarbandName = function ()
@@ -417,7 +395,7 @@ touchCore.refreshSpecialrules = function (unitIndex, refNode)
 		refNode.appendChild(specialruleNode);
 	};
 	}
-	else if (owc.ui.isInteractive === true)
+	else if (owc.ui.isPrinting === false)
 	{
 		refNode.appendChild(htmlBuilder.newElement("span.add-specialrule", {"innerText": owc.helper.translate("addSpecialrule")}));
 	};
@@ -555,15 +533,15 @@ touchCore.newPromptMenu = function (menuId, titleResource)
 		"text": ""
 	};
 	let menubox = touchCore.newMenu(menuId, titleResource, [menuItem], ["ok", "cancel"]);
-	menubox.htmlElement.classList.add("inputmenu");
-	let editorNode = menubox.htmlElement.querySelector("[data-menuitem=\"editor\"]");
+	menubox.element.classList.add("inputmenu");
+	let editorNode = menubox.element.querySelector("[data-menuitem=\"editor\"]");
 	touchCore.makeEditable(editorNode);
 	editorNode.onclick = (clickEvent) => clickEvent.stopPropagation();
 	editorNode.onkeypress = (keypressEvent) =>
 	{
 		if (keypressEvent.keyCode === 13)
 		{
-			menubox.htmlElement.querySelector("[data-menubutton=\"ok\"]").click();
+			menubox.element.querySelector("[data-menubutton=\"ok\"]").click();
 		};
 	};
 	return menubox;

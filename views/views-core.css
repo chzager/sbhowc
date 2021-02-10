@@ -1,4 +1,29 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+Pro&display=swap');
+
+table { border: none; border-collapse: collapse; border-spacing: 0em; }
+
+input, select {
+	font-size: 1rem;
+	}
+
+input[type="text"], input[type="number"] { cursor: text; width: 100%; padding: 0.1em; }
+input[type="number"] { text-align: right; }
+input[type="file"] { width: 100%; }
+input[type="button"] { padding: 0.1em 1em; }
+select { cursor: pointer; padding: 0em 0.2em; }
+
+
 #warbandCanvas * {
+	font-family: 'Source Serif Pro', serif;
+	}
+
+/*
+5cacad0c771550d6abf33de696fe048e7c5e2940 killed ff8d0e8b4700730eddbe863e368dd550bf59e959
+*/
+#warbandCanvas .interactive [data-editor] {
+/* #warbandCanvas .interactive * > [data-editor="name"] { */
+	border: 1px solid transparent;
 	}
 
 #warbandCanvas .interactive [data-editor]:hover,
@@ -14,8 +39,8 @@
 /* header */
 
 #warbandCanvas #warbandheader {
-	font-size: 24px;
-	font-weight: bold; 
+	font-size: 2rem;
+	font-weight: bold;
 	width: 100%;
 	text-align: center;
 	margin-bottom: 1em;
@@ -50,15 +75,15 @@
 
 #warbandCanvas .screenfx #warbandfooter {
 	position: sticky;
-	bottom: 0px;
+	bottom: 0em;
 	background-color: #ffffffd0;
-	box-shadow: 0px 0px 5px 5px #ffffffd0;
+	box-shadow: 0em 0em 5px 5px #ffffffd0;
 	margin-top: 1.5em;
-	text-shadow: 
-		-1px 1px 1px #fff,
-		-1px -1px 1px #fff,
-		1px -1px 1px #fff,
-		1px 1px 1px #fff;
+	text-shadow:
+		-0.1em 0.1em 0.1em #fff,
+		-0.1em -0.1em 0.1em #fff,
+		0.1em -0.1em 0.1em #fff,
+		0.1em 0.1em 0.1em #fff;
 	}
 
 #warbandCanvas #warbandfooter .rule-violation {
@@ -74,3 +99,15 @@
 	margin-left: -1.2em;
 	width: 1.2em;
 	}
+
+@media print {
+	:root {
+		font-size: 12pt;
+		}
+	body {
+		margin-top: 36pt;
+		}
+	#warbandCanvas {
+		width: 100%;
+		}
+}

@@ -17,7 +17,8 @@ owc.settings.init = function ()
 	{
 		"highlightPersonalities": true,
 		"personalitiesInPoints": false,
-		"applyRuleChecks": true
+		"applyRuleChecks": true,
+		"warbandcodeIncludesComments": true
 	};
 	owc.settings.language = "en";
 	owc.settings.viewMode = (owc.ui.isTouchDevice === true) ? "classictouch" : "classic";
@@ -38,7 +39,13 @@ owc.settings.toJson = function ()
 owc.settings.fromJson = function (jsonObject)
 {
 	owc.settings.ruleScope = jsonObject.ruleScope;
-	owc.settings.options = jsonObject.options;
+	for (let key in owc.settings.options)
+	{
+		if (jsonObject.hasOwnProperty(key) === true)
+		{
+			owc.settings.options[key] = jsonObject.options[key];
+		};
+	};
 	owc.settings.language = jsonObject.language;
 	owc.settings.viewMode = jsonObject.viewMode;
 };

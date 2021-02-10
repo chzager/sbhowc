@@ -15,7 +15,7 @@
 .classicview #unitsgrid #additmes-container .addunit,
 .classicview #unitsgrid #additmes-container .addunit + .addunit {
 	background: #fff;
-	font-size: normal;
+	font-size: 1rem;
 	padding: 1em;
 	border-radius: 1em;
 	}
@@ -27,7 +27,7 @@
 
 div[data-menubox="warbandMenu"],
 div[data-menubox="unitMenu"] {
-	font-size: large;
+	font-size: 1rem;
 	}
 
 /* touch view styles */
@@ -36,11 +36,11 @@ div[data-menubox="unitMenu"] {
 	display: inline-block;
 	width: 100%;
 	text-align: center;
-	font-family: 'Roboto', sans-serif;
-	font-size: 13px;
+	font-family: var(--sans-font);
+	font-size: 0.8rem;
 	border: 2px dashed #bdbdbd;
 	border-radius: 0.5em;
-	padding: 2px;
+	padding: 0.1em;
 	color: #bdbdbd;
 	}
 #unitsgrid table.unit td.specialrules:hover .add-specialrule {
@@ -53,15 +53,17 @@ div[data-menubox="unitMenu"] {
 
 div[data-menubox].touchmenu {
 	background-color: white;
-	font-family: 'Roboto', sans-serif;
+	font-family: var(--sans-font);
 	padding: 1em;
 	border: none;
 	border-radius: 1em;
-	box-shadow: 0px 0px 20px 5px #00000080;
+	box-shadow: 0em 0em 1.3em 0.4em #00000080;
 	min-width: 300px;
 	max-width: 95vw;
 	position: fixed;
 	-webkit-backface-visibility: hidden;	
+	z-index: 100;
+	font-size: 1rem;
 	}
 
 div[data-menubox].touchmenu .title {
@@ -71,6 +73,7 @@ div[data-menubox].touchmenu .title {
 	border-bottom: 2px solid #808080;
 	padding-bottom: 0.5em;
 	margin-bottom: 0.5em;
+	cursor: default;
 	}
 
 div[data-menubox].touchmenu .items {
@@ -79,12 +82,12 @@ div[data-menubox].touchmenu .items {
 	}
 	
 div[data-menubox].touchmenu [data-menuitem] {
-	font-size: initial;
 	padding: 0.5em;
 	border: none;
 	}
 
 div[data-menubox].touchmenu [data-menuitem]:hover {
+	color: initial;
 	background: #f0f0f0;
 	border: none;
 	}
@@ -98,7 +101,7 @@ div[data-menubox].touchmenu [data-menuitem]:before {
 	height: 0.8em;
 	margin-right: 0.5em;
 	position: relative;
-	top: 2px;
+	top: 0.15rem;
 	background: white;
 	}
 
@@ -146,6 +149,7 @@ div[data-menubox].touchmenu [data-menubutton] {
 	width: 100%;
 	text-align: center;
 	color: grey;
+	cursor: pointer;
 	}
 
 div[data-menubox].touchmenu [data-menubutton]:not(:nth-child(1)) {

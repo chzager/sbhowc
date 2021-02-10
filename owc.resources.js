@@ -136,12 +136,17 @@ owc.resources.import = function (urls, callback)
 	);
 };
 
-owc.resources.defaultText = function (resourceId)
+owc.resources.defaultText = function (resourceId, placeholders = {})
 {
-	return owc.resources.data[resourceId][owc.resources.DEFAULT_LANGUAGE];
+	let result = owc.resources.data[resourceId][owc.resources.DEFAULT_LANGUAGE];
+	for (let key in placeholders)
+	{
+		result = result.replace("{" + key + "}", placeholders[key]);
+	};
+	return result;
 };
 
-owc.resources.translate = function (resourceId, toLanguage, placeholders)
+owc.resources.translate = function (resourceId, toLanguage, placeholders = {})
 {
 	let result = "";
 	let resource = owc.resources.data[resourceId];
@@ -153,12 +158,9 @@ owc.resources.translate = function (resourceId, toLanguage, placeholders)
 			console.warn("Language \"" + toLanguage + "\" not defined for resource \"" + resourceId + "\":", resource);
 			result = owc.resources.defaultText(resourceId);
 		};
-		if (typeof placeholders !== "undefined")
+		for (let key in placeholders)
 		{
-			for (let key in placeholders)
-			{
-				result = result.replace("{" + key + "}", placeholders[key]);
-			};
+			result = result.replace("{" + key + "}", placeholders[key]);
 		};
 	}
 	else

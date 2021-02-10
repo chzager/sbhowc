@@ -9,80 +9,79 @@ See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
 
 owc.topMenu = {};
 
+owc.topMenu.toggleButton = document.getElementById("top-menu-toggle-button");
+owc.topMenu.popupMenu = document.getElementById("top-menu-popup");
+owc.topMenu.sharePopup = document.getElementById("share-popup");
+
 owc.topMenu.init = function ()
 {
-	owc.topMenu.warbandMenu = new Menubox("warbandMenu",
-	{
-		"newWarband": "New warband",
-		"showWarbandCode": "Show warband code",
-		"restoreWarband": "Restore warband"
-	}
-		);
-	window.addEventListener("menubox", owc.topMenu.onMenuboxEvent);
-	/* remove tooltips on touch devices */
-	if (owc.ui.isTouchDevice === true)
-	{
-		htmlBuilder.removeNodesByQuerySelectors([".tooltip"], document.getElementById("top-menu"))
-	};
+	window.addEventListener(owc.ui.sweepvolatilesEvent, owc.topMenu.closePopupMenu);
+	window.addEventListener(owc.ui.sweepvolatilesEvent, owc.topMenu.closeShareMenu);
 };
 
-owc.topMenu.onMenuboxEvent = function (menuboxEvent)
+owc.topMenu.preparePopup = function()
 {
-	switch (menuboxEvent.detail.itemKey)
-	{
-	case "newWarband":
-		owc.topMenu.newWarband();
-		break;
-	case "showWarbandCode":
-		owc.topMenu.showWarbandCode();
-		break;
-	case "restoreWarband":
-		owc.topMenu.showWarbandRestorer();
-		break;
-	};
+	owc.ui.sweepVolatiles();
+	owc.ui.blurPage("editor-only");
 };
 
-owc.topMenu.newWarband = function ()
+owc.topMenu.openPopupMenu = function ()
+{
+	owc.topMenu.preparePopup();
+	owc.topMenu.toggleButton.classList.remove("fa-angle-double-down");
+	owc.topMenu.toggleButton.classList.add("fa-angle-double-up");
+	htmlBuilder.adjust(owc.topMenu.popupMenu, owc.topMenu.toggleButton, "below bottom, start left");
+	owc.topMenu.popupMenu.style.height = String(owc.topMenu.popupMenu.firstElementChild.clientHeight) + "px";
+};
+
+owc.topMenu.closePopupMenu = function ()
+{
+	owc.topMenu.toggleButton.classList.remove("fa-angle-double-up");
+	owc.topMenu.toggleButton.classList.add("fa-angle-double-down");
+	owc.topMenu.popupMenu.style.height = "0px"
+};
+
+owc.topMenu.warbandMenuClick = function (clickEvent)
+{
+	clickEvent.stopPropagation();
+	(owc.topMenu.popupMenu.style.height === "0px") ? owc.topMenu.openPopupMenu() : owc.topMenu.closePopupMenu();
+};
+
+owc.topMenu.openShareMenu = function ()
+{
+	owc.topMenu.preparePopup();
+	htmlBuilder.adjust(owc.topMenu.sharePopup, document.getElementById("share-menu-button"), "below bottom, end right");
+	owc.topMenu.sharePopup.style.height = String(owc.topMenu.sharePopup.firstElementChild.clientHeight) + "px";
+};
+
+owc.topMenu.closeShareMenu = function ()
+{
+	owc.topMenu.sharePopup.style.height = "0px"
+};
+
+owc.topMenu.shareClick = function (clickEvent)
+{
+	clickEvent.stopPropagation();
+	(owc.topMenu.sharePopup.style.height === "0px") ? owc.topMenu.openShareMenu() : owc.topMenu.closeShareMenu();
+};
+
+owc.topMenu.newWarbandClick = function (clickEvent)
 {
 	let params = {};
 	params[owc.urlParam.pid] = owc.generateNewPid();
 	window.open(window.location.setParams(params, false, false));
 };
 
-owc.topMenu.showWarbandCode = function ()
+owc.topMenu.showWarbandCodeClick = function (clickEvent)
 {
-	function _showWarbandCode()
-	{
-		warbandcode.show();
-		owc.ui.waitEnd();
-	};
-	if (document.getElementById("warbandcode") === null)
-	{
-		owc.ui.wait("Loading");
-		pageSnippets.import("./snippets/warbandcode.xml").then(_showWarbandCode);
-	}
-	else
-	{
-		_showWarbandCode();
-	};
+	clickEvent.stopPropagation();
+	warbandcode.show();
 };
 
-owc.topMenu.showWarbandRestorer = function ()
+owc.topMenu.restoreWarbandClick = function (clickEvent)
 {
-	function _showRestorer()
-	{
-		restorer.show();
-		owc.ui.waitEnd();
-	};
-	if (document.getElementById("restorer") === null)
-	{
-		owc.ui.wait("Loading");
-		pageSnippets.import("snippets/restorer.xml").then(_showRestorer);
-	}
-	else
-	{
-		_showRestorer();
-	};
+	clickEvent.stopPropagation();
+	restorer.show();
 };
 
 owc.topMenu.printPreviewClick = function (clickEvent)
@@ -94,39 +93,18 @@ owc.topMenu.printPreviewClick = function (clickEvent)
 
 owc.topMenu.showSettingsClick = function (clickEvent)
 {
-	function _showSettings()
-	{
-		settingsUi.show();
-		owc.ui.waitEnd();
-	};
-	if (document.getElementById("settings") === null)
-	{
-		owc.ui.wait("Loading");
-		pageSnippets.import("./snippets/settings.xml").then(_showSettings);
-	}
-	else
-	{
-		_showSettings();
-	};
-};
-
-owc.topMenu.undoClick = function (clickEvent)
-{
-	if (owc.editor.undoer.canUndo === true)
-	{
-		owc.warband.fromString(owc.editor.undoer.undo(), owc.resources.data);
-		owc.ui.printWarband();
-	}
+	clickEvent.stopPropagation();
+	settingsUi.show();
 };
 
 owc.topMenu.warbandFromFileClick = function (clickEvent)
 {
 	fileIo.requestClientFile(clickEvent).then((fileEvent) =>
 	{
-		let warbandCode = fileEvent.target.result;
 		try
 		{
-			owc.importWarband(warbandCode);
+			owc.importWarband(fileEvent.target.result);
+			owc.ui.printWarband();
 		}
 		catch (ex)
 		{
@@ -139,11 +117,5 @@ owc.topMenu.warbandFromFileClick = function (clickEvent)
 
 owc.topMenu.warbandToFileClick = function (clickEvent)
 {
-	fileIo.offerFileToClient(owc.helper.nonBlankWarbandName() + ".sbh.txt", owc.warband.toString());
-};
-
-owc.topMenu.warbandMenuClick = function (clickEvent)
-{
-	let viewport = clickEvent.target.getBoundingClientRect();
-	owc.topMenu.warbandMenu.popup(clickEvent, null, clickEvent.target, "below bottom, start left");
+	fileIo.offerFileToClient(owc.helper.nonBlankWarbandName() + ".owc.txt", owc.getWarbandCode(true));
 };

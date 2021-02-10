@@ -1,91 +1,95 @@
 div.blue {
-	background-color: #c0d0f0;
-	border: 2px solid #4080f0;
-	padding: 4px;
-	position: absolute;
-	top: 20%;
-	left: 25%;
-	width: 50%;
-	/* display: none; */
-	visibility: hidden;
-	z-index: 90500;
-	box-shadow: 5px 5px 20px #00000072;
-	}
-@media screen and (max-width:700px) {
-	div.blue { left: 5vw; width: 90vw; }
+	background-color: white;
+	padding: 0rem 4rem 0rem 2rem;
+	position: fixed;
+	top: 0px;
+	left: 100%;
+	margin-left: 2rem;
+	height: 100%;
+	overflow: hidden scroll;
+	z-index: var(--z-index-topmost);
+	box-shadow: 0rem 0.5rem 1.5rem black;
+	transition-duration: 0.15s;
+	transition-timing-function: ease-out;
 	}
 
-div.blue * {
-	font-family: 'Roboto', sans-serif;
-	font-size: 14px;
+div.blue div.blue-viewport {
+	max-width: 640px;
+	}
+
+div.blue *:not(i) {
+	font-family: var(--sans-font);
 	cursor: default;
-	margin: 0px;
 	}
 
 div.blue h1 {
-	font-size: 16px;
+	font-size: 2rem;
 	font-weight: bold;
-	color: #ffffff;
-	background-color: #4080f0;
-	padding: 0.25em;
+	padding: 1em 0em 0.5em 0em;
+	border-bottom: 0.1rem solid silver;
+	color: #888;
+	position: sticky;
+	z-index: 1;
+	top: 0em;
+	background-color: white;
 	}
 
+div.blue h1 > i {
+	float: right;
+	font-size: 1.5rem;
+	cursor: pointer;
+	}
+div.blue h1 > i:hover {
+	color: black;
+	}
+	
 div.blue div.panel {
-	border: 1px solid #4080f0;
-	padding: 0.5em;
-	margin-top: 1em;
+	border-bottom: 0.1rem solid silver;
+	padding-bottom: 1em;
 	}
 
-div.blue div.panel > span {
+div.blue div.buttons {
+	padding: 1em 0em 3em 0em;
+	}
+
+div.blue div.panel p {
 	display: block;
-	margin-top: -1.2em;
+	margin: 1.5rem 0rem 1rem 0rem;
+	font-size: 1rem;
+	color: grey;
+	}
+
+div.blue div.panel span {
+	display: block;
+	position: relative;
 	margin-bottom: 0.5em;
-	font-weight: bold;
-	color: #4080f0;
-	background-color: #c0d0f0;
-	width: max-content;
 	}
 
 div.blue input,
 div.blue label {
 	cursor: pointer;
 	margin-right: 0.3em;
+	display: inline-block;
+	}
+
+div.blue input[type="checkbox"],
+div.blue input[type="radio"] {
+	padding-left: 0em;
+	position: absolute;
+	top: 0.1em;
+	}
+div.blue label {
+	padding-left: 1.3rem;
 	}
 
 div.blue label:hover {
 	color: #607080;
-	}
-
-
-div.blue div.buttons input[type="button"] {
-	padding: 0.1em 1em;
-	cursor: pointer;
-	}
-
-div.blue div.buttons {
-	margin-left: 0.5em;
-	margin-top: 0.5em;
-	border: none;
-	text-align: right;
+	background-color: #f0f0f0;
 	}
 
 div.blue div.buttons input[type="button"] {
 	margin-right: 0em;
 	margin-left: 0.2em;
-	}
-
-div.blue div.withFloaters div {
-	float: left;
-	margin-right: 1em;
-	}
-
-div.blue div.withFloaters:after {
-	content: "\20";
-	clear: both;
-	display: block;
-	height: 0px;
-	}
-
-div.blue div p.suboption {
-	margin-left: 1em;
+	padding: 0.1em 1em;
+	cursor: pointer;
 	}

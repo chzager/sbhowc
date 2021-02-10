@@ -22,7 +22,7 @@ classictouchview.init = function ()
 	classictouchview.refreshPasteUnitButton = touchCore.refreshPasteUnitButton;
 	classictouchview.dispatchEditorEvent = touchCore.dispatchEditorEvent;
 	classictouchview.makeEditable = touchCore.makeEditable;
-	(owc.ui.isInteractive === true) ? window.addEventListener("resize", classictouchview.onWindowResize) : null;
+	(owc.ui.isPrinting === false) ? window.addEventListener("resize", classictouchview.onWindowResize) : null;
 	classictouchview.onWindowResize();
 };
 
@@ -47,7 +47,7 @@ classictouchview.getWarbandHtml = function ()
 		"default-warband-name": owc.helper.translate("defaultWarbandName")
 	};
 	result = pageSnippets.produce("classictouchview", classictouchview, variables);
-	if (owc.ui.isInteractive === false)
+	if (owc.ui.isPrinting === true)
 	{
 		htmlBuilder.removeNodesByQuerySelectors(["select", "input", ".specialruleEditorSeparator", ".addunit"], result);
 		htmlBuilder.removeClasses(["interactive", "screenfx", "out-of-scope"], result);
@@ -110,7 +110,7 @@ classictouchview.onWindowResize = function (resizeEvent)
 {
 	const thresholdWidth = 650;
 	let setColumnCount = 2;
-	if (owc.ui.isInteractive === true)
+	if (owc.ui.isPrinting === false)
 	{
 		if (Number(document.body.clientWidth) <= thresholdWidth)
 		{

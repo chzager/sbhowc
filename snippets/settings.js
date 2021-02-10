@@ -9,39 +9,47 @@ See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
 
 var settingsUi = {};
 
+settingsUi.element = null;
+
 settingsUi.show = function ()
 {
-	if (document.getElementById("settings") === null)
+	function _setNodeProperty(querySelector, attributeName, value)
 	{
-		document.body.appendChild(pageSnippets.produce("settings", settingsUi));
+		let node = settingsUi.element.querySelector(querySelector);
+		if (node !== null)
+		{
+			node[attributeName] = value;
+		};
 	};
-	let settingsPanel = document.getElementById("settings");
-	/* set checks for rules scope */
-	for (let rulesScopeCheck of settingsPanel.querySelectorAll("input[data-settingsgroup=\"rules_scope\"]"))
+	settingsUi.element = document.getElementById("settings");
+	if (settingsUi.element !== null)
 	{
-		let val = rulesScopeCheck.getAttribute("data-settingskey");
-		rulesScopeCheck.checked = owc.settings.ruleScope.includes(val);
+		/* set checks for rules scope */
+		for (let rulesScopeCheck of settingsUi.element.querySelectorAll("input[data-settingsgroup=\"rules_scope\"]"))
+		{
+			let val = rulesScopeCheck.getAttribute("data-settingskey");
+			rulesScopeCheck.checked = owc.settings.ruleScope.includes(val);
+		};
+		/* set language */
+		_setNodeProperty("select[data-settingsgroup=\"language\"]", "value", owc.settings.language);
+		/* set view mode */
+		_setNodeProperty("input[data-settingsgroup=\"view_mode\"][data-settingskey=\"" + owc.settings.viewMode + "\"]", "checked", true);
+		/* set options */
+		for (let key in owc.settings.options)
+		{
+			_setNodeProperty("input[data-settingsgroup=\"options\"][data-settingskey=\"" + key + "\"]", "checked", owc.settings.options[key]);
+		};
 	};
-	/* set language */
-	settingsPanel.querySelector("select[data-settingsgroup=\"language\"]").value = owc.settings.language;
-	/* set view mode */
-	settingsPanel.querySelector("input[data-settingsgroup=\"view_mode\"][data-settingskey=\"" + owc.settings.viewMode + "\"]").checked = true;
-	/* set options */
-	for (let key in owc.settings.options)
-	{
-		settingsPanel.querySelector("input[data-settingsgroup=\"options\"][data-settingskey=\"" + key + "\"]").checked = owc.settings.options[key];
-	};
-	owc.ui.showBluebox(settingsPanel);
+	owc.ui.showBluebox(settingsUi.element);
 };
 
 settingsUi.applySettings = function ()
 {
 	function _applyFromGui(targetObj)
 	{
-		let settingsPanel = document.getElementById("settings");
 		/* get checked rules scope */
 		targetObj.ruleScope = [];
-		for (let rulesScopeCheck of settingsPanel.querySelectorAll("input[data-settingsgroup=\"rules_scope\"]"))
+		for (let rulesScopeCheck of settingsUi.element.querySelectorAll("input[data-settingsgroup=\"rules_scope\"]"))
 		{
 			if (rulesScopeCheck.checked === true)
 			{
@@ -50,10 +58,10 @@ settingsUi.applySettings = function ()
 			};
 		};
 		/* get language */
-		let languageDropDown = settingsPanel.querySelector("select[data-settingsgroup=\"language\"]");
+		let languageDropDown = settingsUi.element.querySelector("select[data-settingsgroup=\"language\"]");
 		targetObj.language = languageDropDown[languageDropDown.selectedIndex].value;
 		/* get view mode */
-		for (let availibleViewMode of settingsPanel.querySelectorAll("input[data-settingsgroup=\"view_mode\"]"))
+		for (let availibleViewMode of settingsUi.element.querySelectorAll("input[data-settingsgroup=\"view_mode\"]"))
 		{
 			if (availibleViewMode.checked === true)
 			{
@@ -62,7 +70,7 @@ settingsUi.applySettings = function ()
 			};
 		};
 		/* get options */
-		for (let optionsItem of settingsPanel.querySelectorAll("input[data-settingsgroup=\"options\"]"))
+		for (let optionsItem of settingsUi.element.querySelectorAll("input[data-settingsgroup=\"options\"]"))
 		{
 			targetObj.options[optionsItem.getAttribute("data-settingskey")] = optionsItem.checked;
 		}

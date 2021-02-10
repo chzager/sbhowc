@@ -88,21 +88,29 @@ class Warband
 			result += unit.toString().replace(RegExp(unitSeparator, "g"), "+");
 		};
 		result = result.replace(/\s/g, "+") + unitSeparator;
-		return encodeURI(result);
+		return result;
 	};
 
-	fromString(warbandString, specialrulesDictionary)
+	fromString(string, specialrulesDictionary)
 	{
 		let unitSeparator = Warband.UNIT_SEPARATOR;
-		warbandString = decodeURI(warbandString).trim();
-		if (warbandString.indexOf("v1") === 0)
+		let lines = string.split("\n");
+		let warbandCode = "";
+		for (let line of lines)
+		{
+			if (line.trim().startsWith("#") === false)
+			{
+				warbandCode += decodeURI(line.replaceAll(/\s/g, ""));
+			};
+		};
+		if (warbandCode.indexOf("v1") === 0)
 		{
 			this.clear();
-			warbandString = warbandString.replace(/[+]/g, " ");
-			this.name = warbandString.substring(2, warbandString.indexOf(unitSeparator));
+			warbandCode = warbandCode.replace(/[+]/g, " ");
+			this.name = warbandCode.substring(2, warbandCode.indexOf(unitSeparator));
 			let unitsRegex = /@([^@]+)/g;
 			let unitsFind;
-			while (unitsFind = unitsRegex.exec(warbandString))
+			while (unitsFind = unitsRegex.exec(warbandCode))
 			{
 				let unit = new Unit();
 				unit.fromString(unitsFind[1], "v1", specialrulesDictionary);
@@ -111,7 +119,7 @@ class Warband
 		}
 		else
 		{
-			throw new Error("Can not determine data version in warband code \"" + warbandString + "\".");
+			throw new Error("Can not determine data version in warband code \"" + warbandCode + "\".");
 		};
 	};
 };

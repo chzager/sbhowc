@@ -13,7 +13,7 @@
 .classicview table.unit {
 	border: none;
 	border-collapse: collapse;
-	border-spacing: 0px;
+	border-spacing: 0em;
 	table-layout: fixed;
 	width: 100%;
 	max-width: 500px;
@@ -67,8 +67,8 @@
 	border: 1px solid rgba(92, 92, 92, 0.7);
 	border-radius: 0.15em;
 	box-shadow: 0.1em 0.1em 0.5em #00000040;
-	padding: 0px;
-	margin: 0px;
+	padding: 0em;
+	margin: 0em;
 	display: none;
 	}
 
@@ -87,7 +87,7 @@
 .classicview.interactive table.unit [data-action="removespecialrule"]:hover + span +span {
 	text-decoration: line-through;
 	color: red;
-	cursor: default;
+	cursor: pointer;
 	}
 
 .classicview.interactive table.unit [data-editor="additionaltext"]:focus {
@@ -108,8 +108,7 @@
 	border: 2px dashed #bdbdbd;
 	background-color: #f3f3f3;
 	background: linear-gradient(to bottom, #f9f9f9 50%,#efefef 100%);
-	font-family: 'Roboto', sans-serif;
-	font-size: 13px;
+	font-family: var(--sans-font);
 	text-align: center;
 	padding: 1.5em;
 	border-radius: 1em;

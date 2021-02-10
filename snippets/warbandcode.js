@@ -9,29 +9,41 @@ See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
 
 var warbandcode = {};
 
+warbandcode.element = null;
+
 warbandcode.show = function ()
 {
-	if (document.getElementById("warbandcode") === null)
+	warbandcode.element = document.getElementById("warbandcode");
+	if (warbandcode.element !== null)
 	{
-		let variables =
+		for (let node of warbandcode.element.querySelectorAll(".notification"))
 		{
-			"warbandcode": owc.warband.toString()
+			node.addEventListener("animationend", () => node.classList.remove("visible"));
 		};
-		document.body.appendChild(pageSnippets.produce("warbandcode", warbandcode, variables));
-	};
-	let warbandcodePanel = document.getElementById("warbandcode");
-	let warbandcodeEditor = warbandcodePanel.querySelector("textarea");
-	warbandcodeEditor.value = owc.warband.toString();
-	owc.ui.showBluebox(warbandcodePanel);
+
+		// warbandcodePanel.querySelector("textarea").value = owc.warband.toString();
+	warbandcode.element.querySelector("#includeComments").checked = owc.settings.options.warbandcodeIncludesComments;
+	warbandcode.includeCommentsClick();
+};
+	owc.ui.showBluebox(warbandcode.element);
+};
+
+warbandcode.includeCommentsClick = function(clickEvent)
+{
+	let optionChekced = warbandcode.element.querySelector("#includeComments").checked;
+	owc.settings.options.warbandcodeIncludesComments = optionChekced;
+	warbandcode.element.querySelector("textarea").value = owc.getWarbandCode(optionChekced);
 };
 
 warbandcode.applyClick = function (clickEvent)
 {
 	let codeIsValid = false;
 	let lastGoodWarbandCode = owc.warband.toString();
-	let newWarbandCode = document.querySelector("#warbandcode textarea").value.replace(/[\s]/g, "");
+	let newWarbandCode = document.querySelector("#warbandcode textarea").value;
 	try
 	{
+		owc.editor.setUndoPoint("Apply warband code");
+		console.log(newWarbandCode);
 		owc.warband.fromString(newWarbandCode, owc.resources.data);
 		codeIsValid = true;
 	}
@@ -42,28 +54,20 @@ warbandcode.applyClick = function (clickEvent)
 	if (codeIsValid === true)
 	{
 		owc.importWarband(newWarbandCode);
+		owc.ui.sweepVolatiles();
+		owc.ui.printWarband();
 	}
 	else
 	{
+		owc.editor.undoer.undo();
 		owc.warband.fromString(lastGoodWarbandCode, owc.resources.data);
-		window.alert("The warband code you have entered is invalid.");
+		warbandcode.element.querySelector("#invalidBubble").classList.add("visible");
 	};
-};
-
-warbandcode.closeClick = function (clickEvent)
-{
-	owc.ui.sweepVolatiles();
 };
 
 warbandcode.copyToClipboardClick = function (clickEvent)
 {
-	let warbandcodeEditor = document.querySelector("#warbandcode textarea");
-	warbandcodeEditor.select();
+	document.querySelector("#warbandcode textarea").select();
 	document.execCommand("copy");
-	document.querySelector("#warbandcode .copiedNotification").classList.add("copiedNotification-visible");
-	/* remove animation style after animation ends */
-	window.setTimeout(() =>
-	{
-		document.querySelector("#warbandcode .copiedNotification").classList.remove("copiedNotification-visible")
-	}, 6000);
+	warbandcode.element.querySelector("#copiedBubble").classList.add("visible");
 };
