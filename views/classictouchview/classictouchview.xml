@@ -3,7 +3,7 @@
 	<dht:stylesheet src="../views-core.css"/>
 	<dht:stylesheet src="../classicview/classicview.css"/>
 	<dht:stylesheet src="../touchcore.css"/>
-	<dht:script src="../touchCore.js"/>
+	<dht:script src="../touchcore.js"/>
 	<dht:script src="classictouchview.js"/>
 	<dht:snippet name="classictouchview">
 		<div class="classicview screenfx interactive touch">
