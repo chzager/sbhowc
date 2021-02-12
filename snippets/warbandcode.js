@@ -20,8 +20,6 @@ warbandcode.show = function ()
 		{
 			node.addEventListener("animationend", () => node.classList.remove("visible"));
 		};
-
-		// warbandcodePanel.querySelector("textarea").value = owc.warband.toString();
 	warbandcode.element.querySelector("#includeComments").checked = owc.settings.options.warbandcodeIncludesComments;
 	warbandcode.includeCommentsClick();
 };
@@ -37,28 +35,18 @@ warbandcode.includeCommentsClick = function(clickEvent)
 
 warbandcode.applyClick = function (clickEvent)
 {
-	let codeIsValid = false;
 	let lastGoodWarbandCode = owc.warband.toString();
 	let newWarbandCode = document.querySelector("#warbandcode textarea").value;
+	owc.editor.setUndoPoint("Apply warband code");
 	try
-	{
-		owc.editor.setUndoPoint("Apply warband code");
-		console.log(newWarbandCode);
-		owc.warband.fromString(newWarbandCode, owc.resources.data);
-		codeIsValid = true;
-	}
-	catch (ex)
-	{
-		console.error(ex.message);
-	};
-	if (codeIsValid === true)
 	{
 		owc.importWarband(newWarbandCode);
 		owc.ui.sweepVolatiles();
 		owc.ui.printWarband();
 	}
-	else
+	catch (ex)
 	{
+		console.error(ex.message);
 		owc.editor.undoer.undo();
 		owc.warband.fromString(lastGoodWarbandCode, owc.resources.data);
 		warbandcode.element.querySelector("#invalidBubble").classList.add("visible");
