@@ -125,27 +125,11 @@ formsCore.dispatchEditorEvent = function (editorEvent)
 			eventOrigin = eventOrigin.parentNode;
 		};
 	};
-	let unitIndex;
 	let unitNode = eventOrigin.closest("[data-unitindex]");
-	if (unitNode !== null)
-	{
-		unitIndex = unitNode.getAttribute("data-unitindex");
-	};
-	let specialruleIndex;
+	let unitIndex = (unitNode !== null) ? Number(unitNode.getAttribute("data-unitindex")) : null;
 	let specialruleNode = eventOrigin.closest("[data-specialruleindex]");
-	if (specialruleNode !== null)
-	{
-		specialruleIndex = specialruleNode.getAttribute("data-specialruleindex");
-	};
-	let eventValue;
-	if (eventOrigin.value !== undefined)
-	{
-		eventValue = eventOrigin.value;
-	}
-	else
-	{
-		eventValue = eventOrigin.innerText;
-	};
+	let specialruleIndex = (specialruleNode !== null) ? Number(specialruleNode.getAttribute("data-specialruleindex")) : null;
+	let eventValue  = (eventOrigin.value !== undefined) ? eventOrigin.value : eventOrigin.innerText;
 	let editorEventData =
 	{
 		"detail":

@@ -20,7 +20,6 @@ classictouchview.init = function ()
 	classictouchview.refreshUnit = touchCore.refreshUnit;
 	classictouchview.refreshWarbandSummary = touchCore.refreshWarbandSummary;
 	classictouchview.refreshPasteUnitButton = touchCore.refreshPasteUnitButton;
-	classictouchview.dispatchEditorEvent = touchCore.dispatchEditorEvent;
 	classictouchview.makeEditable = touchCore.makeEditable;
 	(owc.ui.isPrinting === false) ? window.addEventListener("resize", classictouchview.onWindowResize) : null;
 	classictouchview.onWindowResize();

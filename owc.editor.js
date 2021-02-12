@@ -24,8 +24,8 @@ owc.editor.eventListener = function (editorEvent)
 	let action = (editorEvent.detail.action !== undefined) ? editorEvent.detail.action : "set-" + editorEvent.detail.editor;
 	console.debug("owc.editor.eventListener()", action, editorEvent.detail);
 	let undoPoints = owc.editor.undoer.snapshots.length;
-	let unitIndex = Number(editorEvent.detail.unitIndex);
-	let specialruleIndex = Number(editorEvent.detail.specialruleIndex);
+	let unitIndex = editorEvent.detail.unitIndex;
+	let specialruleIndex = editorEvent.detail.specialruleIndex;
 	switch (action)
 	{
 	case "set-warbandname":
