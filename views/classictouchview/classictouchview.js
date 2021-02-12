@@ -77,7 +77,9 @@ classictouchview.listUnits = function (refNode)
 	let addItemsCell = refNode.querySelectorAll("#unitsgrid > tr > td")[owc.warband.units.length];
 	addItemsCell.removeAttribute("data-unitindex");
 	addItemsCell.id = "additmes-container";
-	let variables = {		"add-unit": owc.helper.translate("addUnit")
+	let variables =
+	{
+		"add-unit": owc.helper.translate("addUnit")
 	};
 	addItemsCell.appendChild(pageSnippets.produce("add-unit", touchCore, variables));
 };

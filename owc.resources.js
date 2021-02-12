@@ -136,7 +136,8 @@ owc.resources.import = function (urls, callback)
 	);
 };
 
-owc.resources.defaultText = function (resourceId, placeholders = {})
+owc.resources.defaultText = function (resourceId, placeholders = {}
+)
 {
 	let result = owc.resources.data[resourceId][owc.resources.DEFAULT_LANGUAGE];
 	for (let key in placeholders)
@@ -146,7 +147,8 @@ owc.resources.defaultText = function (resourceId, placeholders = {})
 	return result;
 };
 
-owc.resources.translate = function (resourceId, toLanguage, placeholders = {})
+owc.resources.translate = function (resourceId, toLanguage, placeholders = {}
+)
 {
 	let result = "";
 	let resource = owc.resources.data[resourceId];

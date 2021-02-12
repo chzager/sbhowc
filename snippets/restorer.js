@@ -25,11 +25,14 @@ restorer.getSelectedPid = function ()
 {
 	let result = null;
 	let selectedItem = document.getElementById("restorer-table-frame").querySelector(".selected");
+	/*
 	if (selectedItem !== null)
 	{
 		result = selectedItem.getAttribute("data-id");
 	};
 	return result;
+	*/
+	return (selectedItem !== null) ? selectedItem.getAttribute("data-id") : null;
 };
 
 restorer.storageItemClick = function (clickEvent)
@@ -47,9 +50,10 @@ restorer.restoreClick = function (clickEvent)
 	let selectedPid = restorer.getSelectedPid();
 	if (selectedPid !== null)
 	{
-		let pidParam = {};
-		pidParam[owc.urlParam.pid] = selectedPid;
-		window.location.reloadWithParams(pidParam, ["console"]);
+		window.location.replace(window.location.setParams(
+			{
+				[owc.urlParam.pid]: selectedPid
+			}, ["console"]));
 	};
 };
 

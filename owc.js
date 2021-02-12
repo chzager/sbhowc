@@ -18,9 +18,9 @@ owc.urlParam =
 
 owc.meta =
 {
-	"title": "Online Warband Creator for Song of Blades and Heroes",
-	"version": "Feb21 draft",
-	"origin": "https://suppenhuhn79.github.io/sbhowc"
+	"TITLE": "Online Warband Creator for Song of Blades and Heroes",
+	"VERSION": "Feb21 draft",
+	"ORIGIN": "https://suppenhuhn79.github.io/sbhowc"
 };
 
 owc.warband = null;
@@ -34,7 +34,7 @@ owc.init = function ()
 		let text = node.innerText;
 		for (let key in owc.meta)
 		{
-			text = text.replace("{{" + key + "}}", owc.meta[key]);
+			text = text.replace("{{" + key.toLowerCase() + "}}", owc.meta[key]);
 		};
 		node.innerText = text;
 	};
@@ -217,14 +217,10 @@ owc.getWarbandCode = function (includeComments = owc.settings.options.warbandcod
 	if (includeComments === true)
 	{
 		let now = new Date();
-		result += "# " + owc.warband.name + "\n";
-		let node = document.getElementById("warbandfooter").querySelector("p");
-		if (node.innerText !== "")
-		{
-			result += "# " + node.innerText + "\n";
-		};
+		result += "# " + owc.helper.nonBlankWarbandName() + "\n";
+		result += "# " + owc.helper.warbandSummary() + "\n";
 		result += "# " + now.toIsoFormatText() + "\n";
-		result += "# " + owc.meta.origin + "\n";
+		result += "# " + owc.meta.ORIGIN + "\n";
 		result += "\n";
 	};
 	result += owc.warband.toString();
@@ -235,25 +231,57 @@ owc.getWarbandCode = function (includeComments = owc.settings.options.warbandcod
 owc.helper = {};
 owc.helper.nonBlankUnitName = (unit) => (unit.name.trim() !== "") ? unit.name : owc.helper.translate("defaultUnitName");
 owc.helper.nonBlankWarbandName = () => (owc.warband.name.trim() !== "") ? owc.warband.name : owc.helper.translate("defaultWarbandName");
+owc.helper.warbandSummary = () => document.getElementById("warbandfooter").querySelector("p").innerText;
 owc.helper.translate = (key, variables) => owc.resources.translate(key, owc.settings.language, variables);
 
 owc.share = {};
 owc.share = function (protocol)
 {
-	let params = {};
-	params[owc.urlParam.warband] = owc.warband.toString();
-	let url = window.location.setParams(params, ["console"]);
-	console.log("owc.share", protocol, url);
+	function _unicodify(text, chars = "")
+	{
+		chars = "%" + chars;
+		for (let c = 0, cc = chars.length; c < cc; c += 1)
+		{
+			text = text.replaceAll(chars[c], "%" + chars.charCodeAt(c).toString(16));
+		};
+		return text;
+	};
+	let url = window.location.setParams(
+	{
+		[owc.urlParam.warband]: owc.warband.toString()
+	}, ["console"]);
 	switch (protocol)
 	{
 	case "whatsapp":
-		let s = "whatsapp://send?text=" + document.head.querySelector("meta[property=\"og:description\"]").getAttribute("content") + "%0D%0A%0D%0A" + url;
-		console.log(s);
-		window.location.replace(s);
+		{
+			/* need to escape characters:  %  +  */
+			let s = "whatsapp://send?text=*" + owc.helper.nonBlankWarbandName() + "*%0d%0a" + _unicodify(owc.helper.warbandSummary()) + "%0d%0a" + _unicodify(url, "+");
+			console.log("owc.share()", protocol, s);
+			window.open(s);
+		};
+		break;
+	case "facebook":
+		{
+			let s = "https://www.facebook.com/sharer/sharer.php?u=<URL>&t=<TITLE>"
+				console.log("owc.share()", protocol, s);
+		};
+		break;
+	case "twitter":
+		{
+			/* max tweet lenght: 280 chars */
+			let title = owc.helper.nonBlankWarbandName() + "%0a";
+			let s = "https://twitter.com/share?url=" + _unicodify(decodeURI(url), "+") + "&text=" + title;
+			console.log("owc.share()", protocol, s);
+			window.open(s);
+		};
+		break;
+	case "email":
+		window.open("mailto:?subject=" + owc.helper.nonBlankWarbandName() + " - " + owc.meta.TITLE + "&body=" + url);
+		break;
+	case "link":
+		window.open(url);
 		break;
 	default:
-		window.location.replace(url);
+		console.warn("owc.share()", "Unknown protocol \"" + protocol + "\"");
 	};
-	// document.head.title = owc.warband.name;
-	// window.location.replace("whatsapp://send?text=" + document.head.querySelector("meta[property=\"og:title\"]").getAttribute("content") + "\r\n" + window.location.setParams(params, false, false));
 };

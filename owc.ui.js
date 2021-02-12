@@ -93,9 +93,9 @@ owc.ui.refreshWarbandName = function ()
 
 owc.ui.refreshWindowTitle = function ()
 {
-	let params = {};
-	params[owc.urlParam.warband] = owc.warband.toString();
-	document.title = owc.helper.nonBlankWarbandName() + " (" + owc.warband.points + " " + owc.resources.translate("points", owc.settings.language) + ") - " + owc.meta.title;
+	// let params = {};
+	// params[owc.urlParam.warband] = owc.warband.toString();
+	document.title = owc.helper.nonBlankWarbandName() + " (" + owc.warband.points + " " + owc.resources.translate("points", owc.settings.language) + ") - " + owc.meta.TITLE;
 	// document.head.querySelector("meta[property=\"og:title\"]").setAttribute("content", owc.meta.title);
 	// document.head.querySelector("meta[property=\"og:url\"]").setAttribute("content", window.location.setParams(params, false, false));
 	// document.head.querySelector("meta[property=\"og:description\"]").setAttribute("content", owc.helper.nonBlankWarbandName() + " (" + owc.warband.figureCount + " " + owc.resources.defaultText("figures") +", "+ owc.warband.points + " " + owc.resources.defaultText("points") + ")");

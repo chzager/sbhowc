@@ -67,9 +67,10 @@ owc.topMenu.shareClick = function (clickEvent)
 
 owc.topMenu.newWarbandClick = function (clickEvent)
 {
-	let params = {};
-	params[owc.urlParam.pid] = owc.generateNewPid();
-	window.open(window.location.setParams(params, ["console"]));
+	window.open(window.location.setParams(
+		{
+			[owc.urlParam.pid]: owc.generateNewPid()
+		}, ["console"]));
 };
 
 owc.topMenu.showWarbandCodeClick = function (clickEvent)
@@ -86,9 +87,10 @@ owc.topMenu.restoreWarbandClick = function (clickEvent)
 
 owc.topMenu.printPreviewClick = function (clickEvent)
 {
-	let params = {};
-	params[owc.urlParam.print] = "1";
-	window.open(window.location.setParams(params, ["pid", "console"]));
+	window.open(window.location.setParams(
+		{
+			[owc.urlParam.print]: "1"
+		}, ["pid", "console"]));
 };
 
 owc.topMenu.showSettingsClick = function (clickEvent)

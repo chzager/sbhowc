@@ -5,6 +5,12 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
+		<!-- OpenGraph social media -->
+		<meta property="og:title" content="Online Warband Creator" />
+		<!-- <meta property="og:url" content="{{origin}}" /> -->
+		<meta property="og:description" content="for Song of Blades and Heroes"/>
+		<meta property="og:type" content="website" />
+
 		<!-- Google Fonts -->
 		<link href="https://fonts.googleapis.com/css2?family=Norican&display=swap" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css2?family=Roboto&family=Source+Serif+Pro:wght@400;600&display=swap" rel="stylesheet">
@@ -73,10 +79,10 @@
 		<div id="share-popup" style="height: 0px; overflow: hidden;">
 			<div>
 				<div onclick="owc.share('whatsapp');"><i class="fab fa-whatsapp"></i> WhatsApp</div>
-				<div><i class="fab fa-facebook-f"></i> Facebook</div>
-				<div><i class="fab fa-twitter"></i> Twitter</div>
-				<div><i class="fas fa-envelope"></i> E-Mail</div>
-				<div onclick="owc.share();"><i class="fas fa-link"></i>Create Link</div>
+				<div onclick="owc.share('facebook');"><i class="fab fa-facebook-f"></i> Facebook</div>
+				<div onclick="owc.share('twitter');"><i class="fab fa-twitter"></i> Twitter</div>
+				<div onclick="owc.share('email');"><i class="fas fa-envelope"></i> E-Mail</div>
+				<div onclick="owc.share('link');"><i class="fas fa-link"></i>Create Link</div>
 			</div>
 		</div>
 
