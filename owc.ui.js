@@ -27,12 +27,6 @@ owc.ui.init = function ()
 		owc.ui.blurElement = document.getElementById("blur");
 		window.addEventListener("click", owc.ui.sweepVolatiles);
 	};
-	owc.ui.initView()
-};
-
-owc.ui.onWindowResize = function (resizeEvent)
-{
-	htmlBuilder.adjust(document.getElementById("top-menu-popup"), document.getElementById("top-menu-toggle-button"), "below bottom, start left");
 };
 
 owc.ui.initView = function ()
@@ -42,15 +36,19 @@ owc.ui.initView = function ()
 	{
 		owc.ui.visualizer.unload();
 	};
-	let viewFullName = owc.settings.viewMode + "view";
-	pageSnippets.import("./views/" + viewFullName + "/" + viewFullName + ".xml").then(() =>
+	let viewFullname = owc.settings.viewMode + "view";
+	/* if view is not loaded yet, we will import it; then initView() again. */
+	if (window[viewFullname] === undefined)
 	{
-		owc.ui.visualizer = window[viewFullName];
+		pageSnippets.import("./views/" + viewFullname + "/" + viewFullname + ".xml").then(owc.ui.initView);
+	}
+	else
+	{
+		owc.ui.visualizer = window[viewFullname];
 		owc.ui.visualizer.init();
 		owc.ui.printWarband();
 		owc.ui.waitEnd();
-	}
-	);
+	};
 };
 
 owc.ui.printUnit = function (unitIndex)

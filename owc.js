@@ -50,8 +50,22 @@ owc.init = function ()
 	};
 	owc.settings.load();
 	owc.editor.init();
+	owc.ui.init();
 	/* fetchResources() runs asynchronously; when finished, it calls owc.main() */
 	owc.fetchResources();
+	/* load additional parts, asynchronously */
+	if (owc.ui.isPrinting === false)
+	{
+		fileIo.fetchServerFile("./res/didyouknow.json").then((values) =>
+		{
+			owc.didYouKnow = new DidYouKnow(document.getElementById("didyouknow_text"), values.hints);
+			owc.didYouKnow.printRandomHint();
+		}
+		);
+		pageSnippets.import("./snippets/warbandcode.xml").then(() => document.body.appendChild(pageSnippets.produce("warbandcode", warbandcode)));
+		pageSnippets.import("./snippets/restorer.xml").then(() => document.body.appendChild(pageSnippets.produce("restorer", restorer)));
+		pageSnippets.import("./snippets/settings.xml").then(() => document.body.appendChild(pageSnippets.produce("settings", settingsUi)));
+	};
 };
 
 owc.main = function ()
@@ -99,20 +113,7 @@ owc.main = function ()
 	};
 	/* continue initialization */
 	owc.editor.buildSpecialrulesCollection();
-	owc.ui.init();
-	if (owc.ui.isPrinting === false)
-	{
-		/* load additional parts; let's do this parallel asynchronous */
-		fileIo.fetchServerFile("./res/didyouknow.json").then((values) =>
-		{
-			owc.didYouKnow = new DidYouKnow(document.getElementById("didyouknow_text"), values.hints);
-			owc.didYouKnow.printRandomHint();
-		}
-		);
-		pageSnippets.import("./snippets/warbandcode.xml").then(() => document.body.appendChild(pageSnippets.produce("warbandcode", warbandcode)));
-		pageSnippets.import("snippets/restorer.xml").then(() => document.body.appendChild(pageSnippets.produce("restorer", restorer)));
-		pageSnippets.import("./snippets/settings.xml").then(() => document.body.appendChild(pageSnippets.produce("settings", settingsUi)));
-	};
+	owc.ui.initView();
 	/* We won't waitEnd() here, because there is an async process running: rendering in initView() */
 };
 
