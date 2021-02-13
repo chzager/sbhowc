@@ -262,7 +262,7 @@ owc.share = function (protocol)
 		break;
 	case "facebook":
 		{
-			let s = "https://www.facebook.com/sharer/sharer.php?u=<URL>&t=<TITLE>"
+			let s = "https://www.facebook.com/sharer/sharer.php?u=<URL>&t=<TITLE>";
 				console.log("owc.share()", protocol, s);
 		};
 		break;

@@ -31,24 +31,22 @@ owc.ui.init = function ()
 
 owc.ui.initView = function ()
 {
-	owc.ui.wait("Rendering");
+	owc.ui.wait("Loading");
 	if (owc.ui.visualizer !== null)
 	{
 		owc.ui.visualizer.unload();
 	};
 	let viewFullname = owc.settings.viewMode + "view";
-	/* if view is not loaded yet, we will import it; then initView() again. */
-	if (window[viewFullname] === undefined)
+	/* we will always reload the view template; snippets may have been overwritten by previously selected views */
+	pageSnippets.import("./views/" + viewFullname + "/" + viewFullname + ".xml").then(() =>
 	{
-		pageSnippets.import("./views/" + viewFullname + "/" + viewFullname + ".xml").then(owc.ui.initView);
-	}
-	else
-	{
+		owc.ui.wait("Rendering");
 		owc.ui.visualizer = window[viewFullname];
 		owc.ui.visualizer.init();
 		owc.ui.printWarband();
 		owc.ui.waitEnd();
-	};
+	}
+	);
 };
 
 owc.ui.printUnit = function (unitIndex)

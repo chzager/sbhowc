@@ -85,7 +85,7 @@ formsCore.onMenuboxEvent = function (menuboxEvent)
 		"detail":
 		{
 			"action": menuboxEvent.detail.itemKey,
-			"unitIndex": menuboxEvent.detail.context,
+			"unitIndex": Number(menuboxEvent.detail.context),
 			"originalEvent": menuboxEvent
 		}
 	};
