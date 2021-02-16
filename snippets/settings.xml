@@ -5,7 +5,7 @@
 	<dht:snippet name="settings">
 		<div id="settings" class="blue" onclick="event.stopPropagation();">
 			<div class="blue-viewport">
-				<h1><i class="fas fa-times" onclick="owc.ui.sweepVolatiles();"></i>Settings</h1>
+				<h1><i class="fas fa-times" dht:onclick="close"></i>Settings</h1>
 				<div class="panel">
 					<p>Select what expansions you want to use special rules from.</p>
 					<div>
@@ -50,7 +50,7 @@
 					</span>
 					<span>
 						<input type="radio" id="view_mode_list" data-settingsgroup="view_mode" data-settingskey="list" name="view_mode"/>
-						<label for="view_mode_list">Compact list</label>
+						<label for="view_mode_list">Broad list, better for bigger screens</label>
 					</span>
 				</div>
 				<div class="panel">

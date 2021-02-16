@@ -2,6 +2,7 @@ div.blue {
 	background-color: white;
 	padding: 0rem 4rem 0rem 2rem;
 	position: fixed;
+	-webkit-backface-visibility: hidden;	
 	top: 0px;
 	left: 100%;
 	margin-left: 2rem;
@@ -92,4 +93,26 @@ div.blue div.buttons input[type="button"] {
 	margin-left: 0.2em;
 	padding: 0.1em 1em;
 	cursor: pointer;
+	}
+
+div.blue .notification {
+	border: 0.2rem solid;
+	padding: 0.3em;
+	box-shadow: 0.05em 0.05em 0.2em #00000080;
+	margin-top: -0.2em;
+	left: 2rem;
+	font-weight: normal;
+	border-radius: 0.4em;
+	display: inline-block;
+	}
+div.blue .notification.visible {
+	visibility: visible;
+  animation-name: fadeout;
+  animation-duration: 4s;
+	}
+@keyframes fadeout {
+  0%   {opacity: 0;}
+  10%  {opacity: 1;}
+  75%  {opacity: 1;}
+  100% {opacity: 0;}
 	}

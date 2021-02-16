@@ -5,7 +5,7 @@
 	<dht:snippet name="restorer">
 		<div id="restorer" class="blue" onclick="event.stopPropagation();">
 			<div class="blue-viewport">
-				<h1><i class="fas fa-times" onclick="owc.ui.sweepVolatiles();"></i>Restore warband</h1>
+				<h1><i class="fas fa-times" dht:onclick="close"></i>Restore warband</h1>
 				<div class="panel">
 					<p>Warbands are cached within your browser using its localStorage.</p>
 					<div class="warning">
@@ -19,6 +19,7 @@
 				<div class="buttons">
 					<input type="button" value="restore" dht:onclick="restoreClick"/>
 					<input type="button" value="discard" dht:onclick="discardClick"/>
+					<div id="deletedBubble" class="notification yellow">Warband deleted.</div>
 				</div>
 			</div>
 		</div>

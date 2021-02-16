@@ -21,17 +21,12 @@ restorer.show = function ()
 	restorer.listStoredData();
 };
 
+restorer.close = () => owc.ui.sweepVolatiles();
+
 restorer.getSelectedPid = function ()
 {
 	let result = null;
 	let selectedItem = document.getElementById("restorer-table-frame").querySelector(".selected");
-	/*
-	if (selectedItem !== null)
-	{
-		result = selectedItem.getAttribute("data-id");
-	};
-	return result;
-	*/
 	return (selectedItem !== null) ? selectedItem.getAttribute("data-id") : null;
 };
 
@@ -50,18 +45,25 @@ restorer.restoreClick = function (clickEvent)
 	let selectedPid = restorer.getSelectedPid();
 	if (selectedPid !== null)
 	{
-		window.location.replace(window.location.setParams(
-			{
-				[owc.urlParam.pid]: selectedPid
-			}, ["console"]));
+		restorer.close();
+		owc.setPid(selectedPid);
+		owc.restoreWarband();
+		owc.ui.printWarband();
 	};
 };
 
 restorer.discardClick = function (clickEvent)
 {
 	clickEvent.stopPropagation();
-	localStorage.removeItem(restorer.getSelectedPid());
-	restorer.listStoredData();
+	let selectedPid = restorer.getSelectedPid();
+	if (selectedPid !== null)
+	{
+		localStorage.removeItem(selectedPid);
+		let deletedBubble = document.getElementById("deletedBubble");
+		deletedBubble.style.left = Math.floor(document.querySelector("#restorer input[value=\"discard\"]").getBoundingClientRect().x - document.getElementById("restorer").getBoundingClientRect().x) + "px";
+		owc.ui.showNotification(deletedBubble);
+		restorer.listStoredData();
+	};
 };
 
 restorer.tableheaderClick = function (clickEvent)

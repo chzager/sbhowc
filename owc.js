@@ -48,6 +48,7 @@ owc.init = function ()
 	{
 		htmlBuilder.removeNodesByQuerySelectors([".noprint", ".tooltip"]);
 	};
+	owc.warband = new Warband();
 	owc.settings.load();
 	owc.editor.init();
 	owc.ui.init();
@@ -71,50 +72,54 @@ owc.init = function ()
 owc.main = function ()
 {
 	console.debug("owc.main()");
-	owc.warband = new Warband();
 	/* getting PID (https://github.com/Suppenhuhn79/sbhowc/issues/13#issuecomment-774077538) */
-	owc.pid = window.location.getParam(owc.urlParam.pid);
-	console.debug("PID from url:", owc.pid);
-	if (owc.pid === "")
+	let pid = window.location.getParam(owc.urlParam.pid);
+	console.debug("PID from url:", pid);
+	if (pid === "")
 	{
 		if (owc.isPid(window.name) === true)
 		{
 			console.debug("getting PID from window.name:", window.name);
-			owc.pid = window.name;
+			pid = window.name;
 		}
 		else
 		{
-			owc.pid = owc.generateNewPid();
-			console.debug("generating new PID:", owc.pid);
+			pid = owc.generateNewPid();
+			console.debug("generating new PID:", pid);
 		};
 	};
+	owc.setPid(pid);
 	let warbandCodeUrl = window.location.getParam(owc.urlParam.warband);
 	if (warbandCodeUrl !== "")
 	{
 		console.debug("importing warband from url");
 		owc.importWarband(warbandCodeUrl);
-	};
-	console.debug("finally PID is:", owc.pid);
-	/* storing PID into window.name so it' preserved on page refresh */
-	window.name = owc.pid;
-	/* trying to restore warband from localStorage */
-	let storedData = storager.retrieve(owc.pid);
-	if (storedData === null)
-	{
-		owc.editor.newWarband();
 	}
 	else
 	{
-		let warbandCode = storedData.data;
-		if (warbandCode !== "")
+		/* trying to restore warband from localStorage */
+		if (owc.restoreWarband() === false)
 		{
-			owc.warband.fromString(warbandCode, owc.resources.data);
+			owc.editor.newWarband();
 		};
 	};
+	console.debug("finally PID is:", owc.pid);
 	/* continue initialization */
 	owc.editor.buildSpecialrulesCollection();
 	owc.ui.initView();
 	/* We won't waitEnd() here, because there is an async process running: rendering in initView() */
+};
+
+owc.setPid = function (pid)
+{
+	owc.pid = pid;
+	history.replaceState({}, "", window.location.setParams(
+		{
+			[owc.urlParam.pid]: owc.pid
+		}
+		));
+	/* storing PID into window.name so it' preserved on page refresh */
+	window.name = owc.pid;
 };
 
 owc.isPid = (string) => (/^(?=\D*\d)[\d\w]{6}$/.test(string));
@@ -182,21 +187,36 @@ owc.storeWarband = function (pid = owc.pid)
 	};
 };
 
-owc.importWarband = function (warbandText)
+owc.restoreWarband = function ()
 {
-	console.debug("owc.importWarband", warbandText);
-	owc.warband.fromString(warbandText, owc.resources.data);
-	let warbandCode = owc.warband.toString();
+	let result = false;
+	let storedData = storager.retrieve(owc.pid);
+	if ((!!storedData) && (storedData.data !== ""))
+	{
+		owc.warband.fromString(storedData.data, owc.resources.data);
+		owc.ui.notify("Warband restored.");
+		result = true;
+	};
+	return result;
+};
+
+owc.importWarband = function (warbandCode)
+{
+	let tempWarband = new Warband();
+	tempWarband.fromString(warbandCode, owc.resources.data);
+	warbandCode = tempWarband.toString();
+	console.debug("owc.importWarband", warbandCode);
 	let found = false;
 	for (let key in localStorage)
 	{
-		if (owc.isPid(key) === true)
+		if (owc.isPid(key))
 		{
 			let storedWarbandCode = JSON.parse(localStorage[key]).data;
 			if (storedWarbandCode === warbandCode)
 			{
 				console.debug("found warband stored at pid", key);
-				owc.pid = key;
+				owc.setPid(key);
+				owc.restoreWarband();
 				found = true;
 				break;
 			}
@@ -204,11 +224,13 @@ owc.importWarband = function (warbandText)
 	};
 	if (found === false)
 	{
-		owc.pid = owc.generateNewPid();
+		owc.setPid(owc.generateNewPid());
 		console.debug("not found in localStorage");
+		owc.warband.fromString(warbandCode, owc.resources.data);
 		owc.storeWarband(owc.pid);
+		owc.ui.notify("New warband imported.");
 	};
-	window.name = owc.pid;
+	return !found;
 };
 
 owc.getWarbandCode = function (includeComments = owc.settings.options.warbandcodeIncludesComments)
@@ -249,21 +271,22 @@ owc.share = function (protocol)
 	let url = window.location.setParams(
 	{
 		[owc.urlParam.warband]: owc.warband.toString()
-	}, ["console"]);
+	}
+		);
 	switch (protocol)
 	{
 	case "whatsapp":
 		{
 			/* need to escape characters:  %  +  */
-			let s = "whatsapp://send?text=*" + owc.helper.nonBlankWarbandName() + "*%0d%0a" + _unicodify(owc.helper.warbandSummary()) + "%0d%0a" + _unicodify(url, "+");
+			let s = "whatsapp://send?text=*" + _unicodify(document.title, "*") + "*%0d%0a" + _unicodify(url, "+");
 			console.log("owc.share()", protocol, s);
 			window.open(s);
 		};
 		break;
 	case "facebook":
 		{
-			let s = "https://www.facebook.com/sharer/sharer.php?u=<URL>&t=<TITLE>";
-				console.log("owc.share()", protocol, s);
+			let s = "https://www.facebook.com/sharer/sharer.php?u=" + url + "&t=" + document.title;
+			console.log("owc.share()", protocol, s);
 		};
 		break;
 	case "twitter":
@@ -276,10 +299,23 @@ owc.share = function (protocol)
 		};
 		break;
 	case "email":
-		window.open("mailto:?subject=" + owc.helper.nonBlankWarbandName() + " - " + owc.meta.TITLE + "&body=" + url);
+		window.open("mailto:?subject=" + document.title + "&body=" + url);
 		break;
 	case "link":
-		window.open(url);
+		history.replaceState({}, "", url);
+		owc.ui.notify("Link created. Ready to share.");
+		break;
+	case "browser":
+		if (typeof navigator.share === "function")
+		{
+			navigator.share(
+			{
+				"title": document.title,
+				"text": owc.helper.warbandSummary(),
+				"url": url
+			}
+			).then(() => null, (reason) => console.error(reason));
+		};
 		break;
 	default:
 		console.warn("owc.share()", "Unknown protocol \"" + protocol + "\"");

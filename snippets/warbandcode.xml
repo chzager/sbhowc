@@ -5,7 +5,7 @@
 	<dht:snippet name="warbandcode">
 		<div id="warbandcode" class="blue" onclick="event.stopPropagation();">
 			<div class="blue-viewport">
-				<h1><i class="fas fa-times" onclick="owc.ui.sweepVolatiles();"></i>Warband code</h1>
+				<h1><i class="fas fa-times" dht:onclick="close"></i>Warband code</h1>
 				<div class="panel">
 					<p>You can copy this code to a text-file and save your warband. Or you can enter a code here to restore a warband.</p>
 					<textarea autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
@@ -14,17 +14,11 @@
 							<label for="includeComments">Include human-readable comments</label>
 						</span>
 					<input type="button" value="copy to clipboard" dht:onclick="copyToClipboardClick"/>
-					<div id="copiedBubble" class="notification green">
-						<i class="fas fa-check-circle"></i>
-						The code was copied to your system clipboard.
-					</div>
+					<div id="copiedBubble" class="notification green">The code was copied to your system clipboard.</div>
 				</div>
 				<div class="buttons">
 					<input type="button" value="apply" dht:onclick="applyClick"/>
-					<div id="invalidBubble" class="notification red" style="opacity: 1;">
-						<i class="fas fa-times-circle"></i>
-						This is not a valid warband code.
-					</div>
+					<div id="invalidBubble" class="notification red">This is not a valid warband code.</div>
 				</div>
 			</div>
 		</div>

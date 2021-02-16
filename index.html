@@ -6,10 +6,10 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<!-- OpenGraph social media -->
-		<meta property="og:title" content="Online Warband Creator" />
+		<!-- <meta property="og:title" content="Online Warband Creator" /> -->
 		<!-- <meta property="og:url" content="{{origin}}" /> -->
-		<meta property="og:description" content="for Song of Blades and Heroes"/>
-		<meta property="og:type" content="website" />
+		<!-- <meta property="og:description" content="for Song of Blades and Heroes"/> -->
+		<!-- <meta property="og:type" content="website" /> -->
 
 		<!-- Google Fonts -->
 		<link href="https://fonts.googleapis.com/css2?family=Norican&display=swap" rel="stylesheet">
@@ -69,7 +69,6 @@
 		</div>
 		<div id="top-menu-popup" style="height: 0px; overflow: hidden;">
 			<div>
-				<!-- <div onclick="owc.topMenu.newWarbandClick(event);">New warband</div> -->
 				<div onclick="owc.topMenu.showWarbandCodeClick(event);">Show warband code</div>
 				<div onclick="owc.topMenu.restoreWarbandClick(event);">Restore Warband</div>
 				<div onclick="owc.topMenu.warbandFromFileClick(event);">Load from file</div>
@@ -82,17 +81,19 @@
 				<div onclick="owc.share('facebook');"><i class="fab fa-facebook-f"></i> Facebook</div>
 				<div onclick="owc.share('twitter');"><i class="fab fa-twitter"></i> Twitter</div>
 				<div onclick="owc.share('email');"><i class="fas fa-envelope"></i> E-Mail</div>
-				<div onclick="owc.share('link');"><i class="fas fa-link"></i>Create Link</div>
+				<div onclick="owc.share('browser');" id="share-more"><i class="fas fa-ellipsis-h"></i>More...</div>
+				<div onclick="owc.share('link');" id="share-link"><i class="fas fa-link"></i>Create Link</div>
 			</div>
 		</div>
-
 
 		<div id="top-menu-floater" class="viewport noprint">
 			<i class="fas fa-fw fa-undo-alt" id="undo-button" onclick="owc.editor.undo();"></i>
 		</div>
 
-		<div id="warbandCanvas" class="viewport">&#160;</div>
+		<div id="master-notification" class="notification noprint green"></div>
 
+		<div id="warbandCanvas" class="viewport">&#160;</div>
+		
 		<div class="viewport only-print">
 				<p data-autofill="yes">Created with {{title}}, {{version}}, {{origin}}</p>
 			</div>

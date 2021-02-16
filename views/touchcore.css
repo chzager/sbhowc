@@ -49,6 +49,10 @@ div[data-menubox="unitMenu"] {
 	color: #808080;
 	}
 
+[contenteditable="true"] {
+	outline: none;
+	}
+
 /* touch menu */
 
 div[data-menubox].touchmenu {

@@ -43,6 +43,8 @@ settingsUi.show = function ()
 	owc.ui.showBluebox(settingsUi.element);
 };
 
+settingsUi.close = () => owc.ui.sweepVolatiles();
+
 settingsUi.applySettings = function ()
 {
 	function _applyFromGui(targetObj)
@@ -76,7 +78,8 @@ settingsUi.applySettings = function ()
 		}
 	};
 	_applyFromGui(owc.settings);
-	owc.ui.sweepVolatiles();
+	settingsUi.close();
 	owc.settings.save();
 	owc.fetchResources();
+	owc.ui.notify("Settings applied.");
 };

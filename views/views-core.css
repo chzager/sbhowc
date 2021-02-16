@@ -92,12 +92,15 @@ select { cursor: pointer; padding: 0em 0.2em; }
 	}
 
 #warbandCanvas #warbandfooter .rule-violation:before {
-	content: "\24D8";
+	content: "\f06a";
+	font-family: 'Font Awesome 5 Free';
+	font-weight: 900;
+	font-size: 0.8em;
 	color: red;
 	display: inline-block;
 	position: relative;
-	margin-left: -1.2em;
-	width: 1.2em;
+	margin-left: -1.5em;
+	width: 1.3em;
 	}
 
 @media print {

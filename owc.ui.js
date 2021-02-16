@@ -117,6 +117,38 @@ owc.ui.refreshUndoButton = function ()
 	};
 };
 
+owc.ui.notify = function (text, color = "green")
+{
+	let element = document.getElementById("master-notification");
+	if (!!element)
+	{
+		if (element.classList.contains("visible") === false)
+		{
+			for (let cssClass of element.classList.values())
+			{
+				if (cssClass !== "notification")
+				{
+					element.classList.remove(cssClass);
+				};
+			};
+			element.innerHTML = text;
+			element.classList.add(color);
+			element.style.left = Math.round((document.body.clientWidth - element.getBoundingClientRect().width) / 2) + "px"
+				owc.ui.showNotification(element);
+		};
+	};
+};
+
+owc.ui.showNotification = function (element, cssClass = "visible")
+{
+	element.classList.add(cssClass);
+	element.addEventListener("animationend", () => element.classList.remove(cssClass),
+	{
+		"once": true
+	}
+	);
+};
+
 owc.ui.showBluebox = function (element)
 {
 	function _pixelValue(text)

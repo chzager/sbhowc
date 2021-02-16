@@ -17,6 +17,15 @@ owc.topMenu.init = function ()
 {
 	window.addEventListener(owc.ui.sweepvolatilesEvent, owc.topMenu.closePopupMenu);
 	window.addEventListener(owc.ui.sweepvolatilesEvent, owc.topMenu.closeShareMenu);
+	console.debug("navigator.share:", navigator.share);
+	if (typeof navigator.share !== "function")
+	{
+		document.getElementById("share-more").remove();
+	}
+	else
+	{
+		document.getElementById("share-link").remove();
+	};
 };
 
 owc.topMenu.preparePopup = function ()
@@ -38,7 +47,7 @@ owc.topMenu.closePopupMenu = function ()
 {
 	owc.topMenu.toggleButton.classList.remove("fa-angle-double-up");
 	owc.topMenu.toggleButton.classList.add("fa-angle-double-down");
-	owc.topMenu.popupMenu.style.height = "0px"
+	owc.topMenu.popupMenu.style.height = "0px";
 };
 
 owc.topMenu.warbandMenuClick = function (clickEvent)
@@ -56,7 +65,7 @@ owc.topMenu.openShareMenu = function ()
 
 owc.topMenu.closeShareMenu = function ()
 {
-	owc.topMenu.sharePopup.style.height = "0px"
+	owc.topMenu.sharePopup.style.height = "0px";
 };
 
 owc.topMenu.shareClick = function (clickEvent)
@@ -111,7 +120,7 @@ owc.topMenu.warbandFromFileClick = function (clickEvent)
 		catch (ex)
 		{
 			console.error(ex);
-			window.alert("Your file does not provide a valid warband code.");
+			owc.ui.notify("Your file does not provide a valid warband code.", "red");
 		};
 	}
 	);

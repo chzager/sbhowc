@@ -11,39 +11,5 @@
 	padding: 0.5em;
 	border-radius: 0.5em;
 	cursor: text;
-	}
-
-#warbandcode .notification {
-	border: 0.2rem solid;
-	padding: 0.3em;
-	box-shadow: 0.05em 0.05em 0.2em #00000080;
-	margin-top: -0.2em;
-	left: 2rem;
-	font-weight: normal;
-	border-radius: 0.4em;
-	opacity: 0;
-	visibility: hidden;
-	display: inline-block;
-	position: absolute;
-	}
-#warbandcode .notification.green {
-	border-color: var(--color-green-font);
-	background-color: var(--color-green-background);
-	color: var(--color-green-font);
-	}
-#warbandcode .notification.red {
-	border-color: var(--color-red-font);
-	background-color: var(--color-red-background);
-	color: var(--color-red-font);
-	}
-#warbandcode .notification.visible {
-	visibility: visible;
-  animation-name: fadeout;
-  animation-duration: 5s;
-	}
-@keyframes fadeout {
-  0%   {opacity: 0;}
-  10%  {opacity: 1;}
-  75%  {opacity: 1;}
-  100% {opacity: 0;}
+	outline: none;
 	}

@@ -22,6 +22,8 @@
 	--color-red-background: #fcc;
 	--color-green-font: #529b20;
 	--color-green-background: #d2eeca;
+	--color-yellow-font: #7d7603;
+	--color-yellow-background: #fff776;
 
 	--icon-size: 1.5rem;
 	--icon-space: 0.3em;
@@ -32,6 +34,7 @@
 	--z-index-top-menu-floater: 1;
 	--z-index-warband: 0;
 	--z-index-footer: 1;
+	--z-index-loading-wrapper: 8;
 	--z-index-topmost: 10;
 	}
 
@@ -332,19 +335,16 @@ a[target="_blank"]:hover {
 
 #loading-wrapper {
 	position: fixed;
+	-webkit-backface-visibility: hidden;	
 	top: 35vh;
 	left: 30%;
 	width: 40%;
-	/* width: 80%; */
-/* max-width: 800px; */
-/* margin-left: auto; */
-/* margin-right: auto; */
 	background-color: #ffffff;
 	padding: 1em 1.5em;
 	border-radius: 1em;
 	box-shadow: 1rem 1rem 4rem rgba(0, 0, 0, 0.4);
 	cursor: wait;
- 	z-index: var(--z-index-topmost);
+ 	z-index: var(--z-index-loading-wrapper);
 	}
 @media screen and (max-width: 1000px) {
 	#loading-wrapper { left: 10%; width: 80%; }
@@ -377,6 +377,7 @@ a[target="_blank"]:hover {
 	}
 #blur {
 	position: fixed;
+	-webkit-backface-visibility: hidden;	
 	top: 0em;
 	left: 0em;
 	height: 100%;
@@ -394,6 +395,7 @@ a[target="_blank"]:hover {
 
 #printoverlay {
 	position: fixed;
+	-webkit-backface-visibility: hidden;	
 	top: 0em;
 	left: 0em;
 	height: 100%;
@@ -431,3 +433,72 @@ div.tooltip * {
 *:hover > div.tooltip {
 	visibility: visible !important;
 }
+
+#master-notification {
+	border: 0.2rem solid;
+	padding: 0.5em;
+	box-shadow: 0.3rem 0.3rem 1rem #00000080;
+	font-weight: normal;
+	font-size: 1.3rem;
+	border-radius: 0.8em;
+	display: block;
+	top: 35vh;
+	position: fixed;
+	-webkit-backface-visibility: hidden;	
+	opacity: 0;
+	visibility: hidden;
+	z-index: var(--z-index-topmost);
+	}
+#master-notification.notification.visible {
+	visibility: visible;
+  animation-name: flyout;
+  animation-duration: 4s;
+	}
+@keyframes flyout {
+	  0% {opacity: 0;}
+	  5% {transform: scale(1.2);}
+	 10% {transform: scale(1);
+	      opacity: 1;}
+	 75% {opacity: 1;
+	      transform: translate(0px, 0px);}
+	100% {opacity: 0;
+	      transform: translate(0px, -25vh);}
+	}
+
+.notification {
+	font-family: var(--sans-font);
+	font-weight: normal;
+	opacity: 0;
+	visibility: hidden;
+	position: absolute;
+	}
+.notification.green {
+	border-color: var(--color-green-font);
+	background-color: var(--color-green-background);
+	color: var(--color-green-font);
+	}
+.notification.green:before {
+content: '\f058\20';
+	font-family: 'Font Awesome 5 Free';
+	font-weight: 900;
+	}
+.notification.yellow {
+	border-color: var(--color-yellow-font);
+	background-color: var(--color-yellow-background);
+	color: var(--color-yellow-font);
+	}
+.notification.yellow:before {
+	content: '\f05a\20';
+	font-family: 'Font Awesome 5 Free';
+	font-weight: 900;
+	}
+.notification.red {
+	border-color: var(--color-red-font);
+	background-color: var(--color-red-background);
+	color: var(--color-red-font);
+	}
+.notification.red:before {
+	content: '\f057\20';
+	font-family: 'Font Awesome 5 Free';
+	font-weight: 900;
+	}
