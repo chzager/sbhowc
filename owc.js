@@ -183,7 +183,7 @@ owc.storeWarband = function ()
 	/* do not store an empty warband (#17) */
 	if (owc.warband.isEmpty === false)
 	{
-		storager.store(pid, owc.helper.nonBlankWarbandName() + "[[" + owc.warband.figureCount + ";" + owc.warband.points + "]]", warbandCode);
+		storager.store(owc.pid, owc.helper.nonBlankWarbandName() + "[[" + owc.warband.figureCount + ";" + owc.warband.points + "]]", warbandCode);
 	};
 };
 
