@@ -7,7 +7,7 @@
 			<div class="blue-viewport">
 				<h1><i class="fas fa-times" dht:onclick="close"></i>Settings</h1>
 				<div class="panel">
-					<p>Select what expansions you want to use special rules from.</p>
+					<p>Select expansions to use special rules from.</p>
 					<div>
 						<span>
 							<input type="checkbox" id="rulesScopeSbh" data-settingsgroup="rules_scope" data-settingskey="sbh" disabled="disabled" checked="checked"/>

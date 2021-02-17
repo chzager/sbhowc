@@ -443,7 +443,7 @@ div.tooltip * {
 	border-radius: 0.8em;
 	display: block;
 	top: 35vh;
-	position: fixed;
+	position: absolute;
 	-webkit-backface-visibility: hidden;	
 	opacity: 0;
 	visibility: hidden;
