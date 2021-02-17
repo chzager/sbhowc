@@ -74,17 +74,12 @@ owc.main = function ()
 	console.debug("owc.main()");
 	/* getting PID (https://github.com/Suppenhuhn79/sbhowc/issues/13#issuecomment-774077538) */
 	let pid = window.location.getParam(owc.urlParam.pid);
-	console.debug("owc.pid:", owc.pid, "url:", pid, "window:", window.name);
 	if (pid === "")
 	{
 		if (owc.isPid(window.name) === true)
 		{
-			// console.debug("getting PID from window.name:", window.name);
+			console.debug("getting PID from window.name:", window.name);
 			pid = window.name;
-		}
-		else
-		{
-			pid = owc.generateNewPid();
 		};
 	};
 	let warbandCodeUrl = window.location.getParam(owc.urlParam.warband);
