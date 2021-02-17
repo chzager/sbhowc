@@ -74,21 +74,19 @@ owc.main = function ()
 	console.debug("owc.main()");
 	/* getting PID (https://github.com/Suppenhuhn79/sbhowc/issues/13#issuecomment-774077538) */
 	let pid = window.location.getParam(owc.urlParam.pid);
-	console.debug("PID from url:", pid);
+	console.debug("owc.pid:", owc.pid, "url:", pid, "window:", window.name);
 	if (pid === "")
 	{
 		if (owc.isPid(window.name) === true)
 		{
-			console.debug("getting PID from window.name:", window.name);
+			// console.debug("getting PID from window.name:", window.name);
 			pid = window.name;
 		}
 		else
 		{
 			pid = owc.generateNewPid();
-			console.debug("generating new PID:", pid);
 		};
 	};
-	owc.setPid(pid);
 	let warbandCodeUrl = window.location.getParam(owc.urlParam.warband);
 	if (warbandCodeUrl !== "")
 	{
@@ -98,12 +96,13 @@ owc.main = function ()
 	else
 	{
 		/* trying to restore warband from localStorage */
-		if (owc.restoreWarband() === false)
+		if (owc.restoreWarband(pid) === false)
 		{
 			owc.editor.newWarband();
+			owc.setPid(pid);
 		};
 	};
-	console.debug("finally PID is:", owc.pid);
+	console.debug("finally PID is", owc.pid);
 	/* continue initialization */
 	owc.editor.buildSpecialrulesCollection();
 	owc.ui.initView();
@@ -112,14 +111,17 @@ owc.main = function ()
 
 owc.setPid = function (pid)
 {
-	owc.pid = pid;
-	history.replaceState({}, "", window.location.setParams(
-		{
-			[owc.urlParam.pid]: owc.pid
-		}
-		));
-	/* storing PID into window.name so it' preserved on page refresh */
-	window.name = owc.pid;
+	if (owc.pid !== pid)
+	{
+		owc.pid = pid;
+		history.replaceState({}, "", window.location.setParams(
+			{
+				[owc.urlParam.pid]: owc.pid
+			}, ["console"]));
+		/* storing PID into window.name so it' preserved on page refresh */
+		window.name = owc.pid;
+		console.debug("PID set to", owc.pid);
+	};
 };
 
 owc.isPid = (string) => (/^(?=\D*\d)[\d\w]{6}$/.test(string));
@@ -145,6 +147,7 @@ owc.generateNewPid = function ()
 	{
 		result = owc.generateNewPid();
 	};
+	console.debug("generated new PID:", result);
 	return result;
 };
 
@@ -174,27 +177,25 @@ owc.fetchResources = function ()
 	owc.resources.import(requiredResoures).then(owc.main);
 };
 
-owc.storeWarband = function (pid = owc.pid)
+owc.storeWarband = function ()
 {
-	if (pid !== "")
+	let warbandCode = owc.warband.toString();
+	/* do not store an empty warband (#17) */
+	if (owc.warband.isEmpty === false)
 	{
-		let warbandCode = owc.warband.toString();
-		/* do not store an empty warband (#17) */
-		if (owc.warband.isEmpty === false)
-		{
-			storager.store(pid, owc.helper.nonBlankWarbandName() + "[[" + owc.warband.figureCount + ";" + owc.warband.points + "]]", warbandCode);
-		};
+		storager.store(pid, owc.helper.nonBlankWarbandName() + "[[" + owc.warband.figureCount + ";" + owc.warband.points + "]]", warbandCode);
 	};
 };
 
-owc.restoreWarband = function ()
+owc.restoreWarband = function (pid = owc.pid)
 {
 	let result = false;
-	let storedData = storager.retrieve(owc.pid);
+	let storedData = storager.retrieve(pid);
 	if ((!!storedData) && (storedData.data !== ""))
 	{
 		owc.warband.fromString(storedData.data, owc.resources.data);
 		owc.ui.notify("Warband restored.");
+		owc.setPid(pid);
 		result = true;
 	};
 	return result;
@@ -215,8 +216,7 @@ owc.importWarband = function (warbandCode)
 			if (storedWarbandCode === warbandCode)
 			{
 				console.debug("found warband stored at pid", key);
-				owc.setPid(key);
-				owc.restoreWarband();
+				owc.restoreWarband(key);
 				found = true;
 				break;
 			}
@@ -227,7 +227,7 @@ owc.importWarband = function (warbandCode)
 		owc.setPid(owc.generateNewPid());
 		console.debug("not found in localStorage");
 		owc.warband.fromString(warbandCode, owc.resources.data);
-		owc.storeWarband(owc.pid);
+		owc.storeWarband();
 		owc.ui.notify("New warband imported.");
 	};
 	return !found;

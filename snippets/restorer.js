@@ -46,8 +46,7 @@ restorer.restoreClick = function (clickEvent)
 	if (selectedPid !== null)
 	{
 		restorer.close();
-		owc.setPid(selectedPid);
-		owc.restoreWarband();
+		owc.restoreWarband(selectedPid);
 		owc.ui.printWarband();
 	};
 };

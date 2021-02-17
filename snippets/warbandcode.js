@@ -10,10 +10,12 @@ See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
 var warbandcode = {};
 
 warbandcode.element = null;
+warbandcode.textarea = null;
 
 warbandcode.show = function ()
 {
 	warbandcode.element = document.getElementById("warbandcode");
+	warbandcode.textarea = warbandcode.element.querySelector("textarea");
 	warbandcode.element.querySelector("#includeComments").checked = owc.settings.options.warbandcodeIncludesComments;
 	warbandcode.includeCommentsClick();
 	owc.ui.showBluebox(warbandcode.element);
@@ -25,20 +27,17 @@ warbandcode.includeCommentsClick = function (clickEvent)
 {
 	let optionChekced = warbandcode.element.querySelector("#includeComments").checked;
 	owc.settings.options.warbandcodeIncludesComments = optionChekced;
-	warbandcode.element.querySelector("textarea").value = owc.getWarbandCode(optionChekced);
+	warbandcode.textarea.value = owc.getWarbandCode(optionChekced);
 };
 
 warbandcode.applyClick = function (clickEvent)
 {
 	let lastGoodWarbandCode = owc.warband.toString();
-	let newWarbandCode = document.querySelector("#warbandcode textarea").value;
+	let newWarbandCode = warbandcode.textarea.value;
 	owc.editor.setUndoPoint("Apply warband code.");
 	try
 	{
-		if (owc.importWarband(newWarbandCode) === false)
-		{
-			owc.restoreWarband();
-		};
+		owc.importWarband(newWarbandCode);
 		warbandcode.close();
 		owc.ui.printWarband();
 	}
@@ -53,7 +52,8 @@ warbandcode.applyClick = function (clickEvent)
 
 warbandcode.copyToClipboardClick = function (clickEvent)
 {
-	document.querySelector("#warbandcode textarea").select();
+	warbandcode.textarea.select();
 	document.execCommand("copy");
 	owc.ui.showNotification(warbandcode.element.querySelector("#copiedBubble"));
+	warbandcode.textarea.blur();
 };
