@@ -53,7 +53,7 @@ settingsUi.applySettings = function ()
 		targetObj.ruleScope = [];
 		for (let rulesScopeCheck of settingsUi.element.querySelectorAll("input[data-settingsgroup=\"rules_scope\"]"))
 		{
-			if (rulesScopeCheck.checked === true)
+			if (rulesScopeCheck.checked)
 			{
 				let val = rulesScopeCheck.getAttribute("data-settingskey");
 				targetObj.ruleScope.push(val);
@@ -65,7 +65,7 @@ settingsUi.applySettings = function ()
 		/* get view mode */
 		for (let availibleViewMode of settingsUi.element.querySelectorAll("input[data-settingsgroup=\"view_mode\"]"))
 		{
-			if (availibleViewMode.checked === true)
+			if (availibleViewMode.checked)
 			{
 				targetObj.viewMode = availibleViewMode.getAttribute("data-settingskey");
 				break;

@@ -123,7 +123,7 @@ touchCore.onValueEdited = function (editorEvent)
 	};
 	for (let attribute of eventOrigin.attributes)
 	{
-		if (attribute.nodeName.startsWith("data-") === true)
+		if (attribute.nodeName.startsWith("data-"))
 		{
 			editorEventData.detail[attribute.nodeName.substring(5)] = attribute.nodeValue;
 		};
@@ -207,7 +207,7 @@ touchCore.onSpecialrulesClick = function (clickEvent)
 			"selected": true
 		};
 		let specialruleText = owc.helper.translate(owc.warband.units[unitIndex].specialrules[s].key);
-		if (specialruleText.includes("...") === true)
+		if (specialruleText.includes("..."))
 		{
 			specialruleText = specialruleText.replace("...", owc.warband.units[unitIndex].specialrules[s].additionalText);
 			menuItem["key"] += "." + s;
@@ -321,7 +321,7 @@ touchCore.refreshUnit = function (unitIndex, refNode = null)
 	let unit = owc.warband.units[unitIndex];
 	let nameEditorNode = refNode.querySelector("[data-editor=\"name\"]");
 	nameEditorNode.innerText = owc.helper.nonBlankUnitName(unit);
-	if ((unit.isPersonality === true) && (owc.settings.options.highlightPersonalities === true))
+	if ((unit.isPersonality) && (owc.settings.options.highlightPersonalities))
 	{
 		nameEditorNode.classList.add("personality");
 	}
@@ -416,7 +416,7 @@ touchCore.refreshWarbandSummary = function ()
 		"warband-summary": warbandSummaryText,
 		"rule-violations": []
 	};
-	if (owc.settings.options.applyRuleChecks === true)
+	if (owc.settings.options.applyRuleChecks)
 	{
 		for (let rulecheckResult of owc.rulecheck.checkAll())
 		{

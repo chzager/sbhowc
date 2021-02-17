@@ -38,7 +38,7 @@ listview.getWarbandHtml = function ()
 		"add-unit": owc.helper.translate("addUnit")		
 	};
 	result = pageSnippets.produce("listview", listview, variables);
-	if (owc.ui.isPrinting === true)
+	if (owc.ui.isPrinting)
 	{
 		htmlBuilder.removeNodesByQuerySelectors(["select", "input", ".specialruleEditorSeparator", ".addunit"], result);
 		htmlBuilder.removeClasses(["interactive", "screenfx", "out-of-scope"], result);

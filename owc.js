@@ -76,7 +76,7 @@ owc.main = function ()
 	let pid = window.location.getParam(owc.urlParam.pid);
 	if (pid === "")
 	{
-		if (owc.isPid(window.name) === true)
+		if (owc.isPid(window.name))
 		{
 			console.debug("getting PID from window.name:", window.name);
 			pid = window.name;
@@ -231,7 +231,7 @@ owc.importWarband = function (warbandCode)
 owc.getWarbandCode = function (includeComments = owc.settings.options.warbandcodeIncludesComments)
 {
 	let result = "";
-	if (includeComments === true)
+	if (includeComments)
 	{
 		let now = new Date();
 		result += "# " + owc.helper.nonBlankWarbandName() + "\n";

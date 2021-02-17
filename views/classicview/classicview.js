@@ -44,7 +44,7 @@ classicview.getWarbandHtml = function ()
 		"default-warband-name": owc.helper.translate("defaultWarbandName")
 	};
 	result = pageSnippets.produce("classicview", classicview, variables);
-	if (owc.ui.isPrinting === true)
+	if (owc.ui.isPrinting)
 	{
 		htmlBuilder.removeNodesByQuerySelectors(["select", "input", ".specialruleEditorSeparator", ".addunit"], result);
 		htmlBuilder.removeClasses(["interactive", "screenfx", "out-of-scope"], result);

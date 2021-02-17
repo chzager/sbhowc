@@ -142,7 +142,7 @@ formsCore.dispatchEditorEvent = function (editorEvent)
 	};
 	for (let attribute of eventOrigin.attributes)
 	{
-		if (attribute.nodeName.startsWith("data-") === true)
+		if (attribute.nodeName.startsWith("data-"))
 		{
 			editorEventData.detail[attribute.nodeName.substring(5)] = attribute.nodeValue;
 		};
@@ -163,7 +163,7 @@ formsCore.refreshUnit = function (unitIndex, refNode = null)
 	};
 	let unit = owc.warband.units[unitIndex];
 	refNode.querySelector("[data-editor=\"name\"]").innerText = owc.helper.nonBlankUnitName(unit);
-	if ((unit.isPersonality === true) && (owc.settings.options.highlightPersonalities === true))
+	if ((unit.isPersonality) && (owc.settings.options.highlightPersonalities))
 	{
 		refNode.querySelector("[data-editor=\"name\"]").classList.add("personality");
 	}
@@ -236,7 +236,7 @@ formsCore.refreshWarbandSummary = function ()
 		);
 	if (owc.warband.personalityPoints > 0)
 	{
-		if (owc.settings.options.personalitiesInPoints === true)
+		if (owc.settings.options.personalitiesInPoints)
 		{
 			warbandSummaryText += " (" + owc.helper.translate("personalitiesPoints",
 			{
@@ -258,7 +258,7 @@ formsCore.refreshWarbandSummary = function ()
 		"warband-summary": warbandSummaryText,
 		"rule-violations": []
 	};
-	if (owc.settings.options.applyRuleChecks === true)
+	if (owc.settings.options.applyRuleChecks)
 	{
 		for (let rulecheckResult of owc.rulecheck.checkAll())
 		{

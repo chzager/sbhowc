@@ -105,7 +105,7 @@ owc.editor.buildSpecialrulesCollection = function ()
 	owc.editor.specialrulesList = [];
 	for (let key in owc.resources.data)
 	{
-		if (owc.settings.ruleScope.includes(owc.resources.data[key].scope) === true)
+		if (owc.settings.ruleScope.includes(owc.resources.data[key].scope))
 		{
 			owc.editor.specialrulesList.push(
 			{
@@ -148,7 +148,7 @@ owc.editor.setUndoPoint = function (undoText)
 
 owc.editor.undo = function ()
 {
-	if (owc.editor.undoer.canUndo === true)
+	if (owc.editor.undoer.canUndo)
 	{
 		owc.ui.undoButton.classList.add("animated");
 		owc.warband.fromString(owc.editor.undoer.undo(), owc.resources.data);

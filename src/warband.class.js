@@ -33,7 +33,7 @@ class Warband
 		let result = 0;
 		for (let unit of this.units)
 		{
-			result += (unit.isPersonality === true) ? unit.count * unit.points : 0;
+			result += (unit.isPersonality) ? unit.count * unit.points : 0;
 		};
 		return result;
 	};
@@ -64,7 +64,7 @@ class Warband
 		let result = [];
 		for (let unit of this.units)
 		{
-			if (unit.hasSpecialrule(specialruleKey) === true)
+			if (unit.hasSpecialrule(specialruleKey))
 			{
 				result.push(unit);
 			};

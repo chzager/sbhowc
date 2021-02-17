@@ -47,7 +47,7 @@ class Unit
 		let result = false;
 		for (let s = 0, ss = this.specialrules.length; s < ss; s += 1)
 		{
-			if (this.specialrules[s].isPersonality === true)
+			if (this.specialrules[s].isPersonality)
 			{
 				result = true;
 				break;
@@ -77,7 +77,7 @@ class Unit
 		if (resource !== undefined)
 		{
 			let hasAdditionalText = (specialrulesDictionary[specialruleKey][Unit.DEFALUT_TEXT_KEY].indexOf("...") > -1);
-			if ((this.hasSpecialrule(specialruleKey) === false) || (hasAdditionalText === true))
+			if ((this.hasSpecialrule(specialruleKey) === false) || (hasAdditionalText))
 			{
 				let specialrule =
 				{
@@ -85,7 +85,7 @@ class Unit
 					"points": resource.points,
 					"isPersonality": (resource.personality === true)
 				};
-				if (hasAdditionalText === true)
+				if (hasAdditionalText)
 				{
 					specialrule["additionalText"] = "...";
 				};

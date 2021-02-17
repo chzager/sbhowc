@@ -21,7 +21,7 @@ owc.settings.init = function ()
 		"warbandcodeIncludesComments": true
 	};
 	owc.settings.language = "en";
-	owc.settings.viewMode = (owc.ui.isTouchDevice === true) ? "classictouch" : "classic";
+	owc.settings.viewMode = (owc.ui.isTouchDevice) ? "classictouch" : "classic";
 };
 
 owc.settings.toJson = function ()
@@ -41,7 +41,7 @@ owc.settings.fromJson = function (jsonObject)
 	owc.settings.ruleScope = jsonObject.ruleScope;
 	for (let key in owc.settings.options)
 	{
-		if (jsonObject.hasOwnProperty(key) === true)
+		if (jsonObject.hasOwnProperty(key))
 		{
 			owc.settings.options[key] = jsonObject.options[key];
 		};

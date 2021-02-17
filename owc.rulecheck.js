@@ -14,7 +14,7 @@ owc.rulecheck.checkAll = function ()
 	let result = [];
 	for (let key in owc.rulecheck)
 	{
-		if ((typeof owc.rulecheck[key] === "function") && (key.startsWith("check") === true) && (key !== "checkAll"))
+		if ((typeof owc.rulecheck[key] === "function") && (key.startsWith("check")) && (key !== "checkAll"))
 		{
 			let checkResult = owc.rulecheck[key]();
 			if (checkResult !== null)
@@ -172,7 +172,7 @@ owc.rulecheck.checkExcludes = function ()
 				{
 					for (let excluding of excludings)
 					{
-						if ((unit.hasSpecialrule(excluding) === true) && (index.includes(excluding + unit.specialrules[s].key) === false))
+						if ((unit.hasSpecialrule(excluding)) && (index.includes(excluding + unit.specialrules[s].key) === false))
 						{
 							let checkResult =
 							{

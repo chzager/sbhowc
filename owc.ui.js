@@ -98,16 +98,16 @@ owc.ui.refreshUndoButton = function ()
 {
 	if (owc.ui.isPrinting === false)
 	{
-		let undoTooltip = owc.ui.undoButton.querySelector(".tooltip");
-		if (owc.editor.undoer.canUndo === true)
+		let undoTooltipElement = owc.ui.undoButton.querySelector(".tooltip");
+		if (owc.editor.undoer.canUndo)
 		{
 			owc.ui.undoButton.classList.remove("disabled");
-			(undoTooltip !== null) ? undoTooltip.innerHTML = "Undo: " + owc.editor.undoer.lastChangeDescription + "." : null;
+			(!!undoTooltipElement) ? undoTooltipElement.innerHTML = "Undo: " + owc.editor.undoer.lastChangeDescription + "." : null;
 		}
 		else
 		{
 			owc.ui.undoButton.classList.add("disabled");
-			(undoTooltip !== null) ? undoTooltip.innerHTML = "Nothing to undo." : null;
+			(!!undoTooltipElement) ? undoTooltipElement.innerHTML = "Nothing to undo." : null;
 		};
 	};
 };
