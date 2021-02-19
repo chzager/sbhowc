@@ -94,7 +94,7 @@ owc.main = function ()
 		if (owc.restoreWarband(pid) === false)
 		{
 			owc.editor.newWarband();
-			owc.setPid(pid);
+			owc.setPid(owc.generateNewPid());
 		};
 	};
 	console.debug("finally PID is", owc.pid);
