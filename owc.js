@@ -81,6 +81,10 @@ owc.main = function ()
 		{
 			console.debug("getting PID from window.name:", window.name);
 			pid = window.name;
+		}
+		else
+		{
+			pid = owc.newPid();
 		};
 	};
 	let warbandCodeUrl = window.location.getParam(owc.urlParam.warband);
@@ -95,7 +99,7 @@ owc.main = function ()
 		if (owc.restoreWarband(pid) === false)
 		{
 			owc.editor.newWarband();
-			owc.setPid(owc.newPid());
+			owc.setPid(pid);
 		};
 	};
 	console.debug("finally PID is", owc.pid);
@@ -238,7 +242,7 @@ owc.getWarbandCode = function (includeComments = owc.settings.options.warbandcod
 	return result;
 };
 
-owc.manageStorage = function()
+owc.manageStorage = function ()
 {
 	if ((!!localStorage) && (localStorage.getItem(owc.STORAGE_VERSION_KEY) !== owc.meta.VERSION))
 	{
