@@ -78,7 +78,7 @@ owc.topMenu.newWarbandClick = function (clickEvent)
 {
 	window.open(window.location.setParams(
 		{
-			[owc.urlParam.pid]: owc.generateNewPid()
+			[owc.urlParam.pid]: owc.newPid()
 		}, ["console"]));
 };
 

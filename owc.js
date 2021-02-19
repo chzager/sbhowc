@@ -94,7 +94,7 @@ owc.main = function ()
 		if (owc.restoreWarband(pid) === false)
 		{
 			owc.editor.newWarband();
-			owc.setPid(owc.generateNewPid());
+			owc.setPid(owc.newPid());
 		};
 	};
 	console.debug("finally PID is", owc.pid);
@@ -121,27 +121,20 @@ owc.setPid = function (pid)
 
 owc.isPid = (string) => (/^(?=\D*\d)[\d\w]{6}$/.test(string));
 
-owc.generateNewPid = function ()
+owc.newPid = function ()
 {
-	let result = "";
-	for (let c = 0; c < 6; c += 1)
+	let pid = [];
+	for (let i = 0; i < 6; i += 1)
 	{
-		let r = Math.floor(Math.random() * 36);
-		if (r < 10)
-		{
-			r += 48;
-		}
-		else
-		{
-			r += 97 - 10;
-		};
-		result += String.fromCharCode(r);
+		let c = Math.floor(Math.random() * 36);
+		pid.push(String.fromCharCode((c < 10) ? c + 48 : c - 10 + 97));
 	};
-	/* make sure PID contains at least one number */
-	if (/[0-9]/.test(result) === false)
+	/* make sure PID contains at least two numbers */
+	while (/\d.*\d/.test(pid.join("")) === false)
 	{
-		result = owc.generateNewPid();
+		pid[Math.floor(Math.random() * pid.length)] = String.fromCharCode(48 + Math.floor(Math.random() * 10));
 	};
+	let result = pid.join("");
 	console.debug("generated new PID:", result);
 	return result;
 };
@@ -219,7 +212,7 @@ owc.importWarband = function (warbandCode)
 	};
 	if (found === false)
 	{
-		owc.setPid(owc.generateNewPid());
+		owc.setPid(owc.newPid());
 		console.debug("not found in localStorage");
 		owc.warband.fromString(warbandCode, owc.resources.data);
 		owc.storeWarband();
