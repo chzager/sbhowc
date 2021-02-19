@@ -9,7 +9,7 @@ See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
 
 owc.editor =
 {
-	"UNIT_CLIPBOARD_KEY": "owcUnitClipboard",
+	"UNIT_CLIPBOARD_KEY": "owc.clipboard.unit",
 	"undoer": null,
 	"specialrulesList": []
 };
@@ -17,13 +17,13 @@ owc.editor =
 owc.editor.init = function ()
 {
 	owc.editor.undoer = new Undoer();
-	window.addEventListener("editor", owc.editor.eventListener);
+	window.addEventListener("editor", owc.editor.onEditorEvent);
 };
 
-owc.editor.eventListener = function (editorEvent)
+owc.editor.onEditorEvent = function (editorEvent)
 {
 	let action = (editorEvent.detail.action !== undefined) ? editorEvent.detail.action : "set-" + editorEvent.detail.editor;
-	console.debug("owc.editor.eventListener()", action, editorEvent.detail);
+	console.debug("owc.editor.onEditorEvent()", action, editorEvent.detail);
 	let undoPoints = owc.editor.undoer.snapshots.length;
 	let unitIndex = editorEvent.detail.unitIndex;
 	let specialruleIndex = editorEvent.detail.specialruleIndex;
@@ -197,7 +197,9 @@ owc.editor.duplicateUnit = function (unitIndex)
 
 owc.editor.copyUnitToClipboard = function (unitIndex)
 {
-	storager.store(owc.editor.UNIT_CLIPBOARD_KEY, owc.helper.nonBlankUnitName(owc.warband.units[unitIndex]), owc.warband.units[unitIndex].toString());
+	let clipboardUnit = Object.assign(new Unit(), owc.warband.units[unitIndex]);
+	clipboardUnit.count = 1;
+	storager.store(owc.editor.UNIT_CLIPBOARD_KEY, owc.helper.nonBlankUnitName(owc.warband.units[unitIndex]), clipboardUnit.toString());
 	owc.editor.manangeUnitClipboard();
 };
 

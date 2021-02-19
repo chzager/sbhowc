@@ -11,7 +11,7 @@ owc.settings = {};
 
 owc.settings.init = function ()
 {
-	owc.settings.STORAGE_KEY = "owcSettings";
+	owc.settings.STORAGE_KEY = "owc.settings";
 	owc.settings.ruleScope = ["sbh", "sgd", "sww"];
 	owc.settings.options =
 	{
