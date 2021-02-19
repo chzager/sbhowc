@@ -99,7 +99,7 @@ owc.topMenu.printPreviewClick = function (clickEvent)
 	window.open(window.location.setParams(
 		{
 			[owc.urlParam.print]: "1"
-		}, ["pid", "console"]));
+		}, ["pid", "print", "console"]));
 };
 
 owc.topMenu.showSettingsClick = function (clickEvent)

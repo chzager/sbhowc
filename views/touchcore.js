@@ -27,8 +27,11 @@ touchCore.init = function ()
 		"movedown": "Move unit down"
 	}
 		);
-	window.addEventListener("focus", touchCore.onWindowFocus);
-	window.addEventListener("menubox", touchCore.onMenuboxEvent);
+	if (owc.ui.isPrinting === false)
+	{
+		window.addEventListener("focus", touchCore.onWindowFocus);
+		window.addEventListener("menubox", touchCore.onMenuboxEvent);
+	};
 };
 
 touchCore.unload = function (menuboxEvent)

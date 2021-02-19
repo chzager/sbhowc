@@ -41,11 +41,11 @@
 	}
 
 .listview #units tr.unitsheader th.count { width: 7%; }
-.listview #units tr.unitsheader th.name { width: 32%; }
+.listview #units tr.unitsheader th.name { width: 27%; }
 .listview #units tr.unitsheader th.points { width: 8%; }
 .listview #units tr.unitsheader th.quality { width: 8%; }
 .listview #units tr.unitsheader th.combat { width: 8%; }
-.listview #units tr.unitsheader th.specialrules { width: 37%; }
+.listview #units tr.unitsheader th.specialrules { width: 42%; }
 
 .listview.interactive #units tr:hover {
 	background-color: #e0e8f8;

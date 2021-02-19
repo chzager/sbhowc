@@ -17,6 +17,7 @@ owc.ui.blurElement = null;
 
 owc.ui.init = function ()
 {
+	console.debug("owc.ui.isPrinting", owc.ui.isPrinting);
 	if (owc.ui.isPrinting === false)
 	{
 		owc.ui.undoButton = document.getElementById("undo-button");
@@ -45,6 +46,10 @@ owc.ui.initView = function ()
 		owc.ui.visualizer.init();
 		owc.ui.printWarband();
 		owc.ui.waitEnd();
+		if ((owc.ui.isPrinting) && (typeof window.print === "function"))
+		{
+			window.print();
+		};
 	}
 	);
 };

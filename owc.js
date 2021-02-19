@@ -115,7 +115,7 @@ owc.setPid = function (pid)
 		history.replaceState({}, "", window.location.setParams(
 			{
 				[owc.urlParam.pid]: owc.pid
-			}, ["console"]));
+			}, ["print", "console"]));
 		/* storing PID into window.name so it' preserved on page refresh */
 		window.name = owc.pid;
 		console.debug("PID set to", owc.pid);

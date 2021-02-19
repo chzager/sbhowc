@@ -63,11 +63,14 @@ formsCore.init = function ()
 		"movedown": "Move unit down"
 	}
 		);
-	window.addEventListener("focus", formsCore.onWindowFocus);
-	window.addEventListener("menubox", formsCore.onMenuboxEvent);
+	if (owc.ui.isPrinting === false)
+	{
+		window.addEventListener("focus", formsCore.onWindowFocus);
+		window.addEventListener("menubox", formsCore.onMenuboxEvent);
+	};
 };
 
-formsCore.unload = function(menuboxEvent)
+formsCore.unload = function (menuboxEvent)
 {
 	window.removeEventListener("focus", formsCore.onWindowFocus);
 	window.removeEventListener("menubox", formsCore.onMenuboxEvent);
@@ -129,7 +132,7 @@ formsCore.dispatchEditorEvent = function (editorEvent)
 	let unitIndex = (unitNode !== null) ? Number(unitNode.getAttribute("data-unitindex")) : null;
 	let specialruleNode = eventOrigin.closest("[data-specialruleindex]");
 	let specialruleIndex = (specialruleNode !== null) ? Number(specialruleNode.getAttribute("data-specialruleindex")) : null;
-	let eventValue  = (eventOrigin.value !== undefined) ? eventOrigin.value : eventOrigin.innerText;
+	let eventValue = (eventOrigin.value !== undefined) ? eventOrigin.value : eventOrigin.innerText;
 	let editorEventData =
 	{
 		"detail":
@@ -284,14 +287,18 @@ formsCore.refreshPasteUnitButton = function (clipboardData)
 	};
 	if (clipboardData !== null)
 	{
-	let variables =
-	{
-		"paste-unit": owc.helper.translate("pasteUnit", {"UNIT": clipboardData.title}),
-		"unit-name": clipboardData.title,
-		"unit-code": clipboardData.data
-	};
-	pasteUnitNode = pageSnippets.produce("paste-unit", formsCore, variables);
-	addunitContainer.appendChild(pasteUnitNode);
+		let variables =
+		{
+			"paste-unit": owc.helper.translate("pasteUnit",
+			{
+				"UNIT": clipboardData.title
+			}
+			),
+			"unit-name": clipboardData.title,
+			"unit-code": clipboardData.data
+		};
+		pasteUnitNode = pageSnippets.produce("paste-unit", formsCore, variables);
+		addunitContainer.appendChild(pasteUnitNode);
 	};
 };
 

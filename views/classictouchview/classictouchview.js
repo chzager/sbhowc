@@ -61,7 +61,7 @@ classictouchview.getWarbandHtml = function ()
 classictouchview.listUnits = function (refNode)
 {
 	let snippetName = "classictouchview-two-columns-row";
-	let requiredRows = Math.ceil((owc.warband.units.length + 1) / 2);
+	let requiredRows = Math.ceil((owc.warband.units.length + (((owc.ui.isPrinting) ? 0 : 1))) / 2);
 	if (classictouchview.columnCount === 1)
 	{
 		snippetName = "classictouchview-single-column-row";
@@ -74,14 +74,17 @@ classictouchview.listUnits = function (refNode)
 		refNode.appendChild(gridNode);
 	};
 	classictouchview.insertUnitSheets(refNode);
-	let addItemsCell = refNode.querySelectorAll("#unitsgrid > tr > td")[owc.warband.units.length];
-	addItemsCell.removeAttribute("data-unitindex");
-	addItemsCell.id = "additmes-container";
-	let variables =
+	if (owc.ui.isPrinting === false)
 	{
-		"add-unit": owc.helper.translate("addUnit")
+		let addItemsCell = refNode.querySelectorAll("#unitsgrid > tr > td")[owc.warband.units.length];
+		addItemsCell.removeAttribute("data-unitindex");
+		addItemsCell.id = "additmes-container";
+		let variables =
+		{
+			"add-unit": owc.helper.translate("addUnit")
+		};
+		addItemsCell.appendChild(pageSnippets.produce("add-unit", touchCore, variables));
 	};
-	addItemsCell.appendChild(pageSnippets.produce("add-unit", touchCore, variables));
 };
 
 classictouchview.insertUnitSheets = function (refNode)

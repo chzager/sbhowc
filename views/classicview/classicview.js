@@ -59,7 +59,7 @@ classicview.getWarbandHtml = function ()
 classicview.listUnits = function (refNode)
 {
 	let snippetName = "classicview-two-columns-row";
-	let requiredRows = Math.ceil((owc.warband.units.length + 1) / 2);
+	let requiredRows = Math.ceil((owc.warband.units.length + (((owc.ui.isPrinting) ? 0 : 1))) / 2);
 	if (classicview.columnCount === 1)
 	{
 		snippetName = "classicview-single-column-row";
@@ -72,10 +72,17 @@ classicview.listUnits = function (refNode)
 		refNode.appendChild(gridNode);
 	};
 	classicview.insertUnitSheets(refNode);
-	let addItemsCell = refNode.querySelectorAll("#unitsgrid > tr > td")[owc.warband.units.length];
-	addItemsCell.removeAttribute("data-unitindex");
-	addItemsCell.id = "additmes-container";
-	addItemsCell.appendChild(pageSnippets.produce("add-unit", formsCore, {"add-unit": owc.helper.translate("addUnit")}));
+	if (owc.ui.isPrinting === false)
+	{
+		let addItemsCell = refNode.querySelectorAll("#unitsgrid > tr > td")[owc.warband.units.length];
+		addItemsCell.removeAttribute("data-unitindex");
+		addItemsCell.id = "additmes-container";
+		addItemsCell.appendChild(pageSnippets.produce("add-unit", formsCore,
+			{
+				"add-unit": owc.helper.translate("addUnit")
+			}
+			));
+	};
 };
 
 classicview.insertUnitSheets = function (refNode)
