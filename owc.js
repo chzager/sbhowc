@@ -7,23 +7,23 @@ Licensed unter the GNU Affero General Public License, Version 3
 See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
  */
 
-let owc = {};
-
-owc.urlParam =
+let owc =
 {
-	"warband": "warband",
-	"print": "print",
-	"pid": "pid"
+	"urlParam":
+	{
+		"warband": "warband",
+		"print": "print",
+		"pid": "pid"
+	},
+	"meta":
+	{
+		"TITLE": "Online Warband Creator for Song of Blades and Heroes",
+		"VERSION": "Feb21 draft",
+		"ORIGIN": "https://suppenhuhn79.github.io/sbhowc"
+	},
+	"STORAGE_VERSION_KEY": "owc.version",
+	"warband": null
 };
-
-owc.meta =
-{
-	"TITLE": "Online Warband Creator for Song of Blades and Heroes",
-	"VERSION": "Feb21 draft",
-	"ORIGIN": "https://suppenhuhn79.github.io/sbhowc"
-};
-
-owc.warband = null;
 
 owc.init = function ()
 {
@@ -48,6 +48,7 @@ owc.init = function ()
 	{
 		htmlBuilder.removeNodesByQuerySelectors([".noprint", ".tooltip"]);
 	};
+	owc.manageStorage();
 	owc.warband = new Warband();
 	owc.settings.load();
 	owc.editor.init();
@@ -235,6 +236,22 @@ owc.getWarbandCode = function (includeComments = owc.settings.options.warbandcod
 	};
 	result += owc.warband.toString();
 	return result;
+};
+
+owc.manageStorage = function()
+{
+	if ((!!localStorage) && (localStorage.getItem(owc.STORAGE_VERSION_KEY) !== owc.meta.VERSION))
+	{
+		console.debug("Managing localStorage");
+		for (let key in localStorage)
+		{
+			if (owc.isPid(key) === false)
+			{
+				localStorage.removeItem(key);
+			};
+		};
+		localStorage.setItem(owc.STORAGE_VERSION_KEY, owc.meta.VERSION);
+	};
 };
 
 /* helper functions */
