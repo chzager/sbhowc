@@ -7,11 +7,12 @@ Licensed unter the GNU Affero General Public License, Version 3
 See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
  */
 
-owc.editor = {};
-
-owc.editor.UNIT_CLIPBOARD_KEY = "owcUnitClipboard";
-owc.editor.undoer = null;
-owc.editor.specialrulesList = [];
+owc.editor =
+{
+	"UNIT_CLIPBOARD_KEY": "owcUnitClipboard",
+	"undoer": null,
+	"specialrulesList": []
+};
 
 owc.editor.init = function ()
 {
@@ -153,6 +154,7 @@ owc.editor.undo = function ()
 		owc.ui.undoButton.classList.add("animated");
 		owc.warband.fromString(owc.editor.undoer.undo(), owc.resources.data);
 		owc.ui.printWarband();
+		owc.storeWarband();
 	};
 };
 
