@@ -21,7 +21,6 @@ let owc =
 		"VERSION": "Feb21 draft",
 		"ORIGIN": "https://suppenhuhn79.github.io/sbhowc"
 	},
-	"STORAGE_VERSION_KEY": "owc.version",
 	"warband": null
 };
 
@@ -48,7 +47,6 @@ owc.init = function ()
 	{
 		htmlBuilder.removeNodesByQuerySelectors([".noprint", ".tooltip"]);
 	};
-	owc.manageStorage();
 	owc.warband = new Warband();
 	owc.settings.load();
 	owc.editor.init();
@@ -242,22 +240,6 @@ owc.getWarbandCode = function (includeComments = owc.settings.options.warbandcod
 	return result;
 };
 
-owc.manageStorage = function ()
-{
-	if ((!!localStorage) && (localStorage.getItem(owc.STORAGE_VERSION_KEY) !== owc.meta.VERSION))
-	{
-		console.debug("Managing localStorage");
-		for (let key in localStorage)
-		{
-			if (owc.isPid(key) === false)
-			{
-				localStorage.removeItem(key);
-			};
-		};
-		localStorage.setItem(owc.STORAGE_VERSION_KEY, owc.meta.VERSION);
-	};
-};
-
 /* helper functions */
 owc.helper = {};
 owc.helper.nonBlankUnitName = (unit) => (unit.name.trim() !== "") ? unit.name : owc.helper.translate("defaultUnitName");
@@ -296,6 +278,7 @@ owc.share = function (protocol)
 		{
 			let s = "https://www.facebook.com/sharer/sharer.php?u=" + url + "&t=" + document.title;
 			console.log("owc.share()", protocol, s);
+			window.open(s);
 		};
 		break;
 	case "twitter":
