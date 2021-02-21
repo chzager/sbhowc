@@ -48,6 +48,7 @@ owc.init = function ()
 		htmlBuilder.removeNodesByQuerySelectors([".noprint", ".tooltip"]);
 	};
 	owc.warband = new Warband();
+	owc.storage.init();
 	owc.settings.load();
 	owc.editor.init();
 	owc.ui.init();
@@ -94,7 +95,7 @@ owc.main = function ()
 	else
 	{
 		/* trying to restore warband from localStorage */
-		if (owc.restoreWarband(pid) === false)
+		if (owc.storage.restoreWarband(pid) === false)
 		{
 			owc.editor.newWarband();
 			owc.setPid(pid);
@@ -168,46 +169,29 @@ owc.fetchResources = function ()
 	owc.resources.import(requiredResoures).then(owc.main);
 };
 
-owc.storeWarband = function ()
+owc.importWarband = function (codeString)
 {
-	let warbandCode = owc.warband.toString();
-	/* do not store an empty warband (#17) */
-	if (owc.warband.isEmpty === false)
+	/* clear comments */
+	let lines = codeString.split("\n");
+	let warbandCode = "";
+	for (let line of lines)
 	{
-		storager.store(owc.pid, owc.helper.nonBlankWarbandName() + "[[" + owc.warband.figureCount + ";" + owc.warband.points + "]]", warbandCode);
+		if (line.trim().startsWith("#") === false)
+		{
+			warbandCode += decodeURI(line.replaceAll(/\s/g, ""));
+		};
 	};
-};
-
-owc.restoreWarband = function (pid = owc.pid)
-{
-	let result = false;
-	let storedData = storager.retrieve(pid);
-	if ((!!storedData) && (storedData.data !== ""))
-	{
-		owc.warband.fromString(storedData.data, owc.resources.data);
-		owc.ui.notify("Warband restored.");
-		owc.setPid(pid);
-		result = true;
-	};
-	return result;
-};
-
-owc.importWarband = function (warbandCode)
-{
-	let tempWarband = new Warband();
-	tempWarband.fromString(warbandCode, owc.resources.data);
-	warbandCode = tempWarband.toString();
-	console.debug("owc.importWarband", warbandCode);
+	let importingHash = owc.storage.hash(warbandCode);
+	console.debug("owc.importWarband", warbandCode, importingHash);
 	let found = false;
 	for (let key in localStorage)
 	{
 		if (owc.isPid(key))
 		{
-			let storedWarbandCode = JSON.parse(localStorage[key]).data;
-			if (storedWarbandCode === warbandCode)
+			if (JSON.parse(localStorage[key]).hash === importingHash)
 			{
 				console.debug("found warband stored at pid", key);
-				owc.restoreWarband(key);
+				owc.storage.restoreWarband(key);
 				found = true;
 				break;
 			}
@@ -218,7 +202,7 @@ owc.importWarband = function (warbandCode)
 		owc.setPid(owc.newPid());
 		console.debug("not found in localStorage");
 		owc.warband.fromString(warbandCode, owc.resources.data);
-		owc.storeWarband();
+		owc.storage.storeWarband();
 		owc.ui.notify("New warband imported.");
 	};
 	return !found;

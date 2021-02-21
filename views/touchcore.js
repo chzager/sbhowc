@@ -293,7 +293,7 @@ touchCore.onMenuboxEvent = function (menuboxEvent)
 						unit.specialrules[unit.specialrules.length - 1].additionalText = additionaltextNode.innerHTML;
 					};
 				};
-				owc.storeWarband();
+				owc.storage.storeWarband();
 				owc.ui.printUnit(unitIndex);
 			}
 			else if ((menuboxEvent.detail.menuId === "warbandname") && (menuboxEvent.detail.buttonKey === "ok"))

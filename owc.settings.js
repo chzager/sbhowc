@@ -7,11 +7,12 @@ Licensed unter the GNU Affero General Public License, Version 3
 See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
  */
 
-owc.settings = {};
+owc.settings = {
+	"STORAGE_KEY": "owc.settings"
+};
 
 owc.settings.init = function ()
 {
-	owc.settings.STORAGE_KEY = "owc.settings";
 	owc.settings.ruleScope = ["sbh", "sgd", "sww"];
 	owc.settings.options =
 	{

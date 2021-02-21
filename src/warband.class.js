@@ -94,23 +94,14 @@ class Warband
 	fromString(string, specialrulesDictionary)
 	{
 		let unitSeparator = Warband.UNIT_SEPARATOR;
-		let lines = string.split("\n");
-		let warbandCode = "";
-		for (let line of lines)
-		{
-			if (line.trim().startsWith("#") === false)
-			{
-				warbandCode += decodeURI(line.replaceAll(/\s/g, ""));
-			};
-		};
-		if (warbandCode.indexOf("v1") === 0)
+		if (string.indexOf("v1") === 0)
 		{
 			this.clear();
-			warbandCode = warbandCode.replace(/[+]/g, " ");
-			this.name = warbandCode.substring(2, warbandCode.indexOf(unitSeparator));
+			string = string.replace(/[+]/g, " ");
+			this.name = string.substring(2, string.indexOf(unitSeparator));
 			let unitsRegex = /@([^@]+)/g;
 			let unitsFind;
-			while (unitsFind = unitsRegex.exec(warbandCode))
+			while (unitsFind = unitsRegex.exec(string))
 			{
 				let unit = new Unit();
 				unit.fromString(unitsFind[1], "v1", specialrulesDictionary);
@@ -119,7 +110,7 @@ class Warband
 		}
 		else
 		{
-			throw new Error("Can not determine data version in warband code \"" + warbandCode + "\".");
+			throw new Error("Can not determine data version in warband code \"" + string + "\".");
 		};
 	};
 };

@@ -46,7 +46,7 @@ restorer.restoreClick = function (clickEvent)
 	if (selectedPid !== null)
 	{
 		restorer.close();
-		owc.restoreWarband(selectedPid);
+		owc.storage.restoreWarband(selectedPid);
 		owc.ui.printWarband();
 	};
 };
@@ -126,21 +126,21 @@ restorer.listStoredData = function ()
 			if (/^(?=\D*\d)[\d\w]{6}$/.test(key) === true)
 			{
 				let storedData = JSON.parse(localStorage[key]);
-				let titleComponents = /^(.*)\[{2}([\d]+);([\d]+)\]{2}$/.exec(storedData.title);
-				if (titleComponents !== null)
-				{
-					let lastModifiedDate = new Date().fromIsoString(storedData.date)
+				// let titleComponents = /^(.*)\[{2}([\d]+);([\d]+)\]{2}$/.exec(storedData.title);
+				// if (titleComponents !== null)
+				// {
+					let lastModifiedDate = new Date().fromIsoString(storedData.date);
 						result.push(
 					{
 						"pid": key,
-						"warband-name": titleComponents[1],
-						"figure-count": titleComponents[2],
-						"points": titleComponents[3],
+						"warband-name": storedData.title,
+						"figure-count":storedData["figure-count"],
+						"points":storedData.points,
 						"last-modified": lastModifiedDate,
 						"last-modified-text": _naturalPast(lastModifiedDate)
 					}
 						);
-				};
+				// };
 			};
 		};
 		switch (restorer.sort.field)
