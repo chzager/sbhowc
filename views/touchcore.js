@@ -93,9 +93,7 @@ touchCore.popupEditor = function (clickEvent, editorMenu, context, text)
 	range.collapse(true);
 	selection.removeAllRanges();
 	selection.addRange(range);
-	/* currently there is no definitive way to response when then virtual keyboard on touch device shrinks available height,
-	so we set the position of the prompt menu to the upper third */
-	editorMenu.element.style.top = Math.round((window.innerHeight / 3) - (editorMenu.element.offsetHeight / 2)) + "px";
+	touchCore.setPromptMenuTop(editorMenu);
 	editorMenu.element.style.left = Math.round((document.body.clientWidth - editorMenu.element.offsetWidth) / 2) + "px"
 };
 
@@ -113,7 +111,7 @@ touchCore.onValueEdited = function (editorEvent)
 	let unitIndex = (unitNode !== null) ? Number(unitNode.getAttribute("data-unitindex")) : null;
 	let specialruleNode = eventOrigin.closest("[data-specialruleindex]");
 	let specialruleIndex = (specialruleNode !== null) ? Number(specialruleNode.getAttribute("data-specialruleindex")) : null;
-	let eventValue  = (eventOrigin.value !== undefined) ? eventOrigin.value : eventOrigin.innerText;
+	let eventValue = (eventOrigin.value !== undefined) ? eventOrigin.value : eventOrigin.innerText;
 	let editorEventData =
 	{
 		"detail":
@@ -361,29 +359,33 @@ touchCore.refreshSpecialrules = function (unitIndex, refNode)
 	let specialrulesCount = unit.specialrules.length;
 	if (specialrulesCount > 0)
 	{
-	for (let s = 0; s < specialrulesCount; s += 1)
-	{
-		let specialrule = unit.specialrules[s];
-		let specialruleNode;
-		let specialruleText = owc.helper.translate(specialrule.key);
-		let variables =
+		for (let s = 0; s < specialrulesCount; s += 1)
 		{
-			"index": s,
-			"hint": _specialruleHint(specialrule.key),
-			"specialrule-text": specialruleText.replace("...", specialrule.additionalText),
-			"specialrules-count": unit.specialrules.length
+			let specialrule = unit.specialrules[s];
+			let specialruleNode;
+			let specialruleText = owc.helper.translate(specialrule.key);
+			let variables =
+			{
+				"index": s,
+				"hint": _specialruleHint(specialrule.key),
+				"specialrule-text": specialruleText.replace("...", specialrule.additionalText),
+				"specialrules-count": unit.specialrules.length
+			};
+			specialruleNode = pageSnippets.produce("specialrule", touchCore, variables);
+			if (owc.settings.ruleScope.includes(owc.resources.data[specialrule.key].scope) === false)
+			{
+				specialruleNode.children[0].classList.add("out-of-scope");
+			};
+			refNode.appendChild(specialruleNode);
 		};
-		specialruleNode = pageSnippets.produce("specialrule", touchCore, variables);
-		if (owc.settings.ruleScope.includes(owc.resources.data[specialrule.key].scope) === false)
-		{
-			specialruleNode.children[0].classList.add("out-of-scope");
-		};
-		refNode.appendChild(specialruleNode);
-	};
 	}
 	else if (owc.ui.isPrinting === false)
 	{
-		refNode.appendChild(htmlBuilder.newElement("span.add-specialrule", {"innerText": owc.helper.translate("addSpecialrule")}));
+		refNode.appendChild(htmlBuilder.newElement("span.add-specialrule",
+			{
+				"innerText": owc.helper.translate("addSpecialrule")
+			}
+			));
 	};
 };
 
@@ -523,6 +525,7 @@ touchCore.newPromptMenu = function (menuId, titleResource)
 	let editorNode = menubox.element.querySelector("[data-menuitem=\"editor\"]");
 	touchCore.makeEditable(editorNode);
 	editorNode.onclick = (clickEvent) => clickEvent.stopPropagation();
+	editorNode.oninput = (inputEvent) => touchCore.setPromptMenuTop(menubox);
 	editorNode.onkeypress = (keypressEvent) =>
 	{
 		if (keypressEvent.keyCode === 13)
@@ -531,4 +534,11 @@ touchCore.newPromptMenu = function (menuId, titleResource)
 		};
 	};
 	return menubox;
+};
+
+touchCore.setPromptMenuTop = function (menubox)
+{
+	/* currently there is no definitive way to response when then virtual keyboard on touch device shrinks available height,
+	so we set the position of the prompt menu to the upper third */
+	menubox.element.style.top = Math.round((window.innerHeight / 3) - (menubox.element.offsetHeight / 2)) + "px";
 };
