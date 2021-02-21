@@ -7,11 +7,12 @@ Licensed unter the GNU Affero General Public License, Version 3
 See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
  */
 
-owc.topMenu = {};
-
-owc.topMenu.toggleButton = document.getElementById("top-menu-toggle-button");
-owc.topMenu.popupMenu = document.getElementById("top-menu-popup");
-owc.topMenu.sharePopup = document.getElementById("share-popup");
+owc.topMenu =
+{
+	"toggleButton": document.getElementById("top-menu-toggle-button"),
+	"popupMenu": document.getElementById("top-menu-popup"),
+	"sharePopup": document.getElementById("share-popup")
+};
 
 owc.topMenu.init = function ()
 {

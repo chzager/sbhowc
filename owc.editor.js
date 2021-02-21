@@ -22,7 +22,7 @@ owc.editor.init = function ()
 
 owc.editor.onEditorEvent = function (editorEvent)
 {
-	let action = (editorEvent.detail.action !== undefined) ? editorEvent.detail.action : "set-" + editorEvent.detail.editor;
+	let action = editorEvent.detail.action ?? "set-" + editorEvent.detail.editor;
 	console.debug("owc.editor.onEditorEvent()", action, editorEvent.detail);
 	let undoPoints = owc.editor.undoer.snapshots.length;
 	let unitIndex = editorEvent.detail.unitIndex;

@@ -17,7 +17,7 @@ owc.rulecheck.checkAll = function ()
 		if ((typeof owc.rulecheck[key] === "function") && (key.startsWith("check")) && (key !== "checkAll"))
 		{
 			let checkResult = owc.rulecheck[key]();
-			if (checkResult !== null)
+			if (!!checkResult)
 			{
 				if (checkResult.constructor === Array)
 				{
@@ -198,8 +198,4 @@ owc.rulecheck.checkExcludes = function ()
 	return result;
 };
 
-owc.rulecheck.getText = function (ruleViolation)
-{
-	let result = owc.resources.translate(ruleViolation.key, owc.settings.language, ruleViolation.values);
-	return result;
-};
+owc.rulecheck.getText = (ruleViolation) => owc.resources.translate(ruleViolation.key, owc.settings.language, ruleViolation.values);

@@ -7,11 +7,12 @@ Licensed unter the GNU Affero General Public License, Version 3
 See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
  */
 
-owc.resources = {};
-
-owc.resources.DEFAULT_LANGUAGE = "en";
-owc.resources.data = {};
-owc.resources.loadedUrls = [];
+owc.resources =
+{
+	"DEFAULT_LANGUAGE": "en",
+	"data": {},
+	"loadedUrls": []
+};
 
 owc.resources.import = function (urls, callback)
 {
@@ -60,7 +61,7 @@ owc.resources.import = function (urls, callback)
 				{
 					owc.resources.data[key][currentLang] = json.data[key];
 				};
-				if (typeof currentScope !== "undefined")
+				if (!!currentScope)
 				{
 					owc.resources.data[key]["scope"] = currentScope;
 				};
@@ -152,7 +153,7 @@ owc.resources.translate = function (resourceId, toLanguage, placeholders = {}
 {
 	let result = "";
 	let resource = owc.resources.data[resourceId];
-	if (typeof resource !== "undefined")
+	if (!!resource)
 	{
 		result = resource[toLanguage];
 		if ((typeof result === "undefined") || (result === ""))

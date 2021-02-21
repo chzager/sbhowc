@@ -25,15 +25,14 @@ restorer.close = () => owc.ui.sweepVolatiles();
 
 restorer.getSelectedPid = function ()
 {
-	let result = null;
 	let selectedItem = document.getElementById("restorer-table-frame").querySelector(".selected");
-	return (selectedItem !== null) ? selectedItem.getAttribute("data-id") : null;
+	return (!!selectedItem) ? selectedItem.getAttribute("data-id") : null;
 };
 
 restorer.storageItemClick = function (clickEvent)
 {
 	let selectedItem = document.getElementById("restorer-table-frame").querySelector(".selected");
-	if (selectedItem !== null)
+	if (!!selectedItem)
 	{
 		selectedItem.classList.remove("selected");
 	};
@@ -43,7 +42,7 @@ restorer.storageItemClick = function (clickEvent)
 restorer.restoreClick = function (clickEvent)
 {
 	let selectedPid = restorer.getSelectedPid();
-	if (selectedPid !== null)
+	if (!!selectedPid)
 	{
 		restorer.close();
 		owc.storage.restoreWarband(selectedPid);
@@ -55,7 +54,7 @@ restorer.discardClick = function (clickEvent)
 {
 	clickEvent.stopPropagation();
 	let selectedPid = restorer.getSelectedPid();
-	if (selectedPid !== null)
+	if (!!selectedPid)
 	{
 		localStorage.removeItem(selectedPid);
 		let deletedBubble = document.getElementById("deletedBubble");
@@ -126,21 +125,17 @@ restorer.listStoredData = function ()
 			if (/^(?=\D*\d)[\d\w]{6}$/.test(key) === true)
 			{
 				let storedData = JSON.parse(localStorage[key]);
-				// let titleComponents = /^(.*)\[{2}([\d]+);([\d]+)\]{2}$/.exec(storedData.title);
-				// if (titleComponents !== null)
-				// {
-					let lastModifiedDate = new Date().fromIsoString(storedData.date);
-						result.push(
-					{
-						"pid": key,
-						"warband-name": storedData.title,
-						"figure-count":storedData["figure-count"],
-						"points":storedData.points,
-						"last-modified": lastModifiedDate,
-						"last-modified-text": _naturalPast(lastModifiedDate)
-					}
-						);
-				// };
+				let lastModifiedDate = new Date().fromIsoString(storedData.date);
+				result.push(
+				{
+					"pid": key,
+					"warband-name": storedData.title,
+					"figure-count": storedData["figure-count"],
+					"points": storedData.points,
+					"last-modified": lastModifiedDate,
+					"last-modified-text": _naturalPast(lastModifiedDate)
+				}
+				);
 			};
 		};
 		switch (restorer.sort.field)

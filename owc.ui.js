@@ -7,25 +7,21 @@ Licensed unter the GNU Affero General Public License, Version 3
 See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
  */
 
-owc.ui = {};
-
-owc.ui.sweepvolatilesEvent = "owc.ui.sweepvolatiles";
-owc.ui.isPrinting = (window.location.getParam(owc.urlParam.print) !== "");
-owc.ui.visualizer = null;
-owc.ui.undoButton = null;
-owc.ui.blurElement = null;
+owc.ui =
+{
+	"sweepvolatilesEvent": "owc.ui.sweepvolatiles",
+	"isPrinting": (window.location.getParam(owc.urlParam.print) === "1"),
+	"visualizer": null,
+	"undoButton": document.getElementById("undo-button"),
+	"blurElement": document.getElementById("blur")
+};
 
 owc.ui.init = function ()
 {
-	console.debug("owc.ui.isPrinting", owc.ui.isPrinting);
+	console.debug("owc.ui.isPrinting:", owc.ui.isPrinting);
 	if (owc.ui.isPrinting === false)
 	{
-		owc.ui.undoButton = document.getElementById("undo-button");
-		if (owc.ui.undoButton !== null)
-		{
-			owc.ui.undoButton.addEventListener("animationend", () => owc.ui.undoButton.classList.remove("animated"));
-		};
-		owc.ui.blurElement = document.getElementById("blur");
+		owc.ui.undoButton.addEventListener("animationend", () => owc.ui.undoButton.classList.remove("animated"));
 		window.addEventListener("click", owc.ui.sweepVolatiles);
 	};
 };
@@ -133,8 +129,8 @@ owc.ui.notify = function (text, color = "green")
 			};
 			element.innerHTML = text;
 			element.classList.add(color);
-			element.style.left = Math.round((document.body.clientWidth - element.getBoundingClientRect().width) / 2) + "px"
-				owc.ui.showNotification(element);
+			element.style.left = Math.round((document.body.clientWidth - element.getBoundingClientRect().width) / 2) + "px";
+			owc.ui.showNotification(element);
 		};
 	};
 };
@@ -158,7 +154,7 @@ owc.ui.showBluebox = function (element)
 	};
 	owc.ui.sweepVolatiles();
 	owc.ui.blurPage("editor-only");
-	if (element !== null)
+	if (!!element)
 	{
 		element.scrollTo(0, 0);
 		let maxWidth = _pixelValue(window.getComputedStyle(element.querySelector("div.blue-viewport")).maxWidth);
@@ -167,11 +163,7 @@ owc.ui.showBluebox = function (element)
 		let elementMarginLeft = _pixelValue(window.getComputedStyle(element).marginLeft);
 		if (elementLeft + maxWidth > windowWidth)
 		{
-			elementLeft = windowWidth - maxWidth;
-			if (elementLeft < elementMarginLeft * 2)
-			{
-				elementLeft = elementMarginLeft * 2;
-			};
+			elementLeft = Math.max(windowWidth - maxWidth, elementMarginLeft * 2);
 		};
 		let translate = element.offsetLeft - elementLeft;
 		element.style.setProperty("width", Math.ceil(translate) + "px");
@@ -198,7 +190,6 @@ owc.ui.sweepVolatiles = function (anyEvent)
 	owc.ui.unblurPage();
 	owc.ui.closeBlueboxes();
 	Menubox.hideAll();
-
 };
 
 owc.ui.scrollToBottom = function ()
@@ -207,7 +198,7 @@ owc.ui.scrollToBottom = function ()
 	window.scrollTo(
 	{
 		left: window.scrollX,
-		top: (window.scrollY < desiredScrollY) ? desiredScrollY : window.scrollY,
+		top: Math.max(window.scrollY, desiredScrollY),
 		behavior: "smooth"
 	}
 	);
@@ -231,17 +222,19 @@ owc.ui.blurPage = function (blurClasses)
 
 owc.ui.unblurPage = () => owc.ui.blurElement.style.visibility = "hidden";
 
-owc.ui.wait = (message = "Working") =>
+owc.ui.wait = function (message = "Working")
 {
 	let loadingOverlay = document.getElementById("loading-wrapper");
 	loadingOverlay.querySelector(".loading-text").innerText = message + "...";
 	loadingOverlay.querySelector(".loading-gradient").classList.add("animated");
 	loadingOverlay.style.visibility = "visible";
 };
-owc.ui.waitEnd = () =>
+
+owc.ui.waitEnd = function ()
 {
 	let loadingOverlay = document.getElementById("loading-wrapper");
-	loadingOverlay.style.visibility = "hidden"
-		loadingOverlay.querySelector(".loading-gradient").classList.remove("animated");
+	loadingOverlay.style.visibility = "hidden";
+	loadingOverlay.querySelector(".loading-gradient").classList.remove("animated");
 };
+
 owc.ui.isTouchDevice = ("ontouchstart" in document.documentElement);

@@ -7,7 +7,8 @@ Licensed unter the GNU Affero General Public License, Version 3
 See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
  */
 
-owc.settings = {
+owc.settings =
+{
 	"STORAGE_KEY": "owc.settings"
 };
 
@@ -27,14 +28,14 @@ owc.settings.init = function ()
 
 owc.settings.toJson = function ()
 {
-	let result =
+	return new Object(
 	{
-		ruleScope: owc.settings.ruleScope,
-		options: owc.settings.options,
-		language: owc.settings.language,
-		viewMode: owc.settings.viewMode
-	};
-	return result;
+		"ruleScope": owc.settings.ruleScope,
+		"options": owc.settings.options,
+		"language": owc.settings.language,
+		"viewMode": owc.settings.viewMode
+	}
+	);
 };
 
 owc.settings.fromJson = function (jsonObject)
@@ -42,7 +43,7 @@ owc.settings.fromJson = function (jsonObject)
 	owc.settings.ruleScope = jsonObject.ruleScope;
 	for (let key in owc.settings.options)
 	{
-		if (jsonObject.hasOwnProperty(key))
+		if (jsonObject.options.hasOwnProperty(key))
 		{
 			owc.settings.options[key] = jsonObject.options[key];
 		};
@@ -53,7 +54,7 @@ owc.settings.fromJson = function (jsonObject)
 
 owc.settings.save = function ()
 {
-	if (typeof localStorage !== "undefined")
+	if (!!localStorage)
 	{
 		localStorage.setItem(owc.settings.STORAGE_KEY, JSON.stringify(owc.settings.toJson()));
 	};
@@ -62,10 +63,10 @@ owc.settings.save = function ()
 owc.settings.load = function ()
 {
 	owc.settings.init();
-	if (typeof localStorage !== "undefined")
+	if (!!localStorage)
 	{
 		let storedSettings = JSON.parse(localStorage.getItem(owc.settings.STORAGE_KEY));
-		if (storedSettings !== null)
+		if (!!storedSettings)
 		{
 			owc.settings.fromJson(storedSettings);
 		};
