@@ -2,13 +2,13 @@
 
 owc.storage =
 {
-	"VERSTION_KEY": "owc.version"
+	"VERSION_KEY": "owc.version"
 };
 
 owc.storage.init = function ()
 {
 	/* eventually we need to update items */
-	if ((!!localStorage) && (localStorage.getItem(owc.storage.VERSTION_KEY) !== owc.meta.VERSION))
+	if ((!!localStorage) && (localStorage.getItem(owc.storage.VERSION_KEY) !== owc.meta.VERSION))
 	{
 		for (let key in localStorage)
 		{
@@ -22,8 +22,8 @@ owc.storage.init = function ()
 					if (titleComponents !== null)
 					{
 						storedData["title"] = titleComponents[1];
-						storedData["figure-count"] = titleComponents[2];
-						storedData["points"] = titleComponents[3];
+						storedData["figure-count"] = Number(titleComponents[2]);
+						storedData["points"] = Number(titleComponents[3]);
 						storedData["hash"] = owc.storage.hash(storedData.data);
 						localStorage.removeItem(key);
 						localStorage.setItem(key, JSON.stringify(storedData));
