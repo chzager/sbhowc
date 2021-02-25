@@ -224,19 +224,10 @@ owc.getWarbandCode = function (includeComments = owc.settings.options.warbandcod
 	return result;
 };
 
-/* helper functions */
-owc.helper = {};
-owc.helper.nonBlankUnitName = (unit) => (unit.name.trim() !== "") ? unit.name : owc.helper.translate("defaultUnitName");
-owc.helper.nonBlankWarbandName = () => (owc.warband.name.trim() !== "") ? owc.warband.name : owc.helper.translate("defaultWarbandName");
-owc.helper.warbandSummary = () => document.getElementById("warbandfooter").querySelector("p").innerText;
-owc.helper.translate = (key, variables) => owc.resources.translate(key, owc.settings.language, variables);
-
-owc.share = {};
 owc.share = function (protocol)
 {
 	function _unicodify(text, chars = "")
 	{
-		chars = "%" + chars;
 		for (let c = 0, cc = chars.length; c < cc; c += 1)
 		{
 			text = text.replaceAll(chars[c], "%" + chars.charCodeAt(c).toString(16));
@@ -251,49 +242,43 @@ owc.share = function (protocol)
 	switch (protocol)
 	{
 	case "whatsapp":
-		{
-			/* need to escape characters:  %  +  */
-			let s = "whatsapp://send?text=*" + _unicodify(document.title, "*") + "*%0d%0a" + _unicodify(url, "+");
-			console.log("owc.share()", protocol, s);
-			window.open(s);
-		};
+		console.log(_unicodify(url, "%+"));
+		window.open("whatsapp://send?text=*" + _unicodify(document.title, "*") + "*%0d%0a" + _unicodify(url, "%+"));
 		break;
 	case "facebook":
-		{
-			let s = "https://www.facebook.com/sharer/sharer.php?u=" + url + "&t=" + document.title;
-			console.log("owc.share()", protocol, s);
-			window.open(s);
-		};
+		window.open("https://www.facebook.com/sharer/sharer.php?u=" + url + "&t=" + document.title);
 		break;
 	case "twitter":
-		{
-			/* max tweet lenght: 280 chars */
-			let title = owc.helper.nonBlankWarbandName() + "%0a";
-			let s = "https://twitter.com/share?url=" + _unicodify(decodeURI(url), "+") + "&text=" + title;
-			console.log("owc.share()", protocol, s);
-			window.open(s);
-		};
+		window.open("https://twitter.com/share?url=" + _unicodify(url, "%+") + "&text=" + owc.helper.nonBlankWarbandName());
 		break;
 	case "email":
-		window.open("mailto:?subject=" + document.title + "&body=" + url);
+		console.log(_unicodify(url, "%%"));
+		window.open("mailto:?subject=" + document.title + "&body=" + _unicodify(url, "%%"));
 		break;
 	case "link":
 		history.replaceState({}, "", url);
 		owc.ui.notify("Link created. Ready to share.");
 		break;
 	case "browser":
-		if (typeof navigator.share === "function")
 		{
-			navigator.share(
+			if (typeof navigator.share === "function")
 			{
-				"title": document.title,
-				"text": owc.helper.warbandSummary(),
-				"url": url
-			}
-			).then(() => null, (reason) => console.error(reason));
+				navigator.share(
+				{
+					"title": document.title,
+					"text": document.title,
+					"url": url
+				}
+				).then(() => null, (reason) => console.error(reason));
+			};
 		};
 		break;
-	default:
-		console.warn("owc.share()", "Unknown protocol \"" + protocol + "\"");
 	};
 };
+
+/* helper functions */
+owc.helper = {};
+owc.helper.nonBlankUnitName = (unit) => (unit.name.trim() !== "") ? unit.name : owc.helper.translate("defaultUnitName");
+owc.helper.nonBlankWarbandName = () => (owc.warband.name.trim() !== "") ? owc.warband.name : owc.helper.translate("defaultWarbandName");
+owc.helper.warbandSummary = () => document.getElementById("warbandfooter").querySelector("p").innerText;
+owc.helper.translate = (key, variables) => owc.resources.translate(key, owc.settings.language, variables);
