@@ -13,7 +13,8 @@ owc.ui =
 	"isPrinting": (window.location.getParam(owc.urlParam.print) === "1"),
 	"visualizer": null,
 	"undoButton": document.getElementById("undo-button"),
-	"blurElement": document.getElementById("blur")
+	"blurElement": document.getElementById("blur"),
+	"notifyElement": document.getElementById("master-notification")
 };
 
 owc.ui.init = function ()
@@ -22,6 +23,7 @@ owc.ui.init = function ()
 	if (owc.ui.isPrinting === false)
 	{
 		owc.ui.undoButton.addEventListener("animationend", () => owc.ui.undoButton.classList.remove("animated"));
+		owc.ui.notifyElement.addEventListener("click", () => owc.ui.notifyElement.classList.remove("visible"));
 		window.addEventListener("click", owc.ui.sweepVolatiles);
 	};
 };
@@ -115,22 +117,22 @@ owc.ui.refreshUndoButton = function ()
 
 owc.ui.notify = function (text, color = "green")
 {
-	let element = document.getElementById("master-notification");
-	if (!!element)
+	// let element = document.getElementById("master-notification");
+	if (!!owc.ui.notifyElement)
 	{
-		if (element.classList.contains("visible") === false)
+		if (owc.ui.notifyElement.classList.contains("visible") === false)
 		{
-			for (let cssClass of element.classList.values())
+			for (let cssClass of owc.ui.notifyElement.classList.values())
 			{
 				if (cssClass !== "notification")
 				{
-					element.classList.remove(cssClass);
+					owc.ui.notifyElement.classList.remove(cssClass);
 				};
 			};
-			element.innerHTML = text;
-			element.classList.add(color);
-			element.style.left = Math.round((document.body.clientWidth - element.getBoundingClientRect().width) / 2) + "px";
-			owc.ui.showNotification(element);
+			owc.ui.notifyElement.innerHTML = text;
+			owc.ui.notifyElement.classList.add(color);
+			owc.ui.notifyElement.style.left = Math.round((document.body.clientWidth - owc.ui.notifyElement.getBoundingClientRect().width) / 2) + "px";
+			owc.ui.showNotification(owc.ui.notifyElement);
 		};
 	};
 };
