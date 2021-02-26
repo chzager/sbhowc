@@ -93,8 +93,10 @@ touchCore.popupEditor = function (clickEvent, editorMenu, context, text)
 	range.collapse(true);
 	selection.removeAllRanges();
 	selection.addRange(range);
-	touchCore.setPromptMenuTop(editorMenu);
-	editorMenu.element.style.left = Math.round((document.body.clientWidth - editorMenu.element.offsetWidth) / 2) + "px"
+	/* currently there is no definitive way to react when then virtual keyboard on touch device shrinks available height,
+	so we set the position of the prompt menu to the upper quarter */
+	editorMenu.element.style.top = Math.round((window.innerHeight / 4) - (editorMenu.element.offsetHeight / 2)) + "px";
+	editorMenu.element.style.left = Math.round((document.body.clientWidth - editorMenu.element.offsetWidth) / 2) + "px";
 };
 
 touchCore.onValueEdited = function (editorEvent)
@@ -525,7 +527,6 @@ touchCore.newPromptMenu = function (menuId, titleResource)
 	let editorNode = menubox.element.querySelector("[data-menuitem=\"editor\"]");
 	touchCore.makeEditable(editorNode);
 	editorNode.onclick = (clickEvent) => clickEvent.stopPropagation();
-	editorNode.oninput = (inputEvent) => touchCore.setPromptMenuTop(menubox);
 	editorNode.onkeypress = (keypressEvent) =>
 	{
 		if (keypressEvent.keyCode === 13)
@@ -534,11 +535,4 @@ touchCore.newPromptMenu = function (menuId, titleResource)
 		};
 	};
 	return menubox;
-};
-
-touchCore.setPromptMenuTop = function (menubox)
-{
-	/* currently there is no definitive way to response when then virtual keyboard on touch device shrinks available height,
-	so we set the position of the prompt menu to the upper third */
-	menubox.element.style.top = Math.round((window.innerHeight / 3) - (menubox.element.offsetHeight / 2)) + "px";
 };
