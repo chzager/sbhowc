@@ -18,7 +18,7 @@ let owc =
 	"meta":
 	{
 		"TITLE": "Online Warband Creator for Song of Blades and Heroes",
-		"VERSION": "Feb21 draft",
+		"VERSION": "Feb21 release",
 		"ORIGIN": "https://suppenhuhn79.github.io/sbhowc"
 	},
 	"warband": null
