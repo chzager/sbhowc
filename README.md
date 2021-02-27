@@ -7,7 +7,7 @@ _Song of Blades and Heroes_ (SBH) is a slim, easy to learn, fast play, skirmish 
 Key features:
 * Intuitive, therefore easy to use
 * Complies with SBH Revised Edition (rules version 5.0)
-* Includes special rules from the additions
+* Includes special rules from the extensions
   * Song of Gold and Darkness
   * Song of Wind and Water
   * Song of Deeds and Glory
@@ -19,6 +19,8 @@ Key features:
 
 ## How to use
 Just go to https://suppenhuhn79.github.io/sbhowc/
+
+No registration or account or whatever required. Everything runs client-side within your browser. You should always keep your browser up to date, thus ensuring it supports the latest JavaScript features and specifications.
 
 ## Licence
 This software and source is licensed under the [GNU Affero General Public License, Version 3, 19 November 2007](https://www.gnu.org/licenses/agpl-3.0.html)
@@ -39,13 +41,14 @@ GNU Affero General Public License for more details.
 
 See the full license text at https://www.gnu.org/licenses/agpl-3.0.html.
 
-**You are welcome to contribute.** :heart:
-
 ## Developer's notes
-This project is vanilla JavaScript, meaning no third party libraries or frameworks are used.
+This project started as zero-resources, minimum-code vanilla JavaScript, meaning no third party libraries or frameworks or any non-HTML/CSS/JS resources were used. Meanwhile it advanced in design, features and code architecture, using some libraries I developed for other projects and also using external resources such as Google Fonts or FontAwesome.
 
-Functionality is tested with the latest versions of Mozilla Firefox (sometimes on Google Chrome, too, and rarely even on Microsoft Edge). I expect users to always have the latest version of their browser installed - for their own sake. I do not do workarounds for issues caused by a browsers poor implementation of JavaScript or CSS.
+Functionality is tested with the latest versions of Mozilla Firefox and Google Chrome as Windows desktop and Android mobile versions (and rarely even on Microsoft Edge). I expect users to always have the latest version of their browser installed - for their own sake. I do not do workarounds for issues caused by a browsers poor implementation of JavaScript or CSS.
 
 Versioning does not follow the usual sequences, but versions are numbered after the year and month of their release.
 
+**You are welcome to contribute.** :heart:
+
 If you want to clone this repository, please note that submodules are used.
+
