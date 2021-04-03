@@ -43,7 +43,7 @@ touchCore.unload = function (menuboxEvent)
 touchCore.createQualityMenu = function ()
 {
 	let items = []
-	for (let q = 2; q <= 6; q += 1)
+	for (let q of owc.editor.qualityValues)
 	{
 		items.push(
 		{
@@ -58,7 +58,7 @@ touchCore.createQualityMenu = function ()
 touchCore.createCombatMenu = function ()
 {
 	let items = [];
-	for (let c = 6; c >= 0; c -= 1)
+	for (let c of owc.editor.combatValues)
 	{
 		items.push(
 		{
@@ -174,24 +174,21 @@ touchCore.onSpecialrulesClick = function (clickEvent)
 				let wrapperNode = htmlBuilder.newElement("div");
 				let textPreNode = htmlBuilder.newElement("span",
 				{
-					"onclick": (clickEvent) => clickEvent.target.parentElement.click(),
-					"innerText": specialruleText.substring(0, specialruleText.indexOf("..."))
-				}
-					);
+					"onclick": (clickEvent) => clickEvent.target.parentElement.click()
+				},
+						specialruleText.substring(0, specialruleText.indexOf("...")));
 				let editorNode = htmlBuilder.newElement("span",
 				{
-					"innerText": (specialruleIndex !== null) ? owc.warband.units[unitIndex].specialrules[Number(specialruleIndex[1])].additionalText : "...",
 					"data-isadditionaltext": "yes",
 					"data-defaultvalue": "...",
 					"onclick": (clickEvent) => touchCore.specialrulesMenu.selectItem(clickEvent.target.closest("[data-menuitem]").getAttribute("data-menuitem"), true)
-				}
-					);
+				},
+						(specialruleIndex !== null) ? owc.warband.units[unitIndex].specialrules[Number(specialruleIndex[1])].additionalText : "...");
 				let textPostNode = htmlBuilder.newElement("span",
 				{
-					"onclick": (clickEvent) => clickEvent.target.parentElement.click(),
-					"innerText": specialruleText.substring(specialruleText.indexOf("...") + 3)
-				}
-					);
+					"onclick": (clickEvent) => clickEvent.target.parentElement.click()
+				},
+						specialruleText.substring(specialruleText.indexOf("...") + 3));
 				touchCore.makeEditable(editorNode);
 				itemNode.appendChild(textPreNode);
 				itemNode.appendChild(editorNode);
@@ -383,11 +380,7 @@ touchCore.refreshSpecialrules = function (unitIndex, refNode)
 	}
 	else if (owc.ui.isPrinting === false)
 	{
-		refNode.appendChild(htmlBuilder.newElement("span.add-specialrule",
-			{
-				"innerText": owc.helper.translate("addSpecialrule")
-			}
-			));
+		refNode.appendChild(htmlBuilder.newElement("span.add-specialrule", owc.helper.translate("addSpecialrule")));
 	};
 };
 

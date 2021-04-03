@@ -14,26 +14,9 @@ formsCore.init = function ()
 	formsCore.editors = {};
 	let variables =
 	{
-		"quality-values": [],
-		"combat-values": [],
+		"quality-values": owc.editor.qualityValues,
+		"combat-values": owc.editor.combatValues,
 		"specialrules-list": []
-	};
-	for (let q = 2; q <= 6; q += 1)
-	{
-		variables["quality-values"].push(
-		{
-			"value": q,
-			"text": q.toString() + "+"
-		}
-		);
-	};
-	for (let c = 6; c >= 0; c -= 1)
-	{
-		variables["combat-values"].push(
-		{
-			"value": c
-		}
-		);
 	};
 	variables["specialrules-list"].push(
 	{

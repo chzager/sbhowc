@@ -11,11 +11,14 @@ owc.editor =
 {
 	"UNIT_CLIPBOARD_KEY": "owc.clipboard.unit",
 	"undoer": null,
-	"specialrulesList": []
+	"specialrulesList": [],
+	"qualityValues": [2, 3, 4, 5, 6],
+	"combatValues": [6, 5, 4, 3, 2, 1, 0]
 };
 
 owc.editor.init = function ()
 {
+	console.debug("owc.editor.init()");
 	owc.editor.undoer = new Undoer();
 	window.addEventListener("editor", owc.editor.onEditorEvent);
 };
@@ -182,6 +185,11 @@ owc.editor.addUnit = function (unitCode = "")
 	if (unitCode !== "")
 	{
 		newUnit.fromString(unitCode, Warband.CURRENT_VERSION, owc.resources.data);
+	}
+	else
+	{
+		newUnit.quality = owc.settings.defaults.quality;
+		newUnit.combat = owc.settings.defaults.combat;
 	};
 	owc.editor.setUndoPoint("Add unit");
 	owc.warband.units.push(newUnit);

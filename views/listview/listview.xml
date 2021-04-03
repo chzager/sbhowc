@@ -7,14 +7,14 @@
 	<dht:snippet name="quality-selector">
 		<select size="1" data-editor="quality">
 			<dht:for-each list="quality-values">
-				<option value="{{value}}">{{text}}</option>
+				<option value="{{}}">{{}}+</option>
 			</dht:for-each>
 		</select>
 	</dht:snippet>
 	<dht:snippet name="combat-selector">
 		<select size="1" data-editor="combat">
 			<dht:for-each list="combat-values">
-				<option value="{{value}}">{{value}}</option>
+				<option value="{{}}">{{}}</option>
 			</dht:for-each>
 		</select>
 	</dht:snippet>
