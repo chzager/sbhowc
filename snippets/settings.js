@@ -13,32 +13,18 @@ settingsUi.element = null;
 
 settingsUi.show = function ()
 {
-	function _setNodeProperty(querySelector, attributeName, value)
-	{
-		let node = settingsUi.element.querySelector(querySelector);
-		if (node !== null)
-		{
-			node[attributeName] = value;
-		};
-	};
 	settingsUi.element = document.getElementById("settings");
 	if (settingsUi.element !== null)
 	{
 		/* set checks for rules scope */
-		for (let rulesScopeCheck of settingsUi.element.querySelectorAll("input[data-settingsgroup=\"rules_scope\"]"))
+		for (let rulesScopeCheck of settingsUi.element.querySelectorAll("input[data-group=\"rules_scope\"]"))
 		{
-			let val = rulesScopeCheck.getAttribute("data-settingskey");
-			rulesScopeCheck.checked = owc.settings.ruleScope.includes(val);
+			rulesScopeCheck.checked = owc.settings.ruleScope.includes(rulesScopeCheck.getAttribute("data-group-value"));
 		};
-		/* set language */
-		_setNodeProperty("select[data-settingsgroup=\"language\"]", "value", owc.settings.language);
 		/* set view mode */
-		_setNodeProperty("input[data-settingsgroup=\"view_mode\"][data-settingskey=\"" + owc.settings.viewMode + "\"]", "checked", true);
-		/* set options */
-		for (let key in owc.settings.options)
-		{
-			_setNodeProperty("input[data-settingsgroup=\"options\"][data-settingskey=\"" + key + "\"]", "checked", owc.settings.options[key]);
-		};
+		settingsUi.element.querySelector("input[data-group=\"view_mode\"][data-group-value=\"" + owc.settings.viewMode + "\"]").checked = true;
+		/* set auto mapped elements */
+		htmlBuilder.dataToElements(owc.settings, settingsUi.element);
 	};
 	owc.ui.showBluebox(settingsUi.element);
 };
@@ -51,31 +37,14 @@ settingsUi.applySettings = function ()
 	{
 		/* get checked rules scope */
 		targetObj.ruleScope = [];
-		for (let rulesScopeCheck of settingsUi.element.querySelectorAll("input[data-settingsgroup=\"rules_scope\"]"))
+		for (let rulesScopeCheck of settingsUi.element.querySelectorAll("input[data-group=\"rules_scope\"]:checked"))
 		{
-			if (rulesScopeCheck.checked)
-			{
-				let val = rulesScopeCheck.getAttribute("data-settingskey");
-				targetObj.ruleScope.push(val);
-			};
+			targetObj.ruleScope.push(rulesScopeCheck.getAttribute("data-group-value"));
 		};
-		/* get language */
-		let languageDropDown = settingsUi.element.querySelector("select[data-settingsgroup=\"language\"]");
-		targetObj.language = languageDropDown[languageDropDown.selectedIndex].value;
 		/* get view mode */
-		for (let availibleViewMode of settingsUi.element.querySelectorAll("input[data-settingsgroup=\"view_mode\"]"))
-		{
-			if (availibleViewMode.checked)
-			{
-				targetObj.viewMode = availibleViewMode.getAttribute("data-settingskey");
-				break;
-			};
-		};
-		/* get options */
-		for (let optionsItem of settingsUi.element.querySelectorAll("input[data-settingsgroup=\"options\"]"))
-		{
-			targetObj.options[optionsItem.getAttribute("data-settingskey")] = optionsItem.checked;
-		}
+		targetObj.viewMode = settingsUi.element.querySelector("input[data-group=\"view_mode\"]:checked").getAttribute("data-group-value");
+		/* get auto mapped elements */
+		htmlBuilder.dataFromElements(targetObj, settingsUi.element);
 	};
 	_applyFromGui(owc.settings);
 	settingsUi.close();

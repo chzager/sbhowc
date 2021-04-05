@@ -1,72 +1,77 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <dht:template xmlns:dht="dynamic-html-templates">
-	<!-- <dht:stylesheet src="./settings.css"/> -->
 	<dht:script src="settings.js"/>
 	<dht:snippet name="settings">
 		<div id="settings" class="blue" onclick="event.stopPropagation();">
 			<div class="blue-viewport">
-				<h1><i class="fas fa-times" dht:onclick="close"></i>Settings</h1>
+				<h1>
+					<i class="fas fa-times" dht:onclick="close"/>
+					<span>Settings</span>
+				</h1>
 				<div class="panel">
-					<p>Select expansions to use special rules from.</p>
-					<div>
-						<span>
-							<input type="checkbox" id="rulesScopeSbh" data-settingsgroup="rules_scope" data-settingskey="sbh" disabled="disabled" checked="checked"/>
-							<label for="rulesScopeSbh">Song of Blades and Heroes</label>
-						</span>
-						<span>
-							<input type="checkbox" id="rulesScopeSgd" data-settingsgroup="rules_scope" data-settingskey="sgd"/>
-							<label for="rulesScopeSgd">Song of Gold and Darkness</label>
-						</span>
-						<span>
-							<input type="checkbox" id="rulesScopeSww" data-settingsgroup="rules_scope" data-settingskey="sww"/>
-							<label for="rulesScopeSww">Song of Wind and Water</label>
-						</span>
-						<span>
-							<input type="checkbox" id="rulesScopeSdg" data-settingsgroup="rules_scope" data-settingskey="sdg"/>
-							<label for="rulesScopeSdg">Song of Deeds and Glory</label>
-						</span>
-						<span>
-							<input type="checkbox" id="rulesScopeSam" data-settingsgroup="rules_scope" data-settingskey="sam"/>
-							<label for="rulesScopeSam">Song of Arthur and Merlin</label>
-						</span>
+					<p>Select expansions to use special rules from:</p>
+					<div class="two-column-grid">
+						<input type="checkbox" id="rulesScopeSbh" data-group="rules_scope" data-group-value="sbh" disabled="disabled" checked="checked"/>
+						<label for="rulesScopeSbh">Song of Blades and Heroes</label>
+						<input type="checkbox" id="rulesScopeSgd" data-group="rules_scope" data-group-value="sgd"/>
+						<label for="rulesScopeSgd">Song of Gold and Darkness</label>
+						<input type="checkbox" id="rulesScopeSww" data-group="rules_scope" data-group-value="sww"/>
+						<label for="rulesScopeSww">Song of Wind and Water</label>
+						<input type="checkbox" id="rulesScopeSdg" data-group="rules_scope" data-group-value="sdg"/>
+						<label for="rulesScopeSdg">Song of Deeds and Glory</label>
+						<input type="checkbox" id="rulesScopeSam" data-group="rules_scope" data-group-value="sam"/>
+						<label for="rulesScopeSam">Song of Arthur and Merlin</label>
 					</div>
 				</div>
 				<div class="panel">
-						<p>Choose the language for unit profiles.</p>
-					<select data-settingsgroup="language">
+					<p>Choose the language for unit profiles:</p>
+					<select data-value-key="language">
 						<option value="en">English</option>
 						<option value="de">Deutsch</option>
 					</select>
 				</div>
 				<div class="panel">
-						<p>What format do you prefer the unit sheets to be?</p>
-					<span>
-						<input type="radio" id="view_mode_classic" data-settingsgroup="view_mode" data-settingskey="classic" name="view_mode"/>
+					<p>What format do you prefer the unit sheets to be?</p>
+					<div class="two-column-grid">
+						<input type="radio" id="view_mode_classic" data-group="view_mode" data-group-value="classic" name="view_mode"/>
 						<label for="view_mode_classic">Classic unit profiles</label>
-					</span>
-					<span>
-						<input type="radio" id="view_mode_classic_touch" data-settingsgroup="view_mode" data-settingskey="classictouch" name="view_mode"/>
+						<input type="radio" id="view_mode_classic_touch" data-group="view_mode" data-group-value="classictouch" name="view_mode"/>
 						<label for="view_mode_classic_touch">Classic unit profiles, optimized for touchscreen devices</label>
-					</span>
-					<span>
-						<input type="radio" id="view_mode_list" data-settingsgroup="view_mode" data-settingskey="list" name="view_mode"/>
+						<input type="radio" id="view_mode_list" data-group="view_mode" data-group-value="list" name="view_mode"/>
 						<label for="view_mode_list">Broad list, better for bigger screens</label>
-					</span>
+					</div>
 				</div>
 				<div class="panel">
-						<p>More Options.</p>
-					<span>
-						<input type="checkbox" id="option_highlightPersonalities" data-settingsgroup="options" data-settingskey="highlightPersonalities"/>
+					<p>More Options:</p>
+					<div class="two-column-grid">
+						<input type="checkbox" id="option_highlightPersonalities" data-value-key="options.highlightPersonalities" data-value-attribute="checked"/>
 						<label for="option_highlightPersonalities">Highlight personalities</label>
-					</span>
-					<span>
-						<input type="checkbox" id="option_personalitiesInPoints" data-settingsgroup="options" data-settingskey="personalitiesInPoints"/>
+						<input type="checkbox" id="option_personalitiesInPoints" data-value-key="options.personalitiesInPoints" data-value-attribute="checked"/>
 						<label for="option_personalitiesInPoints">Show personalities points instead of percents</label>
-					</span>
-					<span>
-						<input type="checkbox" id="option_applyRuleChecks" data-settingsgroup="options" data-settingskey="applyRuleChecks"/>
+						<input type="checkbox" id="option_applyRuleChecks" data-value-key="options.applyRuleChecks" data-value-attribute="checked"/>
 						<label for="option_applyRuleChecks">Check rule compliance</label>
-					</span>
+					</div>
+				</div>
+				<div class="panel">
+					<p>Default values for new units:</p>
+					<div class="two-column-grid">
+						<span>Quality:</span>
+						<span>
+							<select size="1" id="option_default_quality" data-value-key="defaults.quality">
+								<dht:for-each list="quality-values">
+									<option value="{{}}">{{}}+</option>
+								</dht:for-each>
+							</select>
+						</span>
+						<span>Combat:</span>
+						<span>
+							<select size="1" id="option_default_combat" data-value-key="defaults.combat">
+								<dht:for-each list="combat-values">
+									<option value="{{}}">{{}}</option>
+								</dht:for-each>
+							</select>
+						</span>
+					</div>
 				</div>
 				<div class="buttons">
 					<input type="button" value="apply" dht:onclick="applySettings"/>

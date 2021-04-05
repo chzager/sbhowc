@@ -65,7 +65,12 @@ owc.init = function ()
 		);
 		pageSnippets.import("./snippets/warbandcode.xml").then(() => document.body.appendChild(pageSnippets.produce("warbandcode", warbandcode)));
 		pageSnippets.import("./snippets/restorer.xml").then(() => document.body.appendChild(pageSnippets.produce("restorer", restorer)));
-		pageSnippets.import("./snippets/settings.xml").then(() => document.body.appendChild(pageSnippets.produce("settings", settingsUi)));
+		pageSnippets.import("./snippets/settings.xml").then(() => document.body.appendChild(pageSnippets.produce("settings", settingsUi,
+				{
+					"combat-values": owc.editor.combatValues,
+					"quality-values": owc.editor.qualityValues
+				}
+				)));
 	};
 };
 

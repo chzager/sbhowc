@@ -5,7 +5,10 @@
 	<dht:snippet name="restorer">
 		<div id="restorer" class="blue" onclick="event.stopPropagation();">
 			<div class="blue-viewport">
-				<h1><i class="fas fa-times" dht:onclick="close"></i>Restore warband</h1>
+				<h1>
+					<i class="fas fa-times" dht:onclick="close"/>
+					<span>Restore warband</span>
+				</h1>
 				<div class="panel">
 					<p>Warbands are cached within your browser using its localStorage.</p>
 					<div class="warning">

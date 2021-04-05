@@ -23,6 +23,10 @@ owc.settings.init = function ()
 		"warbandcodeIncludesComments": true
 	};
 	owc.settings.language = "en";
+	owc.settings.defaults = {
+		"quality": 3,
+		"combat": 3
+	};
 	owc.settings.viewMode = (owc.ui.isTouchDevice) ? "classictouch" : "classic";
 };
 
@@ -33,6 +37,7 @@ owc.settings.toJson = function ()
 		"ruleScope": owc.settings.ruleScope,
 		"options": owc.settings.options,
 		"language": owc.settings.language,
+		"defaults": owc.settings.defaults,
 		"viewMode": owc.settings.viewMode
 	}
 	);
@@ -40,16 +45,23 @@ owc.settings.toJson = function ()
 
 owc.settings.fromJson = function (jsonObject)
 {
-	owc.settings.ruleScope = jsonObject.ruleScope;
-	for (let key in owc.settings.options)
+	function copyJson(source, target)
 	{
-		if (jsonObject.options.hasOwnProperty(key))
+		for (let key in source)
 		{
-			owc.settings.options[key] = jsonObject.options[key];
+			switch (source[key].constructor.name)
+			{
+				case "Function":
+					break;
+				case "Object":
+					copyJson(source[key], target[key]);
+					break;
+				default:
+					target[key] = source[key];
+			};
 		};
 	};
-	owc.settings.language = jsonObject.language;
-	owc.settings.viewMode = jsonObject.viewMode;
+	copyJson(jsonObject, owc.settings);
 };
 
 owc.settings.save = function ()

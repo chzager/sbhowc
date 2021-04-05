@@ -60,33 +60,26 @@ div.blue div.panel p {
 	color: grey;
 	}
 
-div.blue div.panel span {
-	display: block;
-	position: relative;
-	margin-bottom: 0.5em;
-	}
-
 div.blue input,
 div.blue label {
 	cursor: pointer;
-	margin-right: 0.3em;
-	display: inline-block;
-	}
-
-div.blue input[type="checkbox"],
-div.blue input[type="radio"] {
-	padding-left: 0em;
-	position: absolute;
-	top: 0.1em;
-	}
-div.blue label {
-	padding-left: 1.3rem;
 	}
 
 div.blue label:hover {
 	color: #607080;
 	background-color: #f0f0f0;
 	}
+
+div.blue div.two-column-grid {
+  display: grid;
+  grid-gap: 0px;
+  padding: 0px;
+	grid-template-columns: minmax(1em, min-content) auto;
+}
+div.blue div.two-column-grid > * {
+	margin-right: 0.5em;
+	margin-bottom: 0.5em;
+}
 
 div.blue div.buttons input[type="button"] {
 	margin-right: 0em;
