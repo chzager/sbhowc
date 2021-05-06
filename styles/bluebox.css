@@ -61,7 +61,8 @@ div.blue div.panel p {
 	}
 
 div.blue input,
-div.blue label {
+div.blue label,
+div.blue select {
 	cursor: pointer;
 	}
 

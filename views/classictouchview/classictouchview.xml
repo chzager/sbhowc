@@ -61,9 +61,7 @@
 				<span>{{specialrule-text}}</span>
 			</div>
 			<dht:if test="{{index}} &lt; {{specialrules-count}} -1">
-				<dht:then>
-					<span>,&#160;</span>
-				</dht:then>
+				<span>,&#160;</span>
 			</dht:if>
 		</div>
 	</dht:snippet>

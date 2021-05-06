@@ -91,14 +91,10 @@
 				<div class="tooltip">{{hint}}</div>
 			</div>
 			<dht:if test="{{index}} &lt; {{specialrules-count}} -1">
-				<dht:then>
-					<span>,&#160;</span>
-				</dht:then>
+				<span>,&#160;</span>
 			</dht:if>
 			<dht:if test="{{index}} === {{specialrules-count}} -1">
-				<dht:then>
-					<span class="specialruleEditorSeparator">,&#160;</span>
-				</dht:then>
+				<span class="specialruleEditorSeparator">,&#160;</span>
 			</dht:if>
 		</div>
 	</dht:snippet>
