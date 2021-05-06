@@ -10,7 +10,7 @@ See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
 class Unit
 {
 	static VALUE_CODES = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	static DEFALUT_TEXT_KEY = "en";
+	static DEFAULT_LANGUAGE = "en";
 
 	constructor()
 	{
@@ -30,9 +30,9 @@ class Unit
 			combat = 1 / 5;
 		};
 		let specialsPoints = 0;
-		for (let s = 0, ss = this.specialrules.length; s < ss; s += 1)
+		for (let specialrule of this.specialrules)
 		{
-			specialsPoints = specialsPoints + this.specialrules[s].points;
+			specialsPoints = specialsPoints + specialrule.points;
 		};
 		result = Number(Math.round((((combat * 5) + specialsPoints) * (7 - this.quality)) / 2));
 		if (result < 1)
@@ -45,9 +45,9 @@ class Unit
 	get isPersonality()
 	{
 		let result = false;
-		for (let s = 0, ss = this.specialrules.length; s < ss; s += 1)
+		for (let specialrule of this.specialrules)
 		{
-			if (this.specialrules[s].isPersonality)
+			if (specialrule.isPersonality)
 			{
 				result = true;
 				break;
@@ -59,9 +59,9 @@ class Unit
 	hasSpecialrule(specialruleKey)
 	{
 		let result = false;
-		for (let s = 0, ss = this.specialrules.length; s < ss; s += 1)
+		for (let specialrule of this.specialrules)
 		{
-			if (this.specialrules[s].key === specialruleKey)
+			if (specialrule.key === specialruleKey)
 			{
 				result = true;
 				break;
@@ -76,7 +76,7 @@ class Unit
 		let resource = specialrulesDictionary[specialruleKey];
 		if (resource !== undefined)
 		{
-			let hasAdditionalText = (specialrulesDictionary[specialruleKey][Unit.DEFALUT_TEXT_KEY].indexOf("...") > -1);
+			let hasAdditionalText = (specialrulesDictionary[specialruleKey][Unit.DEFAULT_LANGUAGE].includes("..."));
 			if ((this.hasSpecialrule(specialruleKey) === false) || (hasAdditionalText))
 			{
 				let specialrule =
@@ -134,11 +134,10 @@ class Unit
 			result += "*";
 			let specialsCode = "";
 			let specialTextsCode = "";
-			for (let s = 0, ss = this.specialrules.length; s < ss; s += 1)
+			for (let specialrule of this.specialrules)
 			{
-				let specialrule = this.specialrules[s];
 				specialsCode += specialrule.key;
-				if (specialrule.additionalText !== undefined)
+				if (!!specialrule.additionalText)
 				{
 					specialTextsCode += "!" + specialrule.additionalText;
 				};
@@ -179,9 +178,9 @@ class Unit
 				{
 					this.addSpecialrule(unitsSpecialRules[s], specialrulesDictionary);
 					let currentSpecialrule = this.specialrules[this.specialrules.length - 1];
-					if (currentSpecialrule.additionalText !== undefined)
+					if (!!currentSpecialrule.additionalText)
 					{
-						if (unitsSpecialTexts !== null)
+						if (!!unitsSpecialTexts)
 						{
 							currentSpecialrule.additionalText = String(unitsSpecialTexts[additionalTextIndex]).substr(1);
 						};
