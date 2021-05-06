@@ -172,7 +172,7 @@ owc.rulecheck.checkExcludes = function ()
 				{
 					for (let excluding of excludings)
 					{
-						if ((unit.hasSpecialrule(excluding)) && (index.includes(excluding + unit.specialrules[s].key) === false))
+						if ((unit.hasSpecialrule(excluding)) && (index.includes(excluding + specialrule.key) === false))
 						{
 							let checkResult =
 							{
@@ -180,12 +180,12 @@ owc.rulecheck.checkExcludes = function ()
 								"values":
 								{
 									"U": owc.helper.nonBlankUnitName(unit),
-									"A": owc.resources.translate(unit.specialrules[s].key, owc.settings.language),
+									"A": owc.resources.translate(specialrule.key, owc.settings.language),
 									"B": owc.resources.translate(excluding, owc.settings.language)
 								}
 							};
 							resultsRecipient.push(checkResult);
-							index.push(unit.specialrules[s].key + excluding);
+							index.push(specialrule.key + excluding);
 						};
 					};
 				};
