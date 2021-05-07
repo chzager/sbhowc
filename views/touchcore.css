@@ -12,14 +12,14 @@
 	border-color: transparent;
 	}
 
-.classicview #unitsgrid #additmes-container .addunit,
-.classicview #unitsgrid #additmes-container .addunit + .addunit {
+.classicview.touch #unitsgrid #additmes-container .addunit,
+.classicview.touch #unitsgrid #additmes-container .addunit + .addunit {
 	background: #fff;
 	font-size: 1rem;
 	padding: 1em;
 	border-radius: 1em;
 	}
-.classicview #unitsgrid #additmes-container .addunit:hover {
+.classicview.touch #unitsgrid #additmes-container .addunit:hover {
 	background: #f0f0f0;
 	border-color: #808080;
 	color:#808080;
