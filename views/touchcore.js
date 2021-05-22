@@ -342,6 +342,7 @@ touchCore.onMenuboxEvent = function (menuboxEvent)
 				{
 					editorEvent.detail["poolname"] = menuboxEvent.detail.context;
 				};
+				document.activeElement.blur();
 				window.dispatchEvent(editorEvent);
 			};
 		};
