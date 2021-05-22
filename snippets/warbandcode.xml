@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<dht:template xmlns:dht="dynamic-html-templates">
-	<dht:stylesheet src="warbandcode.css"/>
-	<dht:script src="warbandcode.js"/>
-	<dht:snippet name="warbandcode">
+<ps:pagesnippets xmlns="http://www.w3.org/1999/xhtml" xmlns:ps="https://github.com/suppenhuhn79/pagesnippets" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://github.com/suppenhuhn79/pagesnippets https://suppenhuhn79.github.io/pagesnippets/pagesnippets.xsd">
+	<ps:stylesheet src="warbandcode.css"/>
+	<ps:script src="warbandcode.js"/>
+	<ps:snippet name="warbandcode">
 		<div id="warbandcode" class="blue" onclick="event.stopPropagation();">
 			<div class="blue-viewport">
 				<h1>
-					<i class="fas fa-times" dht:onclick="close"/>
+					<i class="fas fa-times" ps:onclick="close"/>
 					<span>Warband code</span>
 				</h1>
 				<div class="panel">
 					<p>You can copy this code to a text-file and save your warband. Or you can enter a code here to restore a warband.</p>
 					<textarea autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-					<div class="two-column-grid" dht:onclick="includeCommentsClick">
+					<div class="two-column-grid" ps:onclick="includeCommentsClick">
 						<input type="checkbox" id="includeComments"/>
 						<label for="includeComments">Include human-readable comments</label>
 					</div>
-					<input type="button" value="copy to clipboard" dht:onclick="copyToClipboardClick"/>
+					<input type="button" value="copy to clipboard" ps:onclick="copyToClipboardClick"/>
 					<div id="copiedBubble" class="notification green">The code was copied to your system clipboard.</div>
 				</div>
 				<div class="buttons">
-					<input type="button" value="apply" dht:onclick="applyClick"/>
+					<input type="button" value="apply" ps:onclick="applyClick"/>
 					<div id="invalidBubble" class="notification red">This is not a valid warband code.</div>
 				</div>
 			</div>
 		</div>
-	</dht:snippet>
-</dht:template>
+	</ps:snippet>
+</ps:pagesnippets>

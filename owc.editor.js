@@ -55,6 +55,11 @@ owc.editor.onEditorEvent = function (editorEvent)
 		owc.editor.setSpecialruleText(unitIndex, specialruleIndex, editorEvent.detail.value);
 		owc.ui.printUnit(unitIndex);
 		break;
+	case "set-pointspool":
+		owc.editor.setPointsPool(editorEvent.detail.poolname, Number(editorEvent.detail.value));
+		owc.ui.visualizer.refreshWarbandSummary();
+		owc.ui.refreshUndoButton();
+		break;
 	case "addunit":
 		owc.editor.addUnit();
 		owc.ui.printWarband();
@@ -192,7 +197,7 @@ owc.editor.addUnit = function (unitCode = "")
 		newUnit.combat = owc.settings.defaults.combat;
 	};
 	owc.editor.setUndoPoint("Add unit");
-	owc.warband.units.push(newUnit);
+	owc.warband.addUnit(newUnit);
 };
 
 owc.editor.duplicateUnit = function (unitIndex)
@@ -214,7 +219,7 @@ owc.editor.copyUnitToClipboard = function (unitIndex)
 owc.editor.removeUnit = function (unitIndex)
 {
 	owc.editor.setUndoPoint("Delete " + owc.helper.nonBlankUnitName(owc.warband.units[unitIndex]));
-	owc.warband.units.splice(unitIndex, 1);
+	owc.warband.removeUnit(unitIndex);
 };
 
 owc.editor.moveUnitUp = function (unitIndex)
@@ -308,5 +313,14 @@ owc.editor.setSpecialruleText = function (unitIndex, specialruleIndex, newSpecia
 	{
 		owc.editor.setUndoPoint("Specify \"" + nativeText + "\" special rule for " + owc.helper.nonBlankUnitName(owc.warband.units[unitIndex]));
 		owc.warband.units[unitIndex].specialrules[specialruleIndex].additionalText = newSpecialruleText;
+	};
+};
+
+owc.editor.setPointsPool = function (poolname, value)
+{
+	if (owc.warband.pointsPools[poolname] !== value)
+	{
+		owc.editor.setUndoPoint("Set \"" + owc.helper.translate(poolname) + "\" to " + value);
+		owc.warband.pointsPools[poolname] = value;
 	};
 };

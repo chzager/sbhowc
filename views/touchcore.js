@@ -9,13 +9,26 @@ See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
 
 var touchCore = {};
 
-touchCore.init = function ()
+touchCore.init = function (pageSnippetGroup)
 {
+	touchCore.pageSnippetGroup = pageSnippetGroup;
 	touchCore.warbandNameMenu = touchCore.newPromptMenu("warbandname", "warbandNamePrompt");
 	touchCore.unitNameMenu = touchCore.newPromptMenu("name", "unitNamePrompt");
 	touchCore.createQualityMenu();
 	touchCore.createCombatMenu();
 	touchCore.specialrulesMenu = touchCore.newMenu("specialrules", "specialrules", [], ["ok", "cancel"], true);
+	touchCore.pointsPoolMenu = touchCore.newMenu("pointspool", "pointsPools", [], ["ok", "cancel"], true);
+	touchCore.pointsPoolMenu.element.querySelector("div.items").appendChild(htmlBuilder.newElement("input",
+		{
+			"type": "number",
+			"onclick": (clickEvent) => clickEvent.stopPropagation(),
+			"onkeypress": (keypressEvent) =>
+			{
+				if (keypressEvent.keyCode === 13)
+					touchCore.pointsPoolMenu.element.querySelector("[data-menubutton=\"ok\"]").click();
+			}
+		}
+		));
 
 	touchCore.unitMenu = new Menubox("unitMenu",
 	{
@@ -86,13 +99,16 @@ touchCore.popupEditor = function (clickEvent, editorMenu, context, text)
 {
 	touchCore.popupMenubox(clickEvent, editorMenu, context);
 	let editorNode = editorMenu.element.querySelector("[data-menuitem=\"editor\"]");
-	let range = document.createRange();
-	let selection = window.getSelection();
-	editorNode.innerHTML = text;
-	range.setStart(editorNode, (text !== "") ? 1 : 0);
-	range.collapse(true);
-	selection.removeAllRanges();
-	selection.addRange(range);
+	if (!!editorNode)
+	{
+		let range = document.createRange();
+		let selection = window.getSelection();
+		editorNode.innerHTML = text;
+		range.setStart(editorNode, (text !== "") ? 1 : 0);
+		range.collapse(true);
+		selection.removeAllRanges();
+		selection.addRange(range);
+	};
 	/* currently there is no definitive way to react when then virtual keyboard on touch device shrinks available height,
 	so we set the position of the prompt menu to the upper quarter */
 	editorMenu.element.style.top = Math.round((window.innerHeight / 4) - (editorMenu.element.offsetHeight / 2)) + "px";
@@ -149,14 +165,14 @@ touchCore.onQualityClick = function (clickEvent)
 {
 	let unitIndex = Number(clickEvent.target.closest("[data-unitindex]").getAttribute("data-unitindex"));
 	touchCore.qualityMenu.selectItem(owc.warband.units[unitIndex].quality);
-	touchCore.popupMenubox(clickEvent, touchCore.qualityMenu, unitIndex, clickEvent);
+	touchCore.popupMenubox(clickEvent, touchCore.qualityMenu, unitIndex);
 };
 
 touchCore.onCombatClick = function (clickEvent)
 {
 	let unitIndex = Number(clickEvent.target.closest("[data-unitindex]").getAttribute("data-unitindex"));
 	touchCore.combatMenu.selectItem(owc.warband.units[unitIndex].combat);
-	touchCore.popupMenubox(clickEvent, touchCore.combatMenu, unitIndex, clickEvent);
+	touchCore.popupMenubox(clickEvent, touchCore.combatMenu, unitIndex);
 };
 
 touchCore.onSpecialrulesClick = function (clickEvent)
@@ -241,7 +257,17 @@ touchCore.onSpecialrulesClick = function (clickEvent)
 	};
 	touchCore.specialrulesMenu.buildMenuItems(menuItems);
 	_postRender(touchCore.specialrulesMenu.element, unitIndex);
-	touchCore.popupMenubox(clickEvent, touchCore.specialrulesMenu, unitIndex, clickEvent);
+	touchCore.popupMenubox(clickEvent, touchCore.specialrulesMenu, unitIndex);
+};
+
+touchCore.onPointsPoolClick = function (clickEvent)
+{
+	let editor = touchCore.pointsPoolMenu.element.querySelector("input");
+	let poolName = clickEvent.target.getAttribute("data-poolname");
+	editor.value = owc.warband.pointsPools[poolName];
+	touchCore.pointsPoolMenu.element.querySelector("div.title").innerHTML = owc.helper.translate(poolName);
+	touchCore.popupEditor(clickEvent, touchCore.pointsPoolMenu, poolName);
+	editor.focus();
 };
 
 touchCore.onWindowFocus = function (focusEvent)
@@ -290,6 +316,7 @@ touchCore.onMenuboxEvent = function (menuboxEvent)
 						unit.specialrules[unit.specialrules.length - 1].additionalText = additionaltextNode.innerHTML;
 					};
 				};
+				owc.warband.checkPointsPools();
 				owc.storage.storeWarband();
 				owc.ui.printUnit(unitIndex);
 			}
@@ -301,6 +328,12 @@ touchCore.onMenuboxEvent = function (menuboxEvent)
 			else if ((menuboxEvent.detail.menuId === "name") && (menuboxEvent.detail.buttonKey === "ok"))
 			{
 				editorEvent.detail["value"] = touchCore.unitNameMenu.element.querySelector("[data-menuitem=\"editor\"]").innerText;
+				window.dispatchEvent(editorEvent);
+			}
+			else if ((menuboxEvent.detail.menuId === "pointspool") && (menuboxEvent.detail.buttonKey === "ok"))
+			{
+				editorEvent.detail["value"] = touchCore.pointsPoolMenu.element.querySelector("input").value;
+				editorEvent.detail["poolname"] = menuboxEvent.detail.context;
 				window.dispatchEvent(editorEvent);
 			};
 		};
@@ -356,66 +389,48 @@ touchCore.refreshSpecialrules = function (unitIndex, refNode)
 	refNode.removeAllChildren();
 	let unit = owc.warband.units[unitIndex];
 	let specialrulesCount = unit.specialrules.length;
-	if (specialrulesCount > 0)
+	let variables =
 	{
-		for (let s = 0; s < specialrulesCount; s += 1)
-		{
-			let specialrule = unit.specialrules[s];
-			let specialruleNode;
-			let specialruleText = owc.helper.translate(specialrule.key);
-			let variables =
-			{
-				"index": s,
-				"hint": _specialruleHint(specialrule.key),
-				"specialrule-text": specialruleText.replace("...", specialrule.additionalText),
-				"specialrules-count": unit.specialrules.length
-			};
-			specialruleNode = pageSnippets.produce("specialrule", touchCore, variables);
-			if (owc.settings.ruleScope.includes(owc.resources.data[specialrule.key].scope) === false)
-			{
-				specialruleNode.children[0].classList.add("out-of-scope");
-			};
-			refNode.appendChild(specialruleNode);
-		};
-	}
-	else if (owc.ui.isPrinting === false)
-	{
-		refNode.appendChild(htmlBuilder.newElement("span.add-specialrule", owc.helper.translate("addSpecialrule")));
+		"is-printing": owc.ui.isPrinting,
+		"add-specialrule": owc.helper.translate("addSpecialrule"),
+		"specialrules": []
 	};
+	for (let s = 0; s < specialrulesCount; s += 1)
+	{
+		let specialrule = unit.specialrules[s];
+		let specialruleNode;
+		let specialruleText = owc.helper.translate(specialrule.key);
+		let item =
+		{
+			"index": s,
+			"hint": _specialruleHint(specialrule.key),
+			"specialrule-text": specialruleText.replace("...", specialrule.additionalText),
+			"scope-class": ((owc.settings.ruleScope.includes(owc.resources.data[specialrule.key].scope)) ? "" : "out-of-scope")
+		};
+		variables.specialrules.push(item);
+	};
+	let specialruleNode = pageSnippets[touchCore.pageSnippetGroup]["specialrules"].produce(touchCore, variables);
+	refNode.appendChild(specialruleNode);
 };
 
 touchCore.refreshWarbandSummary = function ()
 {
-	let warbandSummaryText = owc.helper.translate("totalPoints",
-	{
-		"F": owc.warband.figureCount,
-		"P": owc.warband.points
-	}
-		);
-	if (owc.warband.personalityPoints > 0)
-	{
-		if (owc.settings.options.personalitiesInPoints === true)
-		{
-			warbandSummaryText += " (" + owc.helper.translate("personalitiesPoints",
-			{
-				"Q": owc.warband.personalityPoints
-			}
-			) + ")";
-		}
-		else
-		{
-			warbandSummaryText += " (" + owc.helper.translate("personalitiesPercent",
-			{
-				"P": Math.floor(owc.warband.personalityPoints / owc.warband.points * 100)
-			}
-			) + ")";
-		};
-	};
+	const resources = ["total", "totalPoints", "totalFigures", (owc.settings.options.personalitiesInPoints) ? "personalitiesPoints" : "personalitiesPercent"];
 	let variables =
 	{
-		"warband-summary": warbandSummaryText,
+		"TOTAL": owc.warband.points,
+		"COUNT": owc.warband.figureCount,
+		"POINTS": owc.warband.figurePoints,
+		"PERSONALITYPOINTS": owc.warband.personalityPoints,
+		"PERSONALITYPERCENT": Math.floor(owc.warband.personalityPoints / owc.warband.points * 100),
+		"personalitiesInPoints": owc.settings.options.personalitiesInPoints,
+		"text": {},
 		"rule-violations": []
 	};
+	for (let r of resources)
+	{
+		variables.text[r] = owc.helper.translate(r, variables);
+	}
 	if (owc.settings.options.applyRuleChecks)
 	{
 		for (let rulecheckResult of owc.rulecheck.checkAll())
@@ -429,7 +444,7 @@ touchCore.refreshWarbandSummary = function ()
 	};
 	let wrapperNode = document.querySelector("#warbandfooter");
 	wrapperNode.removeAllChildren();
-	wrapperNode.appendChild(pageSnippets.produce("warband-summary", null, variables));
+	wrapperNode.appendChild(pageSnippets[touchCore.pageSnippetGroup]["warband-summary"].produce(touchCore, variables));
 };
 
 touchCore.refreshPasteUnitButton = function (clipboardData)
@@ -452,7 +467,7 @@ touchCore.refreshPasteUnitButton = function (clipboardData)
 			"unit-name": clipboardData.title,
 			"unit-code": clipboardData.data
 		};
-		pasteUnitNode = pageSnippets.produce("paste-unit", touchCore, variables);
+		pasteUnitNode = pageSnippets[touchCore.pageSnippetGroup]["paste-unit"].produce(touchCore, variables);
 		addunitContainer.appendChild(pasteUnitNode);
 	};
 };

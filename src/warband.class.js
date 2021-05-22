@@ -11,14 +11,30 @@ class Warband
 {
 	static CURRENT_VERSION = "v1";
 	static UNIT_SEPARATOR = "@";
+	static POINTSPOOLS =
+	{
+		"ee": "elementalSummonPool",
+		"sm": "summonPool"
+	};
 
 	constructor()
 	{
 		this.name = "";
 		this.units = [];
+		this.pointsPools = {};
 	};
 
 	get points()
+	{
+		let result = this.figurePoints;
+		for (let poolName in this.pointsPools)
+		{
+			result += (this.pointsPools[poolName] ?? 0);
+		};
+		return result;
+	};
+
+	get figurePoints()
 	{
 		let result = 0;
 		for (let unit of this.units)
@@ -59,6 +75,58 @@ class Warband
 		return result;
 	};
 
+	checkPointsPools()
+	{
+		for (let poolKey in Warband.POINTSPOOLS)
+		{
+			let poolName = Warband.POINTSPOOLS[poolKey];
+			if (this.unitsBySpecialrule(poolKey).length > 0)
+			{
+				this.pointsPools[poolName] = (this.pointsPools[poolName] ?? 0);
+			}
+			else
+			{
+				this.pointsPools[poolName] = null;
+			};
+		};
+	};
+
+	addUnit(unit)
+	{
+		const warband = this;
+		function _addSpecialruleReplacer(specialruleKey, specialrulesDictionary)
+		{
+			let result = unit._$addSpecialrule(specialruleKey, specialrulesDictionary);
+			if (!!Warband.POINTSPOOLS[specialruleKey])
+			{
+				warband.checkPointsPools();
+			};
+			return result;
+		};
+		function _removeSpecialruleReplacer(specialruleIndex)
+		{
+			let specialruleKey = unit.specialrules[specialruleIndex].key;
+			let result = unit._$removeSpecialrule(specialruleIndex);
+			if (!!Warband.POINTSPOOLS[specialruleKey])
+			{
+				warband.checkPointsPools();
+			};
+			return result;
+		};
+		/* replace Unit default functions with Warband replacer functions */
+		unit._$addSpecialrule = unit.addSpecialrule;
+		unit._$removeSpecialrule = unit.removeSpecialrule;
+		unit.addSpecialrule = _addSpecialruleReplacer;
+		unit.removeSpecialrule = _removeSpecialruleReplacer;
+		this.units.push(unit);
+	};
+	
+	removeUnit(unitIndex)
+	{
+		this.units.splice(unitIndex, 1);		
+		this.checkPointsPools();
+	};
+
 	unitsBySpecialrule(specialruleKey)
 	{
 		let result = [];
@@ -88,6 +156,20 @@ class Warband
 			result += unit.toString().replace(RegExp(unitSeparator, "g"), "+");
 		};
 		result = result.replace(/\s/g, "+") + unitSeparator;
+		for (let pointsPool in this.pointsPools)
+		{
+			if (this.pointsPools[pointsPool] > 0)
+			{
+				for (let pointsPoolKey in Warband.POINTSPOOLS)
+				{
+					if (Warband.POINTSPOOLS[pointsPoolKey] === pointsPool)
+					{
+						result += pointsPoolKey + String(this.pointsPools[pointsPool]) + Warband.UNIT_SEPARATOR;
+						break;
+					};
+				};
+			};
+		};
 		return result;
 	};
 
@@ -103,10 +185,18 @@ class Warband
 			let unitsFind;
 			while (unitsFind = unitsRegex.exec(string))
 			{
+				if (!!Warband.POINTSPOOLS[unitsFind[1].substr(0, 2)])
+				{
+					this.pointsPools[Warband.POINTSPOOLS[unitsFind[1].substr(0, 2)]] = Number(unitsFind[1].substr(2));
+				}
+				else
+				{
 				let unit = new Unit();
 				unit.fromString(unitsFind[1], "v1", specialrulesDictionary);
-				this.units.push(unit);
+				this.addUnit(unit);
+				};
 			};
+			this.checkPointsPools();
 		}
 		else
 		{

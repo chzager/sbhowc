@@ -18,12 +18,9 @@ select { cursor: pointer; padding: 0em 0.2em; }
 	font-family: 'Source Serif Pro', serif;
 	}
 
-/*
-5cacad0c771550d6abf33de696fe048e7c5e2940 killed ff8d0e8b4700730eddbe863e368dd550bf59e959
-*/
 #warbandCanvas .interactive [data-editor] {
-/* #warbandCanvas .interactive * > [data-editor="name"] { */
 	border: 1px solid transparent;
+	outline: none;
 	}
 
 #warbandCanvas .interactive [data-editor]:hover,
@@ -67,7 +64,7 @@ select { cursor: pointer; padding: 0em 0.2em; }
 	display: inline-block;
 	}
 
-#warbandCanvas .interactive .specialrule .out-of-scope {
+#warbandCanvas .interactive .specialrule.out-of-scope {
 	border-bottom: 2px dotted red;
 	}
 
@@ -78,7 +75,6 @@ select { cursor: pointer; padding: 0em 0.2em; }
 	bottom: 0em;
 	background-color: #ffffffd0;
 	box-shadow: 0em 0em 5px 5px #ffffffd0;
-	margin-top: 1.5em;
 	text-shadow:
 		-0.1em 0.1em 0.1em #fff,
 		-0.1em -0.1em 0.1em #fff,

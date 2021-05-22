@@ -11,11 +11,17 @@ owc.ui =
 {
 	"sweepvolatilesEvent": "owc.ui.sweepvolatiles",
 	"isPrinting": (window.location.getParam(owc.urlParam.print) === "1"),
+	"isTouchDevice": ("ontouchstart" in document.documentElement),
 	"visualizer": null,
 	"undoButton": document.getElementById("undo-button"),
 	"blurElement": document.getElementById("blur"),
-	"notifyElement": document.getElementById("master-notification")
+	"notifyElement": document.getElementById("master-notification"),
+	"warbandCanvas": document.getElementById("warbandCanvas")
 };
+
+owc.ui.NOTIFICATION_COLOR_GREEN = "green";
+owc.ui.NOTIFICATION_COLOR_YELLOW = "green";
+owc.ui.NOTIFICATION_COLOR_RED = "red";
 
 owc.ui.init = function ()
 {
@@ -30,14 +36,7 @@ owc.ui.init = function ()
 
 owc.ui.initView = function ()
 {
-	owc.ui.wait("Loading");
-	if (owc.ui.visualizer !== null)
-	{
-		owc.ui.visualizer.unload();
-	};
-	let viewFullname = owc.settings.viewMode + "view";
-	/* we will always reload the view template; snippets may have been overwritten by previously selected views */
-	pageSnippets.import("./views/" + viewFullname + "/" + viewFullname + ".xml").then(() =>
+	function _initView()
 	{
 		owc.ui.wait("Rendering");
 		owc.ui.visualizer = window[viewFullname];
@@ -48,8 +47,25 @@ owc.ui.initView = function ()
 		{
 			window.print();
 		};
+	};
+	owc.ui.wait("Loading");
+	if (owc.ui.visualizer !== null)
+	{
+		owc.ui.visualizer.unload();
+	};
+	let viewFullname = owc.settings.viewMode + "view";
+	if (!!pageSnippets[viewFullname] === false)
+	{
+		pageSnippets.import("./views/" + viewFullname + "/" + viewFullname + ".xml").then(_initView, (e) => {
+			console.error(e);
+			owc.ui.waitEnd();
+			owc.ui.warbandCanvas.appendChild(htmlBuilder.newElement("div.global-notification.notification.red", "Error while loading view \"" + viewFullname + "\"."));
+		});
 	}
-	);
+	else
+	{
+		_initView();
+	};
 };
 
 owc.ui.printUnit = function (unitIndex)
@@ -67,7 +83,6 @@ owc.ui.printWarband = function ()
 		"x": window.scrollX,
 		"y": window.scrollY
 	};
-	let warbandCanvas = document.getElementById("warbandCanvas");
 	warbandCanvas.removeAllChildren();
 	warbandCanvas.appendChild(owc.ui.visualizer.getWarbandHtml());
 	owc.ui.visualizer.refreshWarbandSummary();
@@ -115,9 +130,8 @@ owc.ui.refreshUndoButton = function ()
 	};
 };
 
-owc.ui.notify = function (text, color = "green")
+owc.ui.notify = function (text, color = owc.ui.NOTIFICATION_COLOR_GREEN)
 {
-	// let element = document.getElementById("master-notification");
 	if (!!owc.ui.notifyElement)
 	{
 		if (owc.ui.notifyElement.classList.contains("visible") === false)
@@ -196,7 +210,7 @@ owc.ui.sweepVolatiles = function (anyEvent)
 
 owc.ui.scrollToBottom = function ()
 {
-	let desiredScrollY = document.getElementById("warbandCanvas").getBoundingClientRect().bottom + window.scrollY - window.innerHeight;
+	let desiredScrollY = owc.ui.warbandCanvas.getBoundingClientRect().bottom + window.scrollY - window.innerHeight;
 	window.scrollTo(
 	{
 		left: window.scrollX,
@@ -238,5 +252,3 @@ owc.ui.waitEnd = function ()
 	loadingOverlay.style.visibility = "hidden";
 	loadingOverlay.querySelector(".loading-gradient").classList.remove("animated");
 };
-
-owc.ui.isTouchDevice = ("ontouchstart" in document.documentElement);

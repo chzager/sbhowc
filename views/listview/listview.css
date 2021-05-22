@@ -106,6 +106,12 @@
 	display: inline-block;
 	}
 
+.listview #units .pointspool {
+	font-style: italic;
+	}
+.listview #units [data-editor="pointspool"] {
+	text-align: center;
+	}
 /* add itmes buttons */
 
 .listview #additmes-container .addunit {

@@ -9,8 +9,9 @@ See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
 
 var formsCore = {};
 
-formsCore.init = function ()
+formsCore.init = function (pageSnippetGroup)
 {
+	formsCore.pageSnippetGroup = pageSnippetGroup;
 	formsCore.editors = {};
 	let variables =
 	{
@@ -33,9 +34,9 @@ formsCore.init = function ()
 		}
 		);
 	};
-	formsCore.editors.qualitySelector = pageSnippets.produce("quality-selector", formsCore, variables);
-	formsCore.editors.combatSelector = pageSnippets.produce("combat-selector", formsCore, variables);
-	formsCore.editors.specialrulesSelector = pageSnippets.produce("specialrules-selector", formsCore, variables);
+	formsCore.editors.qualitySelector = pageSnippets.formscore["quality-selector"].produce(formsCore, variables);
+	formsCore.editors.combatSelector = pageSnippets.formscore["combat-selector"].produce(formsCore, variables);
+	formsCore.editors.specialrulesSelector = pageSnippets.formscore["specialrules-selector"].produce(formsCore, variables);
 	formsCore.unitMenu = new Menubox("unitMenu",
 	{
 		"duplicate": "Duplicate unit",
@@ -187,63 +188,51 @@ formsCore.refreshSpecialrules = function (unitIndex, refNode)
 	refNode.removeAllChildren();
 	let unit = owc.warband.units[unitIndex];
 	let specialrulesCount = unit.specialrules.length;
+	let variables =
+	{
+		"is-printing": owc.ui.isPrinting,
+		"specialrules": []
+	};
 	for (let s = 0; s < specialrulesCount; s += 1)
 	{
-		let spcialrule = unit.specialrules[s];
+		let specialrule = unit.specialrules[s];
 		let specialruleNode;
-		let specialruleText = owc.helper.translate(spcialrule.key);
-		let variables =
+		let specialruleText = owc.helper.translate(specialrule.key);
+		let item =
 		{
 			"index": s,
-			"hint": _specialruleHint(spcialrule.key),
+			"hint": _specialruleHint(specialrule.key),
 			"specialrule-text": specialruleText,
 			"specialrule-text-before": specialruleText.substring(0, specialruleText.indexOf("...")),
-			"specialrule-additional-text": spcialrule.additionalText || "",
+			"specialrule-additional-text": specialrule.additionalText ?? "",
 			"specialrule-text-after": specialruleText.substring(specialruleText.indexOf("...") + 3),
 			"default-additional-text": "...",
-			"specialrules-count": specialrulesCount
+			"scope-class": ((owc.settings.ruleScope.includes(owc.resources.data[specialrule.key].scope)) ? "" : "out-of-scope")
 		};
-		specialruleNode = pageSnippets.produce("specialrule", formsCore, variables);
-		if (owc.settings.ruleScope.includes(owc.resources.data[spcialrule.key].scope) === false)
-		{
-			specialruleNode.children[0].classList.add("out-of-scope");
-		};
-		refNode.appendChild(specialruleNode);
+		variables.specialrules.push(item);
 	};
+	let specialruleNode = pageSnippets[formsCore.pageSnippetGroup]["specialrules"].produce(formsCore, variables);
+	refNode.appendChild(specialruleNode);
 };
 
 formsCore.refreshWarbandSummary = function ()
 {
-	let warbandSummaryText = owc.helper.translate("totalPoints",
-	{
-		"F": owc.warband.figureCount,
-		"P": owc.warband.points
-	}
-		);
-	if (owc.warband.personalityPoints > 0)
-	{
-		if (owc.settings.options.personalitiesInPoints)
-		{
-			warbandSummaryText += " (" + owc.helper.translate("personalitiesPoints",
-			{
-				"Q": owc.warband.personalityPoints
-			}
-			) + ")";
-		}
-		else
-		{
-			warbandSummaryText += " (" + owc.helper.translate("personalitiesPercent",
-			{
-				"P": Math.floor(owc.warband.personalityPoints / owc.warband.points * 100)
-			}
-			) + ")";
-		};
-	};
+	const resources = ["total", "totalPoints", "totalFigures", (owc.settings.options.personalitiesInPoints) ? "personalitiesPoints" : "personalitiesPercent"];
 	let variables =
 	{
-		"warband-summary": warbandSummaryText,
+		"TOTAL": owc.warband.points,
+		"COUNT": owc.warband.figureCount,
+		"POINTS": owc.warband.figurePoints,
+		"PERSONALITYPOINTS": owc.warband.personalityPoints,
+		"PERSONALITYPERCENT": Math.floor(owc.warband.personalityPoints / owc.warband.points * 100),
+		"personalitiesInPoints": owc.settings.options.personalitiesInPoints,
+		"text": {},
 		"rule-violations": []
 	};
+	for (let r of resources)
+	{
+		variables.text[r] = owc.helper.translate(r, variables);
+	}
 	if (owc.settings.options.applyRuleChecks)
 	{
 		for (let rulecheckResult of owc.rulecheck.checkAll())
@@ -257,7 +246,7 @@ formsCore.refreshWarbandSummary = function ()
 	};
 	let wrapperNode = document.querySelector("#warbandfooter");
 	wrapperNode.removeAllChildren();
-	wrapperNode.appendChild(pageSnippets.produce("warband-summary", null, variables));
+	wrapperNode.appendChild(pageSnippets[formsCore.pageSnippetGroup]["warband-summary"].produce(formsCore, variables));
 };
 
 formsCore.refreshPasteUnitButton = function (clipboardData)
@@ -280,7 +269,7 @@ formsCore.refreshPasteUnitButton = function (clipboardData)
 			"unit-name": clipboardData.title,
 			"unit-code": clipboardData.data
 		};
-		pasteUnitNode = pageSnippets.produce("paste-unit", formsCore, variables);
+		pasteUnitNode = pageSnippets[formsCore.pageSnippetGroup]["paste-unit"].produce(formsCore, variables);
 		addunitContainer.appendChild(pasteUnitNode);
 	};
 };
@@ -291,7 +280,7 @@ formsCore.makeEditable = function (refNode)
 	refNode.setAttribute("spellcheck", "false");
 	refNode.onfocus = (focusEvent) =>
 	{
-		let defaulValue = focusEvent.target.getAttribute("data-defaultvalue") || "";
+		let defaulValue = focusEvent.target.getAttribute("data-defaultvalue") ?? "";
 		let currentValue = focusEvent.target.innerText;
 		if (currentValue === defaulValue)
 		{
@@ -300,8 +289,14 @@ formsCore.makeEditable = function (refNode)
 	};
 	refNode.onblur = (blurEvent) =>
 	{
-		let defaulValue = blurEvent.target.getAttribute("data-defaultvalue") || "";
+		let defaulValue = blurEvent.target.getAttribute("data-defaultvalue") ?? "";
 		let newValue = blurEvent.target.innerText.replace(/[\r\n]/g, "");
+		switch (blurEvent.target.getAttribute("data-accept"))
+		{
+		case "numbers":
+			newValue = newValue.replace(/\D/g, "");
+			break;
+		};
 		blurEvent.target.innerText = newValue;
 		// blurEvent.target.innerText = (newValue !== "") ? newValue : defaulValue;
 		formsCore.dispatchEditorEvent(blurEvent);

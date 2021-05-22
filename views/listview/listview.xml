@@ -1,112 +1,146 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<dht:template xmlns:dht="dynamic-html-templates">
-	<dht:stylesheet src="../views-core.css"/>
-	<dht:stylesheet src="listview.css"/>
-	<dht:script src="../formscore.js"/>
-	<dht:script src="listview.js"/>
-	<dht:snippet name="quality-selector">
-		<select size="1" data-editor="quality">
-			<dht:for-each list="quality-values">
-				<option value="{{}}">{{}}+</option>
-			</dht:for-each>
-		</select>
-	</dht:snippet>
-	<dht:snippet name="combat-selector">
-		<select size="1" data-editor="combat">
-			<dht:for-each list="combat-values">
-				<option value="{{}}">{{}}</option>
-			</dht:for-each>
-		</select>
-	</dht:snippet>
-	<dht:snippet name="specialrules-selector">
-		<select size="1" data-action="addspecialrule">
-			<dht:for-each list="specialrules-list">
-				<option value="{{key}}">{{text}}</option>
-			</dht:for-each>
-		</select>
-	</dht:snippet>
-	<dht:snippet name="listview">
-		<div class="listview screenfx interactive">
-			<div id="warbandheader" data-editor="warbandname" data-defaultvalue="{{default-warband-name}}" dht:postproduction="makeEditable">{{warband-name}}</div>
-			<table id="units">
-				<tr class="unitsheader">
-					<th class="count">{{count}}</th>
-					<th class="name">{{name}}</th>
-					<th class="points">{{points}}</th>
-					<th class="quality">{{quality}}</th>
-					<th class="combat">{{combat}}</th>
-					<th class="specialrules">{{specialrules}}</th>
-				</tr>
-				<dht:call-function name="listUnits"/>
-				<tr class="addunit">
-					<td colspan="6">
-						<div id="additmes-container">
-							<div class="addunit" data-action="addunit" dht:onclick="onValueEdited">{{add-unit}}</div>
-						</div>
-					</td>
-				</tr>
-			</table>
-			<div id="warbandfooter"/>
-		</div>
-	</dht:snippet>
-	<dht:snippet name="listview-unit-row">
-		<tr data-unitindex="{{unit-index}}">
-			<td class="editor">
-				<span data-valueof="count"/>
-				<input type="number" min="1" max="25" maxlength="2" data-editor="count" dht:onchange="onValueEdited"/>
-			</td>
-			<td>
-				<div data-editor="name" data-defaultvalue="{{default-unit-name}}" dht:postproduction="makeEditable"/>
-			</td>
-			<td class="points" data-action="showunitmenu" dht:onclick="onValueEdited">
-				<span data-staticvalueof="points"/>
-			</td>
-			<td class="quality editor">
-				<span data-valueof="quality"/>
-				<dht:call-function name="appendQualitySelector"/>
-			</td>
-			<td class="combatscore editor">
-				<span data-valueof="combat"/>
-				<dht:call-function name="appendCombatSelector"/>
-			</td>
-			<td class="specialrules">
-				<span data-staticvalueof="specialrules"/>
-				<dht:call-function name="appendSpecialrulesSelector"/>
-			</td>
-		</tr>
-	</dht:snippet>
-	<dht:snippet name="specialrule">
-		<div class="specialrule">
-			<div data-specialruleindex="{{index}}">
-				<dht:if test="('{{specialrule-additional-text}}' === '')">
-					<dht:then>
-						<span data-action="removespecialrule" dht:onclick="onValueEdited">{{specialrule-text}}</span>
-					</dht:then>
-					<dht:else>
-						<span data-action="removespecialrule" dht:onclick="onValueEdited">{{specialrule-text-before}}</span>
-						<span data-editor="additionaltext" data-defaultvalue="{{default-additional-text}}" dht:postproduction="makeEditable">{{specialrule-additional-text}}</span>
-						<span>{{specialrule-text-after}}</span>
-					</dht:else>
-				</dht:if>
-				<div class="tooltip">{{hint}}</div>
+<ps:pagesnippets xmlns="http://www.w3.org/1999/xhtml" xmlns:ps="https://github.com/suppenhuhn79/pagesnippets" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://github.com/suppenhuhn79/pagesnippets https://suppenhuhn79.github.io/pagesnippets/pagesnippets.xsd">
+	<ps:stylesheet src="../core.css"/>
+	<ps:stylesheet src="listview.css"/>
+	<ps:script src="../formscore.js"/>
+	<ps:script src="listview.js"/>
+	<ps:snippet-group name="formscore">
+		<ps:snippet name="quality-selector">
+			<select size="1" data-editor="quality">
+				<ps:for-each list="quality-values">
+					<option value="{{_value}}">{{_value}}+</option>
+				</ps:for-each>
+			</select>
+		</ps:snippet>
+		<ps:snippet name="combat-selector">
+			<select size="1" data-editor="combat">
+				<ps:for-each list="combat-values">
+					<option value="{{_value}}">{{_value}}</option>
+				</ps:for-each>
+			</select>
+		</ps:snippet>
+		<ps:snippet name="specialrules-selector">
+			<select size="1" data-action="addspecialrule">
+				<ps:for-each list="specialrules-list">
+					<option value="{{key}}">{{text}}</option>
+				</ps:for-each>
+			</select>
+		</ps:snippet>
+	</ps:snippet-group>
+	<ps:snippet-group name="listview">
+		<ps:snippet name="main">
+			<div class="listview screenfx interactive">
+				<div id="warbandheader" data-editor="warbandname" data-defaultvalue="{{default-warband-name}}" ps:postproduction="makeEditable">{{warband-name}}</div>
+				<table id="units">
+					<tr class="unitsheader">
+						<th class="count">{{count}}</th>
+						<th class="name">{{name}}</th>
+						<th class="points">{{points}}</th>
+						<th class="quality">{{quality}}</th>
+						<th class="combat">{{combat}}</th>
+						<th class="specialrules">{{specialrules}}</th>
+					</tr>
+					<ps:call-function name="listUnits"/>
+					<ps:call-function name="listPointsPools"/>
+					<tr class="addunit">
+						<td colspan="6">
+							<div id="additmes-container">
+								<div class="addunit" data-action="addunit" ps:onclick="onValueEdited">{{add-unit}}</div>
+							</div>
+						</td>
+					</tr>
+				</table>
+				<div id="warbandfooter"/>
 			</div>
-			<dht:if test="{{index}} &lt; {{specialrules-count}} -1">
-				<span>,&#160;</span>
-			</dht:if>
-			<dht:if test="{{index}} === {{specialrules-count}} -1">
-				<span class="specialruleEditorSeparator">,&#160;</span>
-			</dht:if>
-		</div>
-	</dht:snippet>
-	<dht:snippet name="warband-summary">
-		<div>
-			<p>{{warband-summary}}</p>
-			<dht:for-each list="rule-violations">
-				<p class="rule-violation">{{text}}</p>
-			</dht:for-each>
-		</div>
-	</dht:snippet>
-	<dht:snippet name="paste-unit">
-		<div class="addunit" data-action="pasteunit" data-unitcode="{{unit-code}}" dht:onclick="onValueEdited">{{paste-unit}}</div>
-	</dht:snippet>
-</dht:template>
+		</ps:snippet>
+		<ps:snippet name="unit-row">
+			<tr data-unitindex="{{unit-index}}">
+				<td class="editor">
+					<span data-valueof="count"/>
+					<input type="number" min="1" max="25" maxlength="2" data-editor="count" ps:onchange="onValueEdited"/>
+				</td>
+				<td>
+					<div data-editor="name" data-defaultvalue="{{default-unit-name}}" ps:postproduction="makeEditable"/>
+				</td>
+				<td class="points" data-action="showunitmenu" ps:onclick="onValueEdited">
+					<span data-staticvalueof="points"/>
+				</td>
+				<td class="quality editor">
+					<span data-valueof="quality"/>
+					<ps:call-function name="appendQualitySelector"/>
+				</td>
+				<td class="combatscore editor">
+					<span data-valueof="combat"/>
+					<ps:call-function name="appendCombatSelector"/>
+				</td>
+				<td class="specialrules" data-staticvalueof="specialrules"/>
+			</tr>
+		</ps:snippet>
+		<ps:snippet name="specialrules">
+			<div class="specialrules">
+				<ps:for-each list="specialrules">
+					<span class="specialrule {{scope-class}}" data-specialruleindex="{{index}}">
+						<ps:choose>
+							<ps:if test="('{{specialrule-additional-text}}' === '')">
+								<span data-action="removespecialrule" ps:onclick="onValueEdited">{{specialrule-text}}</span>
+							</ps:if>
+							<ps:else>
+								<span data-action="removespecialrule" ps:onclick="onValueEdited">{{specialrule-text-before}}</span>
+								<span data-editor="additionaltext" data-defaultvalue="{{default-additional-text}}" ps:postproduction="makeEditable">{{specialrule-additional-text}}</span>
+								<span>{{specialrule-text-after}}</span>
+							</ps:else>
+						</ps:choose>
+						<div class="tooltip">{{hint}}</div>
+					</span>
+					<ps:choose>
+						<ps:if test="{{_position}} &lt; {{_count}}">
+							<span>,&#160;</span>
+						</ps:if>
+						<ps:else>
+							<span class="specialruleEditorSeparator">,&#160;</span>
+						</ps:else>
+					</ps:choose>
+				</ps:for-each>
+				<ps:call-function name="appendSpecialrulesSelector"/>
+			</div>
+		</ps:snippet>
+		<ps:snippet name="pointspool">
+			<tr data-pointspool="{{pool-name}}">
+				<td colspan="2" class="pointspool">{{pool-label}}</td>
+				<td>
+					<div data-editor="pointspool" data-poolname="{{pool-name}}" data-accept="numbers" ps:postproduction="makeEditable"/>
+				</td>
+				<td colspan="3"/>
+			</tr>
+		</ps:snippet>
+		<ps:snippet name="warband-summary">
+			<div>
+				<p>
+					<ps:text>{{text.total}}:&#32;</ps:text>
+					<ps:if test="{{TOTAL}} !== {{POINTS}}">
+						<ps:text>{{text.totalPoints}},&#32;</ps:text>
+					</ps:if>
+					<ps:text>{{text.totalFigures}}</ps:text>
+					<ps:if test="{{PERSONALITYPOINTS}} &gt; 0">
+						<ps:text>&#32;(</ps:text>
+						<ps:choose>
+							<ps:if test="{{personalitiesInPoints}}">
+								<ps:text>{{text.personalitiesPoints}}</ps:text>
+							</ps:if>
+							<ps:else>
+								<ps:text>{{text.personalitiesPercent}}</ps:text>
+							</ps:else>
+						</ps:choose>
+						<ps:text>)</ps:text>
+					</ps:if>
+				</p>
+				<ps:for-each list="rule-violations">
+					<p class="rule-violation">{{text}}</p>
+				</ps:for-each>
+			</div>
+		</ps:snippet>
+		<ps:snippet name="paste-unit">
+			<div class="addunit" data-action="pasteunit" data-unitcode="{{unit-code}}" ps:onclick="onValueEdited">{{paste-unit}}</div>
+		</ps:snippet>
+	</ps:snippet-group>
+</ps:pagesnippets>

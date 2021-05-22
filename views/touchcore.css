@@ -12,17 +12,9 @@
 	border-color: transparent;
 	}
 
-.classicview.touch #unitsgrid #additmes-container .addunit,
-.classicview.touch #unitsgrid #additmes-container .addunit + .addunit {
-	background: #fff;
-	font-size: 1rem;
-	padding: 1em;
-	border-radius: 1em;
-	}
-.classicview.touch #unitsgrid #additmes-container .addunit:hover {
+#warbandCanvas .interactive.touch .clickaction:hover {
 	background: #f0f0f0;
-	border-color: #808080;
-	color:#808080;
+	cursor: pointer;
 	}
 
 div[data-menubox="warbandMenu"],
@@ -42,6 +34,7 @@ div[data-menubox="unitMenu"] {
 	border-radius: 0.5em;
 	padding: 0.1em;
 	color: #bdbdbd;
+	cursor: pointer;
 	}
 #unitsgrid table.unit td.specialrules:hover .add-specialrule {
 	background: #f0f0f0;

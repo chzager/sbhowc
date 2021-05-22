@@ -2,9 +2,12 @@
 
 .classicview #unitsgrid {
 	width: 100%;
-	margin-bottom: 1em;
+	--max-sheet-width: 500px;
 	}
 
+.classicview #unitsgrid > tr > td {
+	padding-bottom: 1.5em;
+	}
 .classicview #unitsgrid td.left { width: 50%; vertical-align: top; padding-right: 0.75em; }
 .classicview #unitsgrid td.right { width: 50%; vertical-align: top; padding-left: 0.75em; }
 
@@ -16,8 +19,7 @@
 	border-spacing: 0em;
 	table-layout: fixed;
 	width: 100%;
-	max-width: 500px;
-	margin-bottom: 1.5em;
+	max-width: var(--max-sheet-width);
 	}
 .classicview.screenfx table.unit {
 	box-shadow: 0.1em 0.1em 0.3em #0000002f;
@@ -94,6 +96,10 @@
 	display: inline-block;
 	padding-right: 0.5em;
 	}
+.classicview.interactive table.unit [data-editor="pointspool"]:focus {
+	display: inline-block;
+	padding-right: 0.5em;
+	}
 
 .classicview.interactive table.unit .specialruleEditorSeparator {
 	display: none;
@@ -114,6 +120,7 @@
 	border-radius: 1em;
 	color: #bdbdbd;
 	cursor: pointer;
+	max-width: var(--max-sheet-width);
 	}
 	
 .classicview #unitsgrid #additmes-container .addunit:hover {

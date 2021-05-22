@@ -134,6 +134,13 @@ a[target="_blank"]:hover {
 	#title h2 { font-size: 7.5vw; }
 	}
 
+#top-menu-floater {
+	width: 100%;
+	position: sticky;
+	top: 0em;
+	z-index: var(--z-index-top-menu-floater);
+	}
+
 #top-menu-stripe {
 	background: linear-gradient(95deg,
 		var(--complement-color) 0%,
@@ -141,7 +148,6 @@ a[target="_blank"]:hover {
 	color: var(--complement-black-color);
 	border-bottom: 0.15rem solid var(--complement-dark-color);
 	box-shadow: -0.4rem -0.8rem 0.5rem 0.8rem black;
-	position: relative;
 	z-index: var(--z-index-top-menu);
 	}
 #top-menu-stripe .flex-box {
@@ -219,14 +225,10 @@ a[target="_blank"]:hover {
 	left: 0.8em;
 	}
 
-#top-menu-floater {
-	width: 100%;
+#top-menu-substripe {
 	text-align: right;
-	position: sticky;
-	top: 0em;
-	z-index: var(--z-index-top-menu-floater);
 	}
-#top-menu-floater i {
+#top-menu-substripe i {
 	font-size: var(--icon-size);
 	padding: var(--icon-space);
 	margin: var(--icon-space);
@@ -238,14 +240,14 @@ a[target="_blank"]:hover {
 		0.1em -0.1em 0.1em #fff,
 		0.1em 0.1em 0.1em #fff;
 	}
-#top-menu-floater #undo-button {
+#top-menu-substripe #undo-button {
 	display: inline-block;
 	}
-#top-menu-floater #undo-button.disabled {
+#top-menu-substripe #undo-button.disabled {
 	color: #d0d0d0;
 	cursor: not-allowed;
 	}
-#top-menu-floater #undo-button.animated {
+#top-menu-substripe #undo-button.animated {
 	animation: undo-button-animation 0.2s ease 0s 1 alternate;
 	}
 @keyframes undo-button-animation {
@@ -335,6 +337,10 @@ a[target="_blank"]:hover {
 	left: 0em;
 	}
 
+#print-footer {
+	margin-top: 1rem;
+	}
+	
 #loading-wrapper {
 	position: fixed;
 	-webkit-backface-visibility: hidden;
@@ -436,7 +442,8 @@ div.tooltip * {
 	visibility: visible !important;
 	}
 
-#master-notification {
+#master-notification,
+.global-notification {
 	border: 0.2rem solid;
 	padding: 0.5em;
 	box-shadow: 0.3rem 0.3rem 1rem #00000080;
@@ -504,3 +511,10 @@ div.tooltip * {
 	font-weight: 900;
 	content: "\f057\20";
 	}
+.global-notification {
+	visibility: visible;
+	opacity: 1;
+	position: relative;
+	top: 0rem;
+	z-index: initial;
+}

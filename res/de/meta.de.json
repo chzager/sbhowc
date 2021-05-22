@@ -15,16 +15,21 @@
 		"cancel": "Abbrechen",
 		"addUnit": "Einheit hinzufügen",
 		"pasteUnit": "{UNIT} einfügen",
-		"totalPoints": "Gesamt: {F} Figuren mit {P} Punkten",
+		"total": "Gesamt",
+		"totalPoints": "{TOTAL} Punkte",
+		"totalFigures": "{COUNT} Figuren mit {POINTS} Punkten",
 		"addSpecialrule": "Sonderregel hinzufügen",
-		"personalitiesPoints": "{Q} Punkte für Persönlichkeiten",
-		"personalitiesPercent": "{P}% Persönlichkeiten",
+		"personalitiesPoints": "{PERSONALITYPOINTS} Punkte für Persönlichkeiten",
+		"personalitiesPercent": "{PERSONALITYPERCENT}% Persönlichkeiten",
 		"ruleViolation": "Regelverletzung:",
 		"personalityPointsViolated": "Höchstens {M} Punkte für Persönlichkeiten erlaubt.",
 		"animalPointsViolated": "Höchstens {M} Punkte für Tiere erlaubt (aktuell: {C}).",
 		"specialRuleMismatch": "{U} kann nicht \"{A}\" und \"{B}\" gleichzeitig haben.",
 		"swarmCountViolated": "Ein Schwarm muss aus mindestens zwei Einheiten/Basen bestehen.",
 		"paladinSpecialruleViolated": "Ein {PALADIN} darf nicht in einer Schlachtgruppe sein, die Einheiten mit der \"{EVIL}\"-Sonderregel enthält.",
-		"rabbleSpecialruleViolated": "{U} hat die \"{RABBLE}\"-Sonderregel und darf deshalb eine Qualität von höchstens 4+ haben."
+		"rabbleSpecialruleViolated": "{U} hat die \"{RABBLE}\"-Sonderregel und darf deshalb eine Qualität von höchstens 4+ haben.",
+		"pointsPools": "Punkte-Pools",
+		"summonPool": "Beschwörungspool",
+		"elementalSummonPool": "Elementar-Beschwörungspool"
 	}
 }

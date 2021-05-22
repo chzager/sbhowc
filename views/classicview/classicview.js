@@ -11,12 +11,11 @@ var classicview = {};
 
 classicview.init = function ()
 {
-	formsCore.init();
-	classicview.columnCount = null;
+	formsCore.init("classicview");
+	classicview.columnCount = 2;
 	classicview.unitMenu = formsCore.unitMenu;
 	classicview.refreshWarbandName = formsCore.refreshWarbandName;
 	classicview.refreshUnit = formsCore.refreshUnit;
-	classicview.refreshWarbandSummary = formsCore.refreshWarbandSummary;
 	classicview.refreshPasteUnitButton = formsCore.refreshPasteUnitButton;
 	classicview.makeEditable = formsCore.makeEditable;
 	(owc.ui.isPrinting === false) ? window.addEventListener("resize", classicview.onWindowResize) : null;
@@ -43,7 +42,7 @@ classicview.getWarbandHtml = function ()
 		"warband-name": owc.helper.nonBlankWarbandName(),
 		"default-warband-name": owc.helper.translate("defaultWarbandName")
 	};
-	result = pageSnippets.produce("classicview", classicview, variables);
+	result = pageSnippets.classicview.main.produce(classicview, variables);
 	if (owc.ui.isPrinting)
 	{
 		htmlBuilder.removeNodesByQuerySelectors(["select", "input", ".specialruleEditorSeparator", ".addunit"], result);
@@ -58,30 +57,54 @@ classicview.getWarbandHtml = function ()
 
 classicview.listUnits = function (refNode)
 {
-	let snippetName = "classicview-two-columns-row";
-	let requiredRows = Math.ceil((owc.warband.units.length + (((owc.ui.isPrinting) ? 0 : 1))) / 2);
-	if (classicview.columnCount === 1)
+	let variables =
 	{
-		snippetName = "classicview-single-column-row";
-		requiredRows = owc.warband.units.length + 1;
+		"rows": [],
+		"columns": classicview.columnCount
 	};
-	/* requiredRows is unit count +1 because we produce one extra cell for add-items buttons */
-	for (let c = 0; c < requiredRows; c += 1)
+	let requiredCells = (owc.warband.units.length + (((owc.ui.isPrinting) ? 0 : 1)) + 1);
+	for (let r = 0, rr = Math.ceil(requiredCells / classicview.columnCount); r < rr; r += 1)
 	{
-		let gridNode = pageSnippets.produce(snippetName, classicview);
-		refNode.appendChild(gridNode);
+		variables.rows.push(r);
 	};
+	let tableNode = pageSnippets.classicview["units-table"].produce(classicview, variables);
+	refNode.appendChild(tableNode);
 	classicview.insertUnitSheets(refNode);
+	let cells = refNode.querySelectorAll("#unitsgrid > tr > td");
+	let pointspoolsCell = cells[owc.warband.units.length + ((owc.ui.isPrinting) ? 0: 1)];
+	pointspoolsCell.removeAttribute("data-unitindex");
+	pointspoolsCell.appendChild(pageSnippets.classicview["pointspools-sheet"].produce(formsCore,
+		{
+			"pointsPools": owc.helper.translate("pointsPools")
+		}
+		));
 	if (owc.ui.isPrinting === false)
 	{
-		let addItemsCell = refNode.querySelectorAll("#unitsgrid > tr > td")[owc.warband.units.length];
-		addItemsCell.removeAttribute("data-unitindex");
-		addItemsCell.id = "additmes-container";
-		addItemsCell.appendChild(pageSnippets.produce("add-unit", formsCore,
+		let additemsCell = cells[owc.warband.units.length];
+		additemsCell.removeAttribute("data-unitindex");
+		additemsCell.id = "additmes-container";
+		additemsCell.appendChild(pageSnippets.classicview["add-unit"].produce(formsCore,
 			{
 				"add-unit": owc.helper.translate("addUnit")
 			}
 			));
+	};
+};
+
+classicview.listPointsPools = function (refNode)
+{
+	for (let poolKey in Warband.POINTSPOOLS)
+	{
+		let poolName = Warband.POINTSPOOLS[poolKey];
+		let variables =
+		{
+			"pool-name": poolName,
+			"pool-label": owc.helper.translate(poolName),
+			"points": owc.helper.translate("points")
+		};
+		let pointsPoolElement = pageSnippets.classicview.pointspool.produce(formsCore, variables);
+		pointsPoolElement.style.display = "none"; // points pool is hidden by default
+		refNode.querySelector("#pointspools-container").appendChild(pointsPoolElement);
 	};
 };
 
@@ -102,10 +125,34 @@ classicview.insertUnitSheets = function (refNode)
 	for (let u = 0, uu = owc.warband.units.length; u < uu; u += 1)
 	{
 		variables["unit-index"] = u;
-		let unitSheetNode = pageSnippets.produce("classicview-unit-sheet", formsCore, variables);
+		let unitSheetNode = pageSnippets.classicview["unit-sheet"].produce(formsCore, variables);
 		formsCore.refreshUnit(u, unitSheetNode);
 		unitSheetCells[u].appendChild(unitSheetNode);
 	};
+};
+
+classicview.refeshPointsPools = function ()
+{
+	let hasAnyPointsPools = false;
+	let pointsPoolsWrapper = owc.ui.warbandCanvas.querySelector("#pointspools-container").closest("td");
+	for (let poolName in owc.warband.pointsPools)
+	{
+		let hasThisPool = (owc.warband.pointsPools[poolName] !== null);
+		hasAnyPointsPools = hasAnyPointsPools || hasThisPool;
+		let poolElement = owc.ui.warbandCanvas.querySelector("[data-pointspool='" + poolName + "']")
+			if (!!poolElement)
+			{
+				poolElement.style.display = hasThisPool ? "table-row" : "none";
+				poolElement.querySelector("[data-editor='pointspool']").innerHTML = owc.warband.pointsPools[poolName];
+			};
+	};
+	pointsPoolsWrapper.style.display = hasAnyPointsPools ? "table-cell" : "none";
+};
+
+classicview.refreshWarbandSummary = function ()
+{
+	classicview.refeshPointsPools();
+	formsCore.refreshWarbandSummary();
 };
 
 classicview.onWindowResize = function (resizeEvent)

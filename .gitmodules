@@ -4,3 +4,7 @@
 [submodule "lib/on-screen-console"]
 	path = lib/on-screen-console
 	url = https://github.com/Suppenhuhn79/on-screen-console.git
+[submodule "lib/pagesnippets"]
+	path = lib/pagesnippets
+	url = https://github.com/Suppenhuhn79/pagesnippets.git
+	branch = main

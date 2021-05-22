@@ -20,11 +20,11 @@
 		<script src="lib/proto/htmlelement.prototype.js"></script>
 		<script src="lib/proto/location.prototype.js"></script>
 		<script src="lib/on-screen-console/onscreenconsole.js"></script>
+		<script src="lib/pagesnippets/pagesnippets.js"></script>
 		<script src="lib/vanilla-tools/didyouknow.js"></script>
 		<script src="lib/vanilla-tools/fileio.js"></script>
 		<script src="lib/vanilla-tools/htmlbuilder.js"></script>
 		<script src="lib/vanilla-tools/menubox.js"></script>
-		<script src="lib/vanilla-tools/pagesnippets.js"></script>
 		<script src="lib/vanilla-tools/undoer.js"></script>
 
 		<script src="src/unit.class.js"></script>
@@ -49,15 +49,20 @@
 			</div>
 		</div>
 
-		<div id="top-menu-stripe" class="noprint">
-			<div class="viewport">
-				<div class="flex-box">
-					<i class="far fa-file" onclick="owc.topMenu.newWarbandClick(event);"></i>
-					<i class="fas fa-fw fa-angle-double-down" id="top-menu-toggle-button" onclick="owc.topMenu.warbandMenuClick(event);"></i>
-					<i class="fas fa-fw fa-print" onclick="owc.topMenu.printPreviewClick(event);"></i>
-					<i class="fas fa-fw fa-share-alt" id="share-menu-button" onclick="owc.topMenu.shareClick(event);"></i>
-					<i class="fas fa-fw fa-cog" onclick="owc.topMenu.showSettingsClick(event);"></i>
+		<div id="top-menu-floater" class="noprint">
+			<div id="top-menu-stripe">
+				<div class="viewport">
+					<div class="flex-box">
+						<i class="far fa-file" onclick="owc.topMenu.newWarbandClick(event);"></i>
+						<i class="fas fa-fw fa-angle-double-down" id="top-menu-toggle-button" onclick="owc.topMenu.warbandMenuClick(event);"></i>
+						<i class="fas fa-fw fa-print" onclick="owc.topMenu.printPreviewClick(event);"></i>
+						<i class="fas fa-fw fa-share-alt" id="share-menu-button" onclick="owc.topMenu.shareClick(event);"></i>
+						<i class="fas fa-fw fa-cog" onclick="owc.topMenu.showSettingsClick(event);"></i>
+					</div>
 				</div>
+			</div>
+			<div id="top-menu-substripe" class="viewport">
+				<i class="fas fa-fw fa-undo-alt" id="undo-button" onclick="owc.editor.undo();"></i>
 			</div>
 		</div>
 		<div id="top-menu-popup" style="height: 0px; overflow: hidden;">
@@ -79,17 +84,13 @@
 			</div>
 		</div>
 
-		<div id="top-menu-floater" class="viewport noprint">
-			<i class="fas fa-fw fa-undo-alt" id="undo-button" onclick="owc.editor.undo();"></i>
-		</div>
 
 		<div id="master-notification" class="notification noprint green"></div>
 
 		<div id="warbandCanvas" class="viewport">&#160;</div>
 		
-		<div class="viewport only-print">
-				<p data-autofill="yes">Created with {{title}}, {{version}}, {{origin}}</p>
-			</div>
+		<div id="print-footer" class="viewport only-print">
+			<p data-autofill="yes">Created with {{title}}, {{version}}, {{origin}}</p>
 		</div>
 
 		<div id="didyouknow" class="noprint">

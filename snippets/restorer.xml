@@ -1,70 +1,72 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<dht:template xmlns:dht="dynamic-html-templates">
-	<dht:stylesheet src="restorer.css"/>
-	<dht:script src="restorer.js"/>
-	<dht:snippet name="restorer">
-		<div id="restorer" class="blue" onclick="event.stopPropagation();">
-			<div class="blue-viewport">
-				<h1>
-					<i class="fas fa-times" dht:onclick="close"/>
-					<span>Restore warband</span>
-				</h1>
-				<div class="panel">
-					<p>Warbands are cached within your browser using its localStorage.</p>
-					<div class="warning">
-						<b>Warning!</b>
-						This is no way to save your warbands. You may experience a
-						<b>full data loss at any time</b>
-						and without predict. The only way to securly save your warbands is via "save to file" to your device.
+<ps:pagesnippets xmlns="http://www.w3.org/1999/xhtml" xmlns:ps="https://github.com/suppenhuhn79/pagesnippets" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://github.com/suppenhuhn79/pagesnippets https://suppenhuhn79.github.io/pagesnippets/pagesnippets.xsd">
+	<ps:stylesheet src="restorer.css"/>
+	<ps:script src="restorer.js"/>
+	<ps:snippet-group name="restorer">
+		<ps:snippet name="main">
+			<div id="restorer" class="blue" onclick="event.stopPropagation();">
+				<div class="blue-viewport">
+					<h1>
+						<i class="fas fa-times" ps:onclick="close"/>
+						<span>Restore warband</span>
+					</h1>
+					<div class="panel">
+						<p>Warbands are cached within your browser using its localStorage.</p>
+						<div class="warning">
+							<b>Warning!</b>
+							This is no way to save your warbands. You may experience a
+							<b>full data loss at any time</b>
+							and without predict. The only way to securly save your warbands is via "save to file" to your device.
+						</div>
+						<div id="restorer-table-frame"/>
 					</div>
-					<div id="restorer-table-frame"/>
-				</div>
-				<div class="buttons">
-					<input type="button" value="restore" dht:onclick="restoreClick"/>
-					<input type="button" value="discard" dht:onclick="discardClick"/>
-					<div id="deletedBubble" class="notification yellow">Warband deleted.</div>
+					<div class="buttons">
+						<input type="button" value="restore" ps:onclick="restoreClick"/>
+						<input type="button" value="discard" ps:onclick="discardClick"/>
+						<div id="deletedBubble" class="notification yellow">Warband deleted.</div>
+					</div>
 				</div>
 			</div>
-		</div>
-	</dht:snippet>
-	<dht:snippet name="table-frame-normal">
-		<table class="localStore">
-			<tr>
-				<th data-sortfield="warband-name" dht:onclick="tableheaderClick">Warband</th>
-				<th data-sortfield="figure-count" dht:onclick="tableheaderClick">Figures</th>
-				<th data-sortfield="points" dht:onclick="tableheaderClick">Points</th>
-				<th data-sortfield="last-modified" dht:onclick="tableheaderClick">Last modified</th>
-			</tr>
-			<tbody id="restorer-tbody">
-				<dht:for-each list="cached-warbands">
-					<tr data-id="{{pid}}" dht:onclick="storageItemClick">
-						<td>{{warband-name}}</td>
-						<td>{{figure-count}}</td>
-						<td>{{points}}</td>
-						<td class="nowrap">{{last-modified-text}}</td>
-					</tr>
-				</dht:for-each>
-			</tbody>
-		</table>
-	</dht:snippet>
-	<dht:snippet name="table-frame-small">
-		<table class="localStore">
-			<tr>
-				<th data-sortfield="warband-name" dht:onclick="tableheaderClick">Warband</th>
-				<th data-sortfield="last-modified" dht:onclick="tableheaderClick">Details</th>
-			</tr>
-			<tbody id="restorer-tbody">
-				<dht:for-each list="cached-warbands">
-					<tr data-id="{{pid}}" dht:onclick="storageItemClick">
-						<td>{{warband-name}}</td>
-						<td class="small">
-							<span>{{figure-count}} Figs.</span>
-							<span>{{points}} Pts.</span>
-							<span>{{last-modified-text}}</span>
-						</td>
-					</tr>
-				</dht:for-each>
-			</tbody>
-		</table>
-	</dht:snippet>
-</dht:template>
+		</ps:snippet>
+		<ps:snippet name="table-frame-normal">
+			<table class="localStore">
+				<tr>
+					<th data-sortfield="warband-name" ps:onclick="tableheaderClick">Warband</th>
+					<th data-sortfield="figure-count" ps:onclick="tableheaderClick">Figures</th>
+					<th data-sortfield="points" ps:onclick="tableheaderClick">Points</th>
+					<th data-sortfield="last-modified" ps:onclick="tableheaderClick">Last modified</th>
+				</tr>
+				<tbody id="restorer-tbody">
+					<ps:for-each list="cached-warbands">
+						<tr data-id="{{pid}}" ps:onclick="storageItemClick">
+							<td>{{warband-name}}</td>
+							<td>{{figure-count}}</td>
+							<td>{{points}}</td>
+							<td class="nowrap">{{last-modified-text}}</td>
+						</tr>
+					</ps:for-each>
+				</tbody>
+			</table>
+		</ps:snippet>
+		<ps:snippet name="table-frame-small">
+			<table class="localStore">
+				<tr>
+					<th data-sortfield="warband-name" ps:onclick="tableheaderClick">Warband</th>
+					<th data-sortfield="last-modified" ps:onclick="tableheaderClick">Details</th>
+				</tr>
+				<tbody id="restorer-tbody">
+					<ps:for-each list="cached-warbands">
+						<tr data-id="{{pid}}" ps:onclick="storageItemClick">
+							<td>{{warband-name}}</td>
+							<td class="small">
+								<span>{{figure-count}} Figs.</span>
+								<span>{{points}} Pts.</span>
+								<span>{{last-modified-text}}</span>
+							</td>
+						</tr>
+					</ps:for-each>
+				</tbody>
+			</table>
+		</ps:snippet>
+	</ps:snippet-group>
+</ps:pagesnippets>

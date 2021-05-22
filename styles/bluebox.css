@@ -63,7 +63,11 @@ div.blue div.panel p {
 div.blue input,
 div.blue label,
 div.blue select {
+	font-size: 1rem;
 	cursor: pointer;
+	}
+div.blue select {
+	padding: 0.2em;
 	}
 
 div.blue label:hover {

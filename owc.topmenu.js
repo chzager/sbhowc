@@ -121,7 +121,7 @@ owc.topMenu.warbandFromFileClick = function (clickEvent)
 		catch (ex)
 		{
 			console.error(ex);
-			owc.ui.notify("Your file does not provide a valid warband code.", "red");
+			owc.ui.notify("Your file does not provide a valid warband code.", owc.ui.NOTIFICATION_COLOR_RED);
 		};
 	}
 	);

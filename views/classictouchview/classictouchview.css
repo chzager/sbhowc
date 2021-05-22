@@ -1,0 +1,22 @@
+/* units grid (table) */
+
+.classicview.touch #unitsgrid #additmes-container .addunit,
+.classicview.touch #unitsgrid #additmes-container .addunit + .addunit {
+	background: #fff;
+	font-size: 1rem;
+	padding: 1em;
+	border-radius: 1em;
+	}
+.classicview.touch #unitsgrid #additmes-container .addunit:hover {
+	background: #f0f0f0;
+	border-color: #808080;
+	color:#808080;
+	}
+
+div.touchmenu input {
+	font-size: 1rem;
+	width: 100%;
+	text-align: center;
+	border: none;
+	outline: none;
+}

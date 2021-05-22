@@ -16,16 +16,21 @@
 		"cancel": "Cancel",
 		"addUnit": "Add unit",
 		"pasteUnit": "Paste {UNIT}",
-		"totalPoints": "Total: {F} figures with {P} points",
+		"total": "Total",
+		"totalPoints": "{TOTAL} Points",
+		"totalFigures": "{COUNT} figures with {POINTS} points",
 		"addSpecialrule": "add special rule",
-		"personalitiesPoints": "{Q} points in personalities",
-		"personalitiesPercent": "{P}% personalities",
+		"personalitiesPoints": "{PERSONALITYPOINTS} points in personalities",
+		"personalitiesPercent": "{PERSONALITYPERCENT}% personalities",
 		"ruleViolation": "Rule violation:",
 		"personalityPointsViolated": "At most {M} points for personalities allowed.",
 		"animalPointsViolated": "At most {M} points for animals allowed (currently: {C}).",
 		"specialRuleMismatch": "{U} must not have \"{A}\" and \"{B}\" at the same time.",
 		"swarmCountViolated": "A swarm must have at least two units/bases.",
 		"paladinSpecialruleViolated": "A {PALADIN} can not be part of a warband that includes {EVIL} models.",
-		"rabbleSpecialruleViolated": "{U} has the \"{RABBLE}\" special rule and therefore must not have a quality better than 4+."
+		"rabbleSpecialruleViolated": "{U} has the \"{RABBLE}\" special rule and therefore must not have a quality better than 4+.",
+		"pointsPools": "Points pools",
+		"summonPool": "Summoning pool",
+		"elementalSummonPool": "Elemental summoning pool"
 	}
 }
