@@ -79,7 +79,7 @@ owc.topMenu.newWarbandClick = function (clickEvent)
 {
 	window.open(window.location.setParams(
 		{
-			[owc.urlParam.pid]: owc.newPid()
+			[owc.urlParam.PID]: owc.newPid()
 		}, ["console"]));
 };
 
@@ -99,8 +99,8 @@ owc.topMenu.printPreviewClick = function (clickEvent)
 {
 	window.open(window.location.setParams(
 		{
-			[owc.urlParam.print]: "1"
-		}, ["pid", "print", "console"]));
+			[owc.urlParam.PRINT]: "1"
+		}, ["pid", "print"]));
 };
 
 owc.topMenu.showSettingsClick = function (clickEvent)

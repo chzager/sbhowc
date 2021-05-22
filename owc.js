@@ -11,9 +11,9 @@ let owc =
 {
 	"urlParam":
 	{
-		"warband": "warband",
-		"print": "print",
-		"pid": "pid"
+		"WARBAND": "warband",
+		"PRINT": "print",
+		"PID": "pid"
 	},
 	"meta":
 	{
@@ -78,7 +78,7 @@ owc.main = function ()
 {
 	console.debug("owc.main()");
 	/* getting PID (https://github.com/Suppenhuhn79/sbhowc/issues/13#issuecomment-774077538) */
-	let pid = window.location.getParam(owc.urlParam.pid);
+	let pid = window.location.getParam(owc.urlParam.PID);
 	if (pid === "")
 	{
 		if (owc.isPid(window.name))
@@ -91,7 +91,7 @@ owc.main = function ()
 			pid = owc.newPid();
 		};
 	};
-	let warbandCodeUrl = window.location.getParam(owc.urlParam.warband);
+	let warbandCodeUrl = window.location.getParam(owc.urlParam.WARBAND);
 	if (warbandCodeUrl !== "")
 	{
 		console.debug("importing warband from url");
@@ -120,7 +120,7 @@ owc.setPid = function (pid)
 		owc.pid = pid;
 		history.replaceState({}, "", window.location.setParams(
 			{
-				[owc.urlParam.pid]: owc.pid
+				[owc.urlParam.PID]: owc.pid
 			}, ["print", "console"]));
 		/* storing PID into window.name so it' preserved on page refresh */
 		window.name = owc.pid;
@@ -241,7 +241,7 @@ owc.share = function (protocol)
 	};
 	let url = window.location.setParams(
 	{
-		[owc.urlParam.warband]: owc.warband.toString()
+		[owc.urlParam.WARBAND]: owc.warband.toString()
 	}
 		);
 	switch (protocol)

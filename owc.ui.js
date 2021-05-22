@@ -10,7 +10,7 @@ See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
 owc.ui =
 {
 	"sweepvolatilesEvent": "owc.ui.sweepvolatiles",
-	"isPrinting": (window.location.getParam(owc.urlParam.print) === "1"),
+	"isPrinting": (window.location.getParam(owc.urlParam.PRINT) === "1"),
 	"isTouchDevice": ("ontouchstart" in document.documentElement),
 	"visualizer": null,
 	"undoButton": document.getElementById("undo-button"),
