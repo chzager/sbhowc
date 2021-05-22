@@ -157,6 +157,14 @@ div[data-menubox].touchmenu [data-menubutton]:hover {
 	background-color: #f0f0f0;
 	}
 
+div[data-menubox].touchmenu input {
+	font-size: 1rem;
+	width: 100%;
+	text-align: center;
+	border: none;
+	outline: none;
+	}
+
 /* input menus */
 
 div[data-menubox].inputmenu {
@@ -167,7 +175,6 @@ div[data-menubox].inputmenu [data-menuitem]:hover {
 	background: transparent;
 	border: none;
 	}
-
 
 div[data-menubox].inputmenu [data-menuitem]:before {
 	content: none;

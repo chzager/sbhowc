@@ -41,7 +41,7 @@
 				<tr>
 					<th colspan="3">
 						<div class="clickaction" data-editor="name" data-defaultvalue="{{default-unit-name}}" ps:onclick="onUnitNameClick"/>
-						<span data-valueof="count">&#160;</span>
+						<span class="clickaction" data-editor="count" data-valueof="count" ps:onclick="onUnitCountClick">&#160;</span>
 					</th>
 				</tr>
 				<tr>
