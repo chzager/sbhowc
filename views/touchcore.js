@@ -219,6 +219,10 @@ touchCore.onSpecialrulesClick = function (clickEvent)
 				itemNode.appendChild(editorNode);
 				itemNode.appendChild(textPostNode);
 			};
+			if (owc.settings.ruleScope.includes(owc.resources.data[specialruleKey].scope) === false)
+			{
+				itemNode.appendChild(htmlBuilder.newElement("span.out-of-scope", owc.resources.data[specialruleKey].scope.toUpperCase()));
+			};
 		};
 	};
 	let unitIndex = Number(clickEvent.target.closest("[data-unitindex]").getAttribute("data-unitindex"));

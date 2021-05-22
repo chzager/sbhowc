@@ -165,6 +165,17 @@ div[data-menubox].touchmenu input {
 	outline: none;
 	}
 
+div[data-menubox].touchmenu[data-menubox="specialrules"] span.out-of-scope
+{
+	border: 0px solid red;
+	border-width: 0px 0.2rem 0px 0.2rem;
+	border-radius: 0.5em;
+	color: red;
+	padding: 0.3em;
+	margin-left: 0.5em;
+	font-size: 0.8rem;
+	}
+
 /* input menus */
 
 div[data-menubox].inputmenu {
