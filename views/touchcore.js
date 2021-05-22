@@ -12,13 +12,13 @@ var touchCore = {};
 touchCore.init = function (pageSnippetGroup)
 {
 	touchCore.pageSnippetGroup = pageSnippetGroup;
-	touchCore.warbandNameMenu = touchCore.newPromptMenu("warbandname", "warbandNamePrompt");
-	touchCore.unitNameMenu = touchCore.newPromptMenu("name", "unitNamePrompt");
-	touchCore.unitCountMenu = touchCore.newNumericPromptMenu("count", "count")
-	touchCore.createQualityMenu();
+	touchCore.warbandNameMenu = touchCore.newInputMenu("warbandname", "warbandNamePrompt");
+	touchCore.unitNameMenu = touchCore.newInputMenu("name", "unitNamePrompt");
+	touchCore.unitCountMenu = touchCore.newInputNumberMenu("count", "count")
+		touchCore.createQualityMenu();
 	touchCore.createCombatMenu();
 	touchCore.specialrulesMenu = touchCore.newMenu("specialrules", "specialrules", [], ["ok", "cancel"], true);
-	touchCore.pointsPoolMenu = touchCore.newNumericPromptMenu("pointspool", "pointsPools");
+	touchCore.pointsPoolMenu = touchCore.newInputNumberMenu("pointspool", "pointsPools");
 
 	touchCore.unitMenu = new Menubox("unitMenu",
 	{
@@ -105,16 +105,16 @@ touchCore.popupEditor = function (clickEvent, editorMenu, context, text)
 	editorMenu.element.style.left = Math.round((document.body.clientWidth - editorMenu.element.offsetWidth) / 2) + "px";
 };
 
-touchCore.popupNumericEditor=function(clickEvent, numericEditorMenu, context, value, title = null)
+touchCore.popupNumericEditor = function (clickEvent, numericEditorMenu, context, value, title = null)
 {
-	let editor = numericEditorMenu.element.querySelector("input");
+	let editorNode = numericEditorMenu.element.querySelector("input");
 	if (!!title)
 	{
-	numericEditorMenu.element.querySelector("div.title").innerHTML =title;
+		numericEditorMenu.element.querySelector("div.title").innerHTML = title;
 	};
-	editor.value = value;
+	editorNode.value = value;
 	touchCore.popupEditor(clickEvent, numericEditorMenu, context);
-	editor.focus();
+	editorNode.focus();
 };
 
 touchCore.onValueEdited = function (editorEvent)
@@ -163,10 +163,14 @@ touchCore.onUnitNameClick = function (clickEvent)
 	touchCore.popupEditor(clickEvent, touchCore.unitNameMenu, unitIndex, owc.warband.units[unitIndex].name);
 };
 
-touchCore.onUnitCountClick = function(clickEvent)
+touchCore.onUnitCountClick = function (clickEvent)
 {
 	let unitIndex = clickEvent.target.closest("[data-unitindex]").getAttribute("data-unitindex");
-	touchCore.popupNumericEditor(clickEvent, touchCore.unitCountMenu, unitIndex, owc.warband.units[unitIndex].count, owc.helper.translate("countOfUnit", {"UNIT": owc.helper.nonBlankUnitName(owc.warband.units[unitIndex])}));
+	touchCore.popupNumericEditor(clickEvent, touchCore.unitCountMenu, unitIndex, owc.warband.units[unitIndex].count, owc.helper.translate("countOfUnit",
+		{
+			"UNIT": owc.helper.nonBlankUnitName(owc.warband.units[unitIndex])
+		}
+		));
 };
 
 touchCore.onQualityClick = function (clickEvent)
@@ -189,7 +193,7 @@ touchCore.onSpecialrulesClick = function (clickEvent)
 	{
 		for (let itemNode of menuNode.querySelectorAll("[data-menuitem]"))
 		{
-			let specialruleKey = itemNode.getAttribute("data-menuitem").substr(0,2);
+			let specialruleKey = itemNode.getAttribute("data-menuitem").substr(0, 2);
 			let specialruleIndex = /\.(\d+)$/.exec(itemNode.getAttribute("data-menuitem"));
 			if ((specialruleIndex !== null) || (itemNode.innerHTML.includes("...")))
 			{
@@ -308,9 +312,9 @@ touchCore.onMenuboxEvent = function (menuboxEvent)
 			editorEvent.detail["value"] = menuboxEvent.detail.itemKey;
 			window.dispatchEvent(editorEvent);
 		}
-		else if (menuboxEvent.detail.buttonKey !== null)
+		else if (menuboxEvent.detail.buttonKey === "ok")
 		{
-			if ((menuboxEvent.detail.menuId === "specialrules") && (menuboxEvent.detail.buttonKey === "ok"))
+			if (menuboxEvent.detail.menuId === "specialrules")
 			{
 				let unitIndex = menuboxEvent.detail.context;
 				let unit = owc.warband.units[unitIndex];
@@ -319,8 +323,8 @@ touchCore.onMenuboxEvent = function (menuboxEvent)
 				for (let selectedKey of menuboxEvent.detail.selectedKeys)
 				{
 					unit.addSpecialrule(selectedKey.substr(0, 2), owc.resources.data);
-					let additionaltextNode = (document.querySelector("[data-menuitem=\"" + selectedKey + "\"] [data-isadditionaltext]"));
-					if (additionaltextNode !== null)
+					let additionaltextNode = (document.querySelector("[data-menuitem=\"" + selectedKey + "\"]").querySelector("[data-isadditionaltext]"));
+					if (!!additionaltextNode)
 					{
 						unit.specialrules[unit.specialrules.length - 1].additionalText = additionaltextNode.innerHTML;
 					};
@@ -329,25 +333,15 @@ touchCore.onMenuboxEvent = function (menuboxEvent)
 				owc.storage.storeWarband();
 				owc.ui.printUnit(unitIndex);
 			}
-			else if ((menuboxEvent.detail.menuId === "warbandname") && (menuboxEvent.detail.buttonKey === "ok"))
+			else
 			{
-				editorEvent.detail["value"] = touchCore.warbandNameMenu.element.querySelector("[data-menuitem=\"editor\"]").innerText;
-				window.dispatchEvent(editorEvent);
-			}
-			else if ((menuboxEvent.detail.menuId === "name") && (menuboxEvent.detail.buttonKey === "ok"))
-			{
-				editorEvent.detail["value"] = touchCore.unitNameMenu.element.querySelector("[data-menuitem=\"editor\"]").innerText;
-				window.dispatchEvent(editorEvent);
-			}
-			else if ((menuboxEvent.detail.menuId === "count") && (menuboxEvent.detail.buttonKey === "ok"))
-			{
-				editorEvent.detail["value"] = touchCore.unitCountMenu.element.querySelector("input").value;
-				window.dispatchEvent(editorEvent);
-			}
-			else if ((menuboxEvent.detail.menuId === "pointspool") && (menuboxEvent.detail.buttonKey === "ok"))
-			{
-				editorEvent.detail["value"] = touchCore.pointsPoolMenu.element.querySelector("input").value;
-				editorEvent.detail["poolname"] = menuboxEvent.detail.context;
+				let editorNode = document.querySelector("[data-menubox=\"" + menuboxEvent.detail.menuId + "\"]").querySelector("[data-menuitem=\"editor\"]");
+				let value = (editorNode instanceof HTMLInputElement) ? editorNode.value : editorNode.innerText;
+				editorEvent.detail["value"] = value;
+				if (menuboxEvent.detail.menuId === "pointspool")
+				{
+					editorEvent.detail["poolname"] = menuboxEvent.detail.context;
+				};
 				window.dispatchEvent(editorEvent);
 			};
 		};
@@ -537,7 +531,7 @@ touchCore.newMenu = function (menuId, titleResource, items, buttons, multiselect
 	return new Menubox(menuId, menuDef);
 };
 
-touchCore.newPromptMenu = function (menuId, titleResource)
+touchCore.newInputMenu = function (menuId, titleResource)
 {
 	let menuItem =
 	{
@@ -559,12 +553,14 @@ touchCore.newPromptMenu = function (menuId, titleResource)
 	return menubox;
 };
 
-touchCore.newNumericPromptMenu=function(menuId, titleResource)
+touchCore.newInputNumberMenu = function (menuId, titleResource)
 {
-	let menubox = touchCore.newMenu(menuId, titleResource, [], ["ok", "cancel"], true);
+	let menubox = touchCore.newMenu(menuId, titleResource, [], ["ok", "cancel"]);
+	menubox.element.classList.add("inputnumbermenu");
 	menubox.element.querySelector("div.items").appendChild(htmlBuilder.newElement("input",
 		{
 			"type": "number",
+			"data-menuitem": "editor",
 			"onclick": (clickEvent) => clickEvent.stopPropagation(),
 			"onkeypress": (keypressEvent) =>
 			{

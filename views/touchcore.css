@@ -182,7 +182,8 @@ div[data-menubox].inputmenu {
 	width: 780px;
 	}
 
-div[data-menubox].inputmenu [data-menuitem]:hover {
+div[data-menubox].inputmenu [data-menuitem]:hover,
+div[data-menubox].inputnumbermenu [data-menuitem]:hover {
 	background: transparent;
 	border: none;
 	}
