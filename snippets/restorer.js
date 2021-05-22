@@ -47,6 +47,15 @@ restorer.restoreClick = function (clickEvent)
 		restorer.close();
 		owc.storage.restoreWarband(selectedPid);
 		owc.ui.printWarband();
+		/* unselect everything in document, some browsers interpret a dblclk as intend to select anything */
+		if (typeof window.getSelection === "function")
+		{
+			window.getSelection().removeAllRanges();
+		}
+		else if (typeof document.selection === "funtion")
+		{
+			document.selection.empty();
+		};
 	};
 };
 
