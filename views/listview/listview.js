@@ -21,7 +21,7 @@ listview.init = function ()
 	listview.makeEditable = formsCore.makeEditable;
 };
 
-listview.getWarbandHtml = function ()
+listview.getWarbandHtmlElement = function ()
 {
 	let result;
 	let variables =
@@ -39,7 +39,7 @@ listview.getWarbandHtml = function ()
 	result = pageSnippets.listview.main.produce(listview, variables);
 	if (owc.ui.isPrinting)
 	{
-		htmlBuilder.removeNodesByQuerySelectors(["select", "input", ".specialruleEditorSeparator", ".addunit"], result);
+		htmlBuilder.removeChildrenByQuerySelectors(["select", "input", ".specialruleEditorSeparator", ".addunit"], result);
 		htmlBuilder.removeClasses(["interactive", "screenfx", "out-of-scope"], result);
 		for (let editableNode of result.querySelectorAll("[contenteditable]"))
 		{

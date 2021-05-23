@@ -395,7 +395,7 @@ touchCore.refreshSpecialrules = function (unitIndex, refNode)
 		result += ",\u00A0" + owc.resources.data[specialruleKey].scope.toUpperCase();
 		return result;
 	};
-	refNode.removeAllChildren();
+	htmlBuilder.removeAllChildren(refNode);
 	let unit = owc.warband.units[unitIndex];
 	let specialrulesCount = unit.specialrules.length;
 	let variables =
@@ -452,8 +452,7 @@ touchCore.refreshWarbandSummary = function ()
 		};
 	};
 	let wrapperNode = document.querySelector("#warbandfooter");
-	wrapperNode.removeAllChildren();
-	wrapperNode.appendChild(pageSnippets[touchCore.pageSnippetGroup]["warband-summary"].produce(touchCore, variables));
+	owc.ui.setElementContent(wrapperNode, pageSnippets[touchCore.pageSnippetGroup]["warband-summary"].produce(touchCore, variables));
 };
 
 touchCore.refreshPasteUnitButton = function (clipboardData)

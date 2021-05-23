@@ -164,6 +164,5 @@ restorer.listStoredData = function ()
 	};
 	const thresholdWidth = 400;
 	let snippetName = (Number(document.body.clientWidth) <= thresholdWidth) ? "table-frame-small" : "table-frame-normal";
-	refNode.removeAllChildren();
-	refNode.appendChild(pageSnippets.restorer[snippetName].produce(restorer, variables));
+	owc.ui.setElementContent(refNode, pageSnippets.restorer[snippetName].produce(restorer, variables));
 };

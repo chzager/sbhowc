@@ -28,7 +28,7 @@ classicview.unload = function ()
 	window.removeEventListener("resize", classicview.onWindowResize);
 };
 
-classicview.getWarbandHtml = function ()
+classicview.getWarbandHtmlElement = function ()
 {
 	let result;
 	let variables =
@@ -45,7 +45,7 @@ classicview.getWarbandHtml = function ()
 	result = pageSnippets.classicview.main.produce(classicview, variables);
 	if (owc.ui.isPrinting)
 	{
-		htmlBuilder.removeNodesByQuerySelectors(["select", "input", ".specialruleEditorSeparator", ".addunit"], result);
+		htmlBuilder.removeChildrenByQuerySelectors(["select", "input", ".specialruleEditorSeparator", ".addunit"], result);
 		htmlBuilder.removeClasses(["interactive", "screenfx", "out-of-scope"], result);
 		for (let editableNode of result.querySelectorAll("[contenteditable]"))
 		{

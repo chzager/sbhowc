@@ -41,11 +41,11 @@ owc.init = function ()
 	if (owc.ui.isPrinting === false)
 	{
 		owc.topMenu.init();
-		htmlBuilder.removeNodesByQuerySelectors([".only-print"]);
+		htmlBuilder.removeChildrenByQuerySelectors([".only-print"]);
 	}
 	else
 	{
-		htmlBuilder.removeNodesByQuerySelectors([".noprint", ".tooltip"]);
+		htmlBuilder.removeChildrenByQuerySelectors([".noprint", ".tooltip"]);
 	};
 	owc.warband = new Warband();
 	owc.storage.init();

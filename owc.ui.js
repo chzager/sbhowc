@@ -20,7 +20,7 @@ owc.ui =
 };
 
 owc.ui.NOTIFICATION_COLOR_GREEN = "green";
-owc.ui.NOTIFICATION_COLOR_YELLOW = "green";
+owc.ui.NOTIFICATION_COLOR_YELLOW = "yellow";
 owc.ui.NOTIFICATION_COLOR_RED = "red";
 
 owc.ui.init = function ()
@@ -83,19 +83,18 @@ owc.ui.printWarband = function ()
 		"x": window.scrollX,
 		"y": window.scrollY
 	};
-	warbandCanvas.removeAllChildren();
-	warbandCanvas.appendChild(owc.ui.visualizer.getWarbandHtml());
+	owc.ui.setElementContent(warbandCanvas, owc.ui.visualizer.getWarbandHtmlElement());
 	owc.ui.visualizer.refreshWarbandSummary();
 	owc.ui.refreshWarbandName();
 	if (owc.ui.isPrinting === false)
 	{
 		owc.ui.refreshUndoButton();
 		owc.editor.manangeUnitClipboard();
-		htmlBuilder.removeNodesByQuerySelectors([".only-print"]);
+		htmlBuilder.removeChildrenByQuerySelectors([".only-print"]);
 	}
 	else
 	{
-		htmlBuilder.removeNodesByQuerySelectors([".noprint", ".tooltip"]);
+		htmlBuilder.removeChildrenByQuerySelectors([".noprint", ".tooltip"]);
 	};
 	window.scrollTo(currentScrollPos.x, currentScrollPos.y);
 };
@@ -127,6 +126,18 @@ owc.ui.refreshUndoButton = function ()
 			owc.ui.undoButton.classList.add("disabled");
 			(!!undoTooltipElement) ? undoTooltipElement.innerHTML = "Nothing to undo." : null;
 		};
+	};
+};
+
+owc.ui.setElementContent = function(element, contentElement)
+{
+	if (!!element.firstElementChild)
+	{
+		element.replaceChild(contentElement, element.firstElementChild);
+	}
+	else
+	{
+		element.appendChild(contentElement);
 	};
 };
 
