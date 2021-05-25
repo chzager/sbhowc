@@ -285,16 +285,13 @@ formsCore.makeEditable = function (refNode)
 	refNode.setAttribute("spellcheck", "false");
 	refNode.onfocus = (focusEvent) =>
 	{
-		let defaulValue = focusEvent.target.getAttribute("data-defaultvalue") ?? "";
-		let currentValue = focusEvent.target.innerText;
-		if (currentValue === defaulValue)
+		if (focusEvent.target.innerText === (focusEvent.target.getAttribute("data-defaultvalue") ?? ""))
 		{
 			focusEvent.target.innerText = "";
 		};
 	};
 	refNode.onblur = (blurEvent) =>
 	{
-		let newValue = blurEvent.target.innerText.replace(/[\r\n]/g, "");
 		formsCore.dispatchEditorEvent(blurEvent);
 	};
 	refNode.onkeypress = (keypressEvent) =>

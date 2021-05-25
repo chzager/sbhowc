@@ -304,6 +304,7 @@ owc.editor.removeSpecialrule = function (unitIndex, specialruleIndex)
 
 owc.editor.setSpecialruleText = function (unitIndex, specialruleIndex, newSpecialruleText)
 {
+	newSpecialruleText = newSpecialruleText.replaceAll(/[@!]/g, "X").trim();
 	let nativeText = owc.resources.defaultText(owc.warband.units[unitIndex].specialrules[specialruleIndex].key);
 	if (newSpecialruleText === "")
 	{

@@ -83,7 +83,6 @@ listview.listPointsPools = function (refNode)
 
 listview.refeshPointsPools = function()
 {
-	console.log("listview.refeshPointsPools()");
 	for (let poolName in owc.warband.pointsPools)
 	{
 		let poolElement = owc.ui.warbandCanvas.querySelector("[data-pointspool='" + poolName + "']")
