@@ -59,9 +59,11 @@
 						<tr data-id="{{pid}}" ps:onclick="storageItemClick" ps:ondblclick="restoreClick">
 							<td>{{warband-name}}</td>
 							<td class="small">
-								<span>{{figure-count}} Figs.</span>
-								<span>{{points}} Pts.</span>
-								<span>{{last-modified-text}}</span>
+								<div class="small-grid">
+									<span>{{figure-count}} Figs.</span>
+									<span>{{points}} Pts.</span>
+									<span>{{last-modified-text}}</span>
+								</div>
 							</td>
 						</tr>
 					</ps:for-each>

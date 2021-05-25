@@ -13,7 +13,7 @@
 					<p>You can copy this code to a text-file and save your warband. Or you can enter a code here to restore a warband.</p>
 					<textarea autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
 					<div class="two-column-grid" ps:onclick="includeCommentsClick">
-						<input type="checkbox" id="includeComments"/>
+						<span><input type="checkbox" id="includeComments"/></span>
 						<label for="includeComments">Include human-readable comments</label>
 					</div>
 					<input type="button" value="copy to clipboard" ps:onclick="copyToClipboardClick"/>

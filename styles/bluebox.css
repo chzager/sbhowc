@@ -76,15 +76,17 @@ div.blue label:hover {
 	}
 
 div.blue div.two-column-grid {
-  display: grid;
-  grid-gap: 0px;
-  padding: 0px;
-	grid-template-columns: minmax(1em, min-content) auto;
+	display: grid;
+	grid-gap: 0px;
+	padding: 0px;
+	grid-template-columns: min-content auto;
 }
 div.blue div.two-column-grid > * {
 	margin-right: 0.5em;
 	margin-bottom: 0.5em;
-}
+	display: flex;
+	align-items: center;
+	}
 
 div.blue div.buttons input[type="button"] {
 	margin-right: 0em;
@@ -105,12 +107,12 @@ div.blue .notification {
 	}
 div.blue .notification.visible {
 	visibility: visible;
-  animation-name: fadeout;
-  animation-duration: 4s;
+	animation-name: fadeout;
+	animation-duration: 4s;
 	}
 @keyframes fadeout {
-  0%   {opacity: 0;}
-  10%  {opacity: 1;}
-  75%  {opacity: 1;}
-  100% {opacity: 0;}
+	0%   {opacity: 0;}
+	10%  {opacity: 1;}
+	75%  {opacity: 1;}
+	100% {opacity: 0;}
 	}

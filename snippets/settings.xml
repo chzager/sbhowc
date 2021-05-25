@@ -11,15 +11,15 @@
 				<div class="panel">
 					<p>Select expansions to use special rules from:</p>
 					<div class="two-column-grid">
-						<input type="checkbox" id="rulesScopeSbh" data-group="rules_scope" data-group-value="sbh" disabled="disabled" checked="checked"/>
+						<span><input type="checkbox" id="rulesScopeSbh" data-group="rules_scope" data-group-value="sbh" disabled="disabled" checked="checked"/></span>
 						<label for="rulesScopeSbh">Song of Blades and Heroes</label>
-						<input type="checkbox" id="rulesScopeSgd" data-group="rules_scope" data-group-value="sgd"/>
+						<span><input type="checkbox" id="rulesScopeSgd" data-group="rules_scope" data-group-value="sgd"/></span>
 						<label for="rulesScopeSgd">Song of Gold and Darkness</label>
-						<input type="checkbox" id="rulesScopeSww" data-group="rules_scope" data-group-value="sww"/>
+						<span><input type="checkbox" id="rulesScopeSww" data-group="rules_scope" data-group-value="sww"/></span>
 						<label for="rulesScopeSww">Song of Wind and Water</label>
-						<input type="checkbox" id="rulesScopeSdg" data-group="rules_scope" data-group-value="sdg"/>
+						<span><input type="checkbox" id="rulesScopeSdg" data-group="rules_scope" data-group-value="sdg"/></span>
 						<label for="rulesScopeSdg">Song of Deeds and Glory</label>
-						<input type="checkbox" id="rulesScopeSam" data-group="rules_scope" data-group-value="sam"/>
+						<span><input type="checkbox" id="rulesScopeSam" data-group="rules_scope" data-group-value="sam"/></span>
 						<label for="rulesScopeSam">Song of Arthur and Merlin</label>
 					</div>
 				</div>
@@ -33,22 +33,22 @@
 				<div class="panel">
 					<p>What format do you prefer the unit sheets to be?</p>
 					<div class="two-column-grid">
-						<input type="radio" id="view_mode_classic" data-group="view_mode" data-group-value="classic" name="view_mode"/>
+						<span><input type="radio" id="view_mode_classic" data-group="view_mode" data-group-value="classic" name="view_mode"/></span>
 						<label for="view_mode_classic">Classic unit profiles</label>
-						<input type="radio" id="view_mode_classic_touch" data-group="view_mode" data-group-value="classictouch" name="view_mode"/>
+						<span><input type="radio" id="view_mode_classic_touch" data-group="view_mode" data-group-value="classictouch" name="view_mode"/></span>
 						<label for="view_mode_classic_touch">Classic unit profiles, optimized for touchscreen devices</label>
-						<input type="radio" id="view_mode_list" data-group="view_mode" data-group-value="list" name="view_mode"/>
+						<span><input type="radio" id="view_mode_list" data-group="view_mode" data-group-value="list" name="view_mode"/></span>
 						<label for="view_mode_list">Broad list, better for bigger screens</label>
 					</div>
 				</div>
 				<div class="panel">
 					<p>More Options:</p>
 					<div class="two-column-grid">
-						<input type="checkbox" id="option_highlightPersonalities" data-value-key="options.highlightPersonalities" data-value-attribute="checked"/>
+						<span><input type="checkbox" id="option_highlightPersonalities" data-value-key="options.highlightPersonalities" data-value-attribute="checked"/></span>
 						<label for="option_highlightPersonalities">Highlight personalities</label>
-						<input type="checkbox" id="option_personalitiesInPoints" data-value-key="options.personalitiesInPoints" data-value-attribute="checked"/>
+						<span><input type="checkbox" id="option_personalitiesInPoints" data-value-key="options.personalitiesInPoints" data-value-attribute="checked"/></span>
 						<label for="option_personalitiesInPoints">Show personalities points instead of percents</label>
-						<input type="checkbox" id="option_applyRuleChecks" data-value-key="options.applyRuleChecks" data-value-attribute="checked"/>
+						<span><input type="checkbox" id="option_applyRuleChecks" data-value-key="options.applyRuleChecks" data-value-attribute="checked"/></span>
 						<label for="option_applyRuleChecks">Check rule compliance</label>
 					</div>
 				</div>
