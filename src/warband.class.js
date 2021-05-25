@@ -158,7 +158,7 @@ class Warband
 		result = result.replace(/\s/g, "+") + unitSeparator;
 		for (let pointsPool in this.pointsPools)
 		{
-			if (this.pointsPools[pointsPool] > 0)
+			if (this.pointsPools[pointsPool] !== null)
 			{
 				for (let pointsPoolKey in Warband.POINTSPOOLS)
 				{
