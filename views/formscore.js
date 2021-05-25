@@ -67,7 +67,7 @@ formsCore.onWindowFocus = function (focusEvent)
 
 formsCore.onMenuboxEvent = function (menuboxEvent)
 {
-	let editorEventData =
+	let eventData =
 	{
 		"detail":
 		{
@@ -76,7 +76,7 @@ formsCore.onMenuboxEvent = function (menuboxEvent)
 			"originalEvent": menuboxEvent
 		}
 	};
-	window.dispatchEvent(new CustomEvent("editor", editorEventData));
+	window.dispatchEvent(new CustomEvent("editor", eventData));
 };
 
 formsCore.onValueEdited = (anyEvent) => formsCore.dispatchEditorEvent(anyEvent);
@@ -117,6 +117,12 @@ formsCore.dispatchEditorEvent = function (editorEvent)
 	let specialruleNode = eventOrigin.closest("[data-specialruleindex]");
 	let specialruleIndex = (specialruleNode !== null) ? Number(specialruleNode.getAttribute("data-specialruleindex")) : null;
 	let eventValue = (eventOrigin.value !== undefined) ? eventOrigin.value : eventOrigin.innerText;
+	switch (eventOrigin.getAttribute("data-type"))
+	{
+	case "number":
+		eventValue = Number(/\d+/.exec(eventValue));
+		break;
+	};
 	let editorEventData =
 	{
 		"detail":
@@ -288,16 +294,7 @@ formsCore.makeEditable = function (refNode)
 	};
 	refNode.onblur = (blurEvent) =>
 	{
-		let defaulValue = blurEvent.target.getAttribute("data-defaultvalue") ?? "";
 		let newValue = blurEvent.target.innerText.replace(/[\r\n]/g, "");
-		switch (blurEvent.target.getAttribute("data-accept"))
-		{
-		case "numbers":
-			newValue = newValue.replace(/\D/g, "");
-			break;
-		};
-		blurEvent.target.innerText = newValue;
-		// blurEvent.target.innerText = (newValue !== "") ? newValue : defaulValue;
 		formsCore.dispatchEditorEvent(blurEvent);
 	};
 	refNode.onkeypress = (keypressEvent) =>

@@ -340,6 +340,8 @@ touchCore.onMenuboxEvent = function (menuboxEvent)
 				editorEvent.detail["value"] = value;
 				if (menuboxEvent.detail.menuId === "pointspool")
 				{
+					editorEvent.detail["unitIndex"] = null;
+					editorEvent.detail["value"] = Number((/\d+/.exec(value) ?? [0])[0]);
 					editorEvent.detail["poolname"] = menuboxEvent.detail.context;
 				};
 				document.activeElement.blur();
@@ -561,6 +563,8 @@ touchCore.newInputNumberMenu = function (menuId, titleResource)
 		{
 			"type": "number",
 			"data-menuitem": "editor",
+			"min": "0",
+			"step": "1",
 			"onclick": (clickEvent) => clickEvent.stopPropagation(),
 			"onkeypress": (keypressEvent) =>
 			{

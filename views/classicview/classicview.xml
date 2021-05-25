@@ -6,14 +6,14 @@
 	<ps:script src="classicview.js"/>
 	<ps:snippet-group name="formscore">
 		<ps:snippet name="quality-selector">
-			<select size="1" data-editor="quality">
+			<select size="1" data-editor="quality" data-type="number">
 				<ps:for-each list="quality-values">
 					<option value="{{_value}}">{{_value}}+</option>
 				</ps:for-each>
 			</select>
 		</ps:snippet>
 		<ps:snippet name="combat-selector">
-			<select size="1" data-editor="combat">
+			<select size="1" data-editor="combat" data-type="number">
 				<ps:for-each list="combat-values">
 					<option value="{{_value}}">{{_value}}</option>
 				</ps:for-each>
@@ -63,7 +63,7 @@
 					<th colspan="3" class="editor">
 						<div data-editor="name" data-defaultvalue="{{default-unit-name}}" ps:postproduction="makeEditable"/>
 						<span data-valueof="count">&#160;</span>
-						<input type="number" min="1" max="25" maxlength="2" data-editor="count" ps:onchange="onValueEdited"/>
+						<input type="number" min="1" max="25" maxlength="2" data-editor="count" data-type="number" ps:onchange="onValueEdited"/>
 					</th>
 				</tr>
 				<tr>
@@ -127,7 +127,7 @@
 			<tr data-pointspool="{{pool-name}}">
 				<td class="pointspool" colspan="2">{{pool-label}}</td>
 				<td>
-					<span data-editor="pointspool" data-poolname="{{pool-name}}" data-accept="numbers" ps:postproduction="makeEditable"/>
+					<span data-editor="pointspool" data-poolname="{{pool-name}}" data-type="number" ps:postproduction="makeEditable"/>
 					<span>&#32;{{points}}</span>
 				</td>
 			</tr>
