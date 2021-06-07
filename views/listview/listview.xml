@@ -4,29 +4,6 @@
 	<ps:stylesheet src="listview.css"/>
 	<ps:script src="../formscore.js"/>
 	<ps:script src="listview.js"/>
-	<ps:snippet-group name="formscore">
-		<ps:snippet name="quality-selector">
-			<select size="1" data-editor="quality" data-type="number">
-				<ps:for-each list="quality-values">
-					<option value="{{_value}}">{{_value}}+</option>
-				</ps:for-each>
-			</select>
-		</ps:snippet>
-		<ps:snippet name="combat-selector">
-			<select size="1" data-editor="combat" data-type="number">
-				<ps:for-each list="combat-values">
-					<option value="{{_value}}">{{_value}}</option>
-				</ps:for-each>
-			</select>
-		</ps:snippet>
-		<ps:snippet name="specialrules-selector">
-			<select size="1" data-action="addspecialrule">
-				<ps:for-each list="specialrules-list">
-					<option value="{{key}}">{{text}}</option>
-				</ps:for-each>
-			</select>
-		</ps:snippet>
-	</ps:snippet-group>
 	<ps:snippet-group name="listview">
 		<ps:snippet name="main">
 			<div class="listview screenfx interactive">

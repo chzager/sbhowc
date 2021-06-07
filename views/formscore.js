@@ -12,31 +12,25 @@ var formsCore = {};
 formsCore.init = function (pageSnippetGroup)
 {
 	formsCore.pageSnippetGroup = pageSnippetGroup;
-	formsCore.editors = {};
-	let variables =
+	formsCore.editors =
 	{
-		"quality-values": owc.editor.qualityValues,
-		"combat-values": owc.editor.combatValues,
-		"specialrules-list": []
+		qualitySelector: htmlBuilder.newElement("select[size='1'][data-editor='quality'][data-type='number']"),
+		combatSelector: htmlBuilder.newElement("select[size='1'][data-editor='combat'][data-type='number']"),
+		specialrulesSelector: htmlBuilder.newElement("select[size='1'][data-action='addspecialrule']")
 	};
-	variables["specialrules-list"].push(
+	for (let v of owc.editor.qualityValues)
 	{
-		"key": "",
-		"text": owc.helper.translate("addSpecialrule")
-	}
-	);
+		formsCore.editors.qualitySelector.appendChild(htmlBuilder.newElement("option[value='" + v + "']", v + "+"));
+	};
+	for (let v of owc.editor.combatValues)
+	{
+		formsCore.editors.combatSelector.appendChild(htmlBuilder.newElement("option[value='" + v + "']", v));
+	};
+	formsCore.editors.specialrulesSelector.appendChild(htmlBuilder.newElement("option[value='']", owc.helper.translate("addSpecialrule")));
 	for (let specialrule of owc.editor.specialrulesList)
 	{
-		variables["specialrules-list"].push(
-		{
-			"key": specialrule.key,
-			"text": specialrule.text
-		}
-		);
+		formsCore.editors.specialrulesSelector.appendChild(htmlBuilder.newElement("option[value='" + specialrule.key + "']", specialrule.text));
 	};
-	formsCore.editors.qualitySelector = pageSnippets.formscore["quality-selector"].produce(formsCore, variables);
-	formsCore.editors.combatSelector = pageSnippets.formscore["combat-selector"].produce(formsCore, variables);
-	formsCore.editors.specialrulesSelector = pageSnippets.formscore["specialrules-selector"].produce(formsCore, variables);
 	formsCore.unitMenu = new Menubox("unitMenu",
 	{
 		"duplicate": "Duplicate unit",
