@@ -296,6 +296,7 @@ touchCore.onMenuboxEvent = function (menuboxEvent)
 				};
 				break;
 			case "pointspool":
+				editorEvent.detail["unitIndex"] = null;
 				editorEvent.detail["poolname"] = eventData.context;
 				break;
 			};
