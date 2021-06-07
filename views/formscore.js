@@ -11,6 +11,16 @@ var formsCore = {};
 
 formsCore.init = function (pageSnippetGroup)
 {
+	function _appendOptionElements(selectElement, array)
+	{
+		for (let item of array)
+		{
+			selectElement.appendChild(htmlBuilder.newElement("option",
+				{
+					"value": item.key
+				}, item.label));
+		};
+	};
 	formsCore.pageSnippetGroup = pageSnippetGroup;
 	formsCore.editors =
 	{
@@ -18,14 +28,8 @@ formsCore.init = function (pageSnippetGroup)
 		combatSelector: htmlBuilder.newElement("select[size='1'][data-editor='combat'][data-type='number']"),
 		specialrulesSelector: htmlBuilder.newElement("select[size='1'][data-action='addspecialrule']")
 	};
-	for (let v of owc.editor.qualityValues)
-	{
-		formsCore.editors.qualitySelector.appendChild(htmlBuilder.newElement("option[value='" + v + "']", v + "+"));
-	};
-	for (let v of owc.editor.combatValues)
-	{
-		formsCore.editors.combatSelector.appendChild(htmlBuilder.newElement("option[value='" + v + "']", v));
-	};
+	_appendOptionElements(formsCore.editors.qualitySelector, owc.editor.qualityValues);
+	_appendOptionElements(formsCore.editors.combatSelector, owc.editor.combatValues);
 	formsCore.editors.specialrulesSelector.appendChild(htmlBuilder.newElement("option[value='']", owc.helper.translate("addSpecialrule")));
 	for (let specialrule of owc.editor.specialrulesList)
 	{

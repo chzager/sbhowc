@@ -59,7 +59,7 @@
 						<span>
 							<select size="1" id="option_default_quality" data-value-key="defaults.quality">
 								<ps:for-each list="quality-values">
-									<option value="{{_value}}">{{_value}}+</option>
+									<option value="{{key}}">{{label}}</option>
 								</ps:for-each>
 							</select>
 						</span>
@@ -67,7 +67,7 @@
 						<span>
 							<select size="1" id="option_default_combat" data-value-key="defaults.combat">
 								<ps:for-each list="combat-values">
-									<option value="{{_value}}">{{_value}}</option>
+									<option value="{{key}}">{{label}}</option>
 								</ps:for-each>
 							</select>
 						</span>

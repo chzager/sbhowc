@@ -15,8 +15,8 @@ touchCore.init = function (pageSnippetGroup)
 	touchCore.warbandNameMenu = touchCore.newInputMenu("warbandname", "warbandNamePrompt");
 	touchCore.unitNameMenu = touchCore.newInputMenu("name", "unitNamePrompt");
 	touchCore.unitCountMenu = touchCore.newInputNumberMenu("count", "count");
-	touchCore.createQualityMenu();
-	touchCore.createCombatMenu();
+	touchCore.qualityMenu = touchCore.newMenu("quality", "quality", owc.editor.qualityValues, ["cancel"]);
+	touchCore.combatMenu = touchCore.newMenu("combat", "combat", owc.editor.combatValues, ["cancel"]);
 	touchCore.specialrulesMenu = touchCore.newMenu("specialrules", "specialrules", [], ["ok", "cancel"], true);
 	touchCore.pointsPoolMenu = touchCore.newInputNumberMenu("pointspool", "pointsPools");
 
@@ -41,38 +41,6 @@ touchCore.unload = function (menuboxEvent)
 {
 	window.removeEventListener("focus", touchCore.onWindowFocus);
 	window.removeEventListener("menubox", touchCore.onMenuboxEvent);
-};
-
-touchCore.createQualityMenu = function ()
-{
-	let items = []
-	for (let q of owc.editor.qualityValues)
-	{
-		items.push(
-		{
-			"key": q,
-			"text": q.toString() + "+"
-		}
-		);
-	};
-	touchCore.qualityMenu = touchCore.newMenu("quality", "quality", items, ["cancel"]);
-	touchCore.qualityMenu.dataType = "number";
-};
-
-touchCore.createCombatMenu = function ()
-{
-	let items = [];
-	for (let c of owc.editor.combatValues)
-	{
-		items.push(
-		{
-			"key": c,
-			"text": c.toString()
-		}
-		);
-	};
-	touchCore.combatMenu = touchCore.newMenu("combat", "combat", items, ["cancel"]);
-	touchCore.combatMenu.dataType = "number";
 };
 
 touchCore.getEventUnitIndex = function(clickEvent) 
@@ -222,7 +190,7 @@ touchCore.onSpecialrulesClick = function (clickEvent)
 		{
 			selectedSpecialrules.push(owc.warband.units[unitIndex].specialrules[s].key);
 		};
-		menuItem["text"] = specialruleText;
+		menuItem["label"] = specialruleText;
 		menuItems.push(menuItem);
 	};
 	if (owc.warband.units[unitIndex].specialrules.length > 0)
@@ -240,7 +208,7 @@ touchCore.onSpecialrulesClick = function (clickEvent)
 			let menuItem =
 			{
 				"key": specialrule.key,
-				"text": specialrule.text
+				"label": specialrule.text
 			};
 			menuItems.push(menuItem);
 		};
@@ -293,8 +261,7 @@ touchCore.onMenuboxEvent = function (menuboxEvent)
 	{
 		"detail":
 		{
-			"unitIndex": eventData.context,
-			"originalEvent": menuboxEvent
+			"unitIndex": eventData.context
 		}
 	}
 		);
@@ -512,7 +479,7 @@ touchCore.newMenu = function (menuId, titleResource, items, buttons, multiselect
 		menuDef.buttons.push(
 		{
 			"key": button,
-			"text": owc.helper.translate(button)
+			"label": owc.helper.translate(button)
 		}
 		);
 	};

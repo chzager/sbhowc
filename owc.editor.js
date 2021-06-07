@@ -12,8 +12,8 @@ owc.editor =
 	"UNIT_CLIPBOARD_KEY": "owc.clipboard.unit",
 	"undoer": null,
 	"specialrulesList": [],
-	"qualityValues": [2, 3, 4, 5, 6],
-	"combatValues": [6, 5, 4, 3, 2, 1, 0]
+	"qualityValues": [],
+	"combatValues": []
 };
 
 owc.editor.init = function ()
@@ -21,6 +21,24 @@ owc.editor.init = function ()
 	console.debug("owc.editor.init()");
 	owc.editor.undoer = new Undoer();
 	window.addEventListener("editor", owc.editor.onEditorEvent);
+	for (let q = 2; q <= 6; q += 1)
+	{
+		owc.editor.qualityValues.push(
+		{
+			"key": q,
+			"label": q.toString() + "+"
+		}
+		);
+	};
+	for (let c = 6; c >= 0; c -= 1)
+	{
+		owc.editor.combatValues.push(
+		{
+			"key": c,
+			"label": c.toString()
+		}
+		);
+	};
 };
 
 owc.editor.onEditorEvent = function (editorEvent)
