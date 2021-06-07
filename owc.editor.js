@@ -25,38 +25,44 @@ owc.editor.init = function ()
 
 owc.editor.onEditorEvent = function (editorEvent)
 {
-	let action = editorEvent.detail.action ?? "set-" + editorEvent.detail.editor;
-	console.debug("owc.editor.onEditorEvent()", action, editorEvent.detail);
+	let eventDetail = editorEvent.detail;
+	let action = editorEvent.detail.action ?? "set-" + eventDetail.editor;
+	console.debug("owc.editor.onEditorEvent()", action, eventDetail);
 	let undoPoints = owc.editor.undoer.snapshots.length;
-	let unitIndex = editorEvent.detail.unitIndex;
-	let specialruleIndex = editorEvent.detail.specialruleIndex;
+	let unitIndex = eventDetail.unitIndex;
+	let specialruleIndex = eventDetail.specialruleIndex;
 	switch (action)
 	{
 	case "set-warbandname":
-		owc.editor.setWarbandName(editorEvent.detail.value);
+		owc.editor.setWarbandName(eventDetail.value);
 		break;
 	case "set-name":
-		owc.editor.setUnitName(unitIndex, editorEvent.detail.value);
+		owc.editor.setUnitName(unitIndex, eventDetail.value);
 		owc.ui.printUnit(unitIndex);
 		break;
 	case "set-count":
-		owc.editor.setUnitCount(unitIndex, Number(editorEvent.detail.value));
+		owc.editor.setUnitCount(unitIndex, eventDetail.value);
 		owc.ui.printUnit(unitIndex);
 		break;
 	case "set-quality":
-		owc.editor.setUnitQuality(unitIndex, Number(editorEvent.detail.value));
+		owc.editor.setUnitQuality(unitIndex, eventDetail.value);
 		owc.ui.printUnit(unitIndex);
 		break;
 	case "set-combat":
-		owc.editor.setUnitCombatscore(unitIndex, Number(editorEvent.detail.value));
+		owc.editor.setUnitCombatscore(unitIndex, eventDetail.value);
+		owc.ui.printUnit(unitIndex);
+		break;
+	case "set-specialrules":
+		owc.editor.setSpecialrules(unitIndex, eventDetail.value);
+		owc.warband.checkPointsPools();
 		owc.ui.printUnit(unitIndex);
 		break;
 	case "set-additionaltext":
-		owc.editor.setSpecialruleText(unitIndex, specialruleIndex, editorEvent.detail.value);
+		owc.editor.setSpecialruleText(unitIndex, specialruleIndex, eventDetail.value);
 		owc.ui.printUnit(unitIndex);
 		break;
 	case "set-pointspool":
-		owc.editor.setPointsPool(editorEvent.detail.poolname, Number(editorEvent.detail.value));
+		owc.editor.setPointsPool(eventDetail.poolname, eventDetail.value);
 		owc.ui.visualizer.refreshWarbandSummary();
 		owc.ui.refreshUndoButton();
 		break;
@@ -66,17 +72,17 @@ owc.editor.onEditorEvent = function (editorEvent)
 		owc.ui.scrollToBottom();
 		break;
 	case "addspecialrule":
-		owc.editor.addSpecialrule(unitIndex, editorEvent.detail.value);
+		owc.editor.addSpecialrule(unitIndex, eventDetail.value);
 		owc.ui.printUnit(unitIndex);
 		/* reset the specialrule select */
-		editorEvent.detail.originalEvent.target.value = "";
+		eventDetail.originalEvent.target.value = "";
 		break;
 	case "removespecialrule":
 		owc.editor.removeSpecialrule(unitIndex, specialruleIndex);
 		owc.ui.printUnit(unitIndex);
 		break;
 	case "showunitmenu":
-		owc.ui.visualizer.unitMenu.popup(editorEvent.detail.originalEvent, unitIndex);
+		owc.ui.visualizer.unitMenu.popup(eventDetail.originalEvent, unitIndex);
 		break;
 	case "duplicate":
 		owc.editor.duplicateUnit(unitIndex);
@@ -86,20 +92,20 @@ owc.editor.onEditorEvent = function (editorEvent)
 		owc.editor.copyUnitToClipboard(unitIndex);
 		break;
 	case "pasteunit":
-		owc.editor.addUnit(editorEvent.detail.unitcode);
+		owc.editor.addUnit(eventDetail.unitcode);
 		owc.ui.printWarband();
 		owc.ui.scrollToBottom();
 		break;
 	case "remove":
-		owc.editor.removeUnit(unitIndex, editorEvent.detail.value);
+		owc.editor.removeUnit(unitIndex, eventDetail.value);
 		owc.ui.printWarband();
 		break;
 	case "moveup":
-		owc.editor.moveUnitUp(unitIndex, editorEvent.detail.value);
+		owc.editor.moveUnitUp(unitIndex, eventDetail.value);
 		owc.ui.printWarband();
 		break;
 	case "movedown":
-		owc.editor.moveUnitDown(unitIndex, editorEvent.detail.value);
+		owc.editor.moveUnitDown(unitIndex, eventDetail.value);
 		owc.ui.printWarband();
 		break;
 	};
@@ -300,6 +306,21 @@ owc.editor.removeSpecialrule = function (unitIndex, specialruleIndex)
 	let nativeText = owc.resources.defaultText(owc.warband.units[unitIndex].specialrules[specialruleIndex].key);
 	owc.editor.setUndoPoint("Revoke \"" + nativeText + "\" special rule from " + owc.helper.nonBlankUnitName(owc.warband.units[unitIndex]));
 	owc.warband.units[unitIndex].removeSpecialrule(specialruleIndex);
+};
+
+owc.editor.setSpecialrules = function (unitIndex, sepcialruleKeys)
+{
+	let unit = owc.warband.units[unitIndex];
+	owc.editor.setUndoPoint("Modify special rules of " + owc.helper.nonBlankUnitName(unit));
+	unit.specialrules.splice(0, unit.specialrules.length);
+	for (let selectedKey of sepcialruleKeys)
+	{
+		unit.addSpecialrule(selectedKey.substr(0, 2), owc.resources.data);
+		if (selectedKey.includes("."))
+		{
+			unit.specialrules[unit.specialrules.length - 1].additionalText = selectedKey.substr(3);
+		};
+	};
 };
 
 owc.editor.setSpecialruleText = function (unitIndex, specialruleIndex, newSpecialruleText)

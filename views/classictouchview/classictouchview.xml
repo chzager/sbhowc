@@ -45,7 +45,7 @@
 					</th>
 				</tr>
 				<tr>
-					<td class="points" data-action="showunitmenu" ps:onclick="onValueEdited">
+					<td class="points" data-action="showunitmenu" ps:onclick="onClickEvent">
 						<span>{{points}}:&#160;</span>
 						<span data-staticvalueof="points"/>
 					</td>
@@ -121,10 +121,10 @@
 			</div>
 		</ps:snippet>
 		<ps:snippet name="add-unit">
-			<div class="addunit" data-action="addunit" ps:onclick="onValueEdited">{{add-unit}}</div>
+			<div class="addunit" data-action="addunit" ps:onclick="onClickEvent">{{add-unit}}</div>
 		</ps:snippet>
 		<ps:snippet name="paste-unit">
-			<div class="addunit" data-action="pasteunit" data-unitcode="{{unit-code}}" ps:onclick="onValueEdited">{{paste-unit}}</div>
+			<div class="addunit" data-action="pasteunit" data-unitcode="{{unit-code}}" ps:onclick="onClickEvent">{{paste-unit}}</div>
 		</ps:snippet>
 	</ps:snippet-group>
 </ps:pagesnippets>
