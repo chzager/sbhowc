@@ -213,7 +213,7 @@ touchCore.onSpecialrulesClick = function (clickEvent)
 			menuItems.push(menuItem);
 		};
 	};
-	touchCore.specialrulesMenu.buildMenuItems(menuItems);
+	touchCore.specialrulesMenu.setItems(menuItems);
 	_postRender(touchCore.specialrulesMenu.element, unitIndex);
 	touchCore.popupMenubox(clickEvent, touchCore.specialrulesMenu, unitIndex);
 };
@@ -492,7 +492,7 @@ touchCore.newInputMenu = function (menuId, titleResource)
 	let menuItem =
 	{
 		"key": "editor",
-		"text": ""
+		"label": ""
 	};
 	let menubox = touchCore.newMenu(menuId, titleResource, [menuItem], ["ok", "cancel"]);
 	menubox.element.classList.add("inputmenu");
