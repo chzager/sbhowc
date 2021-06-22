@@ -1,4 +1,74 @@
-div[data-menubox] {
+
+/* warband and share menus */
+
+.menubox.topdown {
+	overflow: hidden;
+	position: absolute;
+	z-index: var(--z-index-top-menu-popup);
+	background-color: var(--complement-white-color);
+	box-shadow: 0.3rem 0.3rem 1rem #00000080;
+	transition: height 0.15s ease-out, visibility 0.15s;
+	box-sizing: content-box;
+	}
+	
+.menubox.horizontal {
+	padding: 0rem 0.5rem;
+	}
+	
+.menubox.horizontal .items {
+	display: flex;
+	flex-wrap: wrap;
+	position: relative;
+	}
+	
+.menubox.horizontal .menuitem {
+	font-family: var(--sans-font);
+	font-size: 1rem;
+	padding: 0.8em 1em 0.5em 1em;
+	border-bottom: 0.3em solid transparent;
+	color: var(--complement-black-color);
+	cursor: pointer;
+	}
+.menubox.horizontal .menuitem:hover {
+	color: var(--complement-dark-color);
+	border-bottom-color: var(--complement-dark-color);
+	}
+
+.menubox.vertical {
+	padding: 0rem;
+	}
+
+.menubox.vertical .items {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	position: relative;
+	}
+	
+.menubox.vertical .menuitem {
+	font-family: var(--sans-font);
+	font-size: 1rem;
+	padding: 0.8em 2.4em 0.8em 2.4em;
+	border-right: 0.3em solid transparent;
+	color: var(--complement-black-color);
+	cursor: pointer;
+	position: relative;
+	}
+.menubox.vertical .menuitem:hover {
+	color: var(--complement-dark-color);
+	border-right-color: var(--complement-dark-color);
+	}
+	
+.menubox .menuitem > i {
+	position: absolute;
+	top: 0.9em;
+	left: 0.8em;
+	}
+
+
+/* unit context menu */
+
+[data-menubox="unitMenu"] {
 	display: inline-block;
 	position: absolute;
 	top: 0px;
@@ -9,21 +79,21 @@ div[data-menubox] {
 	padding: 0.2em;
 	box-shadow: 0.2rem 0.2rem 1rem #00000080;
  	z-index: var(--z-index-topmost);
-}
+	}
 
-div[data-menubox] div[data-menuitem] {
+[data-menubox="unitMenu"] .menuitem {
 	padding: 0.3em 0.5em;
 	cursor: pointer;
-}
+	}
 
-div[data-menubox] div[data-menuitem]:hover {
+[data-menubox="unitMenu"] .menuitem:hover {
 	color: #607080;
 	background-color: #f0f0f0;
-}
+	}
 
-div[data-menubox] div.separator {
+[data-menubox="unitMenu"] .separator {
 	height: 0.1rem;
 	background-color: #808080;
 	border: 0rem;
 	margin: 0.6em;
-}
+	}

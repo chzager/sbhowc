@@ -468,19 +468,19 @@ touchCore.newMenu = function (menuId, titleResource, items, buttons, multiselect
 {
 	let menuDef =
 	{
-		"title": owc.helper.translate(titleResource),
-		"class": "touchmenu",
-		"multiselect": multiselect,
-		"position": "fixed",
-		"buttons": [],
-		"items": items
+		title: owc.helper.translate(titleResource),
+		css: "touchmenu",
+		multiselect: multiselect,
+		position: "fixed",
+		buttons: [],
+		items: items
 	};
 	for (let button of buttons)
 	{
 		menuDef.buttons.push(
 		{
-			"key": button,
-			"label": owc.helper.translate(button)
+			key: button,
+			label: owc.helper.translate(button)
 		}
 		);
 	};
@@ -491,8 +491,8 @@ touchCore.newInputMenu = function (menuId, titleResource)
 {
 	let menuItem =
 	{
-		"key": "editor",
-		"label": ""
+		key: "editor",
+		label: ""
 	};
 	let menubox = touchCore.newMenu(menuId, titleResource, [menuItem], ["ok", "cancel"]);
 	menubox.element.classList.add("inputmenu");

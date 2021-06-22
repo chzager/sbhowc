@@ -39,7 +39,6 @@ warbandcode.applyClick = function (clickEvent)
 	{
 		owc.importWarband(newWarbandCode);
 		warbandcode.close();
-		owc.ui.printWarband();
 	}
 	catch (ex)
 	{

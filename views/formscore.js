@@ -48,14 +48,14 @@ formsCore.init = function (pageSnippetGroup)
 	if (owc.ui.isPrinting === false)
 	{
 		window.addEventListener("focus", formsCore.onWindowFocus);
-		window.addEventListener("menubox", formsCore.onMenuboxEvent);
+		window.addEventListener(Menubox.EVENT_ID, formsCore.onMenuboxEvent);
 	};
 };
 
 formsCore.unload = function (menuboxEvent)
 {
 	window.removeEventListener("focus", formsCore.onWindowFocus);
-	window.removeEventListener("menubox", formsCore.onMenuboxEvent);
+	window.removeEventListener(Menubox.EVENT_ID, formsCore.onMenuboxEvent);
 };
 
 formsCore.onWindowFocus = function (focusEvent)
@@ -65,16 +65,19 @@ formsCore.onWindowFocus = function (focusEvent)
 
 formsCore.onMenuboxEvent = function (menuboxEvent)
 {
-	let eventData =
+	if (menuboxEvent.detail.menubox.id === formsCore.unitMenu.id)
 	{
-		"detail":
+		let eventData =
 		{
-			"action": menuboxEvent.detail.itemKey,
-			"unitIndex": menuboxEvent.detail.context,
-			"originalEvent": menuboxEvent
-		}
+			"detail":
+			{
+				"action": menuboxEvent.detail.itemKey,
+				"unitIndex": menuboxEvent.detail.context,
+				"originalEvent": menuboxEvent
+			}
+		};
+		window.dispatchEvent(new CustomEvent("editor", eventData));
 	};
-	window.dispatchEvent(new CustomEvent("editor", eventData));
 };
 
 formsCore.onValueEdited = (anyEvent) => formsCore.dispatchEditorEvent(anyEvent);

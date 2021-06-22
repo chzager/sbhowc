@@ -53,9 +53,9 @@
 				<div class="viewport">
 					<div class="flex-box">
 						<i class="far fa-file" onclick="owc.topMenu.newWarbandClick(event);"></i>
-						<i class="fas fa-fw fa-angle-double-down" id="top-menu-toggle-button" onclick="owc.topMenu.warbandMenuClick(event);"></i>
+						<i class="fas fa-fw fa-angle-double-down" id="top-menu-toggle-button" onclick="owc.topMenu.onWarbandMenuButtonClick(event);"></i>
 						<i class="fas fa-fw fa-print" onclick="owc.topMenu.printPreviewClick(event);"></i>
-						<i class="fas fa-fw fa-share-alt" id="share-menu-button" onclick="owc.topMenu.shareClick(event);"></i>
+						<i class="fas fa-fw fa-share-alt" id="share-menu-button" onclick="owc.topMenu.onShareMenuButtonClick(event);"></i>
 						<i class="fas fa-fw fa-cog" onclick="owc.topMenu.showSettingsClick(event);"></i>
 					</div>
 				</div>
@@ -64,25 +64,6 @@
 				<i class="fas fa-fw fa-undo-alt" id="undo-button" onclick="owc.editor.undo();"></i>
 			</div>
 		</div>
-		<div id="top-menu-popup" style="height: 0px; overflow: hidden;">
-			<div>
-				<div onclick="owc.topMenu.showWarbandCodeClick(event);">Show warband code</div>
-				<div onclick="owc.topMenu.restoreWarbandClick(event);">Restore Warband</div>
-				<div onclick="owc.topMenu.warbandFromFileClick(event);">Load from file</div>
-				<div onclick="owc.topMenu.warbandToFileClick(event);">Save to file</div>
-			</div>
-		</div>
-		<div id="share-popup" style="height: 0px; overflow: hidden;">
-			<div>
-				<div onclick="owc.share('whatsapp');"><i class="fab fa-whatsapp"></i> WhatsApp</div>
-				<!-- <div onclick="owc.share('facebook');"><i class="fab fa-facebook-f"></i> Facebook</div> -->
-				<div onclick="owc.share('twitter');"><i class="fab fa-twitter"></i> Twitter</div>
-				<div onclick="owc.share('email');"><i class="fas fa-envelope"></i> E-Mail</div>
-				<div onclick="owc.share('browser');" id="share-more"><i class="fas fa-ellipsis-h"></i>More...</div>
-				<div onclick="owc.share('link');" id="share-link"><i class="fas fa-link"></i>Create Link</div>
-			</div>
-		</div>
-
 
 		<div id="master-notification" class="notification noprint green"></div>
 
@@ -152,6 +133,8 @@
 		<script src="owc.editor.js"></script>
 		<script src="owc.ui.js"></script>
 		<script src="owc.topmenu.js"></script>
+		<script src="owc.fileio.js" defer="defer"></script>
+		<script src="owc.share.js" defer="defer"></script>
 		<script>
 			owc.init();
 		</script>

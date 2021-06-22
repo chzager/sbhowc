@@ -169,62 +169,6 @@ a[target="_blank"]:hover {
 	text-shadow: 0em 0em 0.2em var(--complement-white-color);
 	}
 
-#top-menu-popup,
-#share-popup {
-	overflow: hidden;
-	position: absolute;
-	z-index: var(--z-index-top-menu-popup);
-	background-color: var(--complement-white-color);
-	box-shadow: 0.3rem 0.3rem 1rem #00000080;
-	transition: height 0.15s ease-out;
-	padding: 0rem 0.5rem;
-	}
-#top-menu-popup > div {
-	display: flex;
-	flex-wrap: wrap;
-	position: relative;
-	}
-#top-menu-popup > div > div {
-	font-family: var(--sans-font);
-	font-size: 1rem;
-	padding: 0.8em 1em 0.5em 1em;
-	border-bottom: 0.3em solid transparent;
-	color: var(--complement-black-color);
-	cursor: pointer;
-	}
-#top-menu-popup > div > div:hover {
-	color: var(--complement-dark-color);
-	border-bottom-color: var(--complement-dark-color);
-	}
-
-#share-popup {
-	padding: 0rem;
-	}
-#share-popup > div {
-	display: flex;
-	flex-wrap: wrap;
-	flex-direction: column;
-	position: relative;
-	}
-#share-popup > div > div {
-	font-family: var(--sans-font);
-	font-size: 1rem;
-	padding: 0.8em 2.4em 0.8em 2.4em;
-	border-right: 0.3em solid transparent;
-	color: var(--complement-black-color);
-	cursor: pointer;
-	position: relative;
-	}
-#share-popup > div > div:hover {
-	color: var(--complement-dark-color);
-	border-right-color: var(--complement-dark-color);
-	}
-#share-popup > div > div > i {
-	position: absolute;
-	top: 0.9em;
-	left: 0.8em;
-	}
-
 #top-menu-substripe {
 	text-align: right;
 	}

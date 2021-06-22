@@ -9,23 +9,145 @@ See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
 
 owc.topMenu =
 {
-	"toggleButton": document.getElementById("top-menu-toggle-button"),
-	"popupMenu": document.getElementById("top-menu-popup"),
-	"sharePopup": document.getElementById("share-popup")
+	warbandMenuButton: document.getElementById("top-menu-toggle-button"),
+	shareMenuButton: document.getElementById("share-menu-button")
 };
 
 owc.topMenu.init = function ()
 {
-	window.addEventListener(owc.ui.sweepvolatilesEvent, owc.topMenu.closePopupMenu);
-	window.addEventListener(owc.ui.sweepvolatilesEvent, owc.topMenu.closeShareMenu);
-	console.debug("navigator.share:", navigator.share);
-	if (typeof navigator.share !== "function")
+	window.addEventListener(owc.ui.sweepvolatilesEvent, owc.topMenu.resetWarbandMenuButton);
+	window.addEventListener(Menubox.EVENT_ID, onMenuboxEvent);
+	owc.topMenu.warbandMenu = new Menubox("warbandMenu",
 	{
-		document.getElementById("share-more").remove();
+		css: "topdown horizontal",
+		adjust:
+		{
+			height: ["0px", "auto"]
+		},
+		items: [
+			{
+				key: "loadFromFile",
+				label: "Load from file" /*,
+				submenu:
+				{
+					css: "topdown vertical",
+					adjust:
+					{
+						height: ["0px", "auto"]
+					},
+					alignment: "start left, below bottom",
+					items: [
+						{
+							key: "localDevice",
+							label: "Local device",
+							iconFontAwesome: "fas fa-upload"
+						},
+						{
+							key: "oneDrive",
+							label: "OneDrive",
+							iconFontAwesome: "fas fa-cloud"
+						},
+						{
+							key: "googleDrive",
+							label: "Google Drive",
+							iconFontAwesome: "fab fa-google-drive"
+						}
+					]
+				} */
+			},
+			{
+				key: "saveToFile",
+				label: "Save to file" /*,
+				submenu:
+				{
+					css: "topdown vertical",
+					adjust:
+					{
+						height: ["0px", "auto"]
+					},
+					alignment: "start left, below bottom",
+					items: [
+						{
+							key: "localDevice",
+							label: "Local device",
+							iconFontAwesome: "fas fa-download"
+						},
+						{
+							key: "oneDrive",
+							label: "OneDrive",
+							iconFontAwesome: "fas fa-cloud"
+						},
+						{
+							key: "googleDrive",
+							label: "Google Drive",
+							iconFontAwesome: "fab fa-google-drive"
+						}
+					]
+				} */
+			},
+			{
+				key: "restoreWarband",
+				label: "Restore warband"
+			},
+			{
+				key: "showWarbandCode",
+				label: "Show warband code"
+			}
+		]
+	}
+		);
+	owc.topMenu.shareMenu = new Menubox("shareMenu",
+	{
+		css: "topdown vertical",
+		adjust:
+		{
+			height: ["0px", "auto"]
+		},
+		items: [
+			{
+				key: "whatsapp",
+				label: "WhatsApp",
+				iconFontAwesome: "fab fa-whatsapp"
+			},
+			/* {
+				key: "facebook",
+				label: "Facebook",
+				iconFontAwesome: "fab fa-facebook-f"
+			}, */
+			{
+				key: "twitter",
+				label: "Twitter",
+				iconFontAwesome: "fab fa-twitter"
+			},
+			{
+				key: "email",
+				label: "E-Mail",
+				iconFontAwesome: "fas fa-envelope"
+			}
+		]
+	}
+		);
+
+	console.debug("navigator.share:", navigator.share);
+	if (typeof navigator.share === "function")
+	{
+		owc.topMenu.shareMenu.appendItem(
+		{
+			key: "browser",
+			label: "More...",
+			iconFontAwesome: "fas fa-ellipsis-h"
+		}
+		);
 	}
 	else
 	{
-		document.getElementById("share-link").remove();
+		owc.topMenu.shareMenu.appendItem(
+		{
+			key: "link",
+			label: "Create Link",
+			iconFontAwesome: "fas fa-link"
+		}
+		);
 	};
 };
 
@@ -35,45 +157,29 @@ owc.topMenu.preparePopup = function ()
 	owc.ui.blurPage("editor-only");
 };
 
-owc.topMenu.openPopupMenu = function ()
+owc.topMenu.resetWarbandMenuButton = function ()
 {
-	owc.topMenu.preparePopup();
-	owc.topMenu.toggleButton.classList.remove("fa-angle-double-down");
-	owc.topMenu.toggleButton.classList.add("fa-angle-double-up");
-	htmlBuilder.adjust(owc.topMenu.popupMenu, owc.topMenu.toggleButton, "below bottom, start left");
-	owc.topMenu.popupMenu.style.height = String(owc.topMenu.popupMenu.firstElementChild.clientHeight) + "px";
+	owc.topMenu.warbandMenuButton.classList.remove("fa-angle-double-up");
+	owc.topMenu.warbandMenuButton.classList.add("fa-angle-double-down");
 };
 
-owc.topMenu.closePopupMenu = function ()
-{
-	owc.topMenu.toggleButton.classList.remove("fa-angle-double-up");
-	owc.topMenu.toggleButton.classList.add("fa-angle-double-down");
-	owc.topMenu.popupMenu.style.height = "0px";
-};
-
-owc.topMenu.warbandMenuClick = function (clickEvent)
+owc.topMenu.onWarbandMenuButtonClick = function (clickEvent) /* OK */
 {
 	clickEvent.stopPropagation();
-	(owc.topMenu.popupMenu.style.height === "0px") ? owc.topMenu.openPopupMenu() : owc.topMenu.closePopupMenu();
-};
-
-owc.topMenu.openShareMenu = function ()
-{
 	owc.topMenu.preparePopup();
-	htmlBuilder.adjust(owc.topMenu.sharePopup, document.getElementById("share-menu-button"), "below bottom, end right");
-	owc.topMenu.sharePopup.style.height = String(owc.topMenu.sharePopup.firstElementChild.clientHeight) + "px";
+	owc.topMenu.warbandMenuButton.classList.remove("fa-angle-double-down");
+	owc.topMenu.warbandMenuButton.classList.add("fa-angle-double-up");
+	owc.topMenu.warbandMenu.popup(null, null, owc.topMenu.warbandMenuButton, "below bottom, start left");
 };
 
-owc.topMenu.closeShareMenu = function ()
-{
-	owc.topMenu.sharePopup.style.height = "0px";
-};
-
-owc.topMenu.shareClick = function (clickEvent)
+owc.topMenu.onShareMenuButtonClick = function (clickEvent) /* OK */
 {
 	clickEvent.stopPropagation();
-	(owc.topMenu.sharePopup.style.height === "0px") ? owc.topMenu.openShareMenu() : owc.topMenu.closeShareMenu();
+	owc.topMenu.preparePopup();
+	owc.topMenu.shareMenu.popup(null, null, owc.topMenu.shareMenuButton, "below bottom, end right");
 };
+
+/* event handlers */
 
 owc.topMenu.newWarbandClick = function (clickEvent)
 {
@@ -81,18 +187,6 @@ owc.topMenu.newWarbandClick = function (clickEvent)
 		{
 			[owc.urlParam.PID]: owc.newPid()
 		}, ["console"]));
-};
-
-owc.topMenu.showWarbandCodeClick = function (clickEvent)
-{
-	clickEvent.stopPropagation();
-	warbandcode.show();
-};
-
-owc.topMenu.restoreWarbandClick = function (clickEvent)
-{
-	clickEvent.stopPropagation();
-	restorer.show();
 };
 
 owc.topMenu.printPreviewClick = function (clickEvent)
@@ -109,25 +203,42 @@ owc.topMenu.showSettingsClick = function (clickEvent)
 	settingsUi.show();
 };
 
-owc.topMenu.warbandFromFileClick = function (clickEvent)
+function onMenuboxEvent(menuboxEvent)
 {
-	fileIo.requestClientFile(clickEvent).then((fileEvent) =>
+	owc.ui.sweepVolatiles();
+	let menuPath = menuboxEvent.detail.menubox.id.split("::");
+	if (menuPath[0] === owc.topMenu.warbandMenu.id)
 	{
-		try
+		/* if (menuPath.includes("loadFromFile"))
 		{
-			owc.importWarband(fileEvent.target.result);
-			owc.ui.printWarband();
+			owc.fileIo[menuboxEvent.detail.itemKey].load(menuboxEvent);
 		}
-		catch (ex)
+		else if (menuPath.includes("saveToFile"))
 		{
-			console.error(ex);
-			owc.ui.notify("Your file does not provide a valid warband code.", owc.ui.NOTIFICATION_COLOR_RED);
+			owc.fileIo[menuboxEvent.detail.itemKey].save(menuboxEvent);
+		}
+		else */
+		{
+			switch (menuboxEvent.detail.itemKey)
+			{
+			case "loadFromFile":
+				owc.fileIo.localDevice.load(menuboxEvent);
+				break;
+			case "saveToFile":
+				owc.fileIo.localDevice.save(menuboxEvent);
+				break;
+			case "restoreWarband":
+				restorer.show();
+				break;
+			case "showWarbandCode":
+				warbandcode.show();
+				break;
+			};
 		};
 	}
-	);
-};
-
-owc.topMenu.warbandToFileClick = function (clickEvent)
-{
-	fileIo.offerFileToClient(owc.helper.nonBlankWarbandName() + ".owc.txt", owc.getWarbandCode(true));
+	else if (menuPath[0] === owc.topMenu.shareMenu.id)
+	{
+		console.log("SHARE", menuboxEvent.detail.itemKey);
+		owc.share(menuboxEvent.detail.itemKey);
+	};
 };
