@@ -18,8 +18,17 @@ classicview.init = function ()
 	classicview.refreshUnit = formsCore.refreshUnit;
 	classicview.refreshPasteUnitButton = formsCore.refreshPasteUnitButton;
 	classicview.makeEditable = formsCore.makeEditable;
-	(owc.ui.isPrinting === false) ? window.addEventListener("resize", classicview.onWindowResize) : null;
-	classicview.onWindowResize();
+	if (owc.ui.isPrinting === false)
+	{
+		/* determining size of "M" for one or two columns choice (#52) */
+		const mElement=htmlBuilder.newElement("span#_sizeOfM", "M", {style:"font-family:var(--serif-font);font-size:1rem;position:absolute;top:0px;left:0px;visibility:hidden;"});
+		document.body.insertBefore(mElement, document.getElementById("warbandCanvas"));
+		classicview.sizeOfM = mElement.offsetWidth;
+		mElement.remove();
+		console.debug("classicview.sizeOfM:", classicview.sizeOfM);
+		window.addEventListener("resize", classicview.onWindowResize);
+		classicview.onWindowResize();
+	};
 };
 
 classicview.unload = function ()
@@ -33,14 +42,14 @@ classicview.getWarbandHtmlElement = function ()
 	let result;
 	let variables =
 	{
-		"count": owc.helper.translate("count"),
-		"name": owc.helper.translate("name"),
-		"points": owc.helper.translate("points"),
-		"quality": owc.helper.translate("quality"),
-		"combat": owc.helper.translate("combat"),
-		"specialrules": owc.helper.translate("specialrules"),
-		"warband-name": owc.helper.nonBlankWarbandName(),
-		"default-warband-name": owc.helper.translate("defaultWarbandName")
+		count: owc.helper.translate("count"),
+		name: owc.helper.translate("name"),
+		points: owc.helper.translate("points"),
+		quality: owc.helper.translate("quality"),
+		combat: owc.helper.translate("combat"),
+		specialrules: owc.helper.translate("specialrules"),
+		'warband-name': owc.helper.nonBlankWarbandName(),
+		'default-warband-name': owc.helper.translate("defaultWarbandName")
 	};
 	result = pageSnippets.classicview.main.produce(classicview, variables);
 	if (owc.ui.isPrinting)
@@ -59,8 +68,8 @@ classicview.listUnits = function (refNode)
 {
 	let variables =
 	{
-		"rows": [],
-		"columns": classicview.columnCount
+		rows: [],
+		columns: classicview.columnCount
 	};
 	let requiredCells = (owc.warband.units.length + (((owc.ui.isPrinting) ? 0 : 1)) + 1);
 	for (let r = 0, rr = Math.ceil(requiredCells / classicview.columnCount); r < rr; r += 1)
@@ -75,7 +84,7 @@ classicview.listUnits = function (refNode)
 	pointspoolsCell.removeAttribute("data-unitindex");
 	pointspoolsCell.appendChild(pageSnippets.classicview["pointspools-sheet"].produce(formsCore,
 		{
-			"pointsPools": owc.helper.translate("pointsPools")
+			pointsPools: owc.helper.translate("pointsPools")
 		}
 		));
 	if (owc.ui.isPrinting === false)
@@ -85,7 +94,7 @@ classicview.listUnits = function (refNode)
 		additemsCell.id = "additmes-container";
 		additemsCell.appendChild(pageSnippets.classicview["add-unit"].produce(formsCore,
 			{
-				"add-unit": owc.helper.translate("addUnit")
+				'add-unit': owc.helper.translate("addUnit")
 			}
 			));
 	};
@@ -98,9 +107,9 @@ classicview.listPointsPools = function (refNode)
 		let poolName = Warband.POINTSPOOLS[poolKey];
 		let variables =
 		{
-			"pool-name": poolName,
-			"pool-label": owc.helper.translate(poolName),
-			"points": owc.helper.translate("points")
+			'pool-name': poolName,
+			'pool-label': owc.helper.translate(poolName),
+			points: owc.helper.translate("points")
 		};
 		let pointsPoolElement = pageSnippets.classicview.pointspool.produce(formsCore, variables);
 		pointsPoolElement.style.display = "none"; // points pool is hidden by default
@@ -113,14 +122,14 @@ classicview.insertUnitSheets = function (refNode)
 	let unitSheetCells = refNode.querySelectorAll("td");
 	let variables =
 	{
-		"unit-index": null,
-		"default-unit-name": owc.helper.translate("defaultUnitName"),
-		"count": owc.helper.translate("count"),
-		"name": owc.helper.translate("name"),
-		"points": owc.helper.translate("points"),
-		"quality": owc.helper.translate("quality"),
-		"combat": owc.helper.translate("combat"),
-		"specialrules": owc.helper.translate("specialrules")
+		'unit-index': null,
+		'default-unit-name': owc.helper.translate("defaultUnitName"),
+		count: owc.helper.translate("count"),
+		name: owc.helper.translate("name"),
+		points: owc.helper.translate("points"),
+		quality: owc.helper.translate("quality"),
+		combat: owc.helper.translate("combat"),
+		specialrules: owc.helper.translate("specialrules")
 	};
 	for (let u = 0, uu = owc.warband.units.length; u < uu; u += 1)
 	{
@@ -138,13 +147,13 @@ classicview.refeshPointsPools = function ()
 	for (let poolName in owc.warband.pointsPools)
 	{
 		let hasThisPool = (owc.warband.pointsPools[poolName] !== null);
-		hasAnyPointsPools = hasAnyPointsPools || hasThisPool;
-		let poolElement = owc.ui.warbandCanvas.querySelector("[data-pointspool='" + poolName + "']")
-			if (!!poolElement)
-			{
-				poolElement.style.display = hasThisPool ? "table-row" : "none";
-				poolElement.querySelector("[data-editor='pointspool']").innerHTML = owc.warband.pointsPools[poolName];
-			};
+		hasAnyPointsPools ||= hasThisPool;
+		let poolElement = owc.ui.warbandCanvas.querySelector("[data-pointspool='" + poolName + "']");
+		if (!!poolElement)
+		{
+			poolElement.style.display = hasThisPool ? "table-row" : "none";
+			poolElement.querySelector("[data-editor='pointspool']").innerHTML = owc.warband.pointsPools[poolName];
+		};
 	};
 	pointsPoolsWrapper.style.display = hasAnyPointsPools ? "table-cell" : "none";
 };
@@ -157,18 +166,12 @@ classicview.refreshWarbandSummary = function ()
 
 classicview.onWindowResize = function (resizeEvent)
 {
-	const thresholdWidth = 650;
-	let setColumnCount = 2;
-	if (owc.ui.isPrinting === false)
+	const WIDTH_THRESHOLD = 46.7; // "sizeOfM"-units
+	console.debug("client width (Ms):", Number(document.body.clientWidth / classicview.sizeOfM));
+	let setColumnCount = (Number(document.body.clientWidth / classicview.sizeOfM) <= WIDTH_THRESHOLD) ? 1 : 2;
+	if (classicview.columnCount !== setColumnCount)
 	{
-		if (Number(document.body.clientWidth) <= thresholdWidth)
-		{
-			setColumnCount = 1;
-		};
-		if (classicview.columnCount !== setColumnCount)
-		{
-			classicview.columnCount = setColumnCount;
-			owc.ui.printWarband();
-		};
+		classicview.columnCount = setColumnCount;
+		owc.ui.printWarband();
 	};
 };

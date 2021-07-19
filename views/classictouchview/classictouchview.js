@@ -20,8 +20,17 @@ classictouchview.init = function ()
 	classictouchview.refreshUnit = touchCore.refreshUnit;
 	classictouchview.refreshPasteUnitButton = touchCore.refreshPasteUnitButton;
 	classictouchview.makeEditable = touchCore.makeEditable;
-	(owc.ui.isPrinting === false) ? window.addEventListener("resize", classictouchview.onWindowResize) : null;
-	classictouchview.onWindowResize();
+	if (owc.ui.isPrinting === false)
+	{
+		/* determining size of "M" for one or two columns choice (#52) */
+		const mElement=htmlBuilder.newElement("span#_sizeOfM", "M", {style:"font-family:var(--serif-font);font-size:1rem;position:absolute;top:0px;left:0px;visibility:hidden;"});
+		document.body.insertBefore(mElement, document.getElementById("warbandCanvas"));
+		classictouchview.sizeOfM = mElement.offsetWidth;
+		mElement.remove();
+		console.debug("classictouchview.sizeOfM:", classictouchview.sizeOfM);
+		window.addEventListener("resize", classictouchview.onWindowResize);
+		classictouchview.onWindowResize();
+	};
 };
 
 classictouchview.unload = function ()
@@ -35,14 +44,14 @@ classictouchview.getWarbandHtmlElement = function ()
 	let result;
 	let variables =
 	{
-		"count": owc.helper.translate("count"),
-		"name": owc.helper.translate("name"),
-		"points": owc.helper.translate("points"),
-		"quality": owc.helper.translate("quality"),
-		"combat": owc.helper.translate("combat"),
-		"specialrules": owc.helper.translate("specialrules"),
-		"warband-name": owc.helper.nonBlankWarbandName(),
-		"default-warband-name": owc.helper.translate("defaultWarbandName")
+		count: owc.helper.translate("count"),
+		name: owc.helper.translate("name"),
+		points: owc.helper.translate("points"),
+		quality: owc.helper.translate("quality"),
+		combat: owc.helper.translate("combat"),
+		specialrules: owc.helper.translate("specialrules"),
+		'warband-name': owc.helper.nonBlankWarbandName(),
+		'default-warband-name': owc.helper.translate("defaultWarbandName")
 	};
 	result = pageSnippets.classictouchview.produce(classictouchview, variables);
 	if (owc.ui.isPrinting)
@@ -61,8 +70,8 @@ classictouchview.listUnits = function (refNode)
 {
 	let variables =
 	{
-		"rows": [],
-		"columns": classictouchview.columnCount
+		rows: [],
+		columns: classictouchview.columnCount
 	};
 	let requiredCells = (owc.warband.units.length + (((owc.ui.isPrinting) ? 0 : 1)) + 1);
 	for (let r = 0, rr = Math.ceil(requiredCells / classictouchview.columnCount); r < rr; r += 1)
@@ -77,7 +86,7 @@ classictouchview.listUnits = function (refNode)
 	pointspoolsCell.removeAttribute("data-unitindex");
 	pointspoolsCell.appendChild(pageSnippets.classictouchview["pointspools-sheet"].produce(touchCore,
 		{
-			"pointsPools": owc.helper.translate("pointsPools")
+			pointsPools: owc.helper.translate("pointsPools")
 		}
 		));
 	if (owc.ui.isPrinting === false)
@@ -87,7 +96,7 @@ classictouchview.listUnits = function (refNode)
 		additemsCell.id = "additmes-container";
 		additemsCell.appendChild(pageSnippets.classictouchview["add-unit"].produce(touchCore,
 			{
-				"add-unit": owc.helper.translate("addUnit")
+				'add-unit': owc.helper.translate("addUnit")
 			}
 			));
 	};
@@ -100,9 +109,9 @@ classictouchview.listPointsPools = function (refNode)
 		let poolName = Warband.POINTSPOOLS[poolKey];
 		let variables =
 		{
-			"pool-name": poolName,
-			"pool-label": owc.helper.translate(poolName),
-			"points": owc.helper.translate("points")
+			'pool-name': poolName,
+			'pool-label': owc.helper.translate(poolName),
+			points: owc.helper.translate("points")
 		};
 		let pointsPoolElement = pageSnippets.classictouchview.pointspool.produce(touchCore, variables);
 		pointsPoolElement.style.display = "none"; // points pool is hidden by default
@@ -115,14 +124,14 @@ classictouchview.insertUnitSheets = function (refNode)
 	let unitSheetCells = refNode.querySelectorAll("td");
 	let variables =
 	{
-		"unit-index": null,
-		"default-unit-name": owc.helper.translate("defaultUnitName"),
-		"count": owc.helper.translate("count"),
-		"name": owc.helper.translate("name"),
-		"points": owc.helper.translate("points"),
-		"quality": owc.helper.translate("quality"),
-		"combat": owc.helper.translate("combat"),
-		"specialrules": owc.helper.translate("specialrules")
+		'unit-index': null,
+		'default-unit-name': owc.helper.translate("defaultUnitName"),
+		count: owc.helper.translate("count"),
+		name: owc.helper.translate("name"),
+		points: owc.helper.translate("points"),
+		quality: owc.helper.translate("quality"),
+		combat: owc.helper.translate("combat"),
+		specialrules: owc.helper.translate("specialrules")
 	};
 	for (let u = 0, uu = owc.warband.units.length; u < uu; u += 1)
 	{
@@ -140,13 +149,13 @@ classictouchview.refeshPointsPools = function ()
 	for (let poolName in owc.warband.pointsPools)
 	{
 		let hasThisPool = (owc.warband.pointsPools[poolName] !== null);
-		hasAnyPointsPools = hasAnyPointsPools || hasThisPool;
-		let poolElement = owc.ui.warbandCanvas.querySelector("[data-pointspool='" + poolName + "']")
-			if (!!poolElement)
-			{
-				poolElement.style.display = hasThisPool ? "table-row" : "none";
-				poolElement.querySelector("[data-editor='pointspool']").innerHTML = owc.warband.pointsPools[poolName] + "&#160;" + owc.helper.translate("points");
-			};
+		hasAnyPointsPools ||= hasThisPool;
+		let poolElement = owc.ui.warbandCanvas.querySelector("[data-pointspool='" + poolName + "']");
+		if (!!poolElement)
+		{
+			poolElement.style.display = hasThisPool ? "table-row" : "none";
+			poolElement.querySelector("[data-editor='pointspool']").innerHTML = owc.warband.pointsPools[poolName] + "&#160;" + owc.helper.translate("points");
+		};
 	};
 	pointsPoolsWrapper.style.display = hasAnyPointsPools ? "table-cell" : "none";
 };
@@ -159,18 +168,12 @@ classictouchview.refreshWarbandSummary = function ()
 
 classictouchview.onWindowResize = function (resizeEvent)
 {
-	const thresholdWidth = 650;
-	let setColumnCount = 2;
-	if (owc.ui.isPrinting === false)
+	const WIDTH_THRESHOLD = 42; // "sizeOfM"-units; in classic touch view we allow "Special rules" to wrap
+	console.debug("client width (Ms):", Number(document.body.clientWidth / classictouchview.sizeOfM));
+	let setColumnCount = (Number(document.body.clientWidth / classictouchview.sizeOfM) <= WIDTH_THRESHOLD) ? 1 : 2;
+	if (classictouchview.columnCount !== setColumnCount)
 	{
-		if (Number(document.body.clientWidth) <= thresholdWidth)
-		{
-			setColumnCount = 1;
-		};
-		if (classictouchview.columnCount !== setColumnCount)
-		{
-			classictouchview.columnCount = setColumnCount;
-			owc.ui.printWarband();
-		};
+		classictouchview.columnCount = setColumnCount;
+		owc.ui.printWarband();
 	};
 };
