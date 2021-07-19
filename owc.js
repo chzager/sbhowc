@@ -9,19 +9,19 @@ See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
 
 let owc =
 {
-	"urlParam":
+	urlParam:
 	{
-		"WARBAND": "warband",
-		"PRINT": "print",
-		"PID": "pid"
+		WARBAND: "warband",
+		PRINT: "print",
+		PID: "pid"
 	},
-	"meta":
+	meta:
 	{
-		"TITLE": "Online Warband Creator for Song of Blades and Heroes",
-		"VERSION": "May21 release",
-		"ORIGIN": "https://suppenhuhn79.github.io/sbhowc"
+		TITLE: "Online Warband Creator for Song of Blades and Heroes",
+		VERSION: "May21 release",
+		ORIGIN: "https://suppenhuhn79.github.io/sbhowc"
 	},
-	"warband": null
+	warband: null
 };
 
 owc.init = function ()
@@ -67,8 +67,8 @@ owc.init = function ()
 		pageSnippets.import("./snippets/restorer.xml").then(() => document.body.appendChild(pageSnippets.restorer.main.produce(restorer)));
 		pageSnippets.import("./snippets/settings.xml").then(() => document.body.appendChild(pageSnippets.settings.produce(settingsUi,
 				{
-					"combat-values": owc.editor.combatValues,
-					"quality-values": owc.editor.qualityValues
+					'combat-values': owc.editor.combatValues,
+					'quality-values': owc.editor.qualityValues
 				}
 				)));
 	};
@@ -211,9 +211,9 @@ owc.importWarband = function (codeString, autoPrint = true)
 		owc.ui.notify("New warband imported.");
 	};
 	if (autoPrint)
-	{		owc.ui.printWarband();
+	{
+		owc.ui.printWarband();
 	};
-	// return !found;
 };
 
 owc.getWarbandCode = function (includeComments = owc.settings.options.warbandcodeIncludesComments)

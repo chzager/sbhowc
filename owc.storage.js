@@ -9,7 +9,11 @@ See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
 
 owc.storage =
 {
-	"VERSION_KEY": "owc.version"
+	VERSION_KEY: "owc.version",
+	hooks: {
+		warbandStore: [],
+		warbandRestore: []
+	}
 };
 
 owc.storage.init = function ()
@@ -54,8 +58,7 @@ owc.storage.hash = function (string)
 	/* This is based on https://github.com/darkskyapp/string-hash
 	Since the basic code is public domain, this function is public domain as well.
 	 */
-	let hash,
-	i = string.length;
+	let hash, i = string.length;
 	while (i)
 	{
 		hash = (hash * 33) ^ string.charCodeAt(--i);
@@ -69,9 +72,9 @@ owc.storage.store = function (key, title, data)
 	{
 		let storeData =
 		{
-			"title": title,
-			"data": data,
-			"date": new Date().toISOString()
+			title: title,
+			data: data,
+			date: new Date().toISOString()
 		};
 		localStorage.setItem(key, JSON.stringify(storeData));
 	};
@@ -86,7 +89,7 @@ owc.storage.retrieve = function (key)
 		result = storedData;
 		if (!!storedData)
 		{
-			result["date"] = new Date(storedData.date);
+			result.date = new Date(storedData.date);
 		};
 	};
 	return result;
@@ -98,15 +101,20 @@ owc.storage.storeWarband = function ()
 	/* do not store an empty warband (#17) */
 	if (owc.warband.isEmpty === false)
 	{
-		let data =
+		let data = {};
+		for (let hook of owc.storage.hooks.warbandStore)
 		{
-			"title": owc.helper.nonBlankWarbandName(),
-			"figure-count": owc.warband.figureCount,
-			"points": owc.warband.points,
-			"data": warbandCode,
-			"hash": owc.storage.hash(warbandCode),
-			"date": (new Date()).toISOString()
+			hook(data);
 		};
+		data = Object.assign(data,
+		{
+			title: owc.helper.nonBlankWarbandName(),
+			'figure-count': owc.warband.figureCount,
+			points: owc.warband.points,
+			data: warbandCode,
+			hash: owc.storage.hash(warbandCode),
+			date: (new Date()).toISOString()
+		});
 		localStorage.setItem(owc.pid, JSON.stringify(data));
 	};
 };
@@ -115,9 +123,13 @@ owc.storage.restoreWarband = function (pid = owc.pid)
 {
 	let result = false;
 	let storedData = JSON.parse(localStorage.getItem(pid));
-	if ((!!storedData) && (storedData.data !== ""))
+	if (typeof storedData?.data === "string")
 	{
 		owc.warband.fromString(storedData.data, owc.resources.data);
+		for (let hook of owc.storage.hooks.warbandRestore)
+		{
+			hook(storedData);
+		};
 		owc.ui.notify("Warband restored.");
 		owc.setPid(pid);
 		result = true;
