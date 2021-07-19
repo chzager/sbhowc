@@ -9,7 +9,7 @@ See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
 
 owc.settings =
 {
-	"STORAGE_KEY": "owc.settings"
+	STORAGE_KEY: "owc.settings"
 };
 
 owc.settings.init = function ()
@@ -17,30 +17,30 @@ owc.settings.init = function ()
 	owc.settings.ruleScope = ["sbh", "sgd", "sww"];
 	owc.settings.options =
 	{
-		"highlightPersonalities": true,
-		"personalitiesInPoints": false,
-		"applyRuleChecks": true,
-		"warbandcodeIncludesComments": true
+		highlightPersonalities: true,
+		personalitiesInPoints: false,
+		applyRuleChecks: true,
+		warbandcodeIncludesComments: true
 	};
 	owc.settings.language = "en";
 	owc.settings.defaults = {
-		"quality": 3,
-		"combat": 3
+		quality: 3,
+		combat: 3
 	};
 	owc.settings.viewMode = (owc.ui.isTouchDevice) ? "classictouch" : "classic";
 };
 
 owc.settings.toJson = function ()
 {
-	return new Object(
+	let result = {};
+	for (let key in owc.settings)
 	{
-		"ruleScope": owc.settings.ruleScope,
-		"options": owc.settings.options,
-		"language": owc.settings.language,
-		"defaults": owc.settings.defaults,
-		"viewMode": owc.settings.viewMode
-	}
-	);
+		if ((key !== "STORAGE_KEY") && (typeof owc.settings[key] !== "function"))
+		{
+			result[key] = owc.settings[key];
+		};
+	};
+	return result;
 };
 
 owc.settings.fromJson = function (jsonObject)
