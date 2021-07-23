@@ -9,9 +9,9 @@ See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
 
 owc.resources =
 {
-	"DEFAULT_LANGUAGE": "en",
-	"data": {},
-	"loadedUrls": []
+	DEFAULT_LANGUAGE: "en",
+	data: {},
+	loadedUrls: []
 };
 
 owc.resources.import = function (urls, callback)

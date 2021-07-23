@@ -45,11 +45,11 @@ owc.rulecheck.checkPersonalityPoints = function ()
 		let personalityPointsAllowed = Number(Math.floor(owc.warband.points / 3));
 		result =
 		{
-			"key": "personalityPointsViolated",
-			"values":
+			key: "personalityPointsViolated",
+			values:
 			{
-				"M": personalityPointsAllowed,
-				"C": owc.warband.personalityPoints
+				M: personalityPointsAllowed,
+				C: owc.warband.personalityPoints
 			}
 		};
 	};
@@ -75,11 +75,11 @@ owc.rulecheck.checkAnimalPoints = function ()
 	{
 		result =
 		{
-			"key": "animalPointsViolated",
-			"values":
+			key: "animalPointsViolated",
+			values:
 			{
-				"M": animalPointsAllowed,
-				"C": animalPoints
+				M: animalPointsAllowed,
+				C: animalPoints
 			}
 		};
 	};
@@ -102,7 +102,7 @@ owc.rulecheck.checkSwarmFigures = function ()
 	{
 		result =
 		{
-			"key": "swarmCountViolated"
+			key: "swarmCountViolated"
 		};
 	};
 	return result;
@@ -120,11 +120,11 @@ owc.rulecheck.checkPaladinSpecialrule = function ()
 	{
 		result =
 		{
-			"key": "paladinSpecialruleViolated",
-			"values":
+			key: "paladinSpecialruleViolated",
+			values:
 			{
-				"PALADIN": owc.resources.translate(paladinKey, owc.settings.language),
-				"EVIL": owc.resources.translate(evilKey, owc.settings.language)
+				PALADIN: owc.resources.translate(paladinKey, owc.settings.language),
+				EVIL: owc.resources.translate(evilKey, owc.settings.language)
 			}
 		};
 	};
@@ -144,11 +144,11 @@ owc.rulecheck.checkRabbleSpecialrule = function ()
 		{
 			let checkResult =
 			{
-				"key": "rabbleSpecialruleViolated",
-				"values":
+				key: "rabbleSpecialruleViolated",
+				values:
 				{
-					"U": owc.helper.nonBlankUnitName(rabbleUnit),
-					"RABBLE": owc.resources.translate(rabbleKey, owc.settings.language)
+					U: owc.helper.nonBlankUnitName(rabbleUnit),
+					RABBLE: owc.resources.translate(rabbleKey, owc.settings.language)
 				}
 			};
 			result.push(checkResult);
@@ -176,12 +176,12 @@ owc.rulecheck.checkExcludes = function ()
 						{
 							let checkResult =
 							{
-								"key": "specialRuleMismatch",
-								"values":
+								key: "specialRuleMismatch",
+								values:
 								{
-									"U": owc.helper.nonBlankUnitName(unit),
-									"A": owc.resources.translate(specialrule.key, owc.settings.language),
-									"B": owc.resources.translate(excluding, owc.settings.language)
+									U: owc.helper.nonBlankUnitName(unit),
+									A: owc.resources.translate(specialrule.key, owc.settings.language),
+									B: owc.resources.translate(excluding, owc.settings.language)
 								}
 							};
 							resultsRecipient.push(checkResult);

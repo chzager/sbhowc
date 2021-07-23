@@ -26,15 +26,15 @@ listview.getWarbandHtmlElement = function ()
 	let result;
 	let variables =
 	{
-		"count": owc.helper.translate("count"),
-		"name": owc.helper.translate("name"),
-		"points": owc.helper.translate("points"),
-		"quality": owc.helper.translate("quality"),
-		"combat": owc.helper.translate("combat"),
-		"specialrules": owc.helper.translate("specialrules"),
-		"warband-name": owc.helper.nonBlankWarbandName(),
-		"default-warband-name": owc.helper.translate("defaultWarbandName"),
-		"add-unit": owc.helper.translate("addUnit")
+		count: owc.helper.translate("count"),
+		name: owc.helper.translate("name"),
+		points: owc.helper.translate("points"),
+		quality: owc.helper.translate("quality"),
+		combat: owc.helper.translate("combat"),
+		specialrules: owc.helper.translate("specialrules"),
+		'warband-name': owc.helper.nonBlankWarbandName(),
+		'default-warband-name': owc.helper.translate("defaultWarbandName"),
+		'add-unit': owc.helper.translate("addUnit")
 	};
 	result = pageSnippets.listview.main.produce(listview, variables);
 	if (owc.ui.isPrinting)
@@ -53,8 +53,8 @@ listview.listUnits = function (refNode)
 {
 	let variables =
 	{
-		"unit-index": null,
-		"default-unit-name": owc.helper.translate("defaultUnitName")
+		'unit-index': null,
+		'default-unit-name': owc.helper.translate("defaultUnitName")
 	};
 	for (let u = 0, uu = owc.warband.units.length; u < uu; u += 1)
 	{
@@ -72,8 +72,8 @@ listview.listPointsPools = function (refNode)
 		let poolName = Warband.POINTSPOOLS[poolKey];
 		let variables =
 		{
-			"pool-name": poolName,
-			"pool-label": owc.helper.translate(poolName)
+			'pool-name': poolName,
+			'pool-label': owc.helper.translate(poolName)
 		};
 		let pointsPoolElement = pageSnippets.listview.pointspool.produce(formsCore, variables);
 		pointsPoolElement.style.display = "none"; // points pool is hidden by default

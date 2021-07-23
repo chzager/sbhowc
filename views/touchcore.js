@@ -22,12 +22,12 @@ touchCore.init = function (pageSnippetGroup)
 
 	touchCore.unitMenu = new Menubox("unitMenu",
 	{
-		"duplicate": "Duplicate unit",
-		"copy": "Copy unit",
-		"remove": "Remove unit",
-		"x1": null,
-		"moveup": "Move unit up",
-		"movedown": "Move unit down"
+		duplicate: "Duplicate unit",
+		copy: "Copy unit",
+		remove: "Remove unit",
+		x1: null,
+		moveup: "Move unit up",
+		movedown: "Move unit down"
 	}
 		);
 	if (owc.ui.isPrinting === false)
@@ -109,7 +109,7 @@ touchCore.onUnitCountClick = function (clickEvent)
 	let unitIndex = touchCore.getEventUnitIndex(clickEvent);
 	touchCore.popupNumericEditor(clickEvent, touchCore.unitCountMenu, unitIndex, owc.warband.units[unitIndex].count, owc.helper.translate("countOfUnit",
 		{
-			"UNIT": owc.helper.nonBlankUnitName(owc.warband.units[unitIndex])
+			UNIT: owc.helper.nonBlankUnitName(owc.warband.units[unitIndex])
 		}
 		));
 };
@@ -144,19 +144,19 @@ touchCore.onSpecialrulesClick = function (clickEvent)
 				let wrapperNode = htmlBuilder.newElement("div");
 				let textPreNode = htmlBuilder.newElement("span",
 				{
-					"onclick": (clickEvent) => clickEvent.target.parentElement.click()
+					onclick: (clickEvent) => clickEvent.target.parentElement.click()
 				},
 						specialruleText.substring(0, specialruleText.indexOf("...")));
 				let editorNode = htmlBuilder.newElement("span",
 				{
-					"data-isadditionaltext": "yes",
-					"data-defaultvalue": "...",
-					"onclick": (clickEvent) => touchCore.specialrulesMenu.selectItem(clickEvent.target.closest("[data-menuitem]").getAttribute("data-menuitem"), true)
+					'data-isadditionaltext': "yes",
+					'data-defaultvalue': "...",
+					onclick: (clickEvent) => touchCore.specialrulesMenu.selectItem(clickEvent.target.closest("[data-menuitem]").getAttribute("data-menuitem"), true)
 				},
 						(specialruleIndex !== null) ? owc.warband.units[unitIndex].specialrules[Number(specialruleIndex[1])].additionalText : "...");
 				let textPostNode = htmlBuilder.newElement("span",
 				{
-					"onclick": (clickEvent) => clickEvent.target.parentElement.click()
+					onclick: (clickEvent) => clickEvent.target.parentElement.click()
 				},
 						specialruleText.substring(specialruleText.indexOf("...") + 3));
 				touchCore.makeEditable(editorNode);
@@ -177,8 +177,8 @@ touchCore.onSpecialrulesClick = function (clickEvent)
 	{
 		let menuItem =
 		{
-			"key": owc.warband.units[unitIndex].specialrules[s].key,
-			"selected": true
+			key: owc.warband.units[unitIndex].specialrules[s].key,
+			selected: true
 		};
 		let specialruleText = owc.helper.translate(owc.warband.units[unitIndex].specialrules[s].key);
 		if (specialruleText.includes("..."))
@@ -197,7 +197,7 @@ touchCore.onSpecialrulesClick = function (clickEvent)
 	{
 		menuItems.push(
 		{
-			"separator": true
+			separator: true
 		}
 		);
 	};
@@ -207,8 +207,8 @@ touchCore.onSpecialrulesClick = function (clickEvent)
 		{
 			let menuItem =
 			{
-				"key": specialrule.key,
-				"label": specialrule.text
+				key: specialrule.key,
+				label: specialrule.text
 			};
 			menuItems.push(menuItem);
 		};
@@ -238,10 +238,10 @@ touchCore.onClickEvent = function (clickEvent)
 	};
 	let editorEvent = new CustomEvent("editor",
 	{
-		"detail":
+		detail:
 		{
-			"unitIndex":touchCore.getEventUnitIndex(clickEvent),
-			"originalEvent": clickEvent
+			unitIndex:touchCore.getEventUnitIndex(clickEvent),
+			originalEvent: clickEvent
 		}
 	});
 	for (let attribute of eventOrigin.attributes)
@@ -259,9 +259,9 @@ touchCore.onMenuboxEvent = function (menuboxEvent)
 	let eventData = menuboxEvent.detail;
 	let editorEvent = new CustomEvent("editor",
 	{
-		"detail":
+		detail:
 		{
-			"unitIndex": eventData.context
+			unitIndex: eventData.context
 		}
 	}
 		);
@@ -356,9 +356,9 @@ touchCore.refreshSpecialrules = function (unitIndex, refNode)
 	let specialrulesCount = unit.specialrules.length;
 	let variables =
 	{
-		"is-printing": owc.ui.isPrinting,
-		"add-specialrule": owc.helper.translate("addSpecialrule"),
-		"specialrules": []
+		'is-printing': owc.ui.isPrinting,
+		'add-specialrule': owc.helper.translate("addSpecialrule"),
+		specialrules: []
 	};
 	for (let s = 0; s < specialrulesCount; s += 1)
 	{
@@ -367,10 +367,10 @@ touchCore.refreshSpecialrules = function (unitIndex, refNode)
 		let specialruleText = owc.helper.translate(specialrule.key);
 		let item =
 		{
-			"index": s,
-			"hint": _specialruleHint(specialrule.key),
-			"specialrule-text": specialruleText.replace("...", specialrule.additionalText),
-			"scope-class": ((owc.settings.ruleScope.includes(owc.resources.data[specialrule.key].scope)) ? "" : "out-of-scope")
+			index: s,
+			hint: _specialruleHint(specialrule.key),
+			'specialrule-text': specialruleText.replace("...", specialrule.additionalText),
+			'scope-class': ((owc.settings.ruleScope.includes(owc.resources.data[specialrule.key].scope)) ? "" : "out-of-scope")
 		};
 		variables.specialrules.push(item);
 	};
@@ -383,14 +383,14 @@ touchCore.refreshWarbandSummary = function ()
 	const resources = ["total", "totalPoints", "totalFigures", (owc.settings.options.personalitiesInPoints) ? "personalitiesPoints" : "personalitiesPercent"];
 	let variables =
 	{
-		"TOTAL": owc.warband.points,
-		"COUNT": owc.warband.figureCount,
-		"POINTS": owc.warband.figurePoints,
-		"PERSONALITYPOINTS": owc.warband.personalityPoints,
-		"PERSONALITYPERCENT": Math.floor(owc.warband.personalityPoints / owc.warband.points * 100),
-		"personalitiesInPoints": owc.settings.options.personalitiesInPoints,
-		"text": {},
-		"rule-violations": []
+		TOTAL: owc.warband.points,
+		COUNT: owc.warband.figureCount,
+		POINTS: owc.warband.figurePoints,
+		PERSONALITYPOINTS: owc.warband.personalityPoints,
+		PERSONALITYPERCENT: Math.floor(owc.warband.personalityPoints / owc.warband.points * 100),
+		personalitiesInPoints: owc.settings.options.personalitiesInPoints,
+		text: {},
+		'rule-violations': []
 	};
 	for (let r of resources)
 	{
@@ -402,7 +402,7 @@ touchCore.refreshWarbandSummary = function ()
 		{
 			variables["rule-violations"].push(
 			{
-				"text": owc.rulecheck.getText(rulecheckResult)
+				text: owc.rulecheck.getText(rulecheckResult)
 			}
 			);
 		};
@@ -423,13 +423,13 @@ touchCore.refreshPasteUnitButton = function (clipboardData)
 	{
 		let variables =
 		{
-			"paste-unit": owc.helper.translate("pasteUnit",
+			'paste-unit': owc.helper.translate("pasteUnit",
 			{
-				"UNIT": clipboardData.title
+				UNIT: clipboardData.title
 			}
 			),
-			"unit-name": clipboardData.title,
-			"unit-code": clipboardData.data
+			'unit-name': clipboardData.title,
+			'unit-code': clipboardData.data
 		};
 		pasteUnitNode = pageSnippets[touchCore.pageSnippetGroup]["paste-unit"].produce(touchCore, variables);
 		addunitContainer.appendChild(pasteUnitNode);
@@ -515,12 +515,12 @@ touchCore.newInputNumberMenu = function (menuId, titleResource)
 	menubox.element.classList.add("inputnumbermenu");
 	menubox.element.querySelector("div.items").appendChild(htmlBuilder.newElement("input",
 		{
-			"type": "number",
-			"data-menuitem": "editor",
-			"min": "0",
-			"step": "1",
-			"onclick": (clickEvent) => clickEvent.stopPropagation(),
-			"onkeypress": (keypressEvent) =>
+			type: "number",
+			'data-menuitem': "editor",
+			min: "0",
+			step: "1",
+			onclick: (clickEvent) => clickEvent.stopPropagation(),
+			onkeypress: (keypressEvent) =>
 			{
 				if (keypressEvent.keyCode === 13)
 					menubox.element.querySelector("[data-menubutton=\"ok\"]").click();

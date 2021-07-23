@@ -9,11 +9,11 @@ See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
 
 owc.editor =
 {
-	"UNIT_CLIPBOARD_KEY": "owc.clipboard.unit",
-	"undoer": null,
-	"specialrulesList": [],
-	"qualityValues": [],
-	"combatValues": []
+	UNIT_CLIPBOARD_KEY: "owc.clipboard.unit",
+	undoer: null,
+	specialrulesList: [],
+	qualityValues: [],
+	combatValues: []
 };
 
 owc.editor.init = function ()
@@ -25,8 +25,8 @@ owc.editor.init = function ()
 	{
 		owc.editor.qualityValues.push(
 		{
-			"key": q,
-			"label": q.toString() + "+"
+			key: q,
+			label: q.toString() + "+"
 		}
 		);
 	};
@@ -34,8 +34,8 @@ owc.editor.init = function ()
 	{
 		owc.editor.combatValues.push(
 		{
-			"key": c,
-			"label": c.toString()
+			key: c,
+			label: c.toString()
 		}
 		);
 	};
@@ -142,8 +142,8 @@ owc.editor.buildSpecialrulesCollection = function ()
 		{
 			owc.editor.specialrulesList.push(
 			{
-				"key": key,
-				"text": owc.helper.translate(key)
+				key: key,
+				text: owc.helper.translate(key)
 			}
 			);
 		};

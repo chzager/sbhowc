@@ -17,7 +17,7 @@ formsCore.init = function (pageSnippetGroup)
 		{
 			selectElement.appendChild(htmlBuilder.newElement("option",
 				{
-					"value": item.key
+					value: item.key
 				}, item.label));
 		};
 	};
@@ -37,12 +37,12 @@ formsCore.init = function (pageSnippetGroup)
 	};
 	formsCore.unitMenu = new Menubox("unitMenu",
 	{
-		"duplicate": "Duplicate unit",
-		"copy": "Copy unit",
-		"remove": "Remove unit",
-		"x1": null,
-		"moveup": "Move unit up",
-		"movedown": "Move unit down"
+		duplicate: "Duplicate unit",
+		copy: "Copy unit",
+		remove: "Remove unit",
+		x1: null,
+		moveup: "Move unit up",
+		movedown: "Move unit down"
 	}
 		);
 	if (owc.ui.isPrinting === false)
@@ -69,11 +69,11 @@ formsCore.onMenuboxEvent = function (menuboxEvent)
 	{
 		let eventData =
 		{
-			"detail":
+			detail:
 			{
-				"action": menuboxEvent.detail.itemKey,
-				"unitIndex": menuboxEvent.detail.context,
-				"originalEvent": menuboxEvent
+				action: menuboxEvent.detail.itemKey,
+				unitIndex: menuboxEvent.detail.context,
+				originalEvent: menuboxEvent
 			}
 		};
 		window.dispatchEvent(new CustomEvent("editor", eventData));
@@ -126,12 +126,12 @@ formsCore.dispatchEditorEvent = function (editorEvent)
 	};
 	let editorEventData =
 	{
-		"detail":
+		detail:
 		{
-			"value": eventValue,
-			"unitIndex": unitIndex,
-			"specialruleIndex": specialruleIndex,
-			"originalEvent": editorEvent
+			value: eventValue,
+			unitIndex: unitIndex,
+			specialruleIndex: specialruleIndex,
+			originalEvent: editorEvent
 		}
 	};
 	for (let attribute of eventOrigin.attributes)
@@ -197,8 +197,8 @@ formsCore.refreshSpecialrules = function (unitIndex, refNode)
 	let specialrulesCount = unit.specialrules.length;
 	let variables =
 	{
-		"is-printing": owc.ui.isPrinting,
-		"specialrules": []
+		'is-printing': owc.ui.isPrinting,
+		specialrules: []
 	};
 	for (let s = 0; s < specialrulesCount; s += 1)
 	{
@@ -207,14 +207,14 @@ formsCore.refreshSpecialrules = function (unitIndex, refNode)
 		let specialruleText = owc.helper.translate(specialrule.key);
 		let item =
 		{
-			"index": s,
-			"hint": _specialruleHint(specialrule.key),
-			"specialrule-text": specialruleText,
-			"specialrule-text-before": specialruleText.substring(0, specialruleText.indexOf("...")),
-			"specialrule-additional-text": specialrule.additionalText ?? "",
-			"specialrule-text-after": specialruleText.substring(specialruleText.indexOf("...") + 3),
-			"default-additional-text": "...",
-			"scope-class": ((owc.settings.ruleScope.includes(owc.resources.data[specialrule.key].scope)) ? "" : "out-of-scope")
+			index: s,
+			hint: _specialruleHint(specialrule.key),
+			'specialrule-text': specialruleText,
+			'specialrule-text-before': specialruleText.substring(0, specialruleText.indexOf("...")),
+			'specialrule-additional-text': specialrule.additionalText ?? "",
+			'specialrule-text-after': specialruleText.substring(specialruleText.indexOf("...") + 3),
+			'default-additional-text': "...",
+			'scope-class': ((owc.settings.ruleScope.includes(owc.resources.data[specialrule.key].scope)) ? "" : "out-of-scope")
 		};
 		variables.specialrules.push(item);
 	};
@@ -227,14 +227,14 @@ formsCore.refreshWarbandSummary = function ()
 	const resources = ["total", "totalPoints", "totalFigures", (owc.settings.options.personalitiesInPoints) ? "personalitiesPoints" : "personalitiesPercent"];
 	let variables =
 	{
-		"TOTAL": owc.warband.points,
-		"COUNT": owc.warband.figureCount,
-		"POINTS": owc.warband.figurePoints,
-		"PERSONALITYPOINTS": owc.warband.personalityPoints,
-		"PERSONALITYPERCENT": Math.floor(owc.warband.personalityPoints / owc.warband.points * 100),
-		"personalitiesInPoints": owc.settings.options.personalitiesInPoints,
-		"text": {},
-		"rule-violations": []
+		TOTAL: owc.warband.points,
+		COUNT: owc.warband.figureCount,
+		POINTS: owc.warband.figurePoints,
+		PERSONALITYPOINTS: owc.warband.personalityPoints,
+		PERSONALITYPERCENT: Math.floor(owc.warband.personalityPoints / owc.warband.points * 100),
+		personalitiesInPoints: owc.settings.options.personalitiesInPoints,
+		text: {},
+		'rule-violations': []
 	};
 	for (let r of resources)
 	{
@@ -246,7 +246,7 @@ formsCore.refreshWarbandSummary = function ()
 		{
 			variables["rule-violations"].push(
 			{
-				"text": owc.rulecheck.getText(rulecheckResult)
+				text: owc.rulecheck.getText(rulecheckResult)
 			}
 			);
 		};
@@ -267,13 +267,13 @@ formsCore.refreshPasteUnitButton = function (clipboardData)
 	{
 		let variables =
 		{
-			"paste-unit": owc.helper.translate("pasteUnit",
+			'paste-unit': owc.helper.translate("pasteUnit",
 			{
-				"UNIT": clipboardData.title
+				UNIT: clipboardData.title
 			}
 			),
-			"unit-name": clipboardData.title,
-			"unit-code": clipboardData.data
+			'unit-name': clipboardData.title,
+			'unit-code': clipboardData.data
 		};
 		pasteUnitNode = pageSnippets[formsCore.pageSnippetGroup]["paste-unit"].produce(formsCore, variables);
 		addunitContainer.appendChild(pasteUnitNode);

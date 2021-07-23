@@ -11,8 +11,8 @@ var restorer = {};
 
 restorer.sort =
 {
-	"field": "last-modified",
-	"direction": 1
+	field: "last-modified",
+	direction: 1
 };
 
 restorer.show = function ()
@@ -100,9 +100,9 @@ restorer.listStoredData = function ()
 		let secondsDiff = (now.getTime() - pastDate.getTime()) / 1000;
 		let diff =
 		{
-			"minutes": secondsDiff / 60,
-			"hours": secondsDiff / 60 / 60,
-			"days": Math.floor((Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) - Date.UTC(pastDate.getFullYear(), pastDate.getMonth(), pastDate.getDate())) / (1000 * 60 * 60 * 24))
+			minutes: secondsDiff / 60,
+			hours: secondsDiff / 60 / 60,
+			days: Math.floor((Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) - Date.UTC(pastDate.getFullYear(), pastDate.getMonth(), pastDate.getDate())) / (1000 * 60 * 60 * 24))
 		};
 		if (secondsDiff < 60)
 		{
@@ -137,12 +137,12 @@ restorer.listStoredData = function ()
 				let lastModifiedDate = new Date().fromIsoString(storedData.date);
 				result.push(
 				{
-					"pid": key,
-					"warband-name": storedData.title,
-					"figure-count": storedData["figure-count"],
-					"points": storedData.points,
-					"last-modified": lastModifiedDate,
-					"last-modified-text": _naturalPast(lastModifiedDate)
+					pid: key,
+					'warband-name': storedData.title,
+					'figure-count': storedData["figure-count"],
+					points: storedData.points,
+					'last-modified': lastModifiedDate,
+					'last-modified-text': _naturalPast(lastModifiedDate)
 				}
 				);
 			};
@@ -160,7 +160,7 @@ restorer.listStoredData = function ()
 	let refNode = document.getElementById("restorer-table-frame");
 	let variables =
 	{
-		"cached-warbands": _getLocalStorageData()
+		'cached-warbands': _getLocalStorageData()
 	};
 	const thresholdWidth = 400;
 	let snippetName = (Number(document.body.clientWidth) <= thresholdWidth) ? "table-frame-small" : "table-frame-normal";

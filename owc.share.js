@@ -42,9 +42,9 @@ owc.share = function (protocol)
 			{
 				navigator.share(
 				{
-					"title": document.title,
-					"text": document.title,
-					"url": url
+					title: document.title,
+					text: document.title,
+					url: url
 				}
 				).then(() => null, (reason) => console.error(reason));
 			};

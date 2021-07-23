@@ -9,14 +9,14 @@ See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
 
 owc.ui =
 {
-	"sweepvolatilesEvent": "owc.ui.sweepvolatiles",
-	"isPrinting": (window.location.getParam(owc.urlParam.PRINT) === "1"),
-	"isTouchDevice": ("ontouchstart" in document.documentElement),
-	"visualizer": null,
-	"undoButton": document.getElementById("undo-button"),
-	"blurElement": document.getElementById("blur"),
-	"notifyElement": document.getElementById("master-notification"),
-	"warbandCanvas": document.getElementById("warbandCanvas")
+	sweepvolatilesEvent: "owc.ui.sweepvolatiles",
+	isPrinting: (window.location.getParam(owc.urlParam.PRINT) === "1"),
+	isTouchDevice: ("ontouchstart" in document.documentElement),
+	visualizer: null,
+	undoButton: document.getElementById("undo-button"),
+	blurElement: document.getElementById("blur"),
+	notifyElement: document.getElementById("master-notification"),
+	warbandCanvas: document.getElementById("warbandCanvas")
 };
 
 owc.ui.NOTIFICATION_COLOR_GREEN = "green";
@@ -80,8 +80,8 @@ owc.ui.printWarband = function ()
 {
 	let currentScrollPos =
 	{
-		"x": window.scrollX,
-		"y": window.scrollY
+		x: window.scrollX,
+		y: window.scrollY
 	};
 	owc.ui.setElementContent(warbandCanvas, owc.ui.visualizer.getWarbandHtmlElement());
 	owc.ui.visualizer.refreshWarbandSummary();
@@ -167,7 +167,7 @@ owc.ui.showNotification = function (element, cssClass = "visible")
 	element.classList.add(cssClass);
 	element.addEventListener("animationend", () => element.classList.remove(cssClass),
 	{
-		"once": true
+		once: true
 	}
 	);
 };
