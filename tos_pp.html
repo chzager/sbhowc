@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Online Warband Creator for Song of Blades and Heroes</title>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<!-- Google Fonts -->
+		<link href="https://fonts.googleapis.com/css2?family=Norican&display=swap" rel="stylesheet"/>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto&family=Source+Serif+Pro:wght@400;600&display=swap" rel="stylesheet"/>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+		<style>
+			* {
+				font-family:"Roboto",sans-serif;
+				padding:0px;
+				margin:1em 0px 1rem px;
+				line-height: 1.5em;
+				}
+			body {
+				margin: 2rem 2rem 6rem 2rem;
+				max-width: 760px;
+				}
+			ul {
+				margin-left: 2rem;
+				}
+			li {
+				margin-bottom: 0.5rem;
+				}
+			em {
+				font-style: normal;
+				font-weight: bold;
+				/* background: linear-gradient(to bottom, #fff 60%, #ddd 60%, #ddd 90%, #fff 90%); */
+				}
+			table {
+				border: none;
+				border-collapse: collapse;
+				border-spacing: 0em;
+				table-layout: fixed;
+				}
+			td, th {
+				border: 1px solid silver;
+				padding: 0px 0.3em;
+				}
+			td:nth-child(1), th:nth-child(1) {
+				width: 35%;
+				}
+			th {
+				background-color: #eee;
+				}
+			a[href] {
+				color: blue;
+				}
+			span.pre {
+				font-family: "Roboto Mono", monospace;
+				border-radius: 0.3em;
+				background-color: #eee;
+				padding: 0.1em;
+				font-size: 0.8em;
+				}
+			hr {
+				margin: 2rem 0rem;
+				height: 1px;
+				border: none;
+				background-color: #888;
+				}
+			input[type='button'][value='close'] {
+				padding: 0.3rem 0.5em;
+				border: 1px solid #888;
+				border-radius: 0.5em;
+				background-color: #eee;
+				cursor: pointer;
+				}
+			input[type='button'][value='close']:hover {
+				background-color: #ccc;
+				}
+		</style>
+	</head>
+	<body>
+		<h1>Terms of Service for Online Warband Creator</h1>
+		<p><i>Online Warband Creator</i> ("OWC") is a tool for designing units and calculating warband points for the fantasy tabletop rule system "Song of Blades and Heroes" by Andrea Sfiligoi. It is for private use only. Usage is free of charge.</p>
+		<h2>License</h2>
+		<p>This software and source is licensed under the GNU Affero General Public License, Version 3, 19 November 2007. See the full license text at <a href="https://www.gnu.org/licenses/agpl-3.0.html">https://www.gnu.org/licenses/agpl-3.0.html</a>.</p>
+		<h2>Warranty</h2>
+		<p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.</p>
+		<!-- -->
+		<a id="pp">
+			<h1>Privacy Policy</h1>
+		</a>
+		<p><i>Online Warband Creator</i> does not collect any of your information, nor does it use any cookies. However, third parties providing services operate on their own terms of service and privacy policies.</p>
+		<p>Third parties are:</p>
+		<ul>
+			<li>
+				<em>GitHub</em>
+				(<a href="https://pages.github.com" target="_blank">https://pages.github.com</a>)
+				as host for <i>Online Warband Creator</i>. "GitHub may collect User Personal Information from visitors [...], including logs of visitor IP addresses, to comply with legal obligations, and to maintain the security and integrity of the Website and the Service."
+				(<a href="https://docs.github.com/en/github/site-policy/github-privacy-statement#additional-services">https://docs.github.com/en/github/site-policy/github-privacy-statement#additional-services</a>).
+			</li>
+			<li>
+				<em>Microsoft OneDrive</em>
+				(<a href="https://onedrive.live.com" target="_blank">https://onedrive.live.com</a>)
+				as optional cloud storage service.
+			</li>
+			<li>
+				<em>Google Drive</em>
+				(<a href="https://drive.google.com" target="_blank">https://drive.google.com</a>)
+				as optional cloud storage service.
+			</li>
+		</ul>
+		<h2>Required permissions for cloud storage services</h2>
+		<p>Here's why OWC requests certain permissions  for using cloud storage services.</p>
+		<h3>Microsoft OneDrive</h3>
+		<table>
+			<tr>
+				<th>Permission</th>
+				<th>Explanation</th>
+			</tr>
+			<tr>
+				<td><i>Read your profile</i></td>
+				<td>Essential permission to access your OneDrive. OWC does not read your user name, e-mail or any other profile information.</td>
+			</tr>
+			<tr>
+				<td><i>Open OneDrive files</i></td>
+				<td>For loading warbands stored in files on your OneDrive. OWC does access only files that you select.</td>
+			</tr>
+			<tr>
+				<td><i>Have full access to all files you have access to</i></td>
+				<td>For storing warbands on your OneDrive and also replacing existing warband files. OWC does not delete any files. If a <span class="pre">&lt;warbandname&gt;.owc.txt</span>-file exists in the folder you select, it will be replaced by the current warband with the same name.</td>
+			</tr>
+		</table>
+		
+		<h3>Google Drive</h3>
+		<table>
+			<tr>
+				<th>Permission</th>
+				<th>Explanation</th>
+			</tr>
+			<tr>
+				<td><i>Associate you with your personal info on Google</i></td>
+				<td>Essential permission to access your Google Drive. OWC does not read your user name, e-mail or any other profile information.</td>
+			</tr>
+			<tr>
+				<td><i>See, edit, create, and delete only the specific Google Drive files you use with this app</i></td>
+				<td>For loading, storing and replacing existing warband files on your Google Drive. OWC does access only files that you select. If a <span class="pre">&lt;warbandname&gt;.owc.txt</span>-file exists in the folder you select, it will be replaced by the current warband with the same name. OWC does not delete any files.</td>
+			</tr>
+		</table>
+		<hr/>
+		<input type="button" value="close" onclick="window.close();" />
+	</body>
+</html>
