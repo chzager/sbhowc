@@ -30,20 +30,18 @@
 	--icon-size: 1.5rem;
 	--icon-space: 0.3em;
 
-	--z-index-title: 3;
-	--z-index-top-menu: 2;
-	--z-index-top-menu-popup: 3;
-	--z-index-top-menu-floater: 1;
-	--z-index-warband: 0;
-	--z-index-footer: 1;
-	--z-index-loading-wrapper: 8;
+	--z-index-title: 5;
+	--z-index-top-menu-floater: 4;
+	--z-index-footer: 2;
+	--z-index-loading-wrapper: 9;
+	--z-index-overlays: 8;
 	--z-index-topmost: 10;
 	}
 
 html, body, h1, h2, h3, h4, p, div, span, a, table, tr, th, td, input, select, option, textarea {
 	font-style: normal;
-	margin: 0em;
-	padding: 0em;
+	margin: 0px;
+	padding: 0px;
 	text-align: left;
 	box-sizing: border-box;
 	}
@@ -54,10 +52,14 @@ body {
 	/* background: linear-gradient(to bottom, #eee 0%,#fff 33%,#fff 100%); */
 	}
 
-a[target="_blank"] {
+a {
 	color: inherit;
 	border-bottom: 0.1em dotted;
 	text-decoration: none;
+	}
+a:hover {
+	color: white;
+	background-color: rgba(255, 255, 255, 0.3);
 	}
 a[target="_blank"]:after {
 	font-family: var(--font-awesome);
@@ -66,16 +68,12 @@ a[target="_blank"]:after {
 	font-size: 80%;
 	vertical-align: 0.1em;
 	}
-a[target="_blank"]:hover {
-	color: white;
-	background-color: rgba(255, 255, 255, 0.3);
-	}
 
 .viewport {
 	margin-left: auto;
 	margin-right: auto;
 	max-width: 800px;
-	padding: 0em 0.3em;
+	padding: 0px 0.3em;
 	}
 
 #title {
@@ -103,7 +101,7 @@ a[target="_blank"]:hover {
 	font-size: 4rem;
 	}
 #title h2 {
-	margin: -0.3em auto 0em auto;
+	margin: -0.3em auto 0px auto;
 	font-size: 3rem;
 	width: max-content;
 	}
@@ -113,7 +111,7 @@ a[target="_blank"]:hover {
 	background-color: white;
 	border-radius: 0.3rem;
 	box-shadow: 0.05rem 0.1rem 0.5rem var(--primary-black-color);
-	margin: 0.5rem 0em 1rem 0em;
+	margin: 0.5rem 0px 1rem 0px;
 	}
 #title div.tiny {
 	font-size: 1rem;
@@ -137,7 +135,7 @@ a[target="_blank"]:hover {
 #top-menu-floater {
 	width: 100%;
 	position: sticky;
-	top: 0em;
+	top: 0px;
 	z-index: var(--z-index-top-menu-floater);
 	}
 
@@ -148,7 +146,6 @@ a[target="_blank"]:hover {
 	color: var(--complement-black-color);
 	border-bottom: 0.15rem solid var(--complement-dark-color);
 	box-shadow: -0.4rem -0.8rem 0.5rem 0.8rem black;
-	z-index: var(--z-index-top-menu);
 	}
 #top-menu-stripe .flex-box {
 	display: flex;
@@ -166,11 +163,14 @@ a[target="_blank"]:hover {
 	}
 #top-menu-stripe .flex-box i:hover {
 	color: var(--complement-dark-color);
-	text-shadow: 0em 0em 0.2em var(--complement-white-color);
+	text-shadow: 0px 0px 0.2em var(--complement-white-color);
+	/* background-color: var(--complement-white-color); */
 	}
 
 #top-menu-substripe {
 	text-align: right;
+	height: 0.1rem;
+	margin-bottom: 3rem;
 	}
 #top-menu-substripe i {
 	font-size: var(--icon-size);
@@ -243,6 +243,8 @@ a[target="_blank"]:hover {
 	padding-top: 2rem;
 	padding-bottom: 1rem;
 	box-shadow: -0.4rem 0.8rem 0.5rem 0.8rem black;
+	position: relative;
+	z-index: var(--z-index-footer);
 	}
 #footer .flex-container {
 	display: flex;
@@ -251,7 +253,7 @@ a[target="_blank"]:hover {
 	}
 #footer .flex-container > div {
 	width: calc(50% - 2em);
-	margin: 0em 1em 1.5em 1em;
+	margin: 0px 1em 1.5em 1em;
 	}
 @media screen and (max-width: 600px) {
 	#footer .flex-container {
@@ -278,7 +280,7 @@ a[target="_blank"]:hover {
 #footer .flex-container div.block i.fas {
 	position: absolute;
 	top: 0.2em;
-	left: 0em;
+	left: 0px;
 	}
 
 #print-footer {
@@ -330,16 +332,15 @@ a[target="_blank"]:hover {
 #blur {
 	position: fixed;
 	-webkit-backface-visibility: hidden;
-	top: 0em;
-	left: 0em;
+	top: 0px;
+	left: 0px;
 	height: 100%;
 	width: 100%;
-	z-index: 9;
+	z-index: var(--z-index-overlays);
 	visibility: hidden;
 	display: block;
 	}
 #blur.editor-only {
-	z-index: 1;
 	}
 #blur.dim {
 	background-color: #00000062;
@@ -348,11 +349,11 @@ a[target="_blank"]:hover {
 #printoverlay {
 	position: fixed;
 	-webkit-backface-visibility: hidden;
-	top: 0em;
-	left: 0em;
+	top: 0px;
+	left: 0px;
 	height: 100%;
 	width: 100%;
-	z-index: 90100;
+	z-index: var(--z-index-topmost);
 	display: block;
 	cursor: default;
 	}
@@ -459,6 +460,6 @@ div.tooltip * {
 	visibility: visible;
 	opacity: 1;
 	position: relative;
-	top: 0rem;
+	top: 0px;
 	z-index: initial;
 }

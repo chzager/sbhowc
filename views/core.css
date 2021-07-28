@@ -1,7 +1,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+Pro&display=swap');
 
-table { border: none; border-collapse: collapse; border-spacing: 0em; }
+table { border: none; border-collapse: collapse; border-spacing: 0px; }
 
 input, select {
 	font-size: 1rem;
@@ -11,7 +11,7 @@ input[type="text"], input[type="number"] { cursor: text; width: 100%; padding: 0
 input[type="number"] { text-align: right; }
 input[type="file"] { width: 100%; }
 input[type="button"] { padding: 0.1em 1em; }
-select { cursor: pointer; padding: 0em 0.2em; }
+select { cursor: pointer; padding: 0px 0.2em; }
 
 
 #warbandCanvas * {
@@ -72,9 +72,9 @@ select { cursor: pointer; padding: 0em 0.2em; }
 
 #warbandCanvas .screenfx #warbandfooter {
 	position: sticky;
-	bottom: 0em;
+	bottom: 0px;
 	background-color: #ffffffd0;
-	box-shadow: 0em 0em 5px 5px #ffffffd0;
+	box-shadow: 0px 0px 5px 5px #ffffffd0;
 	text-shadow:
 		-0.1em 0.1em 0.1em #fff,
 		-0.1em -0.1em 0.1em #fff,

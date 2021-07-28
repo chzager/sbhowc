@@ -1,4 +1,9 @@
 
+#restorer em {
+	font-style: normal;
+	font-weight: bold;
+	}
+	
 #restorer #restorer-table-frame {
 	display: inline-block;
 	min-height: 10em;
@@ -11,7 +16,7 @@
 
 #restorer table.localStore {
 	border-collapse:collapse;
-	border-spacing: 0rem;
+	border-spacing: 0px;
 	width: 100%;
 	}
 
@@ -80,6 +85,6 @@
 	border-left-width: 0.75rem;
 	background-color: var(--color-red-background);
 	color: var(--color-red-font);
-	margin: 1rem 0rem;
+	margin: 1rem 0px;
 	padding: 0.3em;
 	}

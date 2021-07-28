@@ -53,7 +53,7 @@ div[data-menubox].touchmenu {
 	padding: 1em;
 	border: none;
 	border-radius: 1em;
-	box-shadow: 0em 0em 1.3em 0.4em #00000080;
+	box-shadow: 0px 0px 1.3em 0.4em #00000080;
 	min-width: 300px;
 	max-width: 95vw;
 	position: fixed;
@@ -113,7 +113,7 @@ div[data-menubox].touchmenu [data-menuitem] [contenteditable="true"] {
 	display: inline-block;
 	min-width: 1em;
 	padding: 0.2em;
-	margin: -0.2em 0em;
+	margin: -0.2em 0px;
 	border: 1px solid transparent;
 	border-radius: 0.3em;
 	background-color: #efefef;
@@ -126,7 +126,7 @@ div[data-menubox].touchmenu [data-menuitem] [contenteditable="true"]:focus {
 	}
 
 div[data-menubox].touchmenu .separator {
-	margin: 0.5em 0em;
+	margin: 0.5em 0px;
 	height: 2px;
 	background-color: silver;
 	}
