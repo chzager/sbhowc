@@ -7,9 +7,9 @@ Licensed unter the GNU Affero General Public License, Version 3
 See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
  */
 
-var settingsUi = {};
-
-settingsUi.element = null;
+var settingsUi = {
+	element: null,
+};
 
 settingsUi.show = function ()
 {
@@ -33,20 +33,18 @@ settingsUi.close = () => owc.ui.sweepVolatiles();
 
 settingsUi.applySettings = function ()
 {
-	function _applyFromGui(targetObj)
+	let uiValues = {};
+	uiValues.ruleScope = [];
+	for (let rulesScopeCheck of settingsUi.element.querySelectorAll("input[data-group=\"rules_scope\"]:checked"))
 	{
-		/* get checked rules scope */
-		targetObj.ruleScope = [];
-		for (let rulesScopeCheck of settingsUi.element.querySelectorAll("input[data-group=\"rules_scope\"]:checked"))
-		{
-			targetObj.ruleScope.push(rulesScopeCheck.getAttribute("data-group-value"));
-		};
-		/* get view mode */
-		targetObj.viewMode = settingsUi.element.querySelector("input[data-group=\"view_mode\"]:checked").getAttribute("data-group-value");
-		/* get auto mapped elements */
-		htmlBuilder.dataFromElements(targetObj, settingsUi.element);
+		uiValues.ruleScope.push(rulesScopeCheck.getAttribute("data-group-value"));
 	};
-	_applyFromGui(owc.settings);
+	/* get view mode */
+	uiValues.viewMode = settingsUi.element.querySelector("input[data-group=\"view_mode\"]:checked").getAttribute("data-group-value");
+	/* get auto mapped elements */
+	htmlBuilder.dataFromElements(uiValues, settingsUi.element);
+	/* assign and apply */
+	owc.settings = Object.assign(owc.settings, uiValues);
 	settingsUi.close();
 	owc.settings.save();
 	owc.fetchResources();

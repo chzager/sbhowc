@@ -7,15 +7,18 @@ Licensed unter the GNU Affero General Public License, Version 3
 See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
  */
 
+let recursion = 0;
+
 owc.topMenu =
 {
+	STORAGE_MENU_ID: "storage",
 	warbandMenuButton: document.getElementById("top-menu-toggle-button"),
 	shareMenuButton: document.getElementById("share-menu-button")
 };
 
 owc.topMenu.init = function ()
 {
-	window.addEventListener(owc.ui.sweepvolatilesEvent, owc.topMenu.resetWarbandMenuButton);
+	window.addEventListener(owc.ui.SWEEP_VOLATILES_EVENT, owc.topMenu.resetWarbandMenuButton);
 	window.addEventListener(Menubox.EVENT_ID, onMenuboxEvent);
 	owc.topMenu.warbandMenu = new Menubox("warbandMenu",
 	{
@@ -27,63 +30,11 @@ owc.topMenu.init = function ()
 		items: [
 			{
 				key: "loadFromFile",
-				label: "Load from file" /*,
-				submenu:
-				{
-					css: "topdown vertical",
-					adjust:
-					{
-						height: ["0px", "auto"]
-					},
-					alignment: "start left, below bottom",
-					items: [
-						{
-							key: "localDevice",
-							label: "Local device",
-							iconFontAwesome: "fas fa-upload"
-						},
-						{
-							key: "oneDrive",
-							label: "OneDrive",
-							iconFontAwesome: "fas fa-cloud"
-						},
-						{
-							key: "googleDrive",
-							label: "Google Drive",
-							iconFontAwesome: "fab fa-google-drive"
-						}
-					]
-				} */
+				label: "Load from file",
 			},
 			{
 				key: "saveToFile",
-				label: "Save to file" /*,
-				submenu:
-				{
-					css: "topdown vertical",
-					adjust:
-					{
-						height: ["0px", "auto"]
-					},
-					alignment: "start left, below bottom",
-					items: [
-						{
-							key: "localDevice",
-							label: "Local device",
-							iconFontAwesome: "fas fa-download"
-						},
-						{
-							key: "oneDrive",
-							label: "OneDrive",
-							iconFontAwesome: "fas fa-cloud"
-						},
-						{
-							key: "googleDrive",
-							label: "Google Drive",
-							iconFontAwesome: "fab fa-google-drive"
-						}
-					]
-				} */
+				label: "Save to file",
 			},
 			{
 				key: "restoreWarband",
@@ -205,40 +156,74 @@ owc.topMenu.showSettingsClick = function (clickEvent)
 
 function onMenuboxEvent(menuboxEvent)
 {
+	recursion += 1;
+	if (recursion > 10)
+	{
+		return null;
+	};
 	owc.ui.sweepVolatiles();
+	menuboxEvent.stopPropagation();
 	let menuPath = menuboxEvent.detail.menubox.id.split("::");
 	if (menuPath[0] === owc.topMenu.warbandMenu.id)
 	{
-		/* if (menuPath.includes("loadFromFile"))
+		switch (menuboxEvent.detail.itemKey)
 		{
-			owc.fileIo[menuboxEvent.detail.itemKey].load(menuboxEvent);
-		}
-		else if (menuPath.includes("saveToFile"))
-		{
-			owc.fileIo[menuboxEvent.detail.itemKey].save(menuboxEvent);
-		}
-		else */
-		{
-			switch (menuboxEvent.detail.itemKey)
-			{
-			case "loadFromFile":
-				owc.fileIo.localDevice.load(menuboxEvent);
-				break;
-			case "saveToFile":
-				owc.fileIo.localDevice.save(menuboxEvent);
-				break;
-			case "restoreWarband":
-				restorer.show();
-				break;
-			case "showWarbandCode":
-				warbandcode.show();
-				break;
-			};
+		case "loadFromFile":
+			(owc.settings.storage) ? owc.fileIo[owc.settings.storage].load(menuboxEvent) : owc.topMenu.promptStorageSercive(menuboxEvent);
+			break;
+		case "saveToFile":
+			(owc.settings.storage) ? owc.fileIo[owc.settings.storage].save(menuboxEvent) : owc.topMenu.promptStorageSercive(menuboxEvent);
+			break;
+		case "restoreWarband":
+			restorer.show();
+			break;
+		case "showWarbandCode":
+			warbandcode.show();
+			break;
 		};
+	}
+	else if (menuPath[0] === owc.topMenu.STORAGE_MENU_ID)
+	{
+		owc.settings.storage = menuboxEvent.detail.itemKey;
+		owc.settings.save();
+		let originalEventDetail = JSON.parse(menuboxEvent.detail.context);
+		for (let key in originalEventDetail)
+		{
+			menuboxEvent.detail[key] = originalEventDetail[key];
+		};
+		onMenuboxEvent(menuboxEvent);
 	}
 	else if (menuPath[0] === owc.topMenu.shareMenu.id)
 	{
 		console.log("SHARE", menuboxEvent.detail.itemKey);
 		owc.share(menuboxEvent.detail.itemKey);
 	};
+};
+
+owc.topMenu.promptStorageSercive = function(originalEvent)
+{
+	owc.ui.blurPage("dim");
+	let storagePromptMenu = new Menubox(owc.topMenu.STORAGE_MENU_ID,{
+		position: "fixed",
+		title: "Where do you want to store your warband files?",
+		items: [
+			{key: "localDevice", label: "Locally on my device", iconFontAwesome: "fas fa-hdd"},
+			{html: htmlBuilder.newElement("div.separator-wrapper", htmlBuilder.newElement("span.separator", "or in a cloud storage"))},
+			{key: "oneDrive", label: "Microsoft OneDrive", iconFontAwesome: "fas fa-cloud"},
+			{key: "googleDrive", label: "Google Drive", iconFontAwesome: "fab fa-google-drive"},
+			{html: htmlBuilder.newElement("div.annotations", "You may note the ", htmlBuilder.newElement("a", {href:"tos_pp.html#pp", target:"_blank"}, "Privacy Policy"), " when using a cloud storage service.", {onclick:"event.stopPropagation();"})}
+		]
+	});
+	storagePromptMenu.element.appendChild(htmlBuilder.newElement("div.annotations.more", "You can change this at any time in the settings.", {onclick:"event.stopPropagation()"}));
+	let menuRect = storagePromptMenu.element.getBoundingClientRect();
+	storagePromptMenu.element.style.top = Math.round((window.innerHeight - menuRect.height) / 2) + "px";
+	storagePromptMenu.element.style.left = Math.round((window.innerWidth - menuRect.width) / 2) + "px";
+	if (menuRect.height > window.innerHeight)
+	{
+		let itemsList = storagePromptMenu.element.querySelector(".items");
+		itemsList.style.height = (itemsList.offsetHeight - (menuRect.height - window.innerHeight)) + "px";
+		itemsList.style.overflowY = "scroll";
+		storagePromptMenu.element.style.top = "0px";
+	};
+	storagePromptMenu.popup(null, JSON.stringify(originalEvent.detail));
 };

@@ -9,7 +9,10 @@ See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
 
 owc.ui =
 {
-	sweepvolatilesEvent: "owc.ui.sweepvolatiles",
+	NOTIFICATION_COLOR_GREEN: "green",
+	NOTIFICATION_COLOR_YELLOW: "yellow",
+	NOTIFICATION_COLOR_RED: "red",
+	SWEEP_VOLATILES_EVENT: "owc.ui.sweepvolatiles",
 	isPrinting: (window.location.getParam(owc.urlParam.PRINT) === "1"),
 	isTouchDevice: ("ontouchstart" in document.documentElement),
 	visualizer: null,
@@ -19,9 +22,6 @@ owc.ui =
 	warbandCanvas: document.getElementById("warbandCanvas")
 };
 
-owc.ui.NOTIFICATION_COLOR_GREEN = "green";
-owc.ui.NOTIFICATION_COLOR_YELLOW = "yellow";
-owc.ui.NOTIFICATION_COLOR_RED = "red";
 
 owc.ui.init = function ()
 {
@@ -213,7 +213,7 @@ owc.ui.closeBlueboxes = function ()
 owc.ui.sweepVolatiles = function (anyEvent)
 {
 	(anyEvent instanceof Event) ? anyEvent.stopPropagation() : null;
-	window.dispatchEvent(new CustomEvent(owc.ui.sweepvolatilesEvent));
+	window.dispatchEvent(new CustomEvent(owc.ui.SWEEP_VOLATILES_EVENT));
 	owc.ui.unblurPage();
 	owc.ui.closeBlueboxes();
 	Menubox.hideAll();

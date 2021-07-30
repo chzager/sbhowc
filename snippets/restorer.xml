@@ -13,10 +13,10 @@
 					<div class="panel">
 						<p>Warbands are cached within your browser using its localStorage.</p>
 						<div class="warning">
-							<b>Warning!</b>
+							<em>Warning!</em>
 							This is no way to save your warbands. You may experience a
-							<b>full data loss at any time</b>
-							and without predict. The only way to securly save your warbands is via "save to file" to your device.
+							<em>full data loss at any time</em>
+							and without prediction. The only way to securly save your warbands is via "save to file" to your device or a cloud storage.
 						</div>
 						<div id="restorer-table-frame"/>
 					</div>

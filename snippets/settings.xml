@@ -73,6 +73,14 @@
 						</span>
 					</div>
 				</div>
+				<div class="panel">
+					<p>Set where you want to save your warband files:</p>
+					<select size="1" id="option_storage" data-value-key="storage">
+						<option value="localDevice">Local device</option>
+						<option value="oneDrive">Microsoft OneDrive</option>
+						<option value="googleDrive">Google Drive</option>
+					</select>
+				</div>
 				<div class="buttons">
 					<input type="button" value="apply" ps:onclick="applySettings"/>
 				</div>
