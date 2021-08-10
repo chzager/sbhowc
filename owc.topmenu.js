@@ -211,7 +211,7 @@ owc.topMenu.promptStorageSercive = function(originalEvent)
 			{html: htmlBuilder.newElement("div.separator-wrapper", htmlBuilder.newElement("span.separator", "or in a cloud storage"))},
 			{key: "oneDrive", label: "Microsoft OneDrive", iconFontAwesome: "fas fa-cloud"},
 			{key: "googleDrive", label: "Google Drive", iconFontAwesome: "fab fa-google-drive"},
-			{html: htmlBuilder.newElement("div.annotations", "You may note the ", htmlBuilder.newElement("a", {href:"tos_pp.html#pp", target:"_blank"}, "Privacy Policy"), " when using a cloud storage service.", {onclick:"event.stopPropagation();"})}
+			{html: htmlBuilder.newElement("div.annotations", "You may note the ", htmlBuilder.newElement("a", {href:"tos_pp.html#pp", 'class':"light", target:"_blank"}, "Privacy Policy"), " when using a cloud storage service.", {onclick:"event.stopPropagation();"})}
 		]
 	});
 	storagePromptMenu.element.appendChild(htmlBuilder.newElement("div.annotations.more", "You can change this at any time in the settings.", {onclick:"event.stopPropagation()"}));

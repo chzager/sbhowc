@@ -61,6 +61,10 @@ a:hover {
 	color: white;
 	background-color: rgba(255, 255, 255, 0.3);
 	}
+a.light:hover {
+	color: black;
+	background: rgba(0, 0, 0, 0.2);
+	}
 a[target="_blank"]:after {
 	font-family: var(--font-awesome);
 	font-weight: 900;
@@ -224,10 +228,6 @@ a[target="_blank"]:after {
 	color: blue;
 	text-decoration: underline;
 	cursor: pointer;
-	}
-#didyouknow a:hover {
-	color: black;
-	background: #baba82;
 	}
 
 #footer {

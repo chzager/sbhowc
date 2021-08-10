@@ -160,10 +160,6 @@
 	padding-top: 1.5rem;
 	margin: 0px;
 	}
-.menubox[data-menubox="storage"] .annotations a:hover {
-	color: #00f;
-	background-color: #dfdfff;
-	}
 
 .menubox[data-menubox="storage"] .menuitem {
 	font-family: var(--sans-font);
