@@ -27,6 +27,7 @@ owc.fileIo =
 		return success;
 	},
 	httpRequest: (method, url, headers = {}, object = null, responseType = "") => {
+		console.log(url);
 		return new Promise((resolve, reject) =>
 		{
 			var httpRequest = new XMLHttpRequest();
@@ -166,6 +167,7 @@ owc.fileIo.googleDrive =
 			(picker) => {
 				picker.onSelect = (file) =>
 				{
+					console.log(file);
 					owc.fileIo.httpRequest("GET", "https://www.googleapis.com/drive/v2/files/" + file.id + "?key=" + owc.fileIo.googleDrive.API_KEY + "&alt=media&source=downloadUrl", { Authorization: "Bearer " + gapi.auth.getToken().access_token })
 					.then((response) => _load(response.target.responseText, file), (error) => owc.fileIo.notifyError(error, "Could not load file."))
 				};
