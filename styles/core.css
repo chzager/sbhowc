@@ -403,6 +403,10 @@ div.tooltip * {
 	visibility: hidden;
 	z-index: var(--z-index-topmost);
 	}
+#master-notification {
+	text-indent: -1.24em;
+	padding-left: 1.7em;
+	}
 #master-notification.notification.visible {
 	visibility: visible;
   animation-name: flyout;

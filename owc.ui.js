@@ -9,9 +9,6 @@ See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
 
 owc.ui =
 {
-	NOTIFICATION_COLOR_GREEN: "green",
-	NOTIFICATION_COLOR_YELLOW: "yellow",
-	NOTIFICATION_COLOR_RED: "red",
 	SWEEP_VOLATILES_EVENT: "owc.ui.sweepvolatiles",
 	isPrinting: (window.location.getParam(owc.urlParam.PRINT) === "1"),
 	isTouchDevice: ("ontouchstart" in document.documentElement),
@@ -21,7 +18,6 @@ owc.ui =
 	notifyElement: document.getElementById("master-notification"),
 	warbandCanvas: document.getElementById("warbandCanvas")
 };
-
 
 owc.ui.init = function ()
 {
@@ -141,18 +137,15 @@ owc.ui.setElementContent = function(element, contentElement)
 	};
 };
 
-owc.ui.notify = function (text, color = owc.ui.NOTIFICATION_COLOR_GREEN)
+owc.ui.notify = function (text, color = "green")
 {
 	if (!!owc.ui.notifyElement)
 	{
 		if (owc.ui.notifyElement.classList.contains("visible") === false)
 		{
-			for (let cssClass of owc.ui.notifyElement.classList.values())
+			for (let colorClass of ["green", "yellow", "red"])
 			{
-				if (cssClass !== "notification")
-				{
-					owc.ui.notifyElement.classList.remove(cssClass);
-				};
+				owc.ui.notifyElement.classList.remove(colorClass);
 			};
 			owc.ui.notifyElement.innerHTML = text;
 			owc.ui.notifyElement.classList.add(color);

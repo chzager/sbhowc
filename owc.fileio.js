@@ -43,7 +43,7 @@ owc.fileIo =
 	notifyError: (error, message) => {
 		console.error(error);
 		owc.ui.waitEnd();
-		owc.ui.notify(message, owc.ui.NOTIFICATION_COLOR_RED);
+		owc.ui.notify(message, "red");
 	}
 };
 
