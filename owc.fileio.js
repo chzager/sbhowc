@@ -119,7 +119,8 @@ owc.fileIo.googleDrive =
 					{
 						apiKey: owc.fileIo.googleDrive.API_KEY,
 						clientId: owc.fileIo.googleDrive.CLIENT_ID,
-						onCancel: () => owc.ui.waitEnd()
+						onCancel: () => owc.ui.waitEnd(),
+						onPopupBlocked: () => { owc.ui.waitEnd(); owc.ui.notify("Please allow popups and retry.", "yellow"); }
 					}, () => resolve(owc.fileIo.googleDrive.picker)
 					);
 				}
