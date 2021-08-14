@@ -165,6 +165,7 @@ owc.fileIo.googleDrive =
 		owc.fileIo.googleDrive.getPicker()
 		.then(
 			(picker) => {
+				console.log("'got picker'");
 				picker.onSelect = (file) =>
 				{
 					console.log(file);
