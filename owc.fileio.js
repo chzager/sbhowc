@@ -27,7 +27,6 @@ owc.fileIo =
 		return success;
 	},
 	httpRequest: (method, url, headers = {}, object = null, responseType = "") => {
-		console.log(url);
 		return new Promise((resolve, reject) =>
 		{
 			var httpRequest = new XMLHttpRequest();
@@ -120,7 +119,7 @@ owc.fileIo.googleDrive =
 						apiKey: owc.fileIo.googleDrive.API_KEY,
 						clientId: owc.fileIo.googleDrive.CLIENT_ID,
 						onCancel: () => owc.ui.waitEnd(),
-						onPopupBlocked: () => { owc.ui.waitEnd(); owc.ui.notify("Please allow popups and retry.", "yellow"); }
+						onAuthError: (e) => { owc.ui.waitEnd(); owc.ui.notify("Please allow popups and cookies, then retry.", "yellow"); }
 					}, () => resolve(owc.fileIo.googleDrive.picker)
 					);
 				}
@@ -166,10 +165,8 @@ owc.fileIo.googleDrive =
 		owc.fileIo.googleDrive.getPicker()
 		.then(
 			(picker) => {
-				console.log("'got picker'");
 				picker.onSelect = (file) =>
 				{
-					console.log(file);
 					owc.fileIo.httpRequest("GET", "https://www.googleapis.com/drive/v2/files/" + file.id + "?key=" + owc.fileIo.googleDrive.API_KEY + "&alt=media&source=downloadUrl", { Authorization: "Bearer " + gapi.auth.getToken().access_token })
 					.then((response) => _load(response.target.responseText, file), (error) => owc.fileIo.notifyError(error, "Could not load file."))
 				};

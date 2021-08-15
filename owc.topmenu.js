@@ -154,53 +154,7 @@ owc.topMenu.showSettingsClick = function (clickEvent)
 	settingsUi.show();
 };
 
-function onMenuboxEvent(menuboxEvent)
-{
-	recursion += 1;
-	if (recursion > 10)
-	{
-		return null;
-	};
-	owc.ui.sweepVolatiles();
-	menuboxEvent.stopPropagation();
-	let menuPath = menuboxEvent.detail.menubox.id.split("::");
-	if (menuPath[0] === owc.topMenu.warbandMenu.id)
-	{
-		switch (menuboxEvent.detail.itemKey)
-		{
-		case "loadFromFile":
-			(owc.settings.storage) ? owc.fileIo[owc.settings.storage].load(menuboxEvent) : owc.topMenu.promptStorageSercive(menuboxEvent);
-			break;
-		case "saveToFile":
-			(owc.settings.storage) ? owc.fileIo[owc.settings.storage].save(menuboxEvent) : owc.topMenu.promptStorageSercive(menuboxEvent);
-			break;
-		case "restoreWarband":
-			restorer.show();
-			break;
-		case "showWarbandCode":
-			warbandcode.show();
-			break;
-		};
-	}
-	else if (menuPath[0] === owc.topMenu.STORAGE_MENU_ID)
-	{
-		owc.settings.storage = menuboxEvent.detail.itemKey;
-		owc.settings.save();
-		let originalEventDetail = JSON.parse(menuboxEvent.detail.context);
-		for (let key in originalEventDetail)
-		{
-			menuboxEvent.detail[key] = originalEventDetail[key];
-		};
-		onMenuboxEvent(menuboxEvent);
-	}
-	else if (menuPath[0] === owc.topMenu.shareMenu.id)
-	{
-		console.log("SHARE", menuboxEvent.detail.itemKey);
-		owc.share(menuboxEvent.detail.itemKey);
-	};
-};
-
-owc.topMenu.promptStorageSercive = function(originalEvent)
+owc.topMenu.promptStorageService = function(originalEvent)
 {
 	owc.ui.blurPage("dim");
 	let storagePromptMenu = new Menubox(owc.topMenu.STORAGE_MENU_ID,{
@@ -226,4 +180,50 @@ owc.topMenu.promptStorageSercive = function(originalEvent)
 		storagePromptMenu.element.style.top = "0px";
 	};
 	storagePromptMenu.popup(null, JSON.stringify(originalEvent.detail));
+};
+
+function onMenuboxEvent(menuboxEvent)
+{
+	recursion += 1;
+	if (recursion > 10)
+	{
+		return null;
+	};
+	owc.ui.sweepVolatiles();
+	menuboxEvent.stopPropagation();
+	let menuPath = menuboxEvent.detail.menubox.id.split("::");
+	if (menuPath[0] === owc.topMenu.warbandMenu.id)
+	{
+		switch (menuboxEvent.detail.itemKey)
+		{
+		case "loadFromFile":
+			(owc.settings.storage) ? owc.fileIo[owc.settings.storage].load(menuboxEvent) : owc.topMenu.promptStorageService(menuboxEvent);
+			break;
+		case "saveToFile":
+			(owc.settings.storage) ? owc.fileIo[owc.settings.storage].save(menuboxEvent) : owc.topMenu.promptStorageService(menuboxEvent);
+			break;
+		case "restoreWarband":
+			restorer.show();
+			break;
+		case "showWarbandCode":
+			warbandcode.show();
+			break;
+		};
+	}
+	else if (menuPath[0] === owc.topMenu.STORAGE_MENU_ID)
+	{
+		owc.settings.storage = menuboxEvent.detail.itemKey;
+		owc.settings.save();
+		let originalEventDetail = JSON.parse(menuboxEvent.detail.context);
+		for (let key in originalEventDetail)
+		{
+			menuboxEvent.detail[key] = originalEventDetail[key];
+		};
+		onMenuboxEvent(menuboxEvent);
+	}
+	else if (menuPath[0] === owc.topMenu.shareMenu.id)
+	{
+		console.log("SHARE", menuboxEvent.detail.itemKey);
+		owc.share(menuboxEvent.detail.itemKey);
+	};
 };
