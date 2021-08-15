@@ -81,7 +81,7 @@
 	background-color: white;
 	padding: 0.2em;
 	box-shadow: 0.2rem 0.2rem 1rem #00000080;
- 	z-index: var(--z-index-topmost);
+ 	z-index: initial;
 	}
 
 [data-menubox="unitMenu"] .menuitem {
