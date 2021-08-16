@@ -119,7 +119,10 @@ owc.fileIo.googleDrive =
 						apiKey: owc.fileIo.googleDrive.API_KEY,
 						clientId: owc.fileIo.googleDrive.CLIENT_ID,
 						onCancel: () => owc.ui.waitEnd(),
-						onAuthError: (e) => { owc.ui.waitEnd(); owc.ui.notify("Please allow popups and cookies, then retry.", "yellow"); }
+						onAuthError: (e) => {
+							owc.ui.waitEnd();
+							owc.ui.notify("Please allow popups and cookies, then retry.", "yellow");
+						}
 					}, () => resolve(owc.fileIo.googleDrive.picker)
 					);
 				}
@@ -231,7 +234,10 @@ owc.fileIo.googleDrive =
 /* Google Drive storage hooks */
 owc.storage.hooks.warbandStore.push((data) => 
 {
-	if (owc.fileIo.googleDrive.currentFile.id) data.googleFileId = owc.fileIo.googleDrive.currentFile.id;
+	if (owc.fileIo.googleDrive.currentFile.id)
+	{
+		data.googleFileId = owc.fileIo.googleDrive.currentFile.id;
+	};
 });
 owc.storage.hooks.warbandRestore.push((data) =>
 {

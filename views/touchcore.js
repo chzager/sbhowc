@@ -276,7 +276,7 @@ touchCore.onMenuboxEvent = function (menuboxEvent)
 		if ((eventData.itemKey) || (eventData.buttonKey === "ok"))
 		{
 			let editorNode = eventData.menubox.element.querySelector("[data-menuitem=\"editor\"]");
-			let value = (!!editorNode) ? ((editorNode instanceof HTMLInputElement) ? editorNode.value : editorNode.innerText) : (eventData.itemKey ?? eventData.selectedKeys);
+			let value = (!!editorNode) ? ((editorNode instanceof HTMLInputElement) ? editorNode.value : editorNode.textContent) : (eventData.itemKey ?? eventData.selectedKeys);
 			if (eventData.menubox.dataType === "number")
 			{
 				value = Number((/\d+/.exec(value) ?? [0])[0]);
@@ -291,7 +291,7 @@ touchCore.onMenuboxEvent = function (menuboxEvent)
 					let additionaltextNode = (eventData.menubox.element.querySelector("[data-menuitem=\"" + selectedKey + "\"]").querySelector("[data-isadditionaltext]"));
 					if (additionaltextNode)
 					{
-						eventData.selectedKeys[i] = selectedKey.substr(0, 2) + "." + additionaltextNode.innerText;
+						eventData.selectedKeys[i] = selectedKey.substr(0, 2) + "." + additionaltextNode.textContent;
 					};
 				};
 				break;
