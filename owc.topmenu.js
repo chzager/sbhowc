@@ -7,8 +7,6 @@ Licensed unter the GNU Affero General Public License, Version 3
 See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
  */
 
-let recursion = 0;
-
 owc.topMenu =
 {
 	STORAGE_MENU_ID: "storage",
@@ -184,11 +182,6 @@ owc.topMenu.promptStorageService = function(originalEvent)
 
 function onMenuboxEvent(menuboxEvent)
 {
-	recursion += 1;
-	if (recursion > 10)
-	{
-		return null;
-	};
 	owc.ui.sweepVolatiles();
 	menuboxEvent.stopPropagation();
 	let menuPath = menuboxEvent.detail.menubox.id.split("::");

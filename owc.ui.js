@@ -240,7 +240,10 @@ owc.ui.blurPage = function (blurClasses)
 	owc.ui.blurElement.style.visibility = "visible";
 };
 
-owc.ui.unblurPage = () => owc.ui.blurElement.style.visibility = "hidden";
+owc.ui.unblurPage = function()
+{
+	owc.ui.blurElement.style.visibility = "hidden";
+};
 
 owc.ui.wait = function (message = "Working")
 {
