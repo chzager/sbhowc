@@ -17,7 +17,6 @@ owc.topMenu =
 owc.topMenu.init = function ()
 {
 	window.addEventListener(owc.ui.SWEEP_VOLATILES_EVENT, owc.topMenu.resetWarbandMenuButton);
-	window.addEventListener(Menubox.EVENT_ID, onMenuboxEvent);
 	owc.topMenu.warbandMenu = new Menubox("warbandMenu",
 	{
 		css: "topdown horizontal",
@@ -43,7 +42,7 @@ owc.topMenu.init = function ()
 				label: "Show warband code"
 			}
 		]
-	}
+	}, owc.topMenu.onWarbandmenuEvent
 		);
 	owc.topMenu.shareMenu = new Menubox("shareMenu",
 	{
@@ -74,7 +73,7 @@ owc.topMenu.init = function ()
 				iconFontAwesome: "fas fa-envelope"
 			}
 		]
-	}
+	}, owc.topMenu.onSharemenuEvent
 		);
 
 	console.debug("navigator.share:", navigator.share);
@@ -152,8 +151,16 @@ owc.topMenu.showSettingsClick = function (clickEvent)
 	settingsUi.show();
 };
 
-owc.topMenu.promptStorageService = function(originalEvent)
+owc.topMenu.promptStorageService = function(context)
 {
+	function _onStoragemenuEvent(data)
+	{
+		owc.settings.storage = data.itemKey;
+		owc.settings.save();
+		/* write ehether load or save back to data */
+		data.itemKey = data.context;
+		owc.topMenu.onWarbandmenuEvent(data);
+	};
 	owc.ui.blurPage("dim");
 	let storagePromptMenu = new Menubox(owc.topMenu.STORAGE_MENU_ID,{
 		position: "fixed",
@@ -165,7 +172,7 @@ owc.topMenu.promptStorageService = function(originalEvent)
 			{key: "googleDrive", label: "Google Drive", iconFontAwesome: "fab fa-google-drive"},
 			{html: htmlBuilder.newElement("div.annotations", "You may note the ", htmlBuilder.newElement("a", {href:"tos_pp.html#pp", 'class':"light", target:"_blank"}, "Privacy Policy"), " when using a cloud storage service.", {onclick:"event.stopPropagation();"})}
 		]
-	});
+	}, _onStoragemenuEvent);
 	storagePromptMenu.element.appendChild(htmlBuilder.newElement("div.annotations.more", "You can change this at any time in the settings.", {onclick:"event.stopPropagation()"}));
 	let menuRect = storagePromptMenu.element.getBoundingClientRect();
 	storagePromptMenu.element.style.top = Math.round((window.innerHeight - menuRect.height) / 2) + "px";
@@ -177,46 +184,32 @@ owc.topMenu.promptStorageService = function(originalEvent)
 		itemsList.style.overflowY = "scroll";
 		storagePromptMenu.element.style.top = "0px";
 	};
-	storagePromptMenu.popup(null, JSON.stringify(originalEvent.detail));
+	storagePromptMenu.popup(null, context);
 };
 
-function onMenuboxEvent(menuboxEvent)
+owc.topMenu.onWarbandmenuEvent = function(data)
 {
 	owc.ui.sweepVolatiles();
-	menuboxEvent.stopPropagation();
-	let menuPath = menuboxEvent.detail.menubox.id.split("::");
-	if (menuPath[0] === owc.topMenu.warbandMenu.id)
+	switch (data.itemKey)
 	{
-		switch (menuboxEvent.detail.itemKey)
-		{
-		case "loadFromFile":
-			(owc.settings.storage) ? owc.fileIo[owc.settings.storage].load(menuboxEvent) : owc.topMenu.promptStorageService(menuboxEvent);
-			break;
-		case "saveToFile":
-			(owc.settings.storage) ? owc.fileIo[owc.settings.storage].save(menuboxEvent) : owc.topMenu.promptStorageService(menuboxEvent);
-			break;
-		case "restoreWarband":
-			restorer.show();
-			break;
-		case "showWarbandCode":
-			warbandcode.show();
-			break;
-		};
-	}
-	else if (menuPath[0] === owc.topMenu.STORAGE_MENU_ID)
-	{
-		owc.settings.storage = menuboxEvent.detail.itemKey;
-		owc.settings.save();
-		let originalEventDetail = JSON.parse(menuboxEvent.detail.context);
-		for (let key in originalEventDetail)
-		{
-			menuboxEvent.detail[key] = originalEventDetail[key];
-		};
-		onMenuboxEvent(menuboxEvent);
-	}
-	else if (menuPath[0] === owc.topMenu.shareMenu.id)
-	{
-		console.log("SHARE", menuboxEvent.detail.itemKey);
-		owc.share(menuboxEvent.detail.itemKey);
+	case "loadFromFile":
+		(owc.settings.storage) ? owc.fileIo[owc.settings.storage].load(data.originalEvent) : owc.topMenu.promptStorageService(data.itemKey);
+		break;
+	case "saveToFile":
+		(owc.settings.storage) ? owc.fileIo[owc.settings.storage].save(data.originalEvent) : owc.topMenu.promptStorageService(data.itemKey);
+		break;
+	case "restoreWarband":
+		restorer.show();
+		break;
+	case "showWarbandCode":
+		warbandcode.show();
+		break;
 	};
+};
+
+owc.topMenu.onSharemenuEvent = function(data)
+{
+	owc.ui.sweepVolatiles();
+	console.log("SHARE", data.itemKey);
+	owc.share(data.itemKey);
 };

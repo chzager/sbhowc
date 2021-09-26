@@ -28,19 +28,19 @@ touchCore.init = function (pageSnippetGroup)
 		x1: null,
 		moveup: "Move unit up",
 		movedown: "Move unit down"
-	}
+	}, touchCore.onUnitmenuEvent
 		);
 	if (owc.ui.isPrinting === false)
 	{
 		window.addEventListener("focus", touchCore.onWindowFocus);
-		window.addEventListener("menubox", touchCore.onMenuboxEvent);
+		// window.addEventListener("menubox", touchCore.onMenuboxEvent);
 	};
 };
 
 touchCore.unload = function (menuboxEvent)
 {
 	window.removeEventListener("focus", touchCore.onWindowFocus);
-	window.removeEventListener("menubox", touchCore.onMenuboxEvent);
+	// window.removeEventListener("menubox", touchCore.onMenuboxEvent);
 };
 
 touchCore.getEventUnitIndex = function(clickEvent) 
@@ -254,54 +254,61 @@ touchCore.onClickEvent = function (clickEvent)
 	window.dispatchEvent(editorEvent);
 };
 
-touchCore.onMenuboxEvent = function (menuboxEvent)
+touchCore.onUnitmenuEvent = function(data)
 {
-	let eventData = menuboxEvent.detail;
+	window.dispatchEvent(new CustomEvent("editor",
+		{
+			detail:
+			{
+				action: data.itemKey,
+				unitIndex: data.context,
+				originalEvent: data.originalEvent
+			}
+		}
+		));
+};
+
+touchCore.onEditormenuEvent = function (data)
+{
+	owc.ui.sweepVolatiles();
 	let editorEvent = new CustomEvent("editor",
 	{
 		detail:
 		{
-			unitIndex: eventData.context
+			unitIndex: data.context,
+			editor: data.menubox.id
 		}
 	}
 		);
-	if (eventData.menubox.element.classList.contains("touchmenu") === false)
+	// console.log(data.menubox.multiselect, data.itemKey,  ((data.menubox.multiselect === false) && (data.itemKey)), data.buttonKey);
+	if ((data.itemKey) || (data.buttonKey === "ok"))
 	{
-		editorEvent.detail["action"] = eventData.itemKey;
-		window.dispatchEvent(editorEvent);
-	}
-	else
-	{
-		editorEvent.detail["editor"] = eventData.menubox.id;
-		if ((eventData.itemKey) || (eventData.buttonKey === "ok"))
+		let editorNode = data.menubox.element.querySelector("[data-menuitem=\"editor\"]");
+		let value = (!!editorNode) ? ((editorNode instanceof HTMLInputElement) ? editorNode.value : editorNode.textContent) : (data.itemKey ?? data.selectedKeys);
+		if ((["quality", "combat"].includes(data.menubox.id)) || (data.menubox.dataType === "number"))
 		{
-			let editorNode = eventData.menubox.element.querySelector("[data-menuitem=\"editor\"]");
-			let value = (!!editorNode) ? ((editorNode instanceof HTMLInputElement) ? editorNode.value : editorNode.textContent) : (eventData.itemKey ?? eventData.selectedKeys);
-			if (eventData.menubox.dataType === "number")
-			{
-				value = Number((/\d+/.exec(value) ?? [0])[0]);
-			};
-			editorEvent.detail["value"] = value;
-			switch (eventData.menubox.id)
-			{
-			case "specialrules":
-				for (let i = 0, ii = eventData.selectedKeys.length; i < ii; i += 1)
-				{
-					let selectedKey = eventData.selectedKeys[i];
-					let additionaltextNode = (eventData.menubox.element.querySelector("[data-menuitem=\"" + selectedKey + "\"]").querySelector("[data-isadditionaltext]"));
-					if (additionaltextNode)
-					{
-						eventData.selectedKeys[i] = selectedKey.substr(0, 2) + "." + additionaltextNode.textContent;
-					};
-				};
-				break;
-			case "pointspool":
-				editorEvent.detail["unitIndex"] = null;
-				editorEvent.detail["poolname"] = eventData.context;
-				break;
-			};
-			window.dispatchEvent(editorEvent);
+			value = Number((/\d+/.exec(value) ?? [0])[0]);
 		};
+		editorEvent.detail.value = value;
+		switch (data.menubox.id)
+		{
+		case "specialrules":
+			for (let i = 0, ii = data.selectedKeys.length; i < ii; i += 1)
+			{
+				let selectedKey = data.selectedKeys[i];
+				let additionaltextNode = (data.menubox.element.querySelector("[data-menuitem=\"" + selectedKey + "\"]").querySelector("[data-isadditionaltext]"));
+				if (additionaltextNode)
+				{
+					data.selectedKeys[i] = selectedKey.substr(0, 2) + "." + additionaltextNode.textContent;
+				};
+			};
+			break;
+		case "pointspool":
+			editorEvent.detail.unitIndex = null;
+			editorEvent.detail.poolname = data.context;
+			break;
+		};
+		window.dispatchEvent(editorEvent);
 	};
 };
 
@@ -484,7 +491,7 @@ touchCore.newMenu = function (menuId, titleResource, items, buttons, multiselect
 		}
 		);
 	};
-	return new Menubox(menuId, menuDef);
+	return new Menubox(menuId, menuDef, touchCore.onEditormenuEvent);
 };
 
 touchCore.newInputMenu = function (menuId, titleResource)
@@ -511,13 +518,12 @@ touchCore.newInputMenu = function (menuId, titleResource)
 
 touchCore.newInputNumberMenu = function (menuId, titleResource)
 {
-	let menubox = touchCore.newMenu(menuId, titleResource, [], ["ok", "cancel"]);
-	menubox.element.classList.add("inputnumbermenu");
-	menubox.element.querySelector("div.items").appendChild(htmlBuilder.newElement("input",
+	let menuItems = [
+	{html: htmlBuilder.newElement("input",
 		{
 			type: "number",
 			'data-menuitem': "editor",
-			min: "0",
+			min: "1",
 			step: "1",
 			onclick: (clickEvent) => clickEvent.stopPropagation(),
 			onkeypress: (keypressEvent) =>
@@ -526,7 +532,10 @@ touchCore.newInputNumberMenu = function (menuId, titleResource)
 					menubox.element.querySelector("[data-menubutton=\"ok\"]").click();
 			}
 		}
-		));
+		)}
+	];
+	let menubox = touchCore.newMenu(menuId, titleResource, menuItems, ["ok", "cancel"]);
+	menubox.element.classList.add("inputnumbermenu");
 	menubox.dataType = "number";
 	return menubox;
 };

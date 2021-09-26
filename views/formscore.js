@@ -43,19 +43,17 @@ formsCore.init = function (pageSnippetGroup)
 		x1: null,
 		moveup: "Move unit up",
 		movedown: "Move unit down"
-	}
+	}, formsCore.onUnitmenuEvent
 		);
 	if (owc.ui.isPrinting === false)
 	{
 		window.addEventListener("focus", formsCore.onWindowFocus);
-		window.addEventListener(Menubox.EVENT_ID, formsCore.onMenuboxEvent);
 	};
 };
 
 formsCore.unload = function (menuboxEvent)
 {
 	window.removeEventListener("focus", formsCore.onWindowFocus);
-	window.removeEventListener(Menubox.EVENT_ID, formsCore.onMenuboxEvent);
 };
 
 formsCore.onWindowFocus = function (focusEvent)
@@ -63,23 +61,19 @@ formsCore.onWindowFocus = function (focusEvent)
 	owc.editor.manangeUnitClipboard();
 };
 
-formsCore.onMenuboxEvent = function (menuboxEvent)
+formsCore.onUnitmenuEvent = function(data)
 {
-	if (menuboxEvent.detail.menubox.id === formsCore.unitMenu.id)
-	{
-		let eventData =
+	window.dispatchEvent(new CustomEvent("editor",
 		{
 			detail:
 			{
-				action: menuboxEvent.detail.itemKey,
-				unitIndex: menuboxEvent.detail.context,
-				originalEvent: menuboxEvent
+				action: data.itemKey,
+				unitIndex: data.context,
+				originalEvent: data.originalEvent
 			}
-		};
-		window.dispatchEvent(new CustomEvent("editor", eventData));
-	};
+		}
+		));
 };
-
 formsCore.onValueEdited = (anyEvent) => formsCore.dispatchEditorEvent(anyEvent);
 
 formsCore.appendQualitySelector = function (refNode)
