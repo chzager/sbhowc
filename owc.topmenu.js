@@ -102,7 +102,7 @@ owc.topMenu.init = function ()
 owc.topMenu.preparePopup = function ()
 {
 	owc.ui.sweepVolatiles();
-	owc.ui.blurPage("editor-only");
+	owc.ui.blurPage();
 };
 
 owc.topMenu.resetWarbandMenuButton = function ()

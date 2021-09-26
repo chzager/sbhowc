@@ -340,8 +340,6 @@ a[target="_blank"]:after {
 	visibility: hidden;
 	display: block;
 	}
-#blur.editor-only {
-	}
 #blur.dim {
 	background-color: #00000062;
 	}

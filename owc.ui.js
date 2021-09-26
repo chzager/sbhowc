@@ -173,7 +173,7 @@ owc.ui.showBluebox = function (element)
 		return (rex !== null) ? Number(rex[0]) : 0;
 	};
 	owc.ui.sweepVolatiles();
-	owc.ui.blurPage("editor-only");
+	owc.ui.blurPage();
 	if (!!element)
 	{
 		element.scrollTo(0, 0);
@@ -224,7 +224,7 @@ owc.ui.scrollToBottom = function ()
 	);
 };
 
-owc.ui.blurPage = function (blurClasses)
+owc.ui.blurPage = function (blurClasses = "")
 {
 	for (let c of owc.ui.blurElement.classList)
 	{
