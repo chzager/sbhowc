@@ -340,6 +340,9 @@ a[target="_blank"]:after {
 	visibility: hidden;
 	display: block;
 	}
+#blur.editor-only {
+	z-index: calc(var(--z-index-top-menu-floater) - 1);
+}
 #blur.dim {
 	background-color: #00000062;
 	}
