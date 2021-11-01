@@ -102,17 +102,20 @@ div.blue .notification {
 	margin-top: -0.2em;
 	left: 2rem;
 	font-weight: normal;
+	text-indent: 0;
 	border-radius: 0.4em;
+	visibility: hidden;
 	display: inline-block;
+	position: absolute;
 	}
 div.blue .notification.visible {
 	visibility: visible;
-	animation-name: fadeout;
+	animation-name: fadein-fadeout;
 	animation-duration: 4s;
 	}
-@keyframes fadeout {
-	0%   {opacity: 0;}
-	10%  {opacity: 1;}
-	75%  {opacity: 1;}
+@keyframes fadein-fadeout {
+	  0% {opacity: 0;}
+	 10% {opacity: 1;}
+	 75% {opacity: 1;}
 	100% {opacity: 0;}
 	}

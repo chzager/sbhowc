@@ -15,8 +15,11 @@ owc.ui =
 	visualizer: null,
 	undoButton: document.getElementById("undo-button"),
 	blurElement: document.getElementById("blur"),
-	notifyElement: document.getElementById("master-notification"),
-	warbandCanvas: document.getElementById("warbandCanvas")
+	warbandCanvas: document.getElementById("warbandCanvas"),
+	notifications: {
+		count: 0,
+		offset: 0
+	}
 };
 
 owc.ui.init = function ()
@@ -25,7 +28,7 @@ owc.ui.init = function ()
 	if (owc.ui.isPrinting === false)
 	{
 		owc.ui.undoButton.addEventListener("animationend", () => owc.ui.undoButton.classList.remove("animated"));
-		owc.ui.notifyElement.addEventListener("click", () => owc.ui.notifyElement.classList.remove("visible"));
+		// owc.ui.notifyElement.addEventListener("click", () => owc.ui.notifyElement.classList.remove("visible"));
 		window.addEventListener("click", owc.ui.sweepVolatiles);
 	};
 };
@@ -55,7 +58,7 @@ owc.ui.initView = function ()
 		pageSnippets.import("./views/" + viewFullname + "/" + viewFullname + ".xml").then(_initView, (e) => {
 			console.error(e);
 			owc.ui.waitEnd();
-			owc.ui.warbandCanvas.appendChild(htmlBuilder.newElement("div.global-notification.notification.red", "Error while loading view \"" + viewFullname + "\"."));
+			owc.ui.warbandCanvas.appendChild(htmlBuilder.newElement("div.notification.red", "Error while loading view \"" + viewFullname + "\"."));
 		});
 	}
 	else
@@ -139,30 +142,28 @@ owc.ui.setElementContent = function(element, contentElement)
 
 owc.ui.notify = function (text, color = "green")
 {
-	if (!!owc.ui.notifyElement)
+	function _onAnimationEnd(animationEvent)
 	{
-		if (owc.ui.notifyElement.classList.contains("visible") === false)
+		animationEvent.target.remove();
+		if ((owc.ui.notifications.count -= 1) === 0)
 		{
-			for (let colorClass of ["green", "yellow", "red"])
-			{
-				owc.ui.notifyElement.classList.remove(colorClass);
-			};
-			owc.ui.notifyElement.innerHTML = text;
-			owc.ui.notifyElement.classList.add(color);
-			owc.ui.notifyElement.style.left = Math.round((document.body.clientWidth - owc.ui.notifyElement.getBoundingClientRect().width) / 2) + "px";
-			owc.ui.showNotification(owc.ui.notifyElement);
-		};
-	};
+			owc.ui.notifications.offset = 0;
+		}
+	}
+	let element = htmlBuilder.newElement("div.notification.popup." + color, text);
+	element.addEventListener("animationend", _onAnimationEnd,	{once: true});
+	document.body.appendChild(element);
+	let rect = element.getBoundingClientRect();
+	element.style.left = Math.round((document.body.clientWidth - rect.width) / 2) + "px";
+	element.style.top = Math.round(rect.top + owc.ui.notifications.offset) + "px";
+	owc.ui.notifications.count += 1;
+	owc.ui.notifications.offset += rect.height + 6;
 };
 
 owc.ui.showNotification = function (element, cssClass = "visible")
 {
 	element.classList.add(cssClass);
-	element.addEventListener("animationend", () => element.classList.remove(cssClass),
-	{
-		once: true
-	}
-	);
+	element.addEventListener("animationend", () => element.classList.remove(cssClass), {once: true});
 };
 
 owc.ui.showBluebox = function (element)

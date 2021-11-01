@@ -388,48 +388,26 @@ div.tooltip * {
 	visibility: visible !important;
 	}
 
-#master-notification,
-.global-notification {
+.notification {
+	font-family: var(--sans-font) !important;
+	font-weight: normal;
 	border: 0.2rem solid;
 	padding: 0.5em;
 	box-shadow: 0.3rem 0.3rem 1rem #00000080;
-	font-weight: normal;
-	font-size: 1.3rem;
 	border-radius: 0.8em;
 	display: block;
-	top: 35vh;
-	position: fixed;
-	-webkit-backface-visibility: hidden;
-	opacity: 0;
-	visibility: hidden;
-	z-index: var(--z-index-topmost);
-	}
-#master-notification {
 	text-indent: -1.24em;
 	padding-left: 1.7em;
+	-webkit-backface-visibility: hidden;
+	z-index: var(--z-index-topmost);
 	}
-#master-notification.notification.visible {
-	visibility: visible;
-  animation-name: flyout;
+.notification.popup {
+	font-size: 1.3rem;
+	top: 35vh;
+	max-width: 60vw;
+	position: fixed;
+  animation-name: popin-flyout;
   animation-duration: 4s;
-	}
-@keyframes flyout {
-	  0% {opacity: 0; }
-	  5% {transform: scale(1.2); }
-	 10% {transform: scale(1);
-	      opacity: 1; }
-	 75% {opacity: 1;
-	      transform: translate(0px, 0px); }
-	100% {opacity: 0;
-	      transform: translate(0px, -25vh); }
-	}
-
-.notification {
-	font-family: var(--sans-font);
-	font-weight: normal;
-	opacity: 0;
-	visibility: hidden;
-	position: absolute;
 	}
 .notification.green {
 	border-color: var(--color-green-font);
@@ -461,10 +439,16 @@ div.tooltip * {
 	font-weight: 900;
 	content: "\f057\20";
 	}
-.global-notification {
-	visibility: visible;
-	opacity: 1;
-	position: relative;
-	top: 0px;
-	z-index: initial;
-}
+@keyframes popin-flyout {
+	  0% {opacity: 0; }
+	  5% {transform: scale(1.2); }
+	 10% {transform: scale(1);
+	      opacity: 1; }
+	 75% {opacity: 1;
+	      transform: translate(0px, 0px); }
+	100% {opacity: 0;
+	      transform: translate(0px, -25vh); }
+	}
+#warbandCanvas .notification {
+	font-size: 1.4rem;
+	}
