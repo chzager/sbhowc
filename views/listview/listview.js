@@ -24,6 +24,7 @@ listview.init = function ()
 listview.getWarbandHtmlElement = function ()
 {
 	let result;
+	let clipboardUnit = owc.editor.clipboard.getUnit();
 	let variables =
 	{
 		count: owc.helper.translate("count"),
@@ -34,10 +35,12 @@ listview.getWarbandHtmlElement = function ()
 		specialrules: owc.helper.translate("specialrules"),
 		'warband-name': owc.helper.nonBlankWarbandName(),
 		'default-warband-name': owc.helper.translate("defaultWarbandName"),
-		'add-unit': owc.helper.translate("addUnit")
+		'add-unit': owc.helper.translate("addUnit"),
+		'paste-unit-text': (!!clipboardUnit) ? owc.helper.translate("pasteUnit", {UNIT: clipboardUnit.name}) : "",
+		'clipboard-unit-code': clipboardUnit?.code
 	};
 	result = pageSnippets.listview.main.produce(listview, variables);
-	if (owc.ui.isPrinting)
+	if (owc.isPrinting)
 	{
 		htmlBuilder.removeChildrenByQuerySelectors(["select", "input", ".specialruleEditorSeparator", ".addunit"], result);
 		htmlBuilder.removeClasses(["interactive", "screenfx", "out-of-scope"], result);

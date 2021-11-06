@@ -45,20 +45,6 @@ formsCore.init = function (pageSnippetGroup)
 		movedown: "Move unit down"
 	}, formsCore.onUnitmenuEvent
 		);
-	if (owc.ui.isPrinting === false)
-	{
-		window.addEventListener("focus", formsCore.onWindowFocus);
-	};
-};
-
-formsCore.unload = function (menuboxEvent)
-{
-	window.removeEventListener("focus", formsCore.onWindowFocus);
-};
-
-formsCore.onWindowFocus = function (focusEvent)
-{
-	owc.editor.manangeUnitClipboard();
 };
 
 formsCore.onUnitmenuEvent = function(data)
@@ -74,6 +60,7 @@ formsCore.onUnitmenuEvent = function(data)
 		}
 		));
 };
+
 formsCore.onValueEdited = (anyEvent) => formsCore.dispatchEditorEvent(anyEvent);
 
 formsCore.appendQualitySelector = function (refNode)
@@ -191,7 +178,7 @@ formsCore.refreshSpecialrules = function (unitIndex, refNode)
 	let specialrulesCount = unit.specialrules.length;
 	let variables =
 	{
-		'is-printing': owc.ui.isPrinting,
+		'is-printing': owc.isPrinting,
 		specialrules: []
 	};
 	for (let s = 0; s < specialrulesCount; s += 1)
@@ -247,31 +234,6 @@ formsCore.refreshWarbandSummary = function ()
 	};
 	let wrapperNode = document.querySelector("#warbandfooter");
 	owc.ui.setElementContent(wrapperNode, pageSnippets[formsCore.pageSnippetGroup]["warband-summary"].produce(formsCore, variables));
-};
-
-formsCore.refreshPasteUnitButton = function (clipboardData)
-{
-	let addunitContainer = document.querySelector("#additmes-container");
-	let pasteUnitNode = addunitContainer.querySelector("[data-action=\"pasteunit\"]");
-	if (pasteUnitNode !== null)
-	{
-		pasteUnitNode.remove();
-	};
-	if (clipboardData !== null)
-	{
-		let variables =
-		{
-			'paste-unit': owc.helper.translate("pasteUnit",
-			{
-				UNIT: clipboardData.title
-			}
-			),
-			'unit-name': clipboardData.title,
-			'unit-code': clipboardData.data
-		};
-		pasteUnitNode = pageSnippets[formsCore.pageSnippetGroup]["paste-unit"].produce(formsCore, variables);
-		addunitContainer.appendChild(pasteUnitNode);
-	};
 };
 
 formsCore.makeEditable = function (refNode)

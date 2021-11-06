@@ -10,7 +10,6 @@ See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
 owc.ui =
 {
 	SWEEP_VOLATILES_EVENT: "owc.ui.sweepvolatiles",
-	isPrinting: (window.location.getParam(owc.urlParam.PRINT) === "1"),
 	isTouchDevice: ("ontouchstart" in document.documentElement),
 	visualizer: null,
 	undoButton: document.getElementById("undo-button"),
@@ -24,11 +23,10 @@ owc.ui =
 
 owc.ui.init = function ()
 {
-	console.debug("owc.ui.isPrinting:", owc.ui.isPrinting);
-	if (owc.ui.isPrinting === false)
+	if (owc.isPrinting === false)
 	{
 		owc.ui.undoButton.addEventListener("animationend", () => owc.ui.undoButton.classList.remove("animated"));
-		// owc.ui.notifyElement.addEventListener("click", () => owc.ui.notifyElement.classList.remove("visible"));
+		window.addEventListener("focus", owc.ui.printWarband);
 		window.addEventListener("click", owc.ui.sweepVolatiles);
 	};
 };
@@ -42,7 +40,7 @@ owc.ui.initView = function ()
 		owc.ui.visualizer.init();
 		owc.ui.printWarband();
 		owc.ui.waitEnd();
-		if ((owc.ui.isPrinting) && (typeof window.print === "function"))
+		if ((owc.isPrinting) && (typeof window.print === "function"))
 		{
 			window.print();
 		};
@@ -50,7 +48,7 @@ owc.ui.initView = function ()
 	owc.ui.wait("Loading");
 	if (owc.ui.visualizer !== null)
 	{
-		owc.ui.visualizer.unload();
+		owc.ui.visualizer.unload?.();
 	};
 	let viewFullname = owc.settings.viewMode + "view";
 	if (!!pageSnippets[viewFullname] === false)
@@ -85,10 +83,9 @@ owc.ui.printWarband = function ()
 	owc.ui.setElementContent(warbandCanvas, owc.ui.visualizer.getWarbandHtmlElement());
 	owc.ui.visualizer.refreshWarbandSummary();
 	owc.ui.refreshWarbandName();
-	if (owc.ui.isPrinting === false)
+	if (owc.isPrinting === false)
 	{
 		owc.ui.refreshUndoButton();
-		owc.editor.manangeUnitClipboard();
 		htmlBuilder.removeChildrenByQuerySelectors([".only-print"]);
 	}
 	else
@@ -112,7 +109,7 @@ owc.ui.refreshWindowTitle = function ()
 
 owc.ui.refreshUndoButton = function ()
 {
-	if (owc.ui.isPrinting === false)
+	if (owc.isPrinting === false)
 	{
 		let undoTooltipElement = owc.ui.undoButton.querySelector(".tooltip");
 		if (owc.editor.undoer.canUndo)

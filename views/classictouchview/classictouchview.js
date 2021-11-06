@@ -20,7 +20,7 @@ classictouchview.init = function ()
 	classictouchview.refreshUnit = touchCore.refreshUnit;
 	classictouchview.refreshPasteUnitButton = touchCore.refreshPasteUnitButton;
 	classictouchview.makeEditable = touchCore.makeEditable;
-	if (owc.ui.isPrinting === false)
+	if (owc.isPrinting === false)
 	{
 		/* determining size of "M" for one or two columns choice (#52) */
 		const mElement=htmlBuilder.newElement("span#_sizeOfM", "M", {style:"font-family:var(--serif-font);font-size:1rem;position:absolute;top:0px;left:0px;visibility:hidden;"});
@@ -36,7 +36,6 @@ classictouchview.init = function ()
 classictouchview.unload = function ()
 {
 	window.removeEventListener("resize", classictouchview.onWindowResize);
-	touchCore.unload();
 };
 
 classictouchview.getWarbandHtmlElement = function ()
@@ -54,7 +53,7 @@ classictouchview.getWarbandHtmlElement = function ()
 		'default-warband-name': owc.helper.translate("defaultWarbandName")
 	};
 	result = pageSnippets.classictouchview.produce(classictouchview, variables);
-	if (owc.ui.isPrinting)
+	if (owc.isPrinting)
 	{
 		htmlBuilder.removeChildrenByQuerySelectors(["select", "input", ".specialruleEditorSeparator", ".addunit"], result);
 		htmlBuilder.removeClasses(["interactive", "screenfx", "out-of-scope"], result);
@@ -73,7 +72,7 @@ classictouchview.listUnits = function (refNode)
 		rows: [],
 		columns: classictouchview.columnCount
 	};
-	let requiredCells = (owc.warband.units.length + (((owc.ui.isPrinting) ? 0 : 1)) + 1);
+	let requiredCells = (owc.warband.units.length + (((owc.isPrinting) ? 0 : 1)) + 1);
 	for (let r = 0, rr = Math.ceil(requiredCells / classictouchview.columnCount); r < rr; r += 1)
 	{
 		variables.rows.push(r);
@@ -82,23 +81,25 @@ classictouchview.listUnits = function (refNode)
 	refNode.appendChild(tableNode);
 	classictouchview.insertUnitSheets(refNode);
 	let cells = refNode.querySelectorAll("#unitsgrid > tr > td");
-	let pointspoolsCell = cells[owc.warband.units.length + ((owc.ui.isPrinting) ? 0: 1)];
+	let pointspoolsCell = cells[owc.warband.units.length + ((owc.isPrinting) ? 0: 1)];
 	pointspoolsCell.removeAttribute("data-unitindex");
 	pointspoolsCell.appendChild(pageSnippets.classictouchview["pointspools-sheet"].produce(touchCore,
 		{
 			pointsPools: owc.helper.translate("pointsPools")
 		}
 		));
-	if (owc.ui.isPrinting === false)
+	if (owc.isPrinting === false)
 	{
 		let additemsCell = cells[owc.warband.units.length];
+		let clipboardUnit = owc.editor.clipboard.getUnit();
+		let variables = {
+			'add-unit': owc.helper.translate("addUnit"),
+			'paste-unit-text': (!!clipboardUnit) ? owc.helper.translate("pasteUnit", {UNIT: clipboardUnit.name}) : "",
+			'clipboard-unit-code': clipboardUnit?.code
+		};
 		additemsCell.removeAttribute("data-unitindex");
 		additemsCell.id = "additmes-container";
-		additemsCell.appendChild(pageSnippets.classictouchview["add-unit"].produce(touchCore,
-			{
-				'add-unit': owc.helper.translate("addUnit")
-			}
-			));
+		additemsCell.appendChild(pageSnippets.classictouchview["add-buttons"].produce(touchCore, variables));
 	};
 };
 

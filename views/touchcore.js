@@ -30,17 +30,6 @@ touchCore.init = function (pageSnippetGroup)
 		movedown: "Move unit down"
 	}, touchCore.onUnitmenuEvent
 		);
-	if (owc.ui.isPrinting === false)
-	{
-		window.addEventListener("focus", touchCore.onWindowFocus);
-		// window.addEventListener("menubox", touchCore.onMenuboxEvent);
-	};
-};
-
-touchCore.unload = function (menuboxEvent)
-{
-	window.removeEventListener("focus", touchCore.onWindowFocus);
-	// window.removeEventListener("menubox", touchCore.onMenuboxEvent);
 };
 
 touchCore.getEventUnitIndex = function(clickEvent) 
@@ -224,11 +213,6 @@ touchCore.onPointsPoolClick = function (clickEvent)
 	touchCore.popupNumericEditor(clickEvent, touchCore.pointsPoolMenu, poolName, owc.warband.pointsPools[poolName], owc.helper.translate(poolName));
 };
 
-touchCore.onWindowFocus = function (focusEvent)
-{
-	owc.editor.manangeUnitClipboard();
-};
-
 touchCore.onClickEvent = function (clickEvent)
 {
 	let eventOrigin = clickEvent.target;
@@ -363,7 +347,7 @@ touchCore.refreshSpecialrules = function (unitIndex, refNode)
 	let specialrulesCount = unit.specialrules.length;
 	let variables =
 	{
-		'is-printing': owc.ui.isPrinting,
+		'is-printing': owc.isPrinting,
 		'add-specialrule': owc.helper.translate("addSpecialrule"),
 		specialrules: []
 	};
@@ -416,31 +400,6 @@ touchCore.refreshWarbandSummary = function ()
 	};
 	let wrapperNode = document.querySelector("#warbandfooter");
 	owc.ui.setElementContent(wrapperNode, pageSnippets[touchCore.pageSnippetGroup]["warband-summary"].produce(touchCore, variables));
-};
-
-touchCore.refreshPasteUnitButton = function (clipboardData)
-{
-	let addunitContainer = document.querySelector("#additmes-container");
-	let pasteUnitNode = addunitContainer.querySelector("[data-action=\"pasteunit\"]");
-	if (pasteUnitNode !== null)
-	{
-		pasteUnitNode.remove();
-	};
-	if (clipboardData !== null)
-	{
-		let variables =
-		{
-			'paste-unit': owc.helper.translate("pasteUnit",
-			{
-				UNIT: clipboardData.title
-			}
-			),
-			'unit-name': clipboardData.title,
-			'unit-code': clipboardData.data
-		};
-		pasteUnitNode = pageSnippets[touchCore.pageSnippetGroup]["paste-unit"].produce(touchCore, variables);
-		addunitContainer.appendChild(pasteUnitNode);
-	};
 };
 
 touchCore.makeEditable = function (refNode)

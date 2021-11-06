@@ -120,11 +120,13 @@
 				</ps:for-each>
 			</div>
 		</ps:snippet>
-		<ps:snippet name="add-unit">
-			<div class="addunit" data-action="addunit" ps:onclick="onClickEvent">{{add-unit}}</div>
-		</ps:snippet>
-		<ps:snippet name="paste-unit">
-			<div class="addunit" data-action="pasteunit" data-unitcode="{{unit-code}}" ps:onclick="onClickEvent">{{paste-unit}}</div>
+		<ps:snippet name="add-buttons">
+			<div>
+				<div class="addunit" data-action="addunit" ps:onclick="onClickEvent">{{add-unit}}</div>
+				<ps:if test="'{{paste-unit-text}}' !== ''">
+					<div class="addunit" data-action="pasteunit" data-unitcode="{{clipboard-unit-code}}" ps:onclick="onClickEvent">{{paste-unit-text}}</div>
+				</ps:if>
+			</div>
 		</ps:snippet>
 	</ps:snippet-group>
 </ps:pagesnippets>

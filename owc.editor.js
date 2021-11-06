@@ -13,7 +13,10 @@ owc.editor =
 	undoer: null,
 	specialrulesList: [],
 	qualityValues: [],
-	combatValues: []
+	combatValues: [],
+	clipboard: {
+		UNIT_KEY: "owc.editor.clipboard.unit"
+	}	
 };
 
 owc.editor.init = function ()
@@ -107,7 +110,8 @@ owc.editor.onEditorEvent = function (editorEvent)
 		owc.ui.printWarband();
 		break;
 	case "copy":
-		owc.editor.copyUnitToClipboard(unitIndex);
+		owc.editor.clipboard.copyUnit(unitIndex);
+		owc.ui.printWarband();
 		break;
 	case "pasteunit":
 		owc.editor.addUnit(eventDetail.unitcode);
@@ -149,25 +153,6 @@ owc.editor.buildSpecialrulesCollection = function ()
 		};
 	};
 	owc.editor.specialrulesList.sort((a, b) => a.text.localeCompare(b.text));
-};
-
-owc.editor.manangeUnitClipboard = function ()
-{
-	let clipboardData = owc.storage.retrieve(owc.editor.UNIT_CLIPBOARD_KEY);
-	if (clipboardData !== null)
-	{
-		/* discard clipboard data if it's older than 30 minutes (#18) */
-		let diffMinutes = Math.abs(clipboardData.date - Date.now()) / (1000 * 60);
-		if (diffMinutes > 30)
-		{
-			localStorage.removeItem(owc.editor.UNIT_CLIPBOARD_KEY);
-			clipboardData.data = null;
-		};
-	};
-	if (typeof owc.ui.visualizer.refreshPasteUnitButton === "function")
-	{
-		owc.ui.visualizer.refreshPasteUnitButton(clipboardData);
-	};
 };
 
 owc.editor.setUndoPoint = function (undoText)
@@ -230,14 +215,6 @@ owc.editor.duplicateUnit = function (unitIndex)
 	let copiedUnit = new Unit();
 	copiedUnit.fromString(owc.warband.units[unitIndex].toString(), Warband.CURRENT_VERSION, owc.resources.data);
 	owc.warband.units.splice(unitIndex, 0, copiedUnit);
-};
-
-owc.editor.copyUnitToClipboard = function (unitIndex)
-{
-	let clipboardUnit = Object.assign(new Unit(), owc.warband.units[unitIndex]);
-	clipboardUnit.count = 1;
-	owc.storage.store(owc.editor.UNIT_CLIPBOARD_KEY, owc.helper.nonBlankUnitName(owc.warband.units[unitIndex]), clipboardUnit.toString());
-	owc.editor.manangeUnitClipboard();
 };
 
 owc.editor.removeUnit = function (unitIndex)
@@ -364,3 +341,39 @@ owc.editor.setPointsPool = function (poolname, value)
 		owc.warband.pointsPools[poolname] = value;
 	};
 };
+
+owc.editor.clipboard.copyUnit = function (unitIndex)
+{
+	const TIME_TO_LIVE = 30; // minutes
+	let clipboardUnit = Object.assign(new Unit(), owc.warband.units[unitIndex]);
+	clipboardUnit.count = 1;
+	let clipboardData =
+	{
+		name: owc.helper.nonBlankUnitName(clipboardUnit),
+		code: clipboardUnit.toString(),
+		expires: (new Date()).addMinutes(TIME_TO_LIVE).toISOString()
+	};
+	localStorage.setItem(owc.editor.clipboard.UNIT_KEY, JSON.stringify(clipboardData));
+}
+
+owc.editor.clipboard.getUnit = function()
+{
+	owc.editor.clipboard.cleanup();
+	return JSON.parse(localStorage.getItem(owc.editor.clipboard.UNIT_KEY));
+}
+
+owc.editor.clipboard.cleanup = function()
+{
+	for (let key in localStorage)
+	{
+		if (key.startsWith("owc.editor.clipboard."))
+		{
+			let clipboardData = JSON.parse(localStorage.getItem(key));
+			/* discard expired data ; based on (#18) */
+			if ((isNaN(Date.parse(clipboardData.expires)) === false) && (Date.now() > (new Date()).fromIsoString(clipboardData.expires)))
+			{
+				localStorage.removeItem(key);
+			}
+		}
+	}
+}

@@ -37,16 +37,7 @@ owc.init = function ()
 		};
 		node.innerText = text;
 	};
-	/* prepare document regarding its status */
-	if (owc.ui.isPrinting === false)
-	{
-		owc.topMenu.init();
-		htmlBuilder.removeChildrenByQuerySelectors([".only-print"]);
-	}
-	else
-	{
-		htmlBuilder.removeChildrenByQuerySelectors([".noprint", ".tooltip"]);
-	};
+	owc.isPrinting = (window.location.getParam(owc.urlParam.PRINT) === "1");
 	owc.warband = new Warband();
 	owc.storage.init();
 	owc.settings.load();
@@ -55,22 +46,26 @@ owc.init = function ()
 	/* fetchResources() runs asynchronously; when finished, it calls owc.main() */
 	owc.fetchResources();
 	/* load additional parts, asynchronously */
-	if (owc.ui.isPrinting === false)
+	if (owc.isPrinting === false)
 	{
+		owc.topMenu.init();
+		htmlBuilder.removeChildrenByQuerySelectors([".only-print"]);
 		fileIo.fetchServerFile("./res/didyouknow.json").then((values) =>
 		{
 			owc.didYouKnow = new DidYouKnow(document.getElementById("didyouknow_text"), values.hints);
 			owc.didYouKnow.printRandomHint();
-		}
-		);
+		});
 		pageSnippets.import("./snippets/warbandcode.xml").then(() => document.body.appendChild(pageSnippets.warbandcode.produce(warbandcode)));
 		pageSnippets.import("./snippets/restorer.xml").then(() => document.body.appendChild(pageSnippets.restorer.main.produce(restorer)));
 		pageSnippets.import("./snippets/settings.xml").then(() => document.body.appendChild(pageSnippets.settings.produce(settingsUi,
-				{
-					'combat-values': owc.editor.combatValues,
-					'quality-values': owc.editor.qualityValues
-				}
-				)));
+			{
+				'combat-values': owc.editor.combatValues,
+				'quality-values': owc.editor.qualityValues
+			})));
+	}
+	else
+	{
+		htmlBuilder.removeChildrenByQuerySelectors([".noprint", ".tooltip"]);
 	};
 };
 
