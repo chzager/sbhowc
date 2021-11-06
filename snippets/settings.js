@@ -22,7 +22,11 @@ settingsUi.show = function ()
 			rulesScopeCheck.checked = owc.settings.ruleScope.includes(rulesScopeCheck.getAttribute("data-group-value"));
 		};
 		/* set view mode */
-		settingsUi.element.querySelector("input[data-group=\"view_mode\"][data-group-value=\"" + owc.settings.viewMode + "\"]").checked = true;
+		let currentVireModeElement = settingsUi.element.querySelector("input[data-group=\"view_mode\"][data-group-value=\"" + owc.settings.viewMode + "\"]");
+		if (!!currentVireModeElement)
+		{
+			currentVireModeElement.checked = true;
+		}
 		/* set auto mapped elements */
 		htmlBuilder.dataToElements(owc.settings, settingsUi.element);
 	};
