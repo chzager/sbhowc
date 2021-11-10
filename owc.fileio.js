@@ -11,19 +11,18 @@ owc.fileIo =
 {
 	getFileName: () => owc.helper.nonBlankWarbandName() + ".owc.txt",
 	getFile: () => new File([owc.getWarbandCode(true)], owc.fileIo.getFileName(), { type: "text/plain" }),
-	loadWarbandCode: (warbandCode) => {
-		owc.ui.wait("Loading warband");
-		let success = false;
-		try
-		{
-			owc.importWarband(warbandCode);
-			success = true;
-		}
-		catch (error)
-		{
-			owc.fileIo.notifyError(error, "Your file does not provide a valid warband code.");
-		};
+	loadWarbandCode: (warbandCode) =>
+	{
+		let success = owc.importWarband(warbandCode);
 		owc.ui.waitEnd();
+		if (success)
+		{
+			owc.ui.notify("Warband successfully loaded from file.");
+		}
+		else
+		{
+			owc.ui.notify("Your file does not provide a valid warband code.", "red");
+		}
 		return success;
 	},
 	httpRequest: (method, url, headers = {}, object = null, responseType = "") => {
@@ -105,7 +104,6 @@ owc.fileIo.googleDrive =
 {
 	API_KEY: "AIzaSyDo8OYL-AhXy3olUlB1NEqwqiHUC4rG72o",
 	CLIENT_ID: "613485586705-o1ogpm2jkb9ff1os5tgsl5iu9dk3436s",
-	currentFile: { id: null, name: null },
 	folder: { id: null, name: null },
 	getPicker: () => {
 		return new Promise((resolve, reject) =>
@@ -156,14 +154,6 @@ owc.fileIo.googleDrive =
 		})
 	},
 	load: (clickEvent) => {
-		function _load(fileContent, googeDriveFile)
-		{
-			if (owc.fileIo.loadWarbandCode(fileContent))
-			{
-				owc.fileIo.googleDrive.currentFile.id = googeDriveFile.id;
-				owc.fileIo.googleDrive.currentFile.name = googeDriveFile.title;
-			};
-		};
 		owc.ui.wait("Waiting for Google Drive");
 		owc.fileIo.googleDrive.getPicker()
 		.then(
@@ -171,7 +161,7 @@ owc.fileIo.googleDrive =
 				picker.onSelect = (file) =>
 				{
 					owc.fileIo.httpRequest("GET", "https://www.googleapis.com/drive/v2/files/" + file.id + "?key=" + owc.fileIo.googleDrive.API_KEY + "&alt=media&source=downloadUrl", { Authorization: "Bearer " + gapi.auth.getToken().access_token })
-					.then((response) => _load(response.target.responseText, file), (error) => owc.fileIo.notifyError(error, "Could not load file."))
+					.then((response) => owc.fileIo.loadWarbandCode(response.target.responseText, file), (error) => owc.fileIo.notifyError(error, "Could not load file."))
 				};
 				picker.open(new google.picker.DocsView(google.picker.ViewId.DOCUMENTS).setMode(google.picker.DocsViewMode.LIST).setMimeTypes("text/plain"), "Open warband file");
 			},
@@ -179,6 +169,8 @@ owc.fileIo.googleDrive =
 		);
 	},
 	save: (clickEvent) => {
+		owc.ui.notify("Saving to Google Drive currently not working.", "yellow");
+		/*
 		function _save()
 		{
 			let metadata =
@@ -206,15 +198,12 @@ owc.fileIo.googleDrive =
 				(response) => 
 				{
 					let responseFile = JSON.parse(response.target.response);
-					owc.fileIo.googleDrive.currentFile.id = responseFile.id;
-					owc.fileIo.googleDrive.currentFile.name = responseFile.name;
 					owc.storage.storeWarband();
 					owc.ui.waitEnd();
 					owc.ui.notify("Saved.");
 				},
 				(error) => 
 				{
-					owc.fileIo.googleDrive.currentFile.id = null;
 					owc.fileIo.notifyError(error, "Something went wrong.");
 				}
 			);
@@ -228,22 +217,6 @@ owc.fileIo.googleDrive =
 		{
 			owc.fileIo.googleDrive.promptDestinationFolder().then(() => _save(), (error) => owc.fileIo.notifyError(error, "Something went wrong."));
 		};
+		*/
 	}
 };
-
-/* Google Drive storage hooks */
-owc.storage.hooks.warbandStore.push((data) => 
-{
-	if (owc.fileIo.googleDrive.currentFile.id)
-	{
-		data.googleFileId = owc.fileIo.googleDrive.currentFile.id;
-	};
-});
-owc.storage.hooks.warbandRestore.push((data) =>
-{
-	if (data.googleFileId)
-	{
-		owc.fileIo.googleDrive.currentFile.id = data.googleFileId;
-		owc.fileIo.googleDrive.currentFile.name = owc.fileIo.getFileName();
-	};
-});

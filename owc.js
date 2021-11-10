@@ -26,7 +26,6 @@ let owc =
 
 owc.init = function ()
 {
-	console.debug("owc.init()");
 	/* autofill values in document */
 	for (let node of document.querySelectorAll("[data-autofill]"))
 	{
@@ -38,8 +37,13 @@ owc.init = function ()
 		node.innerText = text;
 	};
 	owc.isPrinting = (window.location.getParam(owc.urlParam.PRINT) === "1");
+	/* generate PID */
+	owc.pid = window.location.getParam(owc.urlParam.PID);
+	if (owc.pid === "")
+	{
+		owc.pid = owc.generatrePid();
+	};
 	owc.warband = new Warband();
-	owc.storage.init();
 	owc.settings.load();
 	owc.editor.init();
 	owc.ui.init();
@@ -71,77 +75,38 @@ owc.init = function ()
 
 owc.main = function ()
 {
-	console.debug("owc.main()");
-	/* getting PID (https://github.com/Suppenhuhn79/sbhowc/issues/13#issuecomment-774077538) */
-	let pid = window.location.getParam(owc.urlParam.PID);
-	if (pid === "")
+	/* import warband from URL, restore from cache or create new */
+	if (owc.importWarband(window.location.getParam(owc.urlParam.WARBAND), false) === false)
 	{
-		if (owc.isPid(window.name))
-		{
-			console.debug("getting PID from window.name:", window.name);
-			pid = window.name;
-		}
-		else
-		{
-			pid = owc.newPid();
-		};
-	};
-	let warbandCodeUrl = window.location.getParam(owc.urlParam.WARBAND);
-	if (warbandCodeUrl !== "")
-	{
-		console.debug("importing warband from url");
-		owc.importWarband(warbandCodeUrl, false);
-	}
-	else
-	{
-		/* trying to restore warband from localStorage */
-		if (owc.storage.restoreWarband(pid) === false)
+		if (owc.cache.restore() === false)
 		{
 			owc.editor.newWarband();
-			owc.setPid(pid);
 		};
 	};
-	console.debug("finally PID is", owc.pid);
-	/* continue initialization */
+	history.replaceState({}, "", window.location.setParams({[owc.urlParam.PID]: owc.pid}, ["print", "console"]));		
 	owc.editor.buildSpecialrulesCollection();
 	owc.ui.initView();
-	/* We won't waitEnd() here, because there is an async process running: rendering in initView() */
-};
-
-owc.setPid = function (pid)
-{
-	if (owc.pid !== pid)
-	{
-		owc.pid = pid;
-		history.replaceState({}, "", window.location.setParams(
-			{
-				[owc.urlParam.PID]: owc.pid
-			}, ["print", "console"]));
-		/* storing PID into window.name so it' preserved on page refresh */
-		window.name = owc.pid;
-		console.debug("PID set to", owc.pid);
-	};
 };
 
 owc.isPid = (string) => (/^(?=\D*\d)[\d\w]{6}$/.test(string));
 
-owc.newPid = function ()
+owc.generatrePid = function()
 {
 	let pid = [];
 	for (let i = 0; i < 6; i += 1)
 	{
 		let c = Math.floor(Math.random() * 36);
 		pid.push(String.fromCharCode((c < 10) ? c + 48 : c - 10 + 97));
-	};
+	}
 	/* make sure PID contains at least two numbers */
 	while (/\d.*\d/.test(pid.join("")) === false)
 	{
 		pid[Math.floor(Math.random() * pid.length)] = String.fromCharCode(48 + Math.floor(Math.random() * 10));
-	};
+	}
 	let result = pid.join("");
 	console.debug("generated new PID:", result);
 	return result;
-};
+}
 
 owc.fetchResources = function ()
 {
@@ -171,44 +136,36 @@ owc.fetchResources = function ()
 
 owc.importWarband = function (codeString, autoPrint = true)
 {
-	/* clear comments */
-	let lines = codeString.split("\n");
-	let warbandCode = "";
-	for (let line of lines)
+	let result = false;
+	if (codeString !== "")
 	{
-		if (line.trim().startsWith("#") === false)
+		/* clear comments */
+		let lines = codeString.split("\n");
+		let warbandCode = "";
+		for (let line of lines)
 		{
-			warbandCode += decodeURI(line.replaceAll(/\s/g, ""));
-		};
-	};
-	let importingHash = owc.storage.hash(warbandCode);
-	console.debug("owc.importWarband", warbandCode, importingHash);
-	let found = false;
-	for (let key in localStorage)
-	{
-		if (owc.isPid(key))
-		{
-			if (JSON.parse(localStorage[key]).hash === importingHash)
+			if (line.trim().startsWith("#") === false)
 			{
-				console.debug("found warband stored at pid", key);
-				owc.storage.restoreWarband(key);
-				found = true;
-				break;
-			}
+				warbandCode += decodeURI(line.replaceAll(/\s/g, ""));
+			};
+		};
+		try
+		{
+			owc.warband.fromString(warbandCode, owc.resources.data);
+			owc.cache.update();
+			result = true;
+		}
+		catch (ex)
+		{
+			console.error(ex.message);
+			owc.cache.restore();
+		};
+		if (autoPrint)
+		{
+			owc.ui.printWarband();
 		};
 	};
-	if (found === false)
-	{
-		owc.setPid(owc.newPid());
-		console.debug("not found in localStorage");
-		owc.warband.fromString(warbandCode, owc.resources.data);
-		owc.storage.storeWarband();
-		owc.ui.notify("New warband imported.");
-	};
-	if (autoPrint)
-	{
-		owc.ui.printWarband();
-	};
+	return result;
 };
 
 owc.getWarbandCode = function (includeComments = owc.settings.options.warbandcodeIncludesComments)
@@ -228,8 +185,46 @@ owc.getWarbandCode = function (includeComments = owc.settings.options.warbandcod
 };
 
 /* helper functions */
-owc.helper = {};
-owc.helper.nonBlankUnitName = (unit) => (unit.name.trim() !== "") ? unit.name : owc.helper.translate("defaultUnitName");
-owc.helper.nonBlankWarbandName = () => (owc.warband.name.trim() !== "") ? owc.warband.name : owc.helper.translate("defaultWarbandName");
-owc.helper.warbandSummary = () => document.getElementById("warbandfooter").querySelector("p").innerText;
-owc.helper.translate = (key, variables) => owc.resources.translate(key, owc.settings.language, variables);
+owc.helper = {
+	nonBlankUnitName: (unit) => (unit.name.trim() !== "") ? unit.name : owc.helper.translate("defaultUnitName"),
+	nonBlankWarbandName: () => (owc.warband.name.trim() !== "") ? owc.warband.name : owc.helper.translate("defaultWarbandName"),
+	warbandSummary: () => document.getElementById("warbandfooter").querySelector("p").innerText,
+	translate: (key, variables) => owc.resources.translate(key, owc.settings.language, variables)
+};
+
+/* cache */
+owc.cache = {
+	update: () =>
+	{
+		/* do not store an empty warband (#17) */
+		if (owc.warband.isEmpty === false)
+		{
+			let data =
+			{
+				title: owc.helper.nonBlankWarbandName(),
+				'figure-count': owc.warband.figureCount, // will be dropped in future versions
+				points: owc.warband.points, // will be dropped in future versions
+				data: owc.warband.toString(),
+				date: (new Date()).toISOString()
+			};
+			localStorage.setItem(owc.pid, JSON.stringify(data));
+		}
+	},
+	restore: () =>
+	{
+		let result = false;
+		let storedData = JSON.parse(localStorage.getItem(owc.pid));
+		if (typeof storedData?.data === "string")
+		{
+			owc.cache.fields = storedData;
+			owc.warband.fromString(storedData.data, owc.resources.data);
+			result = true;
+		}
+		return result;
+	},
+	cleanup: async () =>
+	{
+		/* every 14 days we will discard the oldest cache entries to keep at mont 100 enties */
+		console.error("Not implemented yet.");
+	}
+};

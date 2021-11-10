@@ -131,18 +131,12 @@ owc.topMenu.onShareMenuButtonClick = function (clickEvent) /* OK */
 
 owc.topMenu.newWarbandClick = function (clickEvent)
 {
-	window.open(window.location.setParams(
-		{
-			[owc.urlParam.PID]: owc.newPid()
-		}, ["console"]));
+	window.open(window.location.setParams({[owc.urlParam.PID]: owc.generatrePid()}, ["console"]));
 };
 
 owc.topMenu.printPreviewClick = function (clickEvent)
 {
-	window.open(window.location.setParams(
-		{
-			[owc.urlParam.PRINT]: "1"
-		}, ["pid", "print"]));
+	window.open(window.location.setParams({[owc.urlParam.PRINT]: "1"}, ["pid", "print"]));
 };
 
 owc.topMenu.showSettingsClick = function (clickEvent)

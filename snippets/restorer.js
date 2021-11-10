@@ -45,8 +45,8 @@ restorer.restoreClick = function (clickEvent)
 	if (!!selectedPid)
 	{
 		restorer.close();
-		owc.storage.restoreWarband(selectedPid);
-		owc.ui.printWarband();
+		let warbandCode = JSON.parse(localStorage.getItem(selectedPid)).data;
+		owc.importWarband(warbandCode);
 		/* unselect everything in document, some browsers interpret a dblclk as intend to select anything */
 		if (typeof window.getSelection === "function")
 		{

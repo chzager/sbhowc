@@ -9,39 +9,15 @@ See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
 
 owc.editor =
 {
-	UNIT_CLIPBOARD_KEY: "owc.clipboard.unit",
-	undoer: null,
+	undoer: new Undoer(),
 	specialrulesList: [],
-	qualityValues: [],
-	combatValues: [],
-	clipboard: {
-		UNIT_KEY: "owc.editor.clipboard.unit"
-	}	
+	qualityValues: (function (){let q = [];for (let v = 2; v <= 6; v += 1) q.push({key: v, label: v.toString() + "+"});return q;})(),
+	combatValues: (function (){let c = [];for (let v = 6; v >= 0; v -= 1) c.push({key: v, label: v.toString()});return c;})()
 };
 
 owc.editor.init = function ()
 {
-	console.debug("owc.editor.init()");
-	owc.editor.undoer = new Undoer();
 	window.addEventListener("editor", owc.editor.onEditorEvent);
-	for (let q = 2; q <= 6; q += 1)
-	{
-		owc.editor.qualityValues.push(
-		{
-			key: q,
-			label: q.toString() + "+"
-		}
-		);
-	};
-	for (let c = 6; c >= 0; c -= 1)
-	{
-		owc.editor.combatValues.push(
-		{
-			key: c,
-			label: c.toString()
-		}
-		);
-	};
 };
 
 owc.editor.onEditorEvent = function (editorEvent)
@@ -133,7 +109,7 @@ owc.editor.onEditorEvent = function (editorEvent)
 	};
 	if (owc.editor.undoer.snapshots.length !== undoPoints)
 	{
-		owc.storage.storeWarband();
+		owc.cache.update();
 	};
 };
 
@@ -171,7 +147,7 @@ owc.editor.undo = function ()
 		owc.ui.undoButton.classList.add("animated");
 		owc.warband.fromString(owc.editor.undoer.undo(), owc.resources.data);
 		owc.ui.printWarband();
-		owc.storage.storeWarband();
+		owc.cache.update();
 	};
 };
 
@@ -342,38 +318,39 @@ owc.editor.setPointsPool = function (poolname, value)
 	};
 };
 
-owc.editor.clipboard.copyUnit = function (unitIndex)
-{
-	const TIME_TO_LIVE = 30; // minutes
-	let clipboardUnit = Object.assign(new Unit(), owc.warband.units[unitIndex]);
-	clipboardUnit.count = 1;
-	let clipboardData =
+owc.editor.clipboard = {
+	UNIT_KEY: "owc.editor.clipboard.unit",
+	copyUnit: (unitIndex) =>
 	{
-		name: owc.helper.nonBlankUnitName(clipboardUnit),
-		code: clipboardUnit.toString(),
-		expires: (new Date()).addMinutes(TIME_TO_LIVE).toISOString()
-	};
-	localStorage.setItem(owc.editor.clipboard.UNIT_KEY, JSON.stringify(clipboardData));
-}
-
-owc.editor.clipboard.getUnit = function()
-{
-	owc.editor.clipboard.cleanup();
-	return JSON.parse(localStorage.getItem(owc.editor.clipboard.UNIT_KEY));
-}
-
-owc.editor.clipboard.cleanup = function()
-{
-	for (let key in localStorage)
-	{
-		if (key.startsWith("owc.editor.clipboard."))
+		const TIME_TO_LIVE = 30; // minutes
+		let clipboardUnit = Object.assign(new Unit(), owc.warband.units[unitIndex]);
+		clipboardUnit.count = 1;
+		let clipboardData =
 		{
-			let clipboardData = JSON.parse(localStorage.getItem(key));
-			/* discard expired data ; based on (#18) */
-			if ((isNaN(Date.parse(clipboardData.expires)) === false) && (Date.now() > (new Date()).fromIsoString(clipboardData.expires)))
+			name: owc.helper.nonBlankUnitName(clipboardUnit),
+			code: clipboardUnit.toString(),
+			expires: (new Date()).addMinutes(TIME_TO_LIVE).toISOString()
+		};
+		localStorage.setItem(owc.editor.clipboard.UNIT_KEY, JSON.stringify(clipboardData));
+	},
+	getUnit: () =>
+	{
+		owc.editor.clipboard.cleanup();
+		return JSON.parse(localStorage.getItem(owc.editor.clipboard.UNIT_KEY));
+	},
+	cleanup: () =>
+	{
+		for (let key in localStorage)
+		{
+			if (key.startsWith("owc.editor.clipboard."))
 			{
-				localStorage.removeItem(key);
+				let clipboardData = JSON.parse(localStorage.getItem(key));
+				/* discard expired data ; based on (#18) */
+				if ((isNaN(Date.parse(clipboardData.expires)) === false) && (Date.now() > (new Date()).fromIsoString(clipboardData.expires)))
+				{
+					localStorage.removeItem(key);
+				}
 			}
 		}
 	}
-}
+};
