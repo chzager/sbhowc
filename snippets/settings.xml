@@ -8,7 +8,7 @@
 					<i class="fas fa-times" ps:onclick="close"/>
 					<span>Settings</span>
 				</h1>
-				<div class="panel">
+				<div>
 					<p>Select expansions to use special rules from:</p>
 					<div class="two-column-grid">
 						<span><input type="checkbox" id="rulesScopeSbh" data-group="rules_scope" data-group-value="sbh" disabled="disabled" checked="checked"/></span>
@@ -23,15 +23,15 @@
 						<label for="rulesScopeSam">Song of Arthur and Merlin</label>
 					</div>
 				</div>
-				<div class="panel">
+				<div>
 					<p>Choose the language for unit profiles:</p>
 					<select data-value-key="language">
 						<option value="en">English</option>
 						<option value="de">Deutsch</option>
 					</select>
 				</div>
-				<div class="panel">
-					<p>What format do you prefer the unit sheets to be?</p>
+				<div>
+					<p>What layout for the unit sheets do you prefer?</p>
 					<div class="two-column-grid">
 						<span><input type="radio" id="view_mode_classic" data-group="view_mode" data-group-value="classic" name="view_mode"/></span>
 						<label for="view_mode_classic">Classic unit profiles</label>
@@ -41,7 +41,7 @@
 						<label for="view_mode_list">Broad list, better for bigger screens</label>
 					</div>
 				</div>
-				<div class="panel">
+				<div>
 					<p>More Options:</p>
 					<div class="two-column-grid">
 						<span><input type="checkbox" id="option_highlightPersonalities" data-value-key="options.highlightPersonalities" data-value-attribute="checked"/></span>
@@ -52,7 +52,7 @@
 						<label for="option_applyRuleChecks">Check rule compliance</label>
 					</div>
 				</div>
-				<div class="panel">
+				<div>
 					<p>Default values for new units:</p>
 					<div class="two-column-grid">
 						<span>Quality:</span>
@@ -73,15 +73,7 @@
 						</span>
 					</div>
 				</div>
-				<div class="panel">
-					<p>Set where you want to save your warband files:</p>
-					<select size="1" id="option_storage" data-value-key="storage">
-						<option value="localDevice">Local device</option>
-						<option value="oneDrive">Microsoft OneDrive</option>
-						<option value="googleDrive">Google Drive</option>
-					</select>
-				</div>
-				<div class="buttons">
+				<div>
 					<input type="button" value="apply" ps:onclick="applySettings"/>
 				</div>
 			</div>

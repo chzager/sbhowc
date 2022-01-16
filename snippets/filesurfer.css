@@ -1,0 +1,133 @@
+#filesurfer div.signin-buttons {
+	max-width: max-content;
+	}
+#filesurfer div.signin-buttons button {
+	display: block;
+	padding: 0.5em;
+	margin-bottom: 0.5rem;
+	width: 100%;
+	}
+#filesurfer div.signin-buttons button i {
+	float: left;
+	margin-right: 1em;
+	}
+
+#filesurfer div.annotation {
+	color: silver;
+	font-size: 0.8rem;
+	margin-top: 1.5rem;
+	}
+
+#filesurfer div.blue-viewport p:first-of-type i {
+	padding-right: 0.3em;
+	}
+
+#filesurfer p.breadcrumps {
+	line-height: 1.5em;
+	overflow-x: scroll;
+	white-space: nowrap;
+	scrollbar-width: none;
+	}
+#filesurfer span.breadcrump {
+	padding: 0.1em 0.2em;
+	margin-right: 0.2em;
+	border-radius: 0.3em;
+	}
+#filesurfer span.breadcrump:hover {
+	background-color: #eee;
+	}
+#filesurfer span.breadcrump span {
+	cursor: pointer;
+	white-space: nowrap;
+	}
+
+#filesurfer #filesurfer-table-wrapper {
+	min-height: 10em;
+	overflow-y: scroll;
+	width: 100%;
+	border: 1px solid #808080;
+	background-color: #ffffff;
+	margin-bottom: 1.5rem;
+	}
+#filesurfer table {
+	border-collapse:collapse;
+	border-spacing: 0px;
+	width: 100%;
+	}
+
+#filesurfer table tr td,
+#filesurfer table tr th {
+	font-family: var(--sans-font);
+	padding: 0.5em 0.3em;
+	}
+#filesurfer table tr th {
+	border-bottom: 1px solid #c1c1c1;
+	background: linear-gradient(to bottom,
+		#f2f2f2 70%,
+		#e0e0e0 100%);
+	font-weight: bold;
+	padding-right: 1.5em;
+	text-align: center;
+	}
+#filesurfer table tr th:hover {
+	background: linear-gradient(to bottom,
+		#e0e8f8 70%,
+		#ced6e6 100%);
+	cursor: ns-resize;
+	}
+#filesurfer table tr[data-id] * {
+	cursor: pointer;
+	}
+#filesurfer table tr td:first-child {
+	width: 1.5em;
+	}
+#filesurfer table tr[data-id]:hover {
+	background-color: #f0f0f0;
+	}
+#filesurfer table.save tr.file[data-id] {
+	color: #909090;
+	}
+#filesurfer table tr[data-id].selected {
+	background-color: #e0e8f8;
+	color: #4070c0;
+	}
+
+#filesurfer table tr td:nth-child(2) {
+	padding-right: 2em;
+	}
+#filesurfer table tr[data-type='folder'] td:first-child {
+	color: var(--complement-dark-color);
+	}
+#filesurfer table tr[data-type='file'] td:first-child {
+	color: var(--primary-light-color);
+	}
+#filesurfer table td.empty-folder-message {
+	text-align: center;
+	color: #808080;
+	}
+
+#filesurfer span.dummy {
+	background-color: #eee;
+	display: inline-block;
+	border-radius: 0.3em;
+	vertical-align: middle;
+	background-size: 150% 100%;
+	background-image: repeating-linear-gradient(90deg, #fff 0%, #eee 50%, #fff 100%);
+  animation: filesurfer-dummy-gradient linear 1s infinite;
+	}
+@keyframes filesurfer-dummy-gradient {
+	0% {background-position: 200% 0%; }
+	100% {background-position: -100% 0%; }
+	}
+
+#filesurfer span.dummy + span.dummy {
+		margin-left: 0.5em;
+	}
+#filesurfer span.dummy.icon {
+	width: 1.3em;
+	height: 1.3em;
+	}
+#filesurfer span.dummy.text {
+	width: 8em;
+	height: 1em;
+	}

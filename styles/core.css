@@ -33,9 +33,10 @@
 	--z-index-title: 5;
 	--z-index-top-menu-floater: 4;
 	--z-index-footer: 2;
-	--z-index-loading-wrapper: 9;
 	--z-index-overlays: 8;
-	--z-index-topmost: 10;
+	--z-index-bluebox: 10;
+	--z-index-loading-wrapper: 90;
+	--z-index-topmost: 100;
 	}
 
 html, body, h1, h2, h3, h4, p, div, span, a, table, tr, th, td, input, select, option, textarea {
@@ -286,7 +287,7 @@ a[target="_blank"]:after {
 #print-footer {
 	margin-top: 1rem;
 	}
-	
+
 #loading-wrapper {
 	position: fixed;
 	-webkit-backface-visibility: hidden;
@@ -400,6 +401,7 @@ div.tooltip * {
 	padding-left: 1.7em;
 	-webkit-backface-visibility: hidden;
 	z-index: var(--z-index-topmost);
+	cursor: default;
 	}
 .notification.popup {
 	font-size: 1.3rem;

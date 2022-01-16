@@ -1,5 +1,3 @@
-"use strict";
-
 /*
 This file is part of the ONLINE WARBAND CREATOR (https://github.com/suppenhuhn79/sbhowc)
 Copyright 2021 Christoph Zager
@@ -53,4 +51,5 @@ settingsUi.applySettings = function ()
 	owc.settings.save();
 	owc.fetchResources();
 	owc.ui.notify("Settings applied.");
+	owc.stats.actionsPerformed.set("main", false);
 };

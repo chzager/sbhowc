@@ -2,25 +2,24 @@ div.blue {
 	background-color: white;
 	padding: 0px 2rem 0px 2rem;
 	position: fixed;
-	-webkit-backface-visibility: hidden;	
+	-webkit-backface-visibility: hidden;
 	top: 0px;
 	left: 100%;
 	margin-left: 2rem;
 	height: 100%;
 	overflow: hidden scroll;
-	z-index: var(--z-index-topmost);
+	z-index: var(--z-index-bluebox);
 	box-shadow: 0px 0.5rem 1.5rem black;
 	transition-duration: 0.15s;
 	transition-timing-function: ease-out;
 	}
 
-div.blue div.blue-viewport {
-	max-width: 640px;
-	}
-
 div.blue *:not(i) {
 	font-family: var(--sans-font);
 	cursor: default;
+	}
+div.blue a {
+	cursor: pointer;
 	}
 
 div.blue h1 {
@@ -43,32 +42,62 @@ div.blue h1 > i {
 div.blue h1 > i:hover {
 	color: black;
 	}
-	
-div.blue div.panel {
-	border-bottom: 0.1rem solid silver;
-	padding-bottom: 1em;
+div.blue h1 > span {
+	display: inline-block;
+	max-width: calc(100% - 2rem);
+	overflow: clip;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 	}
 
-div.blue div.buttons {
-	padding: 1em 0px 3em 0px;
+div.blue div.blue-viewport {
+	max-width: 640px;
 	}
 
-div.blue div.panel p {
+div.blue div.blue-viewport > div,
+div.blue div.blue-viewport div.as-panel {
+	padding: 1.25rem 0;
+}
+
+div.blue div.blue-viewport > div + div,
+div.blue div.blue-viewport div.as-panel {
+	border-top: 0.1rem solid silver;
+}
+div.blue div.blue-viewport > div:last-child {
+	padding-bottom: 3rem;
+}
+
+div.blue div.blue-viewport > div > p {
 	display: block;
-	margin: 1.5rem 0px 1rem 0px;
+	margin-bottom: 1rem;
 	font-size: 1rem;
 	color: grey;
 	}
 
 div.blue input,
+div.blue button,
 div.blue label,
 div.blue select {
 	font-size: 1rem;
 	cursor: pointer;
 	}
+div.blue input[type="button"],
+div.blue button {
+	padding: 0.1em 1em;
+	cursor: pointer;
+	}
+div.blue input[type="button"] + input[type="button"] {
+	margin-left: 0.5rem;
+}
+div.blue button * {
+	cursor: pointer;
+	}
 div.blue select {
 	padding: 0.2em;
 	}
+div.blue input.rightbound {
+	float: right;
+}
 
 div.blue label:hover {
 	color: #607080;
@@ -86,13 +115,6 @@ div.blue div.two-column-grid > * {
 	margin-bottom: 0.5em;
 	display: flex;
 	align-items: center;
-	}
-
-div.blue div.buttons input[type="button"] {
-	margin-right: 0px;
-	margin-left: 0.2em;
-	padding: 0.1em 1em;
-	cursor: pointer;
 	}
 
 div.blue .notification {

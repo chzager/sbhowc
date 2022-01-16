@@ -9,7 +9,7 @@
 					<i class="fas fa-times" ps:onclick="close"/>
 					<span>Warband code</span>
 				</h1>
-				<div class="panel">
+				<div>
 					<p>You can copy this code to a text-file and save your warband. Or you can enter a code here to restore a warband.</p>
 					<textarea autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
 					<div class="two-column-grid" ps:onclick="includeCommentsClick">
@@ -19,7 +19,7 @@
 					<input type="button" value="copy to clipboard" ps:onclick="copyToClipboardClick"/>
 					<div id="copiedBubble" class="notification green">The code was copied to your system clipboard.</div>
 				</div>
-				<div class="buttons">
+				<div>
 					<input type="button" value="apply" ps:onclick="applyClick"/>
 					<div id="invalidBubble" class="notification red">This is not a valid warband code.</div>
 				</div>

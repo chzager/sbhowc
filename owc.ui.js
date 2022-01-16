@@ -1,5 +1,3 @@
-"use strict";
-
 /*
 This file is part of the ONLINE WARBAND CREATOR (https://github.com/suppenhuhn79/sbhowc)
 Copyright 2021 Christoph Zager
@@ -28,40 +26,6 @@ owc.ui.init = function ()
 		owc.ui.undoButton.addEventListener("animationend", () => owc.ui.undoButton.classList.remove("animated"));
 		window.addEventListener("focus", owc.ui.printWarband);
 		window.addEventListener("click", owc.ui.sweepVolatiles);
-	};
-};
-
-owc.ui.initView = function ()
-{
-	function _initView()
-	{
-		owc.ui.wait("Rendering");
-		owc.ui.visualizer = window[viewFullname];
-		owc.ui.visualizer.init();
-		owc.ui.printWarband();
-		owc.ui.waitEnd();
-		if ((owc.isPrinting) && (typeof window.print === "function"))
-		{
-			window.print();
-		};
-	};
-	owc.ui.wait("Loading");
-	if (owc.ui.visualizer !== null)
-	{
-		owc.ui.visualizer.unload?.();
-	};
-	let viewFullname = owc.settings.viewMode + "view";
-	if (!!pageSnippets[viewFullname] === false)
-	{
-		pageSnippets.import("./views/" + viewFullname + "/" + viewFullname + ".xml").then(_initView, (e) => {
-			console.error(e);
-			owc.ui.waitEnd();
-			owc.ui.warbandCanvas.appendChild(htmlBuilder.newElement("div.notification.red", "Error while loading view \"" + viewFullname + "\"."));
-		});
-	}
-	else
-	{
-		_initView();
 	};
 };
 
@@ -207,7 +171,7 @@ owc.ui.sweepVolatiles = function (anyEvent)
 	window.dispatchEvent(new CustomEvent(owc.ui.SWEEP_VOLATILES_EVENT));
 	owc.ui.unblurPage();
 	owc.ui.closeBlueboxes();
-	Menubox.hideAll();
+	Menubox.closeAll();
 };
 
 owc.ui.scrollToBottom = function ()

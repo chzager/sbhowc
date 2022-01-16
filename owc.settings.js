@@ -1,5 +1,3 @@
-"use strict";
-
 /*
 This file is part of the ONLINE WARBAND CREATOR (https://github.com/suppenhuhn79/sbhowc)
 Copyright 2021 Christoph Zager
@@ -9,7 +7,7 @@ See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
 
 owc.settings =
 {
-	STORAGE_KEY: "owc.settings"
+	STORAGE_KEY: "owc_settings"
 };
 
 owc.settings.init = function ()

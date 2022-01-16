@@ -1,5 +1,3 @@
-"use strict";
-
 /*
 This file is part of the ONLINE WARBAND CREATOR (https://github.com/suppenhuhn79/sbhowc)
 Copyright 2021 Christoph Zager
@@ -32,6 +30,10 @@ owc.topMenu.init = function ()
 			{
 				key: "saveToFile",
 				label: "Save to file",
+			},
+			{
+				key: "cloudStorage",
+				label: "Access a cloud storage"
 			},
 			{
 				key: "restoreWarband",
@@ -145,41 +147,7 @@ owc.topMenu.showSettingsClick = function (clickEvent)
 	settingsUi.show();
 };
 
-owc.topMenu.promptStorageService = function(context)
-{
-	function _onStoragemenuEvent(data)
-	{
-		owc.settings.storage = data.itemKey;
-		owc.settings.save();
-		/* write ehether load or save back to data */
-		data.itemKey = data.context;
-		owc.topMenu.onWarbandmenuEvent(data);
-	};
-	owc.ui.blurPage("dim");
-	let storagePromptMenu = new Menubox(owc.topMenu.STORAGE_MENU_ID,{
-		position: "fixed",
-		title: "Where do you want to store your warband files?",
-		items: [
-			{key: "localDevice", label: "Locally on my device", iconFontAwesome: "fas fa-hdd"},
-			{html: htmlBuilder.newElement("div.separator-wrapper", htmlBuilder.newElement("span.separator", "or in a cloud storage"))},
-			{key: "oneDrive", label: "Microsoft OneDrive", iconFontAwesome: "fas fa-cloud"},
-			{key: "googleDrive", label: "Google Drive", iconFontAwesome: "fab fa-google-drive"},
-			{html: htmlBuilder.newElement("div.annotations", "You may note the ", htmlBuilder.newElement("a", {href:"tos_pp.html#pp", 'class':"light", target:"_blank"}, "Privacy Policy"), " when using a cloud storage service.", {onclick:"event.stopPropagation();"})}
-		]
-	}, _onStoragemenuEvent);
-	storagePromptMenu.element.appendChild(htmlBuilder.newElement("div.annotations.more", "You can change this at any time in the settings.", {onclick:"event.stopPropagation()"}));
-	let menuRect = storagePromptMenu.element.getBoundingClientRect();
-	storagePromptMenu.element.style.top = Math.round((window.innerHeight - menuRect.height) / 2) + "px";
-	storagePromptMenu.element.style.left = Math.round((window.innerWidth - menuRect.width) / 2) + "px";
-	if (menuRect.height > window.innerHeight)
-	{
-		let itemsList = storagePromptMenu.element.querySelector(".items");
-		itemsList.style.height = (itemsList.offsetHeight - (menuRect.height - window.innerHeight)) + "px";
-		itemsList.style.overflowY = "scroll";
-		storagePromptMenu.element.style.top = "0px";
-	};
-	storagePromptMenu.popup(null, context);
-};
+;
 
 owc.topMenu.onWarbandmenuEvent = function(data)
 {
@@ -187,10 +155,13 @@ owc.topMenu.onWarbandmenuEvent = function(data)
 	switch (data.itemKey)
 	{
 	case "loadFromFile":
-		(owc.settings.storage) ? owc.fileIo[owc.settings.storage].load(data.originalEvent) : owc.topMenu.promptStorageService(data.itemKey);
+		owc.fileIo.localDevice.load(data.originalEvent);
 		break;
 	case "saveToFile":
-		(owc.settings.storage) ? owc.fileIo[owc.settings.storage].save(data.originalEvent) : owc.topMenu.promptStorageService(data.itemKey);
+		owc.fileIo.localDevice.save(data.originalEvent);
+		break;
+	case "cloudStorage":
+		fileSurfer.show();
 		break;
 	case "restoreWarband":
 		restorer.show();
