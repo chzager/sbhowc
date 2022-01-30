@@ -1,5 +1,5 @@
 const fileSurfer = {
-	STORAGE_KEY: "fileSurfer",
+	STORAGE_KEY: "filesurfer",
 	sort: {
 		field: "name",
 		direction: 1
@@ -35,7 +35,6 @@ const fileSurfer = {
 		}
 		else
 		{
-			// fileSurfer.currentContent = {};
 			fileSurfer.renderContent();
 			fileSurfer.cloudService.getSigninStatus().then((isSignedIn) => { (isSignedIn) ? fileSurfer.listFolderContent(fileSurfer.currentFolderId) : fileSurfer.renderNotsignedin(); });
 		}
@@ -47,10 +46,15 @@ const fileSurfer = {
 	onSignoutClick: (clickEvent) => {
 		fileSurfer.cloudService.signOut();
 		fileSurfer.unregisterService();
-		fileSurfer.renderNotsignedin();
+		owc.ui.animateElement(document.body.querySelector("#filesurfer div.blue-viewport div.content"), "animation", () => { fileSurfer.renderNotsignedin(true); });
 	},
-	renderNotsignedin: () => {
-		htmlBuilder.replaceContent(fileSurfer.element, pageSnippets.filesurfer.not_signed_in.produce(fileSurfer));
+	renderNotsignedin: (animated = false) => {
+		let element = pageSnippets.filesurfer.not_signed_in.produce(fileSurfer);
+		if (animated === true)
+		{
+			element.querySelector("div.not_signed_in").classList.add("animation");
+		}
+		htmlBuilder.replaceContent(fileSurfer.element, element);
 	},
 	renderContent: () => {
 		let data = {
@@ -86,7 +90,7 @@ const fileSurfer = {
 			};
 			let newBreadcrumpsElement = htmlBuilder.replaceElement(document.body.querySelector("#filesurfer p.breadcrumps"),  pageSnippets.filesurfer.content.breadcrumps.produce(fileSurfer, data));
 			newBreadcrumpsElement.scrollTo({
-				left: newBreadcrumpsElement.scrollLeftMax,
+				left: newBreadcrumpsElement.scrollWidth,
 				behavior: "smooth"
 			});
 		});

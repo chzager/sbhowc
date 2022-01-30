@@ -27,6 +27,10 @@
 	overflow-x: scroll;
 	white-space: nowrap;
 	scrollbar-width: none;
+	-ms-overflow-style: none;  /* IE and Edge */
+	}
+#filesurfer p.breadcrumps::-webkit-scrollbar { /* Chrome, Safari and Opera  */
+	display: none;
 	}
 #filesurfer span.breadcrump {
 	padding: 0.1em 0.2em;
@@ -130,4 +134,25 @@
 #filesurfer span.dummy.text {
 	width: 8em;
 	height: 1em;
+	}
+
+#filesurfer div.blue-viewport div.not_signed_in.animation {
+  animation-name: fadein;
+  animation-duration: 0.6s;
+	animation-fill-mode: forwards;
+	}
+#filesurfer div.blue-viewport div.content.animation {
+	position: relative;
+  animation-name: fadeout_godown;
+  animation-duration: 0.3s;
+	animation-timing-function: ease-out;
+	}
+@keyframes fadein {
+	  0% {opacity: 0; }
+	100% {opacity: 1; }
+	}
+@keyframes fadeout_godown {
+	  0% {opacity: 1; }
+	100% {opacity: 0;
+	      transform: translate(0px, 50vh); }
 	}

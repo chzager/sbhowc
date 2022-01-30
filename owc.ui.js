@@ -121,11 +121,23 @@ owc.ui.notify = function (text, color = "green")
 	owc.ui.notifications.offset += rect.height + 6;
 };
 
-owc.ui.showNotification = function (element, cssClass = "visible")
+owc.ui.showNotification = function (element)
+{
+	owc.ui.animateElement(element, "visible");
+};
+
+owc.ui.animateElement = function (element, cssClass, postAnimationFunction)
 {
 	element.classList.add(cssClass);
-	element.addEventListener("animationend", () => element.classList.remove(cssClass), {once: true});
-};
+	element.addEventListener("animationend", () => 
+	{
+		element.classList.remove(cssClass);
+		if (typeof postAnimationFunction === "function")
+		{
+			postAnimationFunction(element);
+		}
+	}, {once: true});
+}
 
 owc.ui.showBluebox = function (element)
 {
@@ -188,10 +200,6 @@ owc.ui.scrollToBottom = function ()
 
 owc.ui.blurPage = function (blurClasses = "")
 {
-	for (let c of owc.ui.blurElement.classList)
-	{
-		owc.ui.blurElement.classList.remove(c);
-	};
 	for (let blurClass of blurClasses.split(" "))
 	{
 		if (blurClass !== "")
@@ -204,8 +212,21 @@ owc.ui.blurPage = function (blurClasses = "")
 
 owc.ui.unblurPage = function()
 {
+	owc.ui.blurElement.classList.remove(...owc.ui.blurElement.classList);
 	owc.ui.blurElement.style.visibility = "hidden";
 };
+
+owc.ui.onBlurElementClick = function (mouseEvent)
+{
+	if (owc.ui.blurElement.classList.contains("stubborn"))
+	{
+		mouseEvent.stopPropagation();
+	}
+	else
+	{
+		owc.ui.sweepVolatiles();
+	}
+}
 
 owc.ui.wait = function (message = "Working")
 {

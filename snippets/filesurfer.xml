@@ -14,7 +14,7 @@
 					<i class="fas fa-times" ps:onclick="close"/>
 					<span>Cloud storage</span>
 				</h1>
-				<div>
+				<div class="not_signed_in">
 					<p>
 						<i class="far fa-times-circle"/>
 						<span>You are not signed in.</span>
@@ -43,7 +43,7 @@
 					<i class="fas fa-times" ps:onclick="close"/>
 					<span>{{title}}</span>
 				</h1>
-				<div>
+				<div class="content">
 					<ps:insert-snippet name="filesurfer/dummies/breadcrumps"/>
 					<div id="filesurfer-table-wrapper">
 						<table class="items">
@@ -73,18 +73,18 @@
 				<tbody>
 					<tr>
 						<td><span class="dummy icon"/></td>
-						<td><span class="dummy icon"/></td>
-						<td><span class="dummy icon"/></td>
+						<td><span class="dummy text"/></td>
+						<td><span class="dummy text"/></td>
 					</tr>
 					<tr>
 						<td><span class="dummy icon"/></td>
-						<td><span class="dummy icon"/></td>
-						<td><span class="dummy icon"/></td>
+						<td><span class="dummy text"/></td>
+						<td><span class="dummy text"/></td>
 					</tr>
 					<tr>
 						<td><span class="dummy icon"/></td>
-						<td><span class="dummy icon"/></td>
-						<td><span class="dummy icon"/></td>
+						<td><span class="dummy text"/></td>
+						<td><span class="dummy text"/></td>
 					</tr>
 				</tbody>
 			</ps:snippet>
