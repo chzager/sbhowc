@@ -57,7 +57,7 @@
 					<div class="two-column-grid">
 						<span>Quality:</span>
 						<span>
-							<select size="1" id="option_default_quality" data-value-key="defaults.quality">
+							<select size="1" id="option_default_quality" data-value-key="defaults.quality" data-value-type="number">
 								<ps:for-each list="quality-values">
 									<option value="{{key}}">{{label}}</option>
 								</ps:for-each>
@@ -65,7 +65,7 @@
 						</span>
 						<span>Combat:</span>
 						<span>
-							<select size="1" id="option_default_combat" data-value-key="defaults.combat">
+							<select size="1" id="option_default_combat" data-value-key="defaults.combat" data-value-type="number">
 								<ps:for-each list="combat-values">
 									<option value="{{key}}">{{label}}</option>
 								</ps:for-each>
