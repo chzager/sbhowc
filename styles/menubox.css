@@ -102,9 +102,9 @@
 	}
 
 
-/* storage menu */
+/* menubox as dialogbox */
 
-.menubox[data-menubox="storage"] {
+.menubox.dialogbox {
 	--border-color: silver;
 	background-color: white;
 	font-family: var(--sans-font);
@@ -112,93 +112,41 @@
 	border: none;
 	box-shadow: 0px 0px 1.3em 0.4em #00000080;
 	min-width: 300px;
-	max-width: 95vw;
+	max-width: 600px;
 	position: fixed;
-	-webkit-backface-visibility: hidden;	
 	font-size: 1rem;
 	}
 
-.menubox[data-menubox="storage"] .title {
+.menubox.dialogbox .title {
 	font-size: 1.5em;
 	font-weight: normal;
 	text-align: center;
 	color: #888;
-	border-bottom: 2px solid var(--border-color);
 	padding-bottom: 1rem;
+	border-bottom: 2px solid var(--border-color);
+	margin-bottom: 2rem;
 	cursor: default;
 	}
 
-.menubox[data-menubox="storage"] .items {
-	padding: 0.5em 0px;
+.menubox.dialogbox .items p {
+	padding: 0 0 1rem 0;
+	line-height: 1.3em;
+	}
+.menubox.dialogbox .items p a:hover {
+	color: black;
+	background: rgba(0, 0, 0, 0.1);
 	}
 
-.menubox[data-menubox="storage"] div.separator-wrapper {
-	border-top: 2px solid #bbb;
-	position: relative;
-	top: 0.75em;
-	margin: 0.5em 1em;
-	text-align: center;
-	}
-.menubox[data-menubox="storage"] div.separator-wrapper span {
-	display: inline-block;
-	color: #888;
-	background-color: white;
-	height: 100%;
-	position: relative;
-	top: -0.75em;
-	padding: 0px 0.3em;
-	}
-
-.menubox[data-menubox="storage"] .annotations {
-	font-size: 0.8em;
-	color: #999;
-	margin-top: 0.5em;
-	margin-bottom: 0.5em;
-	}
-.menubox[data-menubox="storage"] .annotations.more {
+.menubox.dialogbox .buttons {
+	margin-top: 1rem;
 	border-top: 2px solid var(--border-color);
 	padding-top: 1.5rem;
-	margin: 0px;
-	}
-
-.menubox[data-menubox="storage"] .menuitem {
-	font-family: var(--sans-font);
-	border-right: 0.3em solid transparent;
-	padding: 0.5em;
-	border: none;
-	position: relative;
-	}
-.menubox[data-menubox="storage"] .menuitem > i {
-	position: relative;
-	top: 0px;
-	left: 0px;
-	display: inline-block;
-	width: 1.2em;
-	text-align: center;
-	margin-right: 0.5em;
-	}
-
-.menubox[data-menubox="storage"] [data-menuitem]:not(.disabled):hover {
-	color: initial;
-	cursor: pointer;
-	background: #f0f0f0;
-	border: none;
-	}
-.menubox[data-menubox="storage"] [data-menuitem].disabled {
-	padding-left: 0px;
-	}
-
-.menubox[data-menubox="storage"] .buttons {
-	/* border-top: 2px solid #808080; */
-	padding-top: 0.5em;
-	margin-top: 1.5em;
 	display: flex;
 	font-size: 1rem;
 	}
 
-.menubox[data-menubox="storage"] [data-menubutton] {
-	border: 2px dotted silver;
-	border-radius: 1em;
+.menubox.dialogbox [data-menubutton] {
+	border: 2px solid #d8d8d8;
 	padding: 0.2em;
 	width: 100%;
 	text-align: center;
@@ -206,18 +154,12 @@
 	cursor: pointer;
 	}
 
-.menubox[data-menubox="storage"] [data-menubutton]:not(:nth-child(1)) {
+.menubox.dialogbox [data-menubutton]:not(:nth-child(1)) {
 	margin-left: 1em;
 	}
 
-.menubox[data-menubox="storage"] [data-menubutton]:hover {
-	background-color: #f0f0f0;
-	}
-
-.menubox[data-menubox="storage"] input {
-	/* font-size: 1rem; */
-	width: 100%;
-	text-align: center;
-	border: none;
-	outline: none;
+.menubox.dialogbox [data-menubutton]:hover {
+	background-color: #eee;
+	color: #666;
+	border-color: #aaa;
 	}

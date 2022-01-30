@@ -43,11 +43,6 @@ touchCore.popupMenubox = function (clickEvent, menubox, context)
 	owc.ui.sweepVolatiles();
 	owc.ui.blurPage("dim");
 	menubox.popup(clickEvent, context, clickEvent.target, "center middle");
-	if (menubox.element.offsetHeight > window.innerHeight)
-	{
-		let itemsList = menubox.element.querySelector(".items");
-		itemsList.style.height = (itemsList.offsetHeight - (menubox.element.offsetHeight - window.innerHeight)) + "px";
-	};
 };
 
 touchCore.popupEditor = function (clickEvent, editorMenu, context, text)

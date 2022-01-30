@@ -73,7 +73,6 @@ div[data-menubox].touchmenu .title {
 	}
 
 div[data-menubox].touchmenu .items {
-	overflow-y: scroll;
 	-webkit-overflow-scrolling: touch;
 	}
 	
