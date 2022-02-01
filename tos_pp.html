@@ -49,12 +49,44 @@
 			a[href] {
 				color: blue;
 				}
+			a[id]:before {
+				content: "\00a0";
+				display: block;
+				margin-top: 3rem;
+				border-top: 3px dotted #aaa;
+				}
 			span.pre {
 				font-family: "Roboto Mono", monospace;
 				border-radius: 0.3em;
 				background-color: #eee;
 				padding: 0.1em;
 				font-size: 0.8em;
+				}
+			blockquote {
+				text-indent: 0;
+				padding: 0.5em 2.5em;
+				background-color: #f8f8f8;
+				margin: 0.5em 0;
+				position: relative;
+				}
+			blockquote p {
+				margin: 0 0 0.5em 0;
+				}
+			blockquote:before {
+				content: "\201C";
+				font-size: 3em;
+				position: absolute;
+				left: 0.3em;
+				top: 0.4em;
+				color: #aaa;
+				}
+			blockquote::after {
+				content: "\201d";
+				font-size: 3em;
+				position: absolute;
+				right: 0.3em;
+				top: 0.4em;
+				color: #aaa;
 				}
 			hr {
 				margin: 2rem 0rem;
@@ -85,14 +117,28 @@
 		<a id="pp">
 			<h1>Privacy Policy</h1>
 		</a>
-		<p><i>Online Warband Creator</i> does not collect any of your information, nor does it use any cookies. However, third parties providing services operate on their own terms of service and privacy policies.</p>
+		<p><i>Online Warband Creator</i> does not collect any of your information. <b>Everything happens encapsulated inside your browser.</b> OWC does not operate  own servers nor does it corporate with any companies or organizations.</p>
+		<p>OWC uses only cookies that are technically required when you use cloud storage services.</p>
+		<p>However, third parties providing services operate on their own terms of service and privacy policies.</p>
 		<p>Third parties are:</p>
 		<ul>
 			<li>
 				<em>GitHub</em>
 				(<a href="https://pages.github.com" target="_blank">https://pages.github.com</a>)
-				as host for <i>Online Warband Creator</i>. "GitHub may collect User Personal Information from visitors [...], including logs of visitor IP addresses, to comply with legal obligations, and to maintain the security and integrity of the Website and the Service."
-				(<a href="https://docs.github.com/en/github/site-policy/github-privacy-statement#additional-services">https://docs.github.com/en/github/site-policy/github-privacy-statement#additional-services</a>).
+				as host for <i>Online Warband Creator</i>.
+				<blockquote>
+					<p>GitHub may collect User Personal Information from visitors [...], including logs of visitor IP addresses, to comply with legal obligations, and to maintain the security and integrity of the Website and the Service.</p>
+					<a href="https://docs.github.com/en/github/site-policy/github-privacy-statement#additional-services">https://docs.github.com/en/github/site-policy/github-privacy-statement#additional-services</a>
+				</blockquote>
+			</li>
+			<li>
+				<em>Font Awesome</em>
+				(<a href="https://fontawesome.com/" target="_blank">https://fontawesome.com</a>)
+				providing icons.
+				<blockquote>
+					<p>[...] Font Awesome collects data about what icon files you download and when.</p>
+					<a href="https://fontawesome.com/privacy/" target="_blank">https://fontawesome.com/privacy</a>
+				</blockquote>
 			</li>
 			<li>
 				<em>Microsoft OneDrive</em>
@@ -105,7 +151,9 @@
 				as optional cloud storage service.
 			</li>
 		</ul>
-		<h2>Required permissions for cloud storage services</h2>
+		<a id="pp_cloud">
+			<h2>Required permissions for cloud storage services</h2>
+		</a>
 		<p>Here's why OWC requests certain permissions  for using cloud storage services.</p>
 		<h3>Microsoft OneDrive</h3>
 		<table>
@@ -123,7 +171,7 @@
 			</tr>
 			<tr>
 				<td><i>Have full access to all files you have access to</i></td>
-				<td>For storing warbands on your OneDrive and also replacing existing warband files. OWC does not delete any files. If a <span class="pre">&lt;warbandname&gt;.owc.txt</span>-file exists in the folder you select, it will be replaced by the current warband with the same name.</td>
+				<td>For reading and writing warband files on your OneDrive. OWC does access only files that you select. If a <span class="pre">&lt;warbandname&gt;.owc.txt</span>-file exists in the folder you select, it will be replaced by the current warband with the same name. OWC does not delete any files.</td>
 			</tr>
 		</table>
 		
@@ -139,7 +187,7 @@
 			</tr>
 			<tr>
 				<td><i>See, edit, create, and delete only the specific Google Drive files you use with this app</i></td>
-				<td>For loading, storing and replacing existing warband files on your Google Drive. OWC does access only files that you select. If a <span class="pre">&lt;warbandname&gt;.owc.txt</span>-file exists in the folder you select, it will be replaced by the current warband with the same name. OWC does not delete any files.</td>
+				<td>For reading and writing warband files on your Google Drive. OWC does access only files that you select. If a <span class="pre">&lt;warbandname&gt;.owc.txt</span>-file exists in the folder you select, it will be replaced by the current warband with the same name. OWC does not delete any files.</td>
 			</tr>
 		</table>
 		<hr/>

@@ -8,6 +8,7 @@
 		<script>
 			let hash = window.location.hash;
 			let reminder = JSON.parse(localStorage.getItem("owc_reminder")) ?? {};
+			let home = window.location.origin + window.location.pathname.substr(0, window.location.pathname.lastIndexOf("/") +1) + ((!!reminder.pid) ? ("?pid=" + reminder.pid) : "");
 			/* get auth info from URL hash */
 			if ((hash.includes("access_token")) && (hash.includes("expires_in")))
 			{
@@ -23,9 +24,8 @@
 				reminder.action = "notSignedIn";
 				localStorage.setItem("owc_reminder", JSON.stringify(reminder));
 			}
-			/* get pid from reminder and continue */
-			let home = window.location.origin + window.location.pathname.substr(0, window.location.pathname.lastIndexOf("/") +1);
-			window.location.replace(home + ((!!reminder.pid) ? ("?pid=" + reminder.pid) : ""));
+			/* continue */
+			window.location.replace(home);
 		</script>
 	</body>
 </html>

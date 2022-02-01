@@ -31,14 +31,12 @@
 
 		<!-- FontAwesome -->
 		<script src="https://kit.fontawesome.com/fa37b6d3d1.js" crossorigin="anonymous" async="async" defer="defer"></script>
-		<!-- Microsoft OneDrive -->
+		<!-- cloud storage APIs -->
 		<script src="lib/onedrive-api.js" defer="defer"></script>
-		<!-- Google Drive -->
-		<!-- <script src="lib/googledrive-api.js" defer="defer"></script> -->
+		<script src="lib/googledrive-api.js" defer="defer"></script>
 	</head>
 
 	<body>
-
 		<div id="title" class="noprint">
 			<div class="viewport">
 			<h1>Online Warband Creator</h1>
@@ -132,7 +130,7 @@
 			<div class="loading-text sans-serif">Fetching data...</div>
 			<div class="loading-gradient">&nbsp;</div>
 		</div>
-		<div id="blur" class="volatile" onclick="owc.ui.sweepVolatiles();">&nbsp;</div>
+		<div id="blur" class="volatile" onclick="owc.ui.onBlurElementClick(event);">&nbsp;</div>
 		<div id="printoverlay" class="only-print">&nbsp;</div>
 
 		<script src="owc.js"></script>

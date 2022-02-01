@@ -166,7 +166,7 @@ owc.fetchResources = function ()
 	/* load loayout */
 	owc.ui.visualizer?.unload?.();
 	let viewFullname = owc.settings.viewMode + "view";
-	console.debug("Layout '" + owc.settings.viewMode, "' is loaded: ", owc.stats.componentsLoaded.is(viewFullname));
+	console.debug("Layout '" + owc.settings.viewMode + "' is loaded:", owc.stats.componentsLoaded.is(viewFullname));
 	if (owc.stats.componentsLoaded.is(viewFullname) === false)
 	{
 		owc.stats.componentsLoaded.set("layout", false);
@@ -258,6 +258,10 @@ owc.performReminderActions = function ()
 		else if (reminder.action === "notSignedIn")
 		{
 			owc.ui.notify("Your sign in attempt was not successful.", "yellow");
+		}
+		else if (reminder.action === "noPermission")
+		{
+			owc.cloud[reminder.provider].complainNoPermission();
 		}
 	}
 	owc.stats.actionsPerformed.set("reminder");

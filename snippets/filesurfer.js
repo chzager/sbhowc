@@ -23,7 +23,7 @@ const fileSurfer = {
 		localStorage.removeItem(fileSurfer.STORAGE_KEY);
 		fileSurfer.currentFolderId = null;
 		fileSurfer.currentFolderStorageKey = null;
-		fileSurfer.currentContent = {};
+		fileSurfer.currentContent = [];
 		fileSurfer.cloudService = null;
 	},
 	show: () => {
