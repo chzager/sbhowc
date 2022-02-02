@@ -43,6 +43,7 @@ touchCore.popupMenubox = function (clickEvent, menubox, context)
 	owc.ui.sweepVolatiles();
 	owc.ui.blurPage("dim");
 	menubox.popup(clickEvent, context, clickEvent.target, "center middle");
+	window.activeMenubox = menubox;
 };
 
 touchCore.popupEditor = function (clickEvent, editorMenu, context, text)
@@ -288,6 +289,7 @@ touchCore.onEditormenuEvent = function (data)
 			break;
 		};
 		window.dispatchEvent(editorEvent);
+		window.activeMenubox = null;
 	};
 };
 
@@ -484,7 +486,9 @@ touchCore.newInputNumberMenu = function (menuId, titleResource)
 			onkeypress: (keypressEvent) =>
 			{
 				if (keypressEvent.keyCode === 13)
+				{
 					menubox.element.querySelector("[data-menubutton=\"ok\"]").click();
+				}
 			}
 		}
 		)}
@@ -494,3 +498,11 @@ touchCore.newInputNumberMenu = function (menuId, titleResource)
 	menubox.dataType = "number";
 	return menubox;
 };
+
+window.addEventListener("keydown", (keyEvent) => {
+	if ((keyEvent.keyCode === 27) && (!!window.activeMenubox))
+	{
+		window.activeMenubox = null;
+		owc.ui.sweepVolatiles();
+	}
+});
