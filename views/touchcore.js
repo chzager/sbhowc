@@ -465,6 +465,7 @@ touchCore.newInputMenu = function (menuId, titleResource)
 		if (keypressEvent.keyCode === 13)
 		{
 			menubox.element.querySelector("[data-menubutton=\"ok\"]").click();
+			document.activeElement.blur();
 		};
 	};
 	return menubox;
