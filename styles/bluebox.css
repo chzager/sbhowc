@@ -3,6 +3,7 @@ div.blue {
 	padding: 0px 2rem 0px 2rem;
 	position: fixed;
 	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
 	top: 0px;
 	left: 100%;
 	margin-left: 2rem;
@@ -12,15 +13,15 @@ div.blue {
 	box-shadow: 0px 0.5rem 1.5rem black;
 	transition-duration: 0.15s;
 	transition-timing-function: ease-out;
-	}
+}
 
 div.blue *:not(i) {
 	font-family: var(--sans-font);
 	cursor: default;
-	}
+}
 div.blue a {
 	cursor: pointer;
-	}
+}
 
 div.blue h1 {
 	font-size: 2rem;
@@ -32,27 +33,27 @@ div.blue h1 {
 	z-index: 1;
 	top: 0px;
 	background-color: white;
-	}
+}
 
 div.blue h1 > i {
 	float: right;
 	font-size: 1.5rem;
 	cursor: pointer;
-	}
+}
 div.blue h1 > i:hover {
 	color: black;
-	}
+}
 div.blue h1 > span {
 	display: inline-block;
 	max-width: calc(100% - 2rem);
 	overflow: clip;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	}
+}
 
 div.blue div.blue-viewport {
 	max-width: 640px;
-	}
+}
 
 div.blue div.blue-viewport > div,
 div.blue div.blue-viewport div.as-panel {
@@ -72,7 +73,7 @@ div.blue div.blue-viewport > div > p {
 	margin-bottom: 1rem;
 	font-size: 1rem;
 	color: grey;
-	}
+}
 
 div.blue input,
 div.blue button,
@@ -80,21 +81,21 @@ div.blue label,
 div.blue select {
 	font-size: 1rem;
 	cursor: pointer;
-	}
+}
 div.blue input[type="button"],
 div.blue button {
 	padding: 0.1em 1em;
 	cursor: pointer;
-	}
+}
 div.blue input[type="button"] + input[type="button"] {
 	margin-left: 0.5rem;
 }
 div.blue button * {
 	cursor: pointer;
-	}
+}
 div.blue select {
 	padding: 0.2em;
-	}
+}
 div.blue input.rightbound {
 	float: right;
 }
@@ -102,7 +103,7 @@ div.blue input.rightbound {
 div.blue label:hover {
 	color: #607080;
 	background-color: #f0f0f0;
-	}
+}
 
 div.blue div.two-column-grid {
 	display: grid;
@@ -115,7 +116,7 @@ div.blue div.two-column-grid > * {
 	margin-bottom: 0.5em;
 	display: flex;
 	align-items: center;
-	}
+}
 
 div.blue .notification {
 	border: 0.2rem solid;
@@ -129,15 +130,23 @@ div.blue .notification {
 	visibility: hidden;
 	display: inline-block;
 	position: absolute;
-	}
+}
 div.blue .notification.visible {
 	visibility: visible;
 	animation-name: fadein-fadeout;
 	animation-duration: 4s;
-	}
+}
 @keyframes fadein-fadeout {
-	  0% {opacity: 0;}
-	 10% {opacity: 1;}
-	 75% {opacity: 1;}
-	100% {opacity: 0;}
+	0% {
+		opacity: 0;
 	}
+	10% {
+		opacity: 1;
+	}
+	75% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}

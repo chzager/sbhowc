@@ -13,7 +13,7 @@
 	cursor: text;
 	outline: none;
 	word-break: break-all;
-	}
+}
 
 @media screen and (max-width: 650px) {
 	#warbandcode textarea {
