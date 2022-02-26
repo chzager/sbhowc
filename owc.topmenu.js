@@ -57,7 +57,7 @@ owc.topMenu.init = function ()
 			{
 				key: "whatsapp",
 				label: "WhatsApp",
-				iconFontAwesome: "fab fa-whatsapp"
+				iconHtml: htmlBuilder.newElement("i.fab.fa-whatsapp")
 			},
 			/* {
 				key: "facebook",
@@ -67,12 +67,12 @@ owc.topMenu.init = function ()
 			{
 				key: "twitter",
 				label: "Twitter",
-				iconFontAwesome: "fab fa-twitter"
+				iconHtml: htmlBuilder.newElement("i.fab.fa-twitter")
 			},
 			{
 				key: "email",
 				label: "E-Mail",
-				iconFontAwesome: "fas fa-envelope"
+				iconHtml: htmlBuilder.newElement("i.fas.fa-envelope")
 			}
 		]
 	}, owc.topMenu.onSharemenuEvent
@@ -85,7 +85,7 @@ owc.topMenu.init = function ()
 		{
 			key: "browser",
 			label: "More...",
-			iconFontAwesome: "fas fa-ellipsis-h"
+			iconHtml: htmlBuilder.newElement("i.fas.fa-ellipsis-h")
 		}
 		);
 	}
@@ -95,7 +95,7 @@ owc.topMenu.init = function ()
 		{
 			key: "link",
 			label: "Create Link",
-			iconFontAwesome: "fas fa-link"
+			iconHtml: htmlBuilder.newElement("i.fas.fa-link")
 		}
 		);
 	};
