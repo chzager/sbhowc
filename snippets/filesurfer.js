@@ -120,11 +120,6 @@ const fileSurfer = {
 	onItemDblClick: (clickEvent) => {
 		const item = clickEvent.target.closest("[data-id]");
 		const itemRef = item.getAttribute("data-id");
-		/* unselect everything in document, some browsers interpret a dblclk as intend to select anything */
-		if (typeof window.getSelection === "function")
-		{
-			window.getSelection().removeAllRanges();
-		}
 		switch (item.getAttribute("data-type"))
 		{
 			case "folder":
