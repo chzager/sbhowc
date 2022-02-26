@@ -353,29 +353,48 @@ owc.cloud = {
 	}
 };
 
-function http (method, url, headers = {}, body = null, responseType = "")
+function xhr (method, url, headers = {}, body = null, responseType = "")
 {
 	return new Promise((resolve, reject) =>
 	{
-		let httpRequest = new XMLHttpRequest();
-		httpRequest.open(method, url);
+		let xhrReq = new XMLHttpRequest();
+		let resContentType = undefined;
+		xhrReq.open(method, url);
 		for (let headerKey in headers)
 		{
-			httpRequest.setRequestHeader(headerKey, headers[headerKey]);
+			xhrReq.setRequestHeader(headerKey, headers[headerKey]);
 		};
-		httpRequest.responseType = responseType;
-		httpRequest.onloadend = (httpEvent) => {
-			if ((httpEvent.target.status >= 200) && (httpEvent.target.status <= 299))
+		xhrReq.responseType = responseType;
+		xhrReq.onreadystatechange = () =>
+		{
+			if (xhrReq.readyState === xhrReq.HEADERS_RECEIVED)
 			{
-				resolve(httpEvent.target);
+				resContentType = /(\S+)\b/.exec(xhrReq.getResponseHeader("content-type"))[1];
+			}
+		};
+		xhrReq.onloadend = (xhrEvt) =>
+		{
+			if ((xhrEvt.target.status >= 200) && (xhrEvt.target.status <= 299))
+			{
+				let response = xhrEvt.target.response;
+				if (resContentType.includes("application/json"))
+				{
+					response = JSON.parse(response);
+				}
+				resolve(response);
 			}
 			else
 			{
-				console.error("HTTP", method, url, httpEvent.target);
-				reject(httpEvent.target);
+				let rejctReason = {
+					status: xhrEvt.target.status,
+					text: xhrEvt.target.statusText,
+					response: xhrEvt.target.response
+				};
+				console.error("xhr", method, url, rejctReason);
+				reject(rejctReason);
 			}
 		};
-		httpRequest.send(body);
+		xhrReq.send(body);
 	});
 };
 
