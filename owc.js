@@ -14,7 +14,7 @@ const owc =
 	},
 	meta: {
 		TITLE: "Online Warband Creator for Song of Blades and Heroes",
-		VERSION: "Aug21 release",
+		VERSION: "Feb22 release",
 		ORIGIN: "https://suppenhuhn79.github.io/sbhowc"
 	},
 	stats: {
