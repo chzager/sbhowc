@@ -92,13 +92,7 @@ class Warband
 	 */
 	get figureCount ()
 	{
-		// TODO: make this nicer (Array.map())
-		let result = 0;
-		for (let unit of this.units)
-		{
-			result += unit.count;
-		};
-		return result;
+		return this.units.reduce((previous, current) => previous += current.count, 0);
 	};
 
 	/**
@@ -150,32 +144,27 @@ class Warband
 	 */
 	addUnit (unit)
 	{
-		// TODO: make this nicer
-		let warband = this;
-		function _addSpecialruleReplacer (specialruleKey, specialrulesDictionary)
+		/* replace Unit default functions with Warband replacer functions */
+		unit._$addSpecialrule = unit.addSpecialrule;
+		unit._$removeSpecialrule = unit.removeSpecialrule;
+		unit.addSpecialrule = (specialruleKey, specialrulesDictionary) =>
 		{
 			let result = unit._$addSpecialrule(specialruleKey, specialrulesDictionary);
 			if (!!Warband.POINTSPOOLS[specialruleKey])
 			{
-				warband.checkPointsPools();
+				this.checkPointsPools();
 			};
 			return result;
 		};
-		function _removeSpecialruleReplacer (specialruleIndex)
+		unit.removeSpecialrule = (specialruleIndex) =>
 		{
-			let specialruleKey = unit.specialrules[specialruleIndex].key;
 			let result = unit._$removeSpecialrule(specialruleIndex);
-			if (!!Warband.POINTSPOOLS[specialruleKey])
+			if (!!Warband.POINTSPOOLS[unit.specialrules[specialruleIndex].key])
 			{
-				warband.checkPointsPools();
+				this.checkPointsPools();
 			};
 			return result;
 		};
-		/* replace Unit default functions with Warband replacer functions */
-		unit._$addSpecialrule = unit.addSpecialrule;
-		unit._$removeSpecialrule = unit.removeSpecialrule;
-		unit.addSpecialrule = _addSpecialruleReplacer;
-		unit.removeSpecialrule = _removeSpecialruleReplacer;
 		this.units.push(unit);
 	};
 
