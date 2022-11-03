@@ -5,9 +5,12 @@ Licensed unter the GNU Affero General Public License, Version 3
 See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
  */
 
-owc.settings = {
+owcSettings = {
+
 	STORAGE_KEY: "owc_settings",
-	init: () => {
+
+	init: function ()
+	{
 		const DEFAULT_SETTINGS = {
 			ruleScope: ["sbh", "sgd", "sww"],
 			options: {
@@ -23,37 +26,45 @@ owc.settings = {
 			},
 			viewMode: "classic"
 		};
-		owc.settings.fromJson(DEFAULT_SETTINGS);
-		owc.settings.viewMode = (owc.ui.isTouchDevice) ? "classictouch" : "classic";
+		owcSettings.fromJson(DEFAULT_SETTINGS);
+		owcSettings.viewMode = (owc.ui.isTouchDevice) ? "classictouch" : "classic";
 	},
-	toJson: () => {
+
+	toJson: function ()
+	{
 		let result = {};
-		for (let key in owc.settings)
+		for (let key in owcSettings)
 		{
-			if ((key !== "STORAGE_KEY") && (typeof owc.settings[key] !== "function"))
+			if ((key !== "STORAGE_KEY") && (typeof owcSettings[key] !== "function"))
 			{
-				result[key] = owc.settings[key];
+				result[key] = owcSettings[key];
 			}
 		}
 		return result;
 	},
-	fromJson: (jsonObject) => {
-		Object.assign(owc.settings, jsonObject);
+
+	fromJson: function (jsonObject)
+	{
+		Object.assign(owcSettings, jsonObject);
 	},
-	save: () => {
+
+	save: function ()
+	{
 		if (!!localStorage)
 		{
-			localStorage.setItem(owc.settings.STORAGE_KEY, JSON.stringify(owc.settings.toJson()));
+			localStorage.setItem(owcSettings.STORAGE_KEY, JSON.stringify(owcSettings.toJson()));
 		}
 	},
-	load: () => {
-		owc.settings.init();
+
+	load: function ()
+	{
+		owcSettings.init();
 		if (!!localStorage)
 		{
-			let storedSettings = JSON.parse(localStorage.getItem(owc.settings.STORAGE_KEY));
+			let storedSettings = JSON.parse(localStorage.getItem(owcSettings.STORAGE_KEY));
 			if (!!storedSettings)
 			{
-				owc.settings.fromJson(storedSettings);
+				owcSettings.fromJson(storedSettings);
 			}
 		}
 	}

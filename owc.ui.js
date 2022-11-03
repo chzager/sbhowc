@@ -68,7 +68,7 @@ owc.ui.refreshWarbandName = function ()
 
 owc.ui.refreshWindowTitle = function ()
 {
-	document.title = owc.helper.nonBlankWarbandName() + " (" + owc.warband.points + " " + owc.resources.translate("points", owc.settings.language) + ") - " + owc.meta.TITLE;
+	document.title = owc.helper.nonBlankWarbandName() + " (" + owc.warband.points + " " + owcResources.translate("points", owcSettings.language) + ") - " + owc.meta.TITLE;
 };
 
 owc.ui.refreshUndoButton = function ()
@@ -76,10 +76,10 @@ owc.ui.refreshUndoButton = function ()
 	if (owc.isPrinting === false)
 	{
 		let undoTooltipElement = owc.ui.undoButton.querySelector(".tooltip");
-		if (owc.editor.undoer.canUndo)
+		if (owcEditor.undoer.canUndo)
 		{
 			owc.ui.undoButton.classList.remove("disabled");
-			(!!undoTooltipElement) ? undoTooltipElement.innerHTML = "Undo: " + owc.editor.undoer.lastChangeDescription + "." : null;
+			(!!undoTooltipElement) ? undoTooltipElement.innerHTML = "Undo: " + owcEditor.undoer.lastChangeDescription + "." : null;
 		}
 		else
 		{
@@ -89,7 +89,7 @@ owc.ui.refreshUndoButton = function ()
 	};
 };
 
-owc.ui.setElementContent = function(element, contentElement)
+owc.ui.setElementContent = function (element, contentElement)
 {
 	if (!!element.firstElementChild)
 	{
@@ -103,7 +103,7 @@ owc.ui.setElementContent = function(element, contentElement)
 
 owc.ui.notify = function (text, color = "green")
 {
-	function _onAnimationEnd(animationEvent)
+	function _onAnimationEnd (animationEvent)
 	{
 		animationEvent.target.remove();
 		if ((owc.ui.notifications.count -= 1) === 0)
@@ -112,7 +112,7 @@ owc.ui.notify = function (text, color = "green")
 		}
 	}
 	let element = htmlBuilder.newElement("div.notification.popup." + color, text);
-	element.addEventListener("animationend", _onAnimationEnd,	{once: true});
+	element.addEventListener("animationend", _onAnimationEnd, { once: true });
 	document.body.appendChild(element);
 	let rect = element.getBoundingClientRect();
 	element.style.left = Math.round((document.body.clientWidth - rect.width) / 2) + "px";
@@ -136,12 +136,12 @@ owc.ui.animateElement = function (element, cssClass, postAnimationFunction)
 		{
 			postAnimationFunction(element);
 		}
-	}, {once: true});
-}
+	}, { once: true });
+};
 
 owc.ui.showBluebox = function (element)
 {
-	function _pixelValue(text)
+	function _pixelValue (text)
 	{
 		let rex = /\d+/.exec(text);
 		return (rex !== null) ? Number(rex[0]) : 0;
@@ -190,11 +190,11 @@ owc.ui.scrollToBottom = function ()
 {
 	let desiredScrollY = owc.ui.warbandCanvas.getBoundingClientRect().bottom + window.scrollY - window.innerHeight;
 	window.scrollTo(
-	{
-		left: window.scrollX,
-		top: Math.max(window.scrollY, desiredScrollY),
-		behavior: "smooth"
-	}
+		{
+			left: window.scrollX,
+			top: Math.max(window.scrollY, desiredScrollY),
+			behavior: "smooth"
+		}
 	);
 };
 
@@ -210,7 +210,7 @@ owc.ui.blurPage = function (blurClasses = "")
 	owc.ui.blurElement.style.visibility = "visible";
 };
 
-owc.ui.unblurPage = function()
+owc.ui.unblurPage = function ()
 {
 	owc.ui.blurElement.classList.remove(...owc.ui.blurElement.classList);
 	owc.ui.blurElement.style.visibility = "hidden";
@@ -226,7 +226,7 @@ owc.ui.onBlurElementClick = function (mouseEvent)
 	{
 		owc.ui.sweepVolatiles();
 	}
-}
+};
 
 owc.ui.wait = function (message = "Working")
 {

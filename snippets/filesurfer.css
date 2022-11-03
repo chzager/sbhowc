@@ -6,12 +6,13 @@
 	padding: 0.5em;
 	margin-bottom: 0.5rem;
 	width: 100%;
-}
-#filesurfer div.signin-buttons button i {
-	float: left;
+	text-align: left;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 #filesurfer div.signin-buttons button span {
-	margin: 0 1em;
+	margin: 0 1em 0 0.5em;
 }
 
 #filesurfer div.annotation {

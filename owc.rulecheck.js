@@ -110,7 +110,7 @@ owc.rulecheck.checkSwarmFigures = function ()
 
 owc.rulecheck.checkPaladinSpecialrule = function ()
 {
-	/* check paladin special rule:
+	/* check paladin specialrule:
 	>> A Paladin cannot be part of a warband that includes Evil models. <<
 	(SGD 4.3, p9) */
 	const paladinKey = "pl";
@@ -123,8 +123,8 @@ owc.rulecheck.checkPaladinSpecialrule = function ()
 			key: "paladinSpecialruleViolated",
 			values:
 			{
-				PALADIN: owc.resources.translate(paladinKey, owc.settings.language),
-				EVIL: owc.resources.translate(evilKey, owc.settings.language)
+				PALADIN: owcResources.translate(paladinKey, owcSettings.language),
+				EVIL: owcResources.translate(evilKey, owcSettings.language)
 			}
 		};
 	};
@@ -133,7 +133,7 @@ owc.rulecheck.checkPaladinSpecialrule = function ()
 
 owc.rulecheck.checkRabbleSpecialrule = function ()
 {
-	/* check rabble special rule:
+	/* check rabble specialrule:
 	>> Rabble models may not be assigned a Quality score better than 4. <<
 	(SBH revised edition/rules version 5.0, p 34). */
 	const rabbleKey = "ra";
@@ -148,7 +148,7 @@ owc.rulecheck.checkRabbleSpecialrule = function ()
 				values:
 				{
 					U: owc.helper.nonBlankUnitName(rabbleUnit),
-					RABBLE: owc.resources.translate(rabbleKey, owc.settings.language)
+					RABBLE: owcResources.translate(rabbleKey, owcSettings.language)
 				}
 			};
 			result.push(checkResult);
@@ -159,15 +159,15 @@ owc.rulecheck.checkRabbleSpecialrule = function ()
 
 owc.rulecheck.checkExcludes = function ()
 {
-	/* check special rules that exclude each other */
-	function _checkExcludes(excludingKey, resultsRecipient)
+	/* check specialrules that exclude each other */
+	function _checkExcludes (excludingKey, resultsRecipient)
 	{
 		for (let unit of owc.warband.units)
 		{
 			let index = [];
 			for (let specialrule of unit.specialrules)
 			{
-				let excludings = owc.resources.data[specialrule.key][excludingKey];
+				let excludings = owcResources.data[specialrule.key][excludingKey];
 				if (excludings !== undefined)
 				{
 					for (let excluding of excludings)
@@ -180,8 +180,8 @@ owc.rulecheck.checkExcludes = function ()
 								values:
 								{
 									U: owc.helper.nonBlankUnitName(unit),
-									A: owc.resources.translate(specialrule.key, owc.settings.language),
-									B: owc.resources.translate(excluding, owc.settings.language)
+									A: owcResources.translate(specialrule.key, owcSettings.language),
+									B: owcResources.translate(excluding, owcSettings.language)
 								}
 							};
 							resultsRecipient.push(checkResult);
@@ -198,4 +198,4 @@ owc.rulecheck.checkExcludes = function ()
 	return result;
 };
 
-owc.rulecheck.getText = (ruleViolation) => owc.resources.translate(ruleViolation.key, owc.settings.language, ruleViolation.values);
+owc.rulecheck.getText = (ruleViolation) => owcResources.translate(ruleViolation.key, owcSettings.language, ruleViolation.values);

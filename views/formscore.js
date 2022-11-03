@@ -11,7 +11,7 @@ var formsCore = {};
 
 formsCore.init = function (pageSnippetGroup)
 {
-	function _appendOptionElements(selectElement, array)
+	function _appendOptionElements (selectElement, array)
 	{
 		for (let item of array)
 		{
@@ -28,26 +28,26 @@ formsCore.init = function (pageSnippetGroup)
 		combatSelector: htmlBuilder.newElement("select[size='1'][data-editor='combat'][data-type='number']"),
 		specialrulesSelector: htmlBuilder.newElement("select[size='1'][data-action='addspecialrule']")
 	};
-	_appendOptionElements(formsCore.editors.qualitySelector, owc.editor.qualityValues);
-	_appendOptionElements(formsCore.editors.combatSelector, owc.editor.combatValues);
+	_appendOptionElements(formsCore.editors.qualitySelector, owcEditor.qualityValues);
+	_appendOptionElements(formsCore.editors.combatSelector, owcEditor.combatValues);
 	formsCore.editors.specialrulesSelector.appendChild(htmlBuilder.newElement("option[value='']", owc.helper.translate("addSpecialrule")));
-	for (let specialrule of owc.editor.specialrulesList)
+	for (let specialrule of owcEditor.specialrulesList)
 	{
 		formsCore.editors.specialrulesSelector.appendChild(htmlBuilder.newElement("option[value='" + specialrule.key + "']", specialrule.text));
 	};
 	formsCore.unitMenu = new Menubox("unitMenu",
-	{
-		duplicate: "Duplicate unit",
-		copy: "Copy unit",
-		remove: "Remove unit",
-		x1: null,
-		moveup: "Move unit up",
-		movedown: "Move unit down"
-	}, formsCore.onUnitmenuEvent
-		);
+		{
+			duplicate: "Duplicate unit",
+			copy: "Copy unit",
+			remove: "Remove unit",
+			x1: null,
+			moveup: "Move unit up",
+			movedown: "Move unit down"
+		}, formsCore.onUnitmenuEvent
+	);
 };
 
-formsCore.onUnitmenuEvent = function(data)
+formsCore.onUnitmenuEvent = function (data)
 {
 	window.dispatchEvent(new CustomEvent("editor",
 		{
@@ -58,7 +58,7 @@ formsCore.onUnitmenuEvent = function(data)
 				originalEvent: data.originalEvent
 			}
 		}
-		));
+	));
 };
 
 formsCore.onValueEdited = (anyEvent) => formsCore.dispatchEditorEvent(anyEvent);
@@ -101,9 +101,9 @@ formsCore.dispatchEditorEvent = function (editorEvent)
 	let eventValue = (eventOrigin.value !== undefined) ? eventOrigin.value : eventOrigin.innerText;
 	switch (eventOrigin.getAttribute("data-type"))
 	{
-	case "number":
-		eventValue = Number(/\d+/.exec(eventValue));
-		break;
+		case "number":
+			eventValue = Number(/\d+/.exec(eventValue));
+			break;
 	};
 	let editorEventData =
 	{
@@ -138,7 +138,7 @@ formsCore.refreshUnit = function (unitIndex, refNode = null)
 	};
 	let unit = owc.warband.units[unitIndex];
 	refNode.querySelector("[data-editor=\"name\"]").innerText = owc.helper.nonBlankUnitName(unit);
-	if ((unit.isPersonality) && (owc.settings.options.highlightPersonalities))
+	if ((unit.isPersonality) && (owcSettings.options.highlightPersonalities))
 	{
 		refNode.querySelector("[data-editor=\"name\"]").classList.add("personality");
 	}
@@ -163,14 +163,14 @@ formsCore.refreshUnit = function (unitIndex, refNode = null)
 
 formsCore.refreshSpecialrules = function (unitIndex, refNode)
 {
-	function _specialruleHint(specialruleKey)
+	function _specialruleHint (specialruleKey)
 	{
-		let result = owc.resources.defaultText(specialruleKey);
-		if (owc.resources.data[specialruleKey].personality === true)
+		let result = owcResources.defaultText(specialruleKey);
+		if (owcResources.data[specialruleKey].personality === true)
 		{
 			result += "\u00A0[personality]";
 		};
-		result += ",\u00A0" + owc.resources.data[specialruleKey].scope.toUpperCase();
+		result += ",\u00A0" + owcResources.data[specialruleKey].scope.toUpperCase();
 		return result;
 	};
 	htmlBuilder.removeAllChildren(refNode);
@@ -195,7 +195,7 @@ formsCore.refreshSpecialrules = function (unitIndex, refNode)
 			'specialrule-additional-text': specialrule.additionalText ?? "",
 			'specialrule-text-after': specialruleText.substring(specialruleText.indexOf("...") + 3),
 			'default-additional-text': "...",
-			'scope-class': ((owc.settings.ruleScope.includes(owc.resources.data[specialrule.key].scope)) ? "" : "out-of-scope")
+			'scope-class': ((owcSettings.ruleScope.includes(owcResources.data[specialrule.key].scope)) ? "" : "out-of-scope")
 		};
 		variables.specialrules.push(item);
 	};
@@ -205,7 +205,7 @@ formsCore.refreshSpecialrules = function (unitIndex, refNode)
 
 formsCore.refreshWarbandSummary = function ()
 {
-	const resources = ["total", "totalPoints", "totalFigures", (owc.settings.options.personalitiesInPoints) ? "personalitiesPoints" : "personalitiesPercent"];
+	let resources = ["total", "totalPoints", "totalFigures", (owcSettings.options.personalitiesInPoints) ? "personalitiesPoints" : "personalitiesPercent"];
 	let variables =
 	{
 		TOTAL: owc.warband.points,
@@ -213,7 +213,7 @@ formsCore.refreshWarbandSummary = function ()
 		POINTS: owc.warband.figurePoints,
 		PERSONALITYPOINTS: owc.warband.personalityPoints,
 		PERSONALITYPERCENT: Math.floor(owc.warband.personalityPoints / owc.warband.points * 100),
-		personalitiesInPoints: owc.settings.options.personalitiesInPoints,
+		personalitiesInPoints: owcSettings.options.personalitiesInPoints,
 		text: {},
 		'rule-violations': []
 	};
@@ -221,14 +221,14 @@ formsCore.refreshWarbandSummary = function ()
 	{
 		variables.text[r] = owc.helper.translate(r, variables);
 	}
-	if (owc.settings.options.applyRuleChecks)
+	if (owcSettings.options.applyRuleChecks)
 	{
 		for (let rulecheckResult of owc.rulecheck.checkAll())
 		{
 			variables["rule-violations"].push(
-			{
-				text: owc.rulecheck.getText(rulecheckResult)
-			}
+				{
+					text: owc.rulecheck.getText(rulecheckResult)
+				}
 			);
 		};
 	};

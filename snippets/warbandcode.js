@@ -5,24 +5,27 @@ Licensed unter the GNU Affero General Public License, Version 3
 See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
  */
 
-const warbandcode = {
-	show: () => {
+let warbandcode = {
+	show: () =>
+	{
 		warbandcode.element = document.getElementById("warbandcode");
 		warbandcode.textarea = warbandcode.element.querySelector("textarea");
-		warbandcode.element.querySelector("#includeComments").checked = owc.settings.options.warbandcodeIncludesComments;
+		warbandcode.element.querySelector("#includeComments").checked = owcSettings.options.warbandcodeIncludesComments;
 		warbandcode.includeCommentsClick();
 		owc.ui.showBluebox(warbandcode.element);
 	},
 	close: () => owc.ui.sweepVolatiles(),
-	includeCommentsClick: (clickEvent) => {
+	includeCommentsClick: (clickEvent) =>
+	{
 		let optionChekced = warbandcode.element.querySelector("#includeComments").checked;
-		owc.settings.options.warbandcodeIncludesComments = optionChekced;
+		owcSettings.options.warbandcodeIncludesComments = optionChekced;
 		warbandcode.textarea.value = owc.getWarbandCode(optionChekced);
 	},
-	applyClick: (clickEvent) => {
+	applyClick: (clickEvent) =>
+	{
 		let lastGoodWarbandCode = owc.warband.toString();
 		let newWarbandCode = warbandcode.textarea.value;
-		owc.editor.setUndoPoint("Apply warband code.");
+		owcEditor.setUndoPoint("Apply warband code.");
 		if (owc.importWarband(newWarbandCode))
 		{
 			warbandcode.close();
@@ -30,12 +33,13 @@ const warbandcode = {
 		}
 		else
 		{
-			owc.editor.undoer.undo();
-			owc.warband.fromString(lastGoodWarbandCode, owc.resources.data);
+			owcEditor.undoer.undo();
+			owc.warband.fromString(lastGoodWarbandCode, owcResources.data);
 			owc.ui.showNotification(warbandcode.element.querySelector("#invalidBubble"));
 		}
 	},
-	copyToClipboardClick: (clickEvent) => {
+	copyToClipboardClick: (clickEvent) =>
+	{
 		warbandcode.textarea.select();
 		document.execCommand("copy");
 		owc.ui.showNotification(warbandcode.element.querySelector("#copiedBubble"));

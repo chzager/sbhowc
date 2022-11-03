@@ -15,28 +15,28 @@ touchCore.init = function (pageSnippetGroup)
 	touchCore.warbandNameMenu = touchCore.newInputMenu("warbandname", "warbandNamePrompt");
 	touchCore.unitNameMenu = touchCore.newInputMenu("name", "unitNamePrompt");
 	touchCore.unitCountMenu = touchCore.newInputNumberMenu("count", "count");
-	touchCore.qualityMenu = touchCore.newMenu("quality", "quality", owc.editor.qualityValues, ["cancel"]);
-	touchCore.combatMenu = touchCore.newMenu("combat", "combat", owc.editor.combatValues, ["cancel"]);
+	touchCore.qualityMenu = touchCore.newMenu("quality", "quality", owcEditor.qualityValues, ["cancel"]);
+	touchCore.combatMenu = touchCore.newMenu("combat", "combat", owcEditor.combatValues, ["cancel"]);
 	touchCore.specialrulesMenu = touchCore.newMenu("specialrules", "specialrules", [], ["ok", "cancel"], true);
 	touchCore.pointsPoolMenu = touchCore.newInputNumberMenu("pointspool", "pointsPools");
 
 	touchCore.unitMenu = new Menubox("unitMenu",
-	{
-		duplicate: "Duplicate unit",
-		copy: "Copy unit",
-		remove: "Remove unit",
-		x1: null,
-		moveup: "Move unit up",
-		movedown: "Move unit down"
-	}, touchCore.onUnitmenuEvent
-		);
+		{
+			duplicate: "Duplicate unit",
+			copy: "Copy unit",
+			remove: "Remove unit",
+			x1: null,
+			moveup: "Move unit up",
+			movedown: "Move unit down"
+		}, touchCore.onUnitmenuEvent
+	);
 };
 
-touchCore.getEventUnitIndex = function(clickEvent) 
+touchCore.getEventUnitIndex = function (clickEvent) 
 {
 	let unitEnvelopeElement = clickEvent.target.closest("[data-unitindex]");
 	return (unitEnvelopeElement) ? Number(unitEnvelopeElement.getAttribute("data-unitindex")) : null;
-}
+};
 
 touchCore.popupMenubox = function (clickEvent, menubox, context)
 {
@@ -96,7 +96,7 @@ touchCore.onUnitCountClick = function (clickEvent)
 		{
 			UNIT: owc.helper.nonBlankUnitName(owc.warband.units[unitIndex])
 		}
-		));
+	));
 };
 
 touchCore.onQualityClick = function (clickEvent)
@@ -115,7 +115,7 @@ touchCore.onCombatClick = function (clickEvent)
 
 touchCore.onSpecialrulesClick = function (clickEvent)
 {
-	function _postRender(menuNode, unitIndex)
+	function _postRender (menuNode, unitIndex)
 	{
 		for (let itemNode of menuNode.querySelectorAll("[data-menuitem]"))
 		{
@@ -128,30 +128,30 @@ touchCore.onSpecialrulesClick = function (clickEvent)
 				itemNode.removeChild(itemNode.firstChild);
 				let wrapperNode = htmlBuilder.newElement("div");
 				let textPreNode = htmlBuilder.newElement("span",
-				{
-					onclick: (clickEvent) => clickEvent.target.parentElement.click()
-				},
-						specialruleText.substring(0, specialruleText.indexOf("...")));
+					{
+						onclick: (clickEvent) => clickEvent.target.parentElement.click()
+					},
+					specialruleText.substring(0, specialruleText.indexOf("...")));
 				let editorNode = htmlBuilder.newElement("span",
-				{
-					'data-isadditionaltext': "yes",
-					'data-defaultvalue': "...",
-					onclick: (clickEvent) => touchCore.specialrulesMenu.selectItem(clickEvent.target.closest("[data-menuitem]").getAttribute("data-menuitem"), true)
-				},
-						(specialruleIndex !== null) ? owc.warband.units[unitIndex].specialrules[Number(specialruleIndex[1])].additionalText : "...");
+					{
+						'data-isadditionaltext': "yes",
+						'data-defaultvalue': "...",
+						onclick: (clickEvent) => touchCore.specialrulesMenu.selectItem(clickEvent.target.closest("[data-menuitem]").getAttribute("data-menuitem"), true)
+					},
+					(specialruleIndex !== null) ? owc.warband.units[unitIndex].specialrules[Number(specialruleIndex[1])].additionalText : "...");
 				let textPostNode = htmlBuilder.newElement("span",
-				{
-					onclick: (clickEvent) => clickEvent.target.parentElement.click()
-				},
-						specialruleText.substring(specialruleText.indexOf("...") + 3));
+					{
+						onclick: (clickEvent) => clickEvent.target.parentElement.click()
+					},
+					specialruleText.substring(specialruleText.indexOf("...") + 3));
 				touchCore.makeEditable(editorNode);
 				itemNode.appendChild(textPreNode);
 				itemNode.appendChild(editorNode);
 				itemNode.appendChild(textPostNode);
 			};
-			if (owc.settings.ruleScope.includes(owc.resources.data[specialruleKey].scope) === false)
+			if (owcSettings.ruleScope.includes(owcResources.data[specialruleKey].scope) === false)
 			{
-				itemNode.appendChild(htmlBuilder.newElement("span.out-of-scope", owc.resources.data[specialruleKey].scope.toUpperCase()));
+				itemNode.appendChild(htmlBuilder.newElement("span.out-of-scope", owcResources.data[specialruleKey].scope.toUpperCase()));
 			};
 		};
 	};
@@ -181,12 +181,12 @@ touchCore.onSpecialrulesClick = function (clickEvent)
 	if (owc.warband.units[unitIndex].specialrules.length > 0)
 	{
 		menuItems.push(
-		{
-			separator: true
-		}
+			{
+				separator: true
+			}
 		);
 	};
-	for (let specialrule of owc.editor.specialrulesList)
+	for (let specialrule of owcEditor.specialrulesList)
 	{
 		if (selectedSpecialrules.includes(specialrule.key) === false)
 		{
@@ -217,13 +217,13 @@ touchCore.onClickEvent = function (clickEvent)
 		eventOrigin = eventOrigin.parentNode;
 	};
 	let editorEvent = new CustomEvent("editor",
-	{
-		detail:
 		{
-			unitIndex:touchCore.getEventUnitIndex(clickEvent),
-			originalEvent: clickEvent
-		}
-	});
+			detail:
+			{
+				unitIndex: touchCore.getEventUnitIndex(clickEvent),
+				originalEvent: clickEvent
+			}
+		});
 	for (let attribute of eventOrigin.attributes)
 	{
 		if (attribute.name.startsWith("data-"))
@@ -234,7 +234,7 @@ touchCore.onClickEvent = function (clickEvent)
 	window.dispatchEvent(editorEvent);
 };
 
-touchCore.onUnitmenuEvent = function(data)
+touchCore.onUnitmenuEvent = function (data)
 {
 	window.dispatchEvent(new CustomEvent("editor",
 		{
@@ -245,21 +245,21 @@ touchCore.onUnitmenuEvent = function(data)
 				originalEvent: data.originalEvent
 			}
 		}
-		));
+	));
 };
 
 touchCore.onEditormenuEvent = function (data)
 {
 	owc.ui.sweepVolatiles();
 	let editorEvent = new CustomEvent("editor",
-	{
-		detail:
 		{
-			unitIndex: data.context,
-			editor: data.menubox.id
+			detail:
+			{
+				unitIndex: data.context,
+				editor: data.menubox.id
+			}
 		}
-	}
-		);
+	);
 	// console.log(data.menubox.multiselect, data.itemKey,  ((data.menubox.multiselect === false) && (data.itemKey)), data.buttonKey);
 	if ((data.itemKey) || (data.buttonKey === "ok"))
 	{
@@ -272,21 +272,21 @@ touchCore.onEditormenuEvent = function (data)
 		editorEvent.detail.value = value;
 		switch (data.menubox.id)
 		{
-		case "specialrules":
-			for (let i = 0, ii = data.selectedKeys.length; i < ii; i += 1)
-			{
-				let selectedKey = data.selectedKeys[i];
-				let additionaltextNode = (data.menubox.element.querySelector("[data-menuitem=\"" + selectedKey + "\"]").querySelector("[data-isadditionaltext]"));
-				if (additionaltextNode)
+			case "specialrules":
+				for (let i = 0, ii = data.selectedKeys.length; i < ii; i += 1)
 				{
-					data.selectedKeys[i] = selectedKey.substr(0, 2) + "." + additionaltextNode.textContent;
+					let selectedKey = data.selectedKeys[i];
+					let additionaltextNode = (data.menubox.element.querySelector("[data-menuitem=\"" + selectedKey + "\"]").querySelector("[data-isadditionaltext]"));
+					if (additionaltextNode)
+					{
+						data.selectedKeys[i] = selectedKey.substr(0, 2) + "." + additionaltextNode.textContent;
+					};
 				};
-			};
-			break;
-		case "pointspool":
-			editorEvent.detail.unitIndex = null;
-			editorEvent.detail.poolname = data.context;
-			break;
+				break;
+			case "pointspool":
+				editorEvent.detail.unitIndex = null;
+				editorEvent.detail.poolname = data.context;
+				break;
 		};
 		window.dispatchEvent(editorEvent);
 		window.activeMenubox = null;
@@ -307,7 +307,7 @@ touchCore.refreshUnit = function (unitIndex, refNode = null)
 	let unit = owc.warband.units[unitIndex];
 	let nameEditorNode = refNode.querySelector("[data-editor=\"name\"]");
 	nameEditorNode.innerText = owc.helper.nonBlankUnitName(unit);
-	if ((unit.isPersonality) && (owc.settings.options.highlightPersonalities))
+	if ((unit.isPersonality) && (owcSettings.options.highlightPersonalities))
 	{
 		nameEditorNode.classList.add("personality");
 	}
@@ -329,14 +329,14 @@ touchCore.refreshUnit = function (unitIndex, refNode = null)
 
 touchCore.refreshSpecialrules = function (unitIndex, refNode)
 {
-	function _specialruleHint(specialruleKey)
+	function _specialruleHint (specialruleKey)
 	{
-		let result = owc.resources.defaultText(specialruleKey);
-		if (owc.resources.data[specialruleKey].personality === true)
+		let result = owcResources.defaultText(specialruleKey);
+		if (owcResources.data[specialruleKey].personality === true)
 		{
 			result += "\u00A0[personality]";
 		};
-		result += ",\u00A0" + owc.resources.data[specialruleKey].scope.toUpperCase();
+		result += ",\u00A0" + owcResources.data[specialruleKey].scope.toUpperCase();
 		return result;
 	};
 	htmlBuilder.removeAllChildren(refNode);
@@ -358,7 +358,7 @@ touchCore.refreshSpecialrules = function (unitIndex, refNode)
 			index: s,
 			hint: _specialruleHint(specialrule.key),
 			'specialrule-text': specialruleText.replace("...", specialrule.additionalText),
-			'scope-class': ((owc.settings.ruleScope.includes(owc.resources.data[specialrule.key].scope)) ? "" : "out-of-scope")
+			'scope-class': ((owcSettings.ruleScope.includes(owcResources.data[specialrule.key].scope)) ? "" : "out-of-scope")
 		};
 		variables.specialrules.push(item);
 	};
@@ -368,7 +368,7 @@ touchCore.refreshSpecialrules = function (unitIndex, refNode)
 
 touchCore.refreshWarbandSummary = function ()
 {
-	const resources = ["total", "totalPoints", "totalFigures", (owc.settings.options.personalitiesInPoints) ? "personalitiesPoints" : "personalitiesPercent"];
+	let resources = ["total", "totalPoints", "totalFigures", (owcSettings.options.personalitiesInPoints) ? "personalitiesPoints" : "personalitiesPercent"];
 	let variables =
 	{
 		TOTAL: owc.warband.points,
@@ -376,7 +376,7 @@ touchCore.refreshWarbandSummary = function ()
 		POINTS: owc.warband.figurePoints,
 		PERSONALITYPOINTS: owc.warband.personalityPoints,
 		PERSONALITYPERCENT: Math.floor(owc.warband.personalityPoints / owc.warband.points * 100),
-		personalitiesInPoints: owc.settings.options.personalitiesInPoints,
+		personalitiesInPoints: owcSettings.options.personalitiesInPoints,
 		text: {},
 		'rule-violations': []
 	};
@@ -384,14 +384,14 @@ touchCore.refreshWarbandSummary = function ()
 	{
 		variables.text[r] = owc.helper.translate(r, variables);
 	}
-	if (owc.settings.options.applyRuleChecks)
+	if (owcSettings.options.applyRuleChecks)
 	{
 		for (let rulecheckResult of owc.rulecheck.checkAll())
 		{
 			variables["rule-violations"].push(
-			{
-				text: owc.rulecheck.getText(rulecheckResult)
-			}
+				{
+					text: owc.rulecheck.getText(rulecheckResult)
+				}
 			);
 		};
 	};
@@ -441,10 +441,10 @@ touchCore.newMenu = function (menuId, titleResource, items, buttons, multiselect
 	for (let button of buttons)
 	{
 		menuDef.buttons.push(
-		{
-			key: button,
-			label: owc.helper.translate(button)
-		}
+			{
+				key: button,
+				label: owc.helper.translate(button)
+			}
 		);
 	};
 	return new Menubox(menuId, menuDef, touchCore.onEditormenuEvent);
@@ -476,22 +476,24 @@ touchCore.newInputMenu = function (menuId, titleResource)
 touchCore.newInputNumberMenu = function (menuId, titleResource)
 {
 	let menuItems = [
-	{html: htmlBuilder.newElement("input",
 		{
-			type: "number",
-			'data-menuitem': "editor",
-			min: "1",
-			step: "1",
-			onclick: (clickEvent) => clickEvent.stopPropagation(),
-			onkeypress: (keypressEvent) =>
-			{
-				if (keypressEvent.keyCode === 13)
+			html: htmlBuilder.newElement("input",
 				{
-					menubox.element.querySelector("[data-menubutton=\"ok\"]").click();
+					type: "number",
+					'data-menuitem': "editor",
+					min: "1",
+					step: "1",
+					onclick: (clickEvent) => clickEvent.stopPropagation(),
+					onkeypress: (keypressEvent) =>
+					{
+						if (keypressEvent.keyCode === 13)
+						{
+							menubox.element.querySelector("[data-menubutton=\"ok\"]").click();
+						}
+					}
 				}
-			}
+			)
 		}
-		)}
 	];
 	let menubox = touchCore.newMenu(menuId, titleResource, menuItems, ["ok", "cancel"]);
 	menubox.element.classList.add("inputnumbermenu");
@@ -499,7 +501,8 @@ touchCore.newInputNumberMenu = function (menuId, titleResource)
 	return menubox;
 };
 
-window.addEventListener("keydown", (keyEvent) => {
+window.addEventListener("keydown", (keyEvent) =>
+{
 	if ((keyEvent.keyCode === 27) && (!!window.activeMenubox))
 	{
 		window.activeMenubox = null;

@@ -90,10 +90,10 @@ restorer.tableheaderClick = function (clickEvent)
 
 restorer.listStoredData = function ()
 {
-	function _naturalPast(pastDate)
+	function _naturalPast (pastDate)
 	{
-		const wordings = ["just now", "{{n}} minutes ago", "{{6}} hours ago"];
-		const dayWordings = ["today", "yesterday", "two days ago"];
+		let wordings = ["just now", "{{n}} minutes ago", "{{6}} hours ago"];
+		let dayWordings = ["today", "yesterday", "two days ago"];
 		let result = "";
 		let now = new Date();
 		let maxHours = Number(/\{{2}(\d+)\}{2}/.exec(wordings[2])[1]);
@@ -126,7 +126,7 @@ restorer.listStoredData = function ()
 		};
 		return result;
 	};
-	function _getLocalStorageData()
+	function _getLocalStorageData ()
 	{
 		let result = [];
 		for (let key in localStorage)
@@ -136,24 +136,24 @@ restorer.listStoredData = function ()
 				let storedData = JSON.parse(localStorage[key]);
 				let lastModifiedDate = new Date().fromIsoString(storedData.date);
 				result.push(
-				{
-					pid: key,
-					'warband-name': storedData.title,
-					'figure-count': storedData["figure-count"],
-					points: storedData.points,
-					'last-modified': lastModifiedDate,
-					'last-modified-text': _naturalPast(lastModifiedDate)
-				}
+					{
+						pid: key,
+						'warband-name': storedData.title,
+						'figure-count': storedData["figure-count"],
+						points: storedData.points,
+						'last-modified': lastModifiedDate,
+						'last-modified-text': _naturalPast(lastModifiedDate)
+					}
 				);
 			};
 		};
 		switch (restorer.sort.field)
 		{
-		case "warband-name":
-			result.sort((a, b) => (a["warband-name"].localeCompare(b["warband-name"]) * restorer.sort.direction));
-			break;
-		default:
-			result.sort((a, b) => (((a[restorer.sort.field] < b[restorer.sort.field]) ? 1 : -1) * restorer.sort.direction));
+			case "warband-name":
+				result.sort((a, b) => (a["warband-name"].localeCompare(b["warband-name"]) * restorer.sort.direction));
+				break;
+			default:
+				result.sort((a, b) => (((a[restorer.sort.field] < b[restorer.sort.field]) ? 1 : -1) * restorer.sort.direction));
 		};
 		return result;
 	};
@@ -162,7 +162,7 @@ restorer.listStoredData = function ()
 	{
 		'cached-warbands': _getLocalStorageData()
 	};
-	const thresholdWidth = 400;
+	let thresholdWidth = 400;
 	let snippetName = (Number(document.body.clientWidth) <= thresholdWidth) ? "table-frame-small" : "table-frame-normal";
 	owc.ui.setElementContent(refNode, pageSnippets.restorer[snippetName].produce(restorer, variables));
 };

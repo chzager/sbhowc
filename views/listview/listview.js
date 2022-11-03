@@ -24,7 +24,7 @@ listview.init = function ()
 listview.getWarbandHtmlElement = function ()
 {
 	let result;
-	let clipboardUnit = owc.editor.clipboard.getUnit();
+	let clipboardUnit = owcEditor.clipboard.getUnit();
 	let variables =
 	{
 		count: owc.helper.translate("count"),
@@ -36,7 +36,7 @@ listview.getWarbandHtmlElement = function ()
 		'warband-name': owc.helper.nonBlankWarbandName(),
 		'default-warband-name': owc.helper.translate("defaultWarbandName"),
 		'add-unit': owc.helper.translate("addUnit"),
-		'paste-unit-text': (!!clipboardUnit) ? owc.helper.translate("pasteUnit", {UNIT: clipboardUnit.name}) : "",
+		'paste-unit-text': (!!clipboardUnit) ? owc.helper.translate("pasteUnit", { UNIT: clipboardUnit.name }) : "",
 		'clipboard-unit-code': clipboardUnit?.code
 	};
 	result = pageSnippets.listview.main.produce(listview, variables);
@@ -84,20 +84,20 @@ listview.listPointsPools = function (refNode)
 	};
 };
 
-listview.refeshPointsPools = function()
+listview.refeshPointsPools = function ()
 {
 	for (let poolName in owc.warband.pointsPools)
 	{
-		let poolElement = owc.ui.warbandCanvas.querySelector("[data-pointspool='" + poolName + "']")
+		let poolElement = owc.ui.warbandCanvas.querySelector("[data-pointspool='" + poolName + "']");
 		if (!!poolElement)
 		{
-			poolElement.style.display = (owc.warband.pointsPools[poolName] !== null) ? "table-row": "none";
+			poolElement.style.display = (owc.warband.pointsPools[poolName] !== null) ? "table-row" : "none";
 			poolElement.querySelector("[data-editor='pointspool']").innerHTML = owc.warband.pointsPools[poolName];
 		};
 	};
 };
 
-listview.refreshWarbandSummary = function()
+listview.refreshWarbandSummary = function ()
 {
 	listview.refeshPointsPools();
 	formsCore.refreshWarbandSummary();
