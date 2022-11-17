@@ -10,7 +10,7 @@
  * `owcCache` converted to IIFE and documented.
  * `owc` and `owcStats` convertert to object literals containing all functions and properties,
  * `helpers` still // TODO
- * // TODO: documentation
+ * // DOC
  */
 
 let owc = {
@@ -306,12 +306,12 @@ let owcStats = new function ()
 		 */
 		let keys = new Map();
 
-		this.is = function (...keys)
+		this.is = function (...key)
 		{
 			let result = true;
-			for (let key of keys)
+			for (let k of key)
 			{
-				result &&= (keys.get(key) instanceof Date);
+				result &&= (keys.get(k) instanceof Date);
 			}
 			return result;
 		};
@@ -326,7 +326,6 @@ let owcStats = new function ()
 
 	this.actionsPerformed = new function ()
 	{
-
 		/**
 		 * @type {Map<String, Date?>}
 		 */

@@ -344,7 +344,7 @@ owc.cloud = {
 					{
 						owc.cloud.googleDrive.getBreadcrumps(folderData.parentId, _breadcrumps).then(resolve);
 					}
-					else 
+					else
 					{
 						resolve(_breadcrumps);
 					}
