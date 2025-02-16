@@ -1,5 +1,5 @@
 /*
-This file is part of the ONLINE WARBAND CREATOR (https://github.com/suppenhuhn79/sbhowc)
+This file is part of the ONLINE WARBAND CREATOR (https://github.com/chzager/sbhowc)
 Copyright 2021 Christoph Zager
 Licensed unter the GNU Affero General Public License, Version 3
 See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
@@ -9,7 +9,8 @@ owc.fileIo =
 {
 	getFileName: () => owc.helper.nonBlankWarbandName() + ".owc.txt",
 	getFile: () => new File([owc.getWarbandCode(true)], owc.fileIo.getFileName(), { type: "text/plain" }),
-	loadWarbandCode: (warbandCode) => {
+	loadWarbandCode: (warbandCode) =>
+	{
 		let success = owc.importWarband(warbandCode);
 		owc.ui.waitEnd();
 		if (success)
@@ -26,7 +27,8 @@ owc.fileIo =
 		load: (clickEvent) => fileIo.requestClientFile(clickEvent).then((fileEvent) => owc.fileIo.loadWarbandCode(fileEvent.target.result)),
 		save: (clickEvent) => fileIo.offerFileToClient(owc.fileIo.getFileName(), owc.getWarbandCode(true))
 	},
-	_notifyError: (error, message) => {
+	_notifyError: (error, message) =>
+	{
 		console.error(error);
 		owc.ui.waitEnd();
 		owc.ui.notify(message, "red");
@@ -34,7 +36,8 @@ owc.fileIo =
 };
 
 owc.cloud = {
-	_handleError: (error) => {
+	_handleError: (error) =>
+	{
 		owc.ui.waitEnd();
 		fileSurfer.cloudService.getSigninStatus().then(
 			(isSignedIn) =>
@@ -52,7 +55,7 @@ owc.cloud = {
 					if ((fileSurfer.currentFolderId !== fileSurfer.cloudService.ROOT_FOLDER_ID) && (fileSurfer.reRoot !== true))
 					{
 						fileSurfer.reRoot = true;
-						console.debug("Trying to go to the root folder.")
+						console.debug("Trying to go to the root folder.");
 						fileSurfer.listFolderContent(fileSurfer.cloudService.ROOT_FOLDER_ID);
 					}
 					else
@@ -74,7 +77,8 @@ owc.cloud = {
 			}
 		);
 	},
-	setReminder: (provider) => {
+	setReminder: (provider) =>
+	{
 		localStorage.setItem("owc_reminder", JSON.stringify({
 			pid: owc.pid,
 			provider: provider,
@@ -86,18 +90,21 @@ owc.cloud = {
 		FA_ICON: "fas fa-cloud",
 		ROOT_FOLDER_ID: "root",
 		cache: {},
-		signIn: () => {
+		signIn: () =>
+		{
 			owc.cloud.setReminder("oneDrive");
 			fileSurfer.registerService("oneDrive");
 			onedriveApi.signIn();
 		},
-		signOut: () => {
+		signOut: () =>
+		{
 			fileSurfer.unregisterService();
 			onedriveApi.signOut();
 		},
 		getSigninStatus: onedriveApi.getSigninStatus,
 		getFolderContent: (folderId = owc.cloud.oneDrive.ROOT_FOLDER_ID) => new Promise((resolve) => onedriveApi.getFolderContent(folderId).then(
-			(result) => {
+			(result) =>
+			{
 				let files = [];
 				for (let item of result.value)
 				{
@@ -116,7 +123,8 @@ owc.cloud = {
 			},
 			owc.cloud._handleError
 		)),
-		getBreadcrumps: (folderId = owc.cloud.oneDrive.ROOT_FOLDER_ID, _breadcrumps = []) => {
+		getBreadcrumps: (folderId = owc.cloud.oneDrive.ROOT_FOLDER_ID, _breadcrumps = []) =>
+		{
 			function _queryFolder (folderId)
 			{
 				return new Promise((resolve) =>
@@ -128,7 +136,8 @@ owc.cloud = {
 					else
 					{
 						onedriveApi.getItemMeta(folderId, true).then(
-							(result) => {
+							(result) =>
+							{
 								let data = {
 									id: result.id,
 									name: result.name,
@@ -146,7 +155,7 @@ owc.cloud = {
 			{
 				_queryFolder(folderId).then((folderData) =>
 				{
-					_breadcrumps.splice(0, 0, {name: (!!folderData.parentId) ? folderData.name : "Home", id: folderData.id});
+					_breadcrumps.splice(0, 0, { name: (!!folderData.parentId) ? folderData.name : "Home", id: folderData.id });
 					if (!!folderData.parentId)
 					{
 						owc.cloud.oneDrive.getBreadcrumps(folderData.parentId, _breadcrumps).then(resolve);
@@ -156,22 +165,25 @@ owc.cloud = {
 						resolve(_breadcrumps);
 					}
 				},
-				owc.cloud._handleError)
+					owc.cloud._handleError);
 			});
 		},
-		loadFile: (fileId) => {
+		loadFile: (fileId) =>
+		{
 			owc.ui.wait("Loading from Microsoft OneDrive");
 			return onedriveApi.loadFile(fileId).then(
 				(fileContent) => owc.fileIo.loadWarbandCode(fileContent),
 				owc.cloud._handleError
 			);
 		},
-		saveFile: (parentFolderId) => {
+		saveFile: (parentFolderId) =>
+		{
 			owc.ui.wait("Saving to OneDrive");
 			let warbandCode = owc.getWarbandCode(true);
 			let fileName = owc.fileIo.getFileName();
 			return onedriveApi.saveToFile(warbandCode, fileName, parentFolderId).then(
-				(response) => {
+				(response) =>
+				{
 					owc.ui.notify("Warband successfully saved to OneDrive.");
 					owc.ui.waitEnd();
 				},
@@ -188,65 +200,70 @@ owc.cloud = {
 			id: null
 		},
 		cache: {},
-		signIn: () => {
+		signIn: () =>
+		{
 			owc.cloud.setReminder("googleDrive");
 			fileSurfer.registerService("googleDrive");
 			googledriveApi.signIn();
 		},
-		signOut: () => {
+		signOut: () =>
+		{
 			fileSurfer.unregisterService();
 			googledriveApi.signOut();
 		},
 		getSigninStatus: googledriveApi.getSigninStatus,
-		firstUse: async () => {
+		firstUse: async () =>
+		{
 			if (!owc.cloud.googleDrive.appFolder.id)
 			{
 				googledriveApi.getItemIdByName(owc.cloud.googleDrive.appFolder.NAME, "root").then(
-				(result) =>
-				{
-					if (!!result)
+					(result) =>
 					{
-						owc.cloud.googleDrive.appFolder.id = result;
-					}
-					else
-					{
-						owc.ui.blurPage("dim stubborn");
-						Menubox.dialogBox("Google Drive first use",
-							"Seems to be the first time you use " + owc.meta.TITLE + " on Google Drive.\n" +
-							"We will now create a folder to keep your warbands in one place.",
-							[
-								{ key:"continue",  label:"create folder"},
-								{ key:"cancel", label:"abort" }
-							]
-						).then((buttonKey) =>
+						if (!!result)
 						{
-							if (buttonKey === "continue")
+							owc.cloud.googleDrive.appFolder.id = result;
+						}
+						else
+						{
+							owc.ui.blurPage("dim stubborn");
+							Menubox.dialogBox("Google Drive first use",
+								"Seems to be the first time you use " + owc.meta.TITLE + " on Google Drive.\n" +
+								"We will now create a folder to keep your warbands in one place.",
+								[
+									{ key: "continue", label: "create folder" },
+									{ key: "cancel", label: "abort" }
+								]
+							).then((buttonKey) =>
 							{
-								owc.ui.unblurPage();
-								googledriveApi.createFolder(owc.cloud.googleDrive.appFolder.NAME, "root", owc.meta.ORIGIN).then(
-								(result) => {
-									console.info("Google Drive folder created, id:", result);
-									owc.cloud.googleDrive.appFolder.id = result;
-									fileSurfer.listFolderContent(owc.cloud.googleDrive.appFolder.id);
-								})
-							}
-							else
-							{
-								owc.ui.sweepVolatiles();
-							}
-						});
-					}
-				});
+								if (buttonKey === "continue")
+								{
+									owc.ui.unblurPage();
+									googledriveApi.createFolder(owc.cloud.googleDrive.appFolder.NAME, "root", owc.meta.ORIGIN).then(
+										(result) =>
+										{
+											console.info("Google Drive folder created, id:", result);
+											owc.cloud.googleDrive.appFolder.id = result;
+											fileSurfer.listFolderContent(owc.cloud.googleDrive.appFolder.id);
+										});
+								}
+								else
+								{
+									owc.ui.sweepVolatiles();
+								}
+							});
+						}
+					});
 			}
 		},
-		complainNoPermission: () => {
+		complainNoPermission: () =>
+		{
 			owc.ui.blurPage("dim stubborn");
 			Menubox.dialogBox("Google Drive permission required",
 				"You need to grant the __\"See, edit, create, and delete only the specific Google Drive files you use with this app\"__ permission in order to use " + owc.meta.TITLE + " on your Google Drive.\n" +
 				"See the [tos_pp.html#pp_cloud](Privacy Policy) why this is required.",
 				[
-					{ key:"retry",  label:"try again"},
-					{ key:"cancel", label:"cancel" }
+					{ key: "retry", label: "try again" },
+					{ key: "cancel", label: "cancel" }
 				]
 			).then((buttonKey) =>
 			{
@@ -257,35 +274,37 @@ owc.cloud = {
 				}
 			});
 		},
-		getFolderContent: (folderId = owc.cloud.googleDrive.ROOT_FOLDER_ID) => {
+		getFolderContent: (folderId = owc.cloud.googleDrive.ROOT_FOLDER_ID) =>
+		{
 			owc.cloud.googleDrive.firstUse();
 			return new Promise((resolve) => googledriveApi.getFolderContent(folderId).then(
-			(result) =>
-			{
-				const FILE_TYPES = {
-					'application/vnd.google-apps.folder': "folder",
-					'text/plain': "file"
-				};
-				let files = [];
-				for (let item of result.files)
+				(result) =>
 				{
-					let type = FILE_TYPES[item.mimeType];
-					if ((type === "folder") || ((type === "file") && (item.name.endsWith(".owc.txt"))))
+					const FILE_TYPES = {
+						'application/vnd.google-apps.folder': "folder",
+						'text/plain': "file"
+					};
+					let files = [];
+					for (let item of result.files)
 					{
-						files.push({
-							name: item.name.replace(/\.owc\.txt$/i, ""),
-							type: type,
-							id: item.id,
-							lastModified: new Date(item.modifiedTime)
-						});
+						let type = FILE_TYPES[item.mimeType];
+						if ((type === "folder") || ((type === "file") && (item.name.endsWith(".owc.txt"))))
+						{
+							files.push({
+								name: item.name.replace(/\.owc\.txt$/i, ""),
+								type: type,
+								id: item.id,
+								lastModified: new Date(item.modifiedTime)
+							});
+						}
 					}
-				}
-				resolve(files);
-			},
-			owc.cloud._handleError)
-			)
+					resolve(files);
+				},
+				owc.cloud._handleError)
+			);
 		},
-		getBreadcrumps: (folderId = owc.cloud.googleDrive.ROOT_FOLDER_ID, _breadcrumps = []) => {
+		getBreadcrumps: (folderId = owc.cloud.googleDrive.ROOT_FOLDER_ID, _breadcrumps = []) =>
+		{
 			function _queryFolder (folderId)
 			{
 				return new Promise((resolve) =>
@@ -307,9 +326,10 @@ owc.cloud = {
 								owc.cloud.googleDrive.cache[folderId] = data;
 								resolve(data);
 							},
-							(reason) => {
+							(reason) =>
+							{
 								/* when we do not have access to an item, google returns a 404... */
-								resolve({id: "root"});
+								resolve({ id: "root" });
 							}
 						);
 					}
@@ -319,30 +339,33 @@ owc.cloud = {
 			{
 				_queryFolder(folderId).then((folderData) =>
 				{
-					_breadcrumps.splice(0, 0, {name: (!!folderData.parentId) ? folderData.name : "Home", id: folderData.id});
+					_breadcrumps.splice(0, 0, { name: (!!folderData.parentId) ? folderData.name : "Home", id: folderData.id });
 					if (!!folderData.parentId)
 					{
 						owc.cloud.googleDrive.getBreadcrumps(folderData.parentId, _breadcrumps).then(resolve);
 					}
-					else 
+					else
 					{
 						resolve(_breadcrumps);
 					}
 				},
-				owc.cloud._handleError)
+					owc.cloud._handleError);
 			});
 		},
-		loadFile: (fileId) => {
+		loadFile: (fileId) =>
+		{
 			owc.ui.wait("Loading from Google Drive");
 			return googledriveApi.loadFile(fileId).then(
 				(fileContent) => owc.fileIo.loadWarbandCode(fileContent),
 				owc.cloud._handleError);
 		},
-		saveFile: (parentFolderId) => {
+		saveFile: (parentFolderId) =>
+		{
 			owc.ui.wait("Saving to Google Drive");
 			let file = owc.fileIo.getFile();
 			return googledriveApi.saveFile(file, parentFolderId).then(
-				(response) => {
+				(response) =>
+				{
 					owc.ui.notify("Warband successfully saved to Google Drive.");
 					owc.ui.waitEnd();
 					console.info("File saved.", response);

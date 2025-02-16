@@ -1,21 +1,35 @@
-﻿"use strict";
-
-/*
-This file is part of the ONLINE WARBAND CREATOR (https://github.com/suppenhuhn79/sbhowc)
-Copyright 2021 Christoph Zager
-Licensed unter the GNU Affero General Public License, Version 3
-See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
+﻿/**
+ * A _Song of Blades and Heroes_ warband is a bunch of figures aka `Unit`s.
  */
-
 class Warband
 {
 	static CURRENT_VERSION = "v1";
 	static UNIT_SEPARATOR = "@";
-	static POINTSPOOLS =
-	{
-		"ee": "elementalSummonPool",
-		"sm": "summonPool"
+	static POINTSPOOLS = {
+		'ee': "elementalSummonPool",
+		'sm': "summonPool"
 	};
+
+	/**
+	 * The warbands name.
+	 * @type {string}
+	 */
+	name;
+
+	/**
+	 * Units of this warband.
+	 * @type {Array<Unit>}
+	 */
+	units;
+
+	/**
+	 * Warband points stored in (summoning) pools.
+	 *
+	 * Members of this record come from `Warband.POINTSPOOLS` member values.
+	 *
+	 * @type {{elementalSummonPool?: number, summonPool?: number}}
+	 */
+	pointsPools;
 
 	constructor()
 	{
@@ -24,7 +38,10 @@ class Warband
 		this.pointsPools = {};
 	};
 
-	get points()
+	/**
+	 * The points of this warband, calculated as a sum of all units points and all points stored in pools.
+	 */
+	get points ()
 	{
 		let result = this.figurePoints;
 		for (let poolName in this.pointsPools)
@@ -34,7 +51,10 @@ class Warband
 		return result;
 	};
 
-	get figurePoints()
+	/**
+	 * Total points of all figures (_personalities_ and non-personalities) in this warband.
+	 */
+	get figurePoints ()
 	{
 		let result = 0;
 		for (let unit of this.units)
@@ -44,7 +64,12 @@ class Warband
 		return result;
 	};
 
-	get personalityPoints()
+	/**
+	 * Points of figures in this warband that are recognized _personalities_.
+	 *
+	 * Points of personalities  must not exceed a certain ratio.
+	 */
+	get personalityPoints ()
 	{
 		let result = 0;
 		for (let unit of this.units)
@@ -54,19 +79,23 @@ class Warband
 		return result;
 	};
 
-	get figureCount()
+	/**
+	 * Count of figures in this warband. Since a `Unit` can be declared valid for any count of figures,
+	 * the count of warband figures may differ from the count of units in this warband object.
+	 */
+	get figureCount ()
 	{
-		let result = 0;
-		for (let unit of this.units)
-		{
-			result += unit.count;
-		};
-		return result;
+		return this.units.reduce((previous, current) => previous += current.count, 0);
 	};
 
-	get isEmpty()
+	/**
+	 * Whether this warband does have actual units (`false`) or is treated empty (`true`).
+	 *
+	 * A warband is recognized as empty as long as no unit has a name or a specialrule.
+	 * See https://github.com/chzager/sbhowc/issues/17
+	 */
+	get isEmpty ()
 	{
-		/* A warband counts as empty as long as no unit has a name or a special rule. (see https://github.com/Suppenhuhn79/sbhowc/issues/17) */
 		let result = true;
 		for (let unit of this.units)
 		{
@@ -75,7 +104,12 @@ class Warband
 		return result;
 	};
 
-	checkPointsPools()
+	/**
+	 * Checks if any unit of this warband does have a specialrule that enables a points pool.
+	 * If such an unit is found, the corresponding points pool is activated (gets an integer value),
+	 * otherwise the points pool is deactivated (value is set to `null`).
+	 */
+	checkPointsPools ()
 	{
 		for (let poolKey in Warband.POINTSPOOLS)
 		{
@@ -91,43 +125,58 @@ class Warband
 		};
 	};
 
-	addUnit(unit)
+	/**
+	 * Adds an unit to this warband.
+	 *
+	 * This replaces the `addSpecialrule()` and `removeSpecialrule()` methods of the unit so they
+	 * trigger checks for enabling/disabling warband point pools.
+	 *
+	 * Also, by adding an unit it is checked to enable point pools.
+	 *
+	 * @param {Unit} unit Unit to add.
+	 */
+	addUnit (unit)
 	{
-		const warband = this;
-		function _addSpecialruleReplacer(specialruleKey, specialrulesDictionary)
+		/* replace Unit default functions with Warband replacer functions */
+		unit._$addSpecialrule = unit.addSpecialrule;
+		unit._$removeSpecialrule = unit.removeSpecialrule;
+		unit.addSpecialrule = (specialruleKey, specialrulesDictionary) =>
 		{
 			let result = unit._$addSpecialrule(specialruleKey, specialrulesDictionary);
 			if (!!Warband.POINTSPOOLS[specialruleKey])
 			{
-				warband.checkPointsPools();
+				this.checkPointsPools();
 			};
 			return result;
 		};
-		function _removeSpecialruleReplacer(specialruleIndex)
+		unit.removeSpecialrule = (specialruleIndex) =>
 		{
-			let specialruleKey = unit.specialrules[specialruleIndex].key;
 			let result = unit._$removeSpecialrule(specialruleIndex);
-			if (!!Warband.POINTSPOOLS[specialruleKey])
+			if (!!Warband.POINTSPOOLS[unit.specialrules[specialruleIndex].key])
 			{
-				warband.checkPointsPools();
+				this.checkPointsPools();
 			};
 			return result;
 		};
-		/* replace Unit default functions with Warband replacer functions */
-		unit._$addSpecialrule = unit.addSpecialrule;
-		unit._$removeSpecialrule = unit.removeSpecialrule;
-		unit.addSpecialrule = _addSpecialruleReplacer;
-		unit.removeSpecialrule = _removeSpecialruleReplacer;
 		this.units.push(unit);
 	};
-	
-	removeUnit(unitIndex)
+
+	/**
+	 * Removes an unit from this warband.
+	 * @param {number} unitIndex Index of the unit in this warbands `units` array.
+	 */
+	removeUnit (unitIndex)
 	{
-		this.units.splice(unitIndex, 1);		
+		this.units.splice(unitIndex, 1);
 		this.checkPointsPools();
 	};
 
-	unitsBySpecialrule(specialruleKey)
+	/**
+	 * Selects all units that do posses a certain specialrule.
+	 * @param {string} specialruleKey Id of specialrule to select.
+	 * @returns {Array<Unit>} All units that do posses the queried specialrule.
+	 */
+	unitsBySpecialrule (specialruleKey)
 	{
 		let result = [];
 		for (let unit of this.units)
@@ -140,13 +189,22 @@ class Warband
 		return result;
 	};
 
-	clear()
+	/**
+	 * Resets the warbands name to blank ans removes all units.
+	 */
+	clear ()
 	{
 		this.name = "";
 		this.units = [];
+		this.checkPointsPools();
 	};
 
-	toString()
+	/**
+	 * Provides a string representation of this warband. This is not human readable, but a serialization, i.e. for
+	 * writing in files.
+	 * @returns {string} This warbands string code.
+	 */
+	toString ()
 	{
 		let result = String(Warband.CURRENT_VERSION + this.name);
 		let unitSeparator = Warband.UNIT_SEPARATOR;
@@ -173,7 +231,12 @@ class Warband
 		return result;
 	};
 
-	fromString(string, specialrulesDictionary)
+	/**
+	 * Parses warband data from a string.
+	 * @param {string} string A warband string code.
+	 * @param {SpecialrulesDictionary} specialrulesDictionary Dictionary to look up specialrules properties.
+	 */
+	fromString (string, specialrulesDictionary)
 	{
 		let unitSeparator = Warband.UNIT_SEPARATOR;
 		if (string.indexOf("v1") === 0)
@@ -191,9 +254,9 @@ class Warband
 				}
 				else
 				{
-				let unit = new Unit();
-				unit.fromString(unitsFind[1], "v1", specialrulesDictionary);
-				this.addUnit(unit);
+					let unit = new Unit();
+					unit.fromString(unitsFind[1], "v1", specialrulesDictionary);
+					this.addUnit(unit);
 				};
 			};
 			this.checkPointsPools();

@@ -1,7 +1,7 @@
 "use strict";
 
 /*
-This file is part of the ONLINE WARBAND CREATOR (https://github.com/suppenhuhn79/sbhowc)
+This file is part of the ONLINE WARBAND CREATOR (https://github.com/chzager/sbhowc)
 Copyright 2021 Christoph Zager
 Licensed unter the GNU Affero General Public License, Version 3
 See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
@@ -16,7 +16,7 @@ owc.resources =
 
 owc.resources.import = function (urls, callback)
 {
-	function _allSettled(promises)
+	function _allSettled (promises)
 	{
 		for (let promise of promises)
 		{
@@ -31,7 +31,7 @@ owc.resources.import = function (urls, callback)
 		};
 		_manageCrossreferences();
 	};
-	function _append(json)
+	function _append (json)
 	{
 		let currentLang = json.lang || owc.resources.DEFAULT_LANGUAGE;
 		let currentScope = json.scope;
@@ -69,17 +69,17 @@ owc.resources.import = function (urls, callback)
 			else
 			{
 				console.warn("Duplicate resource identifier \"" + key + "\".",
-				{
-					"Existing resource": owc.resources.data[key],
-					"Data to import": json
-				}
+					{
+						"Existing resource": owc.resources.data[key],
+						"Data to import": json
+					}
 				);
 			};
 		};
 	};
-	function _manageCrossreferences()
+	function _manageCrossreferences ()
 	{
-		function __copyAllReferences(originResourceKey, referredResourceKey, attribute)
+		function __copyAllReferences (originResourceKey, referredResourceKey, attribute)
 		{
 			let originResource = owc.resources.data[originResourceKey];
 			let referredResource = owc.resources.data[referredResourceKey];

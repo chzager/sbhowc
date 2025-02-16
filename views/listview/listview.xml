@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <ps:pagesnippets xmlns="http://www.w3.org/1999/xhtml" xmlns:ps="https://github.com/suppenhuhn79/pagesnippets" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://github.com/suppenhuhn79/pagesnippets https://suppenhuhn79.github.io/pagesnippets/pagesnippets.xsd">
-	<ps:stylesheet src="../core.css"/>
-	<ps:stylesheet src="listview.css"/>
-	<ps:script src="../formscore.js"/>
-	<ps:script src="listview.js"/>
+	<ps:stylesheet src="../core.css" />
+	<ps:stylesheet src="listview.css" />
+	<ps:script src="../formscore.js" />
+	<ps:script src="listview.js" />
 	<ps:snippet-group name="listview">
 		<ps:snippet name="main">
 			<div class="listview screenfx interactive">
@@ -17,8 +17,8 @@
 						<th class="combat">{{combat}}</th>
 						<th class="specialrules">{{specialrules}}</th>
 					</tr>
-					<ps:call-function name="listUnits"/>
-					<ps:call-function name="listPointsPools"/>
+					<ps:call-function name="listUnits" />
+					<ps:call-function name="listPointsPools" />
 					<tr class="addunit">
 						<td colspan="6">
 							<div id="additmes-container">
@@ -30,30 +30,30 @@
 						</td>
 					</tr>
 				</table>
-				<div id="warbandfooter"/>
+				<div id="warbandfooter" />
 			</div>
 		</ps:snippet>
 		<ps:snippet name="unit-row">
 			<tr data-unitindex="{{unit-index}}">
 				<td class="editor">
-					<span data-valueof="count"/>
-					<input type="number" min="1" max="25" maxlength="2" data-editor="count" data-type="number" ps:onchange="onValueEdited"/>
+					<span data-valueof="count" />
+					<input type="number" min="1" max="25" maxlength="2" data-editor="count" data-type="number" ps:onchange="onValueEdited" />
 				</td>
 				<td>
-					<div data-editor="name" data-defaultvalue="{{default-unit-name}}" ps:postproduction="makeEditable"/>
+					<div data-editor="name" data-defaultvalue="{{default-unit-name}}" ps:postproduction="makeEditable" />
 				</td>
 				<td class="points" data-action="showunitmenu" ps:onclick="onValueEdited">
-					<span data-staticvalueof="points"/>
+					<span data-staticvalueof="points" />
 				</td>
 				<td class="quality editor">
-					<span data-valueof="quality"/>
-					<ps:call-function name="appendQualitySelector"/>
+					<span data-valueof="quality" />
+					<ps:call-function name="appendQualitySelector" />
 				</td>
 				<td class="combatscore editor">
-					<span data-valueof="combat"/>
-					<ps:call-function name="appendCombatSelector"/>
+					<span data-valueof="combat" />
+					<ps:call-function name="appendCombatSelector" />
 				</td>
-				<td class="specialrules" data-staticvalueof="specialrules"/>
+				<td class="specialrules" data-staticvalueof="specialrules" />
 			</tr>
 		</ps:snippet>
 		<ps:snippet name="specialrules">
@@ -81,16 +81,16 @@
 						</ps:else>
 					</ps:choose>
 				</ps:for-each>
-				<ps:call-function name="appendSpecialrulesSelector"/>
+				<ps:call-function name="appendSpecialrulesSelector" />
 			</div>
 		</ps:snippet>
 		<ps:snippet name="pointspool">
 			<tr data-pointspool="{{pool-name}}">
 				<td colspan="2" class="pointspool">{{pool-label}}</td>
 				<td>
-					<div data-editor="pointspool" data-poolname="{{pool-name}}" data-type="number" ps:postproduction="makeEditable"/>
+					<div data-editor="pointspool" data-poolname="{{pool-name}}" data-type="number" ps:postproduction="makeEditable" />
 				</td>
-				<td colspan="3"/>
+				<td colspan="3" />
 			</tr>
 		</ps:snippet>
 		<ps:snippet name="warband-summary">

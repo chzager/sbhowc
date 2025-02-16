@@ -1,28 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <ps:pagesnippets xmlns="http://www.w3.org/1999/xhtml" xmlns:ps="https://github.com/suppenhuhn79/pagesnippets" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://github.com/suppenhuhn79/pagesnippets https://suppenhuhn79.github.io/pagesnippets/pagesnippets.xsd">
-	<ps:stylesheet src="restorer.css"/>
-	<ps:script src="restorer.js"/>
+	<ps:stylesheet src="restorer.css" />
+	<ps:script src="restorer.js" />
 	<ps:snippet-group name="restorer">
 		<ps:snippet name="main">
 			<div id="restorer" class="blue" onclick="event.stopPropagation();">
 				<div class="blue-viewport">
 					<h1>
-						<i class="fas fa-times" ps:onclick="close"/>
+						<i class="fas fa-times" ps:onclick="close" />
 						<span>Restore warband</span>
 					</h1>
 					<div class="panel">
 						<p>Warbands are cached within your browser using its localStorage.</p>
 						<div class="warning">
-							<em>Warning!</em>
-							This is no way to save your warbands. You may experience a
-							<em>full data loss at any time</em>
-							and without prediction. The only way to securly save your warbands is via "save to file" to your device or a cloud storage.
-						</div>
-						<div id="restorer-table-frame"/>
+							<em>Warning!</em> This is no way to save your warbands. You may experience a <em>full data loss at any time</em> and without prediction. The only way to securly save your warbands is via "save to file" to your device or a cloud storage. </div>
+						<div id="restorer-table-frame" />
 					</div>
 					<div class="buttons">
-						<input type="button" value="restore" ps:onclick="restoreClick"/>
-						<input type="button" value="discard" ps:onclick="discardClick"/>
+						<input type="button" value="restore" ps:onclick="restoreClick" />
+						<input type="button" value="discard" ps:onclick="discardClick" />
 						<div id="deletedBubble" class="notification yellow">Warband deleted.</div>
 					</div>
 				</div>
