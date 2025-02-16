@@ -1,11 +1,4 @@
 ﻿/**
- * This file is part of the ONLINE WARBAND CREATOR (https://github.com/suppenhuhn79/sbhowc)
- * Copyright 2021 Christoph Zager
- * Licensed unter the GNU Affero General Public License, Version 3
- * See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
- */
-
-/**
  * A _Song of Blades and Heroes_ warband is a bunch of figures aka `Unit`s.
  */
 class Warband
@@ -34,7 +27,7 @@ class Warband
 	 *
 	 * Members of this record come from `Warband.POINTSPOOLS` member values.
 	 *
-	 * @type {{elementalSummonPool: number|null, summonPool: number|null}}
+	 * @type {{elementalSummonPool?: number, summonPool?: number}}
 	 */
 	pointsPools;
 
@@ -99,7 +92,7 @@ class Warband
 	 * Whether this warband does have actual units (`false`) or is treated empty (`true`).
 	 *
 	 * A warband is recognized as empty as long as no unit has a name or a specialrule.
-	 * See https://github.com/Suppenhuhn79/sbhowc/issues/17
+	 * See https://github.com/chzager/sbhowc/issues/17
 	 */
 	get isEmpty ()
 	{

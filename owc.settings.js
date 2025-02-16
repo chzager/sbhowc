@@ -1,5 +1,5 @@
 /*
-This file is part of the ONLINE WARBAND CREATOR (https://github.com/suppenhuhn79/sbhowc)
+This file is part of the ONLINE WARBAND CREATOR (https://github.com/chzager/sbhowc)
 Copyright 2021 Christoph Zager
 Licensed unter the GNU Affero General Public License, Version 3
 See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
@@ -7,7 +7,8 @@ See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
 
 owc.settings = {
 	STORAGE_KEY: "owc_settings",
-	init: () => {
+	init: () =>
+	{
 		const DEFAULT_SETTINGS = {
 			ruleScope: ["sbh", "sgd", "sww"],
 			options: {
@@ -26,7 +27,8 @@ owc.settings = {
 		owc.settings.fromJson(DEFAULT_SETTINGS);
 		owc.settings.viewMode = (owc.ui.isTouchDevice) ? "classictouch" : "classic";
 	},
-	toJson: () => {
+	toJson: () =>
+	{
 		let result = {};
 		for (let key in owc.settings)
 		{
@@ -37,16 +39,19 @@ owc.settings = {
 		}
 		return result;
 	},
-	fromJson: (jsonObject) => {
+	fromJson: (jsonObject) =>
+	{
 		Object.assign(owc.settings, jsonObject);
 	},
-	save: () => {
+	save: () =>
+	{
 		if (!!localStorage)
 		{
 			localStorage.setItem(owc.settings.STORAGE_KEY, JSON.stringify(owc.settings.toJson()));
 		}
 	},
-	load: () => {
+	load: () =>
+	{
 		owc.settings.init();
 		if (!!localStorage)
 		{

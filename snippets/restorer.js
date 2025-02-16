@@ -1,7 +1,7 @@
 "use strict";
 
 /*
-This file is part of the ONLINE WARBAND CREATOR (https://github.com/suppenhuhn79/sbhowc)
+This file is part of the ONLINE WARBAND CREATOR (https://github.com/chzager/sbhowc)
 Copyright 2021 Christoph Zager
 Licensed unter the GNU Affero General Public License, Version 3
 See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
@@ -90,7 +90,7 @@ restorer.tableheaderClick = function (clickEvent)
 
 restorer.listStoredData = function ()
 {
-	function _naturalPast(pastDate)
+	function _naturalPast (pastDate)
 	{
 		const wordings = ["just now", "{{n}} minutes ago", "{{6}} hours ago"];
 		const dayWordings = ["today", "yesterday", "two days ago"];
@@ -126,7 +126,7 @@ restorer.listStoredData = function ()
 		};
 		return result;
 	};
-	function _getLocalStorageData()
+	function _getLocalStorageData ()
 	{
 		let result = [];
 		for (let key in localStorage)
@@ -136,24 +136,24 @@ restorer.listStoredData = function ()
 				let storedData = JSON.parse(localStorage[key]);
 				let lastModifiedDate = new Date().fromIsoString(storedData.date);
 				result.push(
-				{
-					pid: key,
-					'warband-name': storedData.title,
-					'figure-count': storedData["figure-count"],
-					points: storedData.points,
-					'last-modified': lastModifiedDate,
-					'last-modified-text': _naturalPast(lastModifiedDate)
-				}
+					{
+						pid: key,
+						'warband-name': storedData.title,
+						'figure-count': storedData["figure-count"],
+						points: storedData.points,
+						'last-modified': lastModifiedDate,
+						'last-modified-text': _naturalPast(lastModifiedDate)
+					}
 				);
 			};
 		};
 		switch (restorer.sort.field)
 		{
-		case "warband-name":
-			result.sort((a, b) => (a["warband-name"].localeCompare(b["warband-name"]) * restorer.sort.direction));
-			break;
-		default:
-			result.sort((a, b) => (((a[restorer.sort.field] < b[restorer.sort.field]) ? 1 : -1) * restorer.sort.direction));
+			case "warband-name":
+				result.sort((a, b) => (a["warband-name"].localeCompare(b["warband-name"]) * restorer.sort.direction));
+				break;
+			default:
+				result.sort((a, b) => (((a[restorer.sort.field] < b[restorer.sort.field]) ? 1 : -1) * restorer.sort.direction));
 		};
 		return result;
 	};

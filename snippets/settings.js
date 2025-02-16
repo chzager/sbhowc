@@ -1,5 +1,5 @@
 /*
-This file is part of the ONLINE WARBAND CREATOR (https://github.com/suppenhuhn79/sbhowc)
+This file is part of the ONLINE WARBAND CREATOR (https://github.com/chzager/sbhowc)
 Copyright 2021 Christoph Zager
 Licensed unter the GNU Affero General Public License, Version 3
 See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
@@ -7,7 +7,8 @@ See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
 
 const settingsUi = {
 	element: null,
-	show: () => {
+	show: () =>
+	{
 		settingsUi.element = document.getElementById("settings");
 		if (settingsUi.element !== null)
 		{
@@ -28,7 +29,8 @@ const settingsUi = {
 		owc.ui.showBluebox(settingsUi.element);
 	},
 	close: () => owc.ui.sweepVolatiles(),
-	applySettings: () => {
+	applySettings: () =>
+	{
 		let uiValues = {
 			ruleScope: []
 		};

@@ -1,25 +1,35 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <ps:pagesnippets xmlns="http://www.w3.org/1999/xhtml" xmlns:ps="https://github.com/suppenhuhn79/pagesnippets" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://github.com/suppenhuhn79/pagesnippets https://suppenhuhn79.github.io/pagesnippets/pagesnippets.xsd">
-	<ps:script src="settings.js"/>
+	<ps:script src="settings.js" />
 	<ps:snippet name="settings">
 		<div id="settings" class="blue" onclick="event.stopPropagation();">
 			<div class="blue-viewport">
 				<h1>
-					<i class="fas fa-times" ps:onclick="close"/>
+					<i class="fas fa-times" ps:onclick="close" />
 					<span>Settings</span>
 				</h1>
 				<div>
 					<p>Select expansions to use special rules from:</p>
 					<div class="two-column-grid">
-						<span><input type="checkbox" id="rulesScopeSbh" data-group="rules_scope" data-group-value="sbh" disabled="disabled" checked="checked"/></span>
+						<span>
+							<input type="checkbox" id="rulesScopeSbh" data-group="rules_scope" data-group-value="sbh" disabled="disabled" checked="checked" />
+						</span>
 						<label for="rulesScopeSbh">Song of Blades and Heroes</label>
-						<span><input type="checkbox" id="rulesScopeSgd" data-group="rules_scope" data-group-value="sgd"/></span>
+						<span>
+							<input type="checkbox" id="rulesScopeSgd" data-group="rules_scope" data-group-value="sgd" />
+						</span>
 						<label for="rulesScopeSgd">Song of Gold and Darkness</label>
-						<span><input type="checkbox" id="rulesScopeSww" data-group="rules_scope" data-group-value="sww"/></span>
+						<span>
+							<input type="checkbox" id="rulesScopeSww" data-group="rules_scope" data-group-value="sww" />
+						</span>
 						<label for="rulesScopeSww">Song of Wind and Water</label>
-						<span><input type="checkbox" id="rulesScopeSdg" data-group="rules_scope" data-group-value="sdg"/></span>
+						<span>
+							<input type="checkbox" id="rulesScopeSdg" data-group="rules_scope" data-group-value="sdg" />
+						</span>
 						<label for="rulesScopeSdg">Song of Deeds and Glory</label>
-						<span><input type="checkbox" id="rulesScopeSam" data-group="rules_scope" data-group-value="sam"/></span>
+						<span>
+							<input type="checkbox" id="rulesScopeSam" data-group="rules_scope" data-group-value="sam" />
+						</span>
 						<label for="rulesScopeSam">Song of Arthur and Merlin</label>
 					</div>
 				</div>
@@ -33,22 +43,34 @@
 				<div>
 					<p>What layout for the unit sheets do you prefer?</p>
 					<div class="two-column-grid">
-						<span><input type="radio" id="view_mode_classic" data-group="view_mode" data-group-value="classic" name="view_mode"/></span>
+						<span>
+							<input type="radio" id="view_mode_classic" data-group="view_mode" data-group-value="classic" name="view_mode" />
+						</span>
 						<label for="view_mode_classic">Classic unit profiles</label>
-						<span><input type="radio" id="view_mode_classic_touch" data-group="view_mode" data-group-value="classictouch" name="view_mode"/></span>
+						<span>
+							<input type="radio" id="view_mode_classic_touch" data-group="view_mode" data-group-value="classictouch" name="view_mode" />
+						</span>
 						<label for="view_mode_classic_touch">Classic unit profiles, optimized for touchscreen devices</label>
-						<span><input type="radio" id="view_mode_list" data-group="view_mode" data-group-value="list" name="view_mode"/></span>
+						<span>
+							<input type="radio" id="view_mode_list" data-group="view_mode" data-group-value="list" name="view_mode" />
+						</span>
 						<label for="view_mode_list">Broad list, better for bigger screens</label>
 					</div>
 				</div>
 				<div>
 					<p>More Options:</p>
 					<div class="two-column-grid">
-						<span><input type="checkbox" id="option_highlightPersonalities" data-value-key="options.highlightPersonalities" data-value-attribute="checked"/></span>
+						<span>
+							<input type="checkbox" id="option_highlightPersonalities" data-value-key="options.highlightPersonalities" data-value-attribute="checked" />
+						</span>
 						<label for="option_highlightPersonalities">Highlight personalities</label>
-						<span><input type="checkbox" id="option_personalitiesInPoints" data-value-key="options.personalitiesInPoints" data-value-attribute="checked"/></span>
+						<span>
+							<input type="checkbox" id="option_personalitiesInPoints" data-value-key="options.personalitiesInPoints" data-value-attribute="checked" />
+						</span>
 						<label for="option_personalitiesInPoints">Show personalities points instead of percents</label>
-						<span><input type="checkbox" id="option_applyRuleChecks" data-value-key="options.applyRuleChecks" data-value-attribute="checked"/></span>
+						<span>
+							<input type="checkbox" id="option_applyRuleChecks" data-value-key="options.applyRuleChecks" data-value-attribute="checked" />
+						</span>
 						<label for="option_applyRuleChecks">Check rule compliance</label>
 					</div>
 				</div>
@@ -74,7 +96,7 @@
 					</div>
 				</div>
 				<div>
-					<input type="button" value="apply" ps:onclick="applySettings"/>
+					<input type="button" value="apply" ps:onclick="applySettings" />
 				</div>
 			</div>
 		</div>

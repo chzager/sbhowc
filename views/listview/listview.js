@@ -1,7 +1,7 @@
 "use strict";
 
 /*
-This file is part of the ONLINE WARBAND CREATOR (https://github.com/suppenhuhn79/sbhowc)
+This file is part of the ONLINE WARBAND CREATOR (https://github.com/chzager/sbhowc)
 Copyright 2021 Christoph Zager
 Licensed unter the GNU Affero General Public License, Version 3
 See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
@@ -36,7 +36,7 @@ listview.getWarbandHtmlElement = function ()
 		'warband-name': owc.helper.nonBlankWarbandName(),
 		'default-warband-name': owc.helper.translate("defaultWarbandName"),
 		'add-unit': owc.helper.translate("addUnit"),
-		'paste-unit-text': (!!clipboardUnit) ? owc.helper.translate("pasteUnit", {UNIT: clipboardUnit.name}) : "",
+		'paste-unit-text': (!!clipboardUnit) ? owc.helper.translate("pasteUnit", { UNIT: clipboardUnit.name }) : "",
 		'clipboard-unit-code': clipboardUnit?.code
 	};
 	result = pageSnippets.listview.main.produce(listview, variables);
@@ -84,22 +84,21 @@ listview.listPointsPools = function (refNode)
 	};
 };
 
-listview.refeshPointsPools = function()
+listview.refeshPointsPools = function ()
 {
 	for (let poolName in owc.warband.pointsPools)
 	{
-		let poolElement = owc.ui.warbandCanvas.querySelector("[data-pointspool='" + poolName + "']")
+		let poolElement = owc.ui.warbandCanvas.querySelector("[data-pointspool='" + poolName + "']");
 		if (!!poolElement)
 		{
-			poolElement.style.display = (owc.warband.pointsPools[poolName] !== null) ? "table-row": "none";
+			poolElement.style.display = (owc.warband.pointsPools[poolName] !== null) ? "table-row" : "none";
 			poolElement.querySelector("[data-editor='pointspool']").innerHTML = owc.warband.pointsPools[poolName];
 		};
 	};
 };
 
-listview.refreshWarbandSummary = function()
+listview.refreshWarbandSummary = function ()
 {
 	listview.refeshPointsPools();
 	formsCore.refreshWarbandSummary();
 };
-

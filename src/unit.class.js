@@ -1,39 +1,4 @@
-/**
- * This file is part of the ONLINE WARBAND CREATOR (https://github.com/suppenhuhn79/sbhowc)
- * Copyright 2021 Christoph Zager
- * Licensed unter the GNU Affero General Public License, Version 3
- * See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
- */
-
-/**
- * @typedef SpecialrulePrototype
- * A basic specialrule property definition. This comes out ouf resources files.
- * @property {string} en The english (native) name of this specialrule.
- * Note that a `SpecialrulePrototype` may have names for other languages, loaded from additional resources.
- * These will add further object members named after the language key.
- * @property {number} points Points costs of this specialrule.
- * @property {string} scope Rulebook that introduces this specialrule (abbreviation).
- * @property {boolean} [personality] Whether this specialrule makes a unit a _personaliy_ (`true`) or not (`false`).
- * @property {Array<string>} [replaces] Ids of other specialrules that a replaced by this specialrule (e.g. "Shooter (long)" replaces "Shooter (medium)").
- * @property {Array<string>} [exclusive] Ids of other specialrules that are excluded for units having this specialrule.
- * In Distinction to `excludes`, exclusive specialrules are multidirectional and exclusive to all each other,
- * e.g. "Elementalist", "Magic User", "Summoner" etc. are all exclusive to each other.
- * @property {Array<string>} [excludes] Ids of other specialrules that are excluded for units having this specialrule.
- * In Distinction to `exclusive`, excludes are unidirectional, e.g. "Coward" excludes "Fearless", "Hero" and "Steadfast",
- * but none of these three excludes any other.
- *
- * @typedef Specialrule
- * Special ability for a unit.
- * @property {string} key This specialrules id as reference to the specialrules resource.
- * @property {number} points Points costs of this specialrule.
- * @property {boolean} isPersonality Whether this specialrule makes the unit a _personaliy_ (`true`) or not (`false`).
- * @property {string} [additionalText] Additional text that specifies this specialrule it in more detail.
- *
- * @typedef SpecialrulesDictionary
- * A dictionary of specialrules. Keys are specialules ids.
- * @type {{[k: string]: SpecialrulePrototype}}
- */
-
+// @ts-check
 /**
  * A single figure in _Song of Blades and Heroes_.
  */
@@ -252,7 +217,7 @@ class Unit
 		switch (version)
 		{
 			case "v1":
-				let rexResult = /([a-z]?)([A-Z0-9])([^*]*)(\*[^!]+)?/.exec(unitString);
+				let rexResult = /([a-z]?)([A-Z0-9])([^*]*)(\*[^!]+)?/.exec(unitString) ?? [];
 				if (rexResult[RXGROUP_COUNT] === "")
 				{
 					this.count = 1;
@@ -267,7 +232,7 @@ class Unit
 				this.name = rexResult[RXGROUP_NAME].replace(/[+]/g, " ");
 				if (rexResult[RXGROUP_SPECIALRULES] !== undefined)
 				{
-					let unitsSpecialRules = rexResult[RXGROUP_SPECIALRULES].match(/[a-z0-9]{2}/g);
+					let unitsSpecialRules = rexResult[RXGROUP_SPECIALRULES].match(/[a-z0-9]{2}/g) ?? [];
 					let unitsSpecialTexts = unitString.match(/![^!]+/g);
 					let additionalTextIndex = 0;
 					for (let s = 0, ss = unitsSpecialRules.length; s < ss; s += 1)

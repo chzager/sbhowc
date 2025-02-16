@@ -1,27 +1,44 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Serif+Pro&display=swap");
 
-@import url('https://fonts.googleapis.com/css2?family=Source+Serif+Pro&display=swap');
+table {
+	border: none;
+	border-collapse: collapse;
+	border-spacing: 0px;
+}
 
-table { border: none; border-collapse: collapse; border-spacing: 0px; }
-
-input, select {
+input,
+select {
 	font-size: 1rem;
-	}
+}
 
-input[type="text"], input[type="number"] { cursor: text; width: 100%; padding: 0.1em; }
-input[type="number"] { text-align: right; }
-input[type="file"] { width: 100%; }
-input[type="button"] { padding: 0.1em 1em; }
-select { cursor: pointer; padding: 0px 0.2em; }
-
+input[type="text"],
+input[type="number"] {
+	cursor: text;
+	width: 100%;
+	padding: 0.1em;
+}
+input[type="number"] {
+	text-align: right;
+}
+input[type="file"] {
+	width: 100%;
+}
+input[type="button"] {
+	padding: 0.1em 1em;
+}
+select {
+	cursor: pointer;
+	padding: 0px 0.2em;
+}
 
 #warbandCanvas * {
-	font-family: 'Source Serif Pro', serif;
-	}
+	font-family: "Source Serif Pro", serif;
+}
 
 #warbandCanvas .interactive [data-editor] {
 	border: 1px solid transparent;
 	outline: none;
-	}
+}
 
 #warbandCanvas .interactive [data-editor]:hover,
 #warbandCanvas .interactive *:hover > [data-editor="name"],
@@ -41,32 +58,32 @@ select { cursor: pointer; padding: 0px 0.2em; }
 	width: 100%;
 	text-align: center;
 	margin-bottom: 1em;
-	}
+}
 #warbandCanvas .screenfx #warbandheader {
 	text-shadow: 0.05em 0.05em 0.3em #00000052;
-	}
+}
 #warbandCanvas .screenfx #warbandheader:hover,
 #warbandCanvas .screenfx #warbandheader:focus {
 	box-shadow: none;
-	background: linear-gradient(to bottom, #fff 70%,#e0e0e0 100%);
-	}
+	background: linear-gradient(to bottom, #fff 70%, #e0e0e0 100%);
+}
 
 /* units */
 
 #warbandCanvas .personality {
 	font-weight: bold;
-	}
+}
 
 /* specialrules */
 
 #warbandCanvas .specialrule,
 #warbandCanvas .specialrule [data-specialruleindex] {
 	display: inline-block;
-	}
+}
 
 #warbandCanvas .interactive .specialrule.out-of-scope {
 	border-bottom: 2px dotted red;
-	}
+}
 
 /* footer */
 
@@ -75,21 +92,17 @@ select { cursor: pointer; padding: 0px 0.2em; }
 	bottom: 0px;
 	background-color: #ffffffd0;
 	box-shadow: 0px 0px 5px 5px #ffffffd0;
-	text-shadow:
-		-0.1em 0.1em 0.1em #fff,
-		-0.1em -0.1em 0.1em #fff,
-		0.1em -0.1em 0.1em #fff,
-		0.1em 0.1em 0.1em #fff;
-	}
+	text-shadow: -0.1em 0.1em 0.1em #fff, -0.1em -0.1em 0.1em #fff, 0.1em -0.1em 0.1em #fff, 0.1em 0.1em 0.1em #fff;
+}
 
 #warbandCanvas #warbandfooter .rule-violation {
 	color: red;
 	padding-left: 1.6em;
-	}
+}
 
 #warbandCanvas #warbandfooter .rule-violation:before {
 	content: "\f06a";
-	font-family: 'Font Awesome 5 Free';
+	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
 	font-size: 0.8em;
 	color: red;
@@ -97,16 +110,16 @@ select { cursor: pointer; padding: 0px 0.2em; }
 	position: relative;
 	margin-left: -1.5em;
 	width: 1.3em;
-	}
+}
 
 @media print {
 	:root {
 		font-size: 12pt;
-		}
+	}
 	body {
 		margin-top: 36pt;
-		}
+	}
 	#warbandCanvas {
 		width: 100%;
-		}
+	}
 }

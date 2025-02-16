@@ -1,5 +1,5 @@
 /*
-This file is part of the ONLINE WARBAND CREATOR (https://github.com/suppenhuhn79/sbhowc)
+This file is part of the ONLINE WARBAND CREATOR (https://github.com/chzager/sbhowc)
 Copyright 2021 Christoph Zager
 Licensed unter the GNU Affero General Public License, Version 3
 See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
@@ -15,11 +15,12 @@ const owc =
 	meta: {
 		TITLE: "Online Warband Creator for Song of Blades and Heroes",
 		VERSION: "Feb22 release",
-		ORIGIN: "https://suppenhuhn79.github.io/sbhowc"
+		ORIGIN: "https://chzager.github.io/sbhowc"
 	},
 	stats: {
 		componentsLoaded: {
-			is: (...keys) => {
+			is: (...keys) =>
+			{
 				let result = true;
 				for (let key of keys)
 				{
@@ -27,7 +28,8 @@ const owc =
 				}
 				return result;
 			},
-			set: (key, isLoaded = true) => {
+			set: (key, isLoaded = true) =>
+			{
 				owc.stats.componentsLoaded[key] = (isLoaded === true) ? new Date() : null;
 				console.debug("Component '" + key + "' " + ((isLoaded) ? "is ready." : "was unloaded."));
 				owc.onComponentLoaded(key);
@@ -81,11 +83,11 @@ owc.init = function ()
 				'quality-values': owc.editor.qualityValues
 			})));
 		pageSnippets.import("./snippets/filesurfer.xml").then(() =>
-			{
-				document.body.appendChild(pageSnippets.filesurfer.main.produce(fileSurfer));
-				fileSurfer.init();
-				owc.stats.componentsLoaded.set("filesurfer");
-			});
+		{
+			document.body.appendChild(pageSnippets.filesurfer.main.produce(fileSurfer));
+			fileSurfer.init();
+			owc.stats.componentsLoaded.set("filesurfer");
+		});
 	}
 	else
 	{
@@ -106,7 +108,7 @@ owc.main = function ()
 		};
 	};
 	/* -- */
-	history.replaceState({}, "", window.location.setParams({[owc.urlParam.PID]: owc.pid}, ["print", "console"]));
+	history.replaceState({}, "", window.location.setParams({ [owc.urlParam.PID]: owc.pid }, ["print", "console"]));
 	owc.editor.buildSpecialrulesCollection();
 	owc.ui.visualizer.init();
 	owc.ui.printWarband();
@@ -120,7 +122,7 @@ owc.main = function ()
 
 owc.isPid = (string) => (/^(?=\D*\d)[\d\w]{6}$/.test(string));
 
-owc.generatrePid = function()
+owc.generatrePid = function ()
 {
 	let pid = [];
 	for (let i = 0; i < 6; i += 1)
@@ -136,11 +138,11 @@ owc.generatrePid = function()
 	let result = pid.join("");
 	console.debug("generated new PID:", result);
 	return result;
-}
+};
 
 owc.fetchResources = function ()
 {
-	function _requireResource(key, lang)
+	function _requireResource (key, lang)
 	{
 		requiredResoures.push("./res/" + lang + "/" + key + "." + lang + ".json");
 	};
@@ -215,7 +217,7 @@ owc.importWarband = function (codeString, autoPrint = true, notification = null)
 			{
 				owc.ui.notify(notification);
 			}
-			window.scrollTo({top:0,behavior: "smooth"});
+			window.scrollTo({ top: 0, behavior: "smooth" });
 			result = true;
 		}
 		catch (ex)
@@ -308,7 +310,8 @@ owc.helper = {
 
 /* cache */
 owc.cache = {
-	update: () => {
+	update: () =>
+	{
 		/* do not store an empty warband (#17) */
 		if (owc.warband.isEmpty === false)
 		{
@@ -323,7 +326,8 @@ owc.cache = {
 			localStorage.setItem("owc_#" + owc.pid, JSON.stringify(data));
 		}
 	},
-	restore: () => {
+	restore: () =>
+	{
 		let result = false;
 		let storedData = JSON.parse(localStorage.getItem("owc_#" + owc.pid) ?? localStorage.getItem(owc.pid));
 		if (typeof storedData?.data === "string")
@@ -334,7 +338,8 @@ owc.cache = {
 		}
 		return result;
 	},
-	cleanup: async () => {
+	cleanup: async () =>
+	{
 		/* every 14 days we will discard the oldest cache entries to keep at mont 100 enties */
 		console.error("Not implemented yet.");
 	}
