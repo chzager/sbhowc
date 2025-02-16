@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<meta charset="utf-8"/>
+		<meta charset="utf-8" />
 	</head>
 	<body>
 		<script src="https://apis.google.com/js/client.js"></script>
@@ -9,44 +9,38 @@
 		<script>
 			let hash = window.location.hash;
 			let reminder = JSON.parse(localStorage.getItem("owc_reminder")) ?? {};
-			let home = window.location.origin + window.location.pathname.substr(0, window.location.pathname.lastIndexOf("/") +1) + ((!!reminder.pid) ? ("?pid=" + reminder.pid) : "");
+			let home = window.location.origin + window.location.pathname.substr(0, window.location.pathname.lastIndexOf("/") + 1) + (!!reminder.pid ? "?pid=" + reminder.pid : "");
 
-			if (hash.includes("error=access_denied"))
-			{
+			if (hash.includes("error=access_denied")) {
 				googledriveApi.tokenCookie.clear();
 				reminder.action = "notSignedIn";
 				localStorage.setItem("owc_reminder", JSON.stringify(reminder));
 				window.location.replace(home);
-			}
-			else
-			{
+			} else {
 				/* get auth info from Google API */
-				gapi.load("client:auth2", () =>
-				{
-					gapi.client.init({
-						apiKey: googledriveApi.API_KEY,
-						clientId: googledriveApi.CLIENT_ID,
-						scope: googledriveApi.SCOPES
-					}).then(() =>
-					{
-						if (/[#&]scope=[^&]*https:\/\/www\.googleapis\.com\/auth\/drive\.file/.test(hash) !== true)
-						{
-							console.log("Permission not granted")
-							reminder.action = "noPermission";
-							localStorage.setItem("owc_reminder", JSON.stringify(reminder));
-						}
-						else
-						{
-							let token = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().access_token;
-							let expiresInSeconds = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().expires_in;
-							let expirationDate = new Date();
-							expirationDate.setTime(expirationDate.getTime() + parseInt(expiresInSeconds) * 1000);
-							console.log(googledriveApi.tokenCookie.KEY, token, expirationDate);
-							googledriveApi.tokenCookie.set(token, expirationDate);
-						}
-						/* continue */
-						window.location.replace(home);
-					})
+				gapi.load("client:auth2", () => {
+					gapi.client
+						.init({
+							apiKey: googledriveApi.API_KEY,
+							clientId: googledriveApi.CLIENT_ID,
+							scope: googledriveApi.SCOPES,
+						})
+						.then(() => {
+							if (/[#&]scope=[^&]*https:\/\/www\.googleapis\.com\/auth\/drive\.file/.test(hash) !== true) {
+								console.log("Permission not granted");
+								reminder.action = "noPermission";
+								localStorage.setItem("owc_reminder", JSON.stringify(reminder));
+							} else {
+								let token = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().access_token;
+								let expiresInSeconds = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().expires_in;
+								let expirationDate = new Date();
+								expirationDate.setTime(expirationDate.getTime() + parseInt(expiresInSeconds) * 1000);
+								console.log(googledriveApi.tokenCookie.KEY, token, expirationDate);
+								googledriveApi.tokenCookie.set(token, expirationDate);
+							}
+							/* continue */
+							window.location.replace(home);
+						});
 				});
 			}
 		</script>

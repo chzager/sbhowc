@@ -1,12 +1,13 @@
 /*
-This file is part of the ONLINE WARBAND CREATOR (https://github.com/suppenhuhn79/sbhowc)
+This file is part of the ONLINE WARBAND CREATOR (https://github.com/chzager/sbhowc)
 Copyright 2021 Christoph Zager
 Licensed unter the GNU Affero General Public License, Version 3
 See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
  */
 
 const warbandcode = {
-	show: () => {
+	show: () =>
+	{
 		warbandcode.element = document.getElementById("warbandcode");
 		warbandcode.textarea = warbandcode.element.querySelector("textarea");
 		warbandcode.element.querySelector("#includeComments").checked = owc.settings.options.warbandcodeIncludesComments;
@@ -14,12 +15,14 @@ const warbandcode = {
 		owc.ui.showBluebox(warbandcode.element);
 	},
 	close: () => owc.ui.sweepVolatiles(),
-	includeCommentsClick: (clickEvent) => {
+	includeCommentsClick: (clickEvent) =>
+	{
 		let optionChekced = warbandcode.element.querySelector("#includeComments").checked;
 		owc.settings.options.warbandcodeIncludesComments = optionChekced;
 		warbandcode.textarea.value = owc.getWarbandCode(optionChekced);
 	},
-	applyClick: (clickEvent) => {
+	applyClick: (clickEvent) =>
+	{
 		let lastGoodWarbandCode = owc.warband.toString();
 		let newWarbandCode = warbandcode.textarea.value;
 		owc.editor.setUndoPoint("Apply warband code.");
@@ -35,7 +38,8 @@ const warbandcode = {
 			owc.ui.showNotification(warbandcode.element.querySelector("#invalidBubble"));
 		}
 	},
-	copyToClipboardClick: (clickEvent) => {
+	copyToClipboardClick: (clickEvent) =>
+	{
 		warbandcode.textarea.select();
 		document.execCommand("copy");
 		owc.ui.showNotification(warbandcode.element.querySelector("#copiedBubble"));

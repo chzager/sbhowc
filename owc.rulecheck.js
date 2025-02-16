@@ -1,7 +1,7 @@
 "use strict";
 
 /*
-This file is part of the ONLINE WARBAND CREATOR (https://github.com/suppenhuhn79/sbhowc)
+This file is part of the ONLINE WARBAND CREATOR (https://github.com/chzager/sbhowc)
 Copyright 2021 Christoph Zager
 Licensed unter the GNU Affero General Public License, Version 3
 See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
@@ -160,7 +160,7 @@ owc.rulecheck.checkRabbleSpecialrule = function ()
 owc.rulecheck.checkExcludes = function ()
 {
 	/* check special rules that exclude each other */
-	function _checkExcludes(excludingKey, resultsRecipient)
+	function _checkExcludes (excludingKey, resultsRecipient)
 	{
 		for (let unit of owc.warband.units)
 		{

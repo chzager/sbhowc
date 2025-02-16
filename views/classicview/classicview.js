@@ -1,7 +1,7 @@
 "use strict";
 
 /*
-This file is part of the ONLINE WARBAND CREATOR (https://github.com/suppenhuhn79/sbhowc)
+This file is part of the ONLINE WARBAND CREATOR (https://github.com/chzager/sbhowc)
 Copyright 2021 Christoph Zager
 Licensed unter the GNU Affero General Public License, Version 3
 See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
@@ -21,7 +21,7 @@ classicview.init = function ()
 	if (owc.isPrinting === false)
 	{
 		/* determining size of "M" for one or two columns choice (#52) */
-		const mElement=htmlBuilder.newElement("span#_sizeOfM", "M", {style:"font-family:var(--serif-font);font-size:1rem;position:absolute;top:0px;left:0px;visibility:hidden;"});
+		const mElement = htmlBuilder.newElement("span#_sizeOfM", "M", { style: "font-family:var(--serif-font);font-size:1rem;position:absolute;top:0px;left:0px;visibility:hidden;" });
 		document.body.insertBefore(mElement, document.getElementById("warbandCanvas"));
 		classicview.sizeOfM = mElement.offsetWidth;
 		mElement.remove();
@@ -79,20 +79,20 @@ classicview.listUnits = function (refNode)
 	refNode.appendChild(tableNode);
 	classicview.insertUnitSheets(refNode);
 	let cells = refNode.querySelectorAll("#unitsgrid > tr > td");
-	let pointspoolsCell = cells[owc.warband.units.length + ((owc.isPrinting) ? 0: 1)];
+	let pointspoolsCell = cells[owc.warband.units.length + ((owc.isPrinting) ? 0 : 1)];
 	pointspoolsCell.removeAttribute("data-unitindex");
 	pointspoolsCell.appendChild(pageSnippets.classicview["pointspools-sheet"].produce(formsCore,
 		{
 			pointsPools: owc.helper.translate("pointsPools")
 		}
-		));
+	));
 	if (owc.isPrinting === false)
 	{
 		let additemsCell = cells[owc.warband.units.length];
 		let clipboardUnit = owc.editor.clipboard.getUnit();
 		let variables = {
 			'add-unit': owc.helper.translate("addUnit"),
-			'paste-unit-text': (!!clipboardUnit) ? owc.helper.translate("pasteUnit", {UNIT: clipboardUnit.name}) : "",
+			'paste-unit-text': (!!clipboardUnit) ? owc.helper.translate("pasteUnit", { UNIT: clipboardUnit.name }) : "",
 			'clipboard-unit-code': clipboardUnit?.code
 		};
 		additemsCell.removeAttribute("data-unitindex");

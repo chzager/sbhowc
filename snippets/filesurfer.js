@@ -4,7 +4,8 @@ const fileSurfer = {
 		field: "name",
 		direction: 1
 	},
-	init: () => {
+	init: () =>
+	{
 		fileSurfer.element = document.body.querySelector("#filesurfer");
 		let storedService = localStorage.getItem(fileSurfer.STORAGE_KEY);
 		if (!!storedService)
@@ -12,21 +13,24 @@ const fileSurfer = {
 			fileSurfer.registerService(storedService);
 		}
 	},
-	registerService: (key) => {
+	registerService: (key) =>
+	{
 		fileSurfer.unregisterService();
 		localStorage.setItem(fileSurfer.STORAGE_KEY, key);
 		fileSurfer.cloudService = owc.cloud[key];
 		fileSurfer.currentFolderStorageKey = fileSurfer.STORAGE_KEY + "_" + key + "_currentFolder";
 		fileSurfer.currentFolderId = localStorage.getItem(fileSurfer.currentFolderStorageKey) || fileSurfer.cloudService.ROOT_FOLDER_ID;
 	},
-	unregisterService: () => {
+	unregisterService: () =>
+	{
 		localStorage.removeItem(fileSurfer.STORAGE_KEY);
 		fileSurfer.currentFolderId = null;
 		fileSurfer.currentFolderStorageKey = null;
 		fileSurfer.currentContent = [];
 		fileSurfer.cloudService = null;
 	},
-	show: () => {
+	show: () =>
+	{
 		fileSurfer.itemWrapperHeight = null;
 		owc.ui.showBluebox(document.getElementById("filesurfer"));
 		if (!fileSurfer.cloudService)
@@ -40,15 +44,18 @@ const fileSurfer = {
 		}
 	},
 	close: () => owc.ui.sweepVolatiles(),
-	onSigninClick: (clickEvent) => {
+	onSigninClick: (clickEvent) =>
+	{
 		owc.cloud[clickEvent.target.closest("button").getAttribute("data-cloud_service")].signIn();
 	},
-	onSignoutClick: (clickEvent) => {
+	onSignoutClick: (clickEvent) =>
+	{
 		fileSurfer.cloudService.signOut();
 		fileSurfer.unregisterService();
 		owc.ui.animateElement(document.body.querySelector("#filesurfer div.blue-viewport div.content"), "animation", () => { fileSurfer.renderNotsignedin(true); });
 	},
-	renderNotsignedin: (animated = false) => {
+	renderNotsignedin: (animated = false) =>
+	{
 		let element = pageSnippets.filesurfer.not_signed_in.produce(fileSurfer);
 		if (animated === true)
 		{
@@ -56,7 +63,8 @@ const fileSurfer = {
 		}
 		htmlBuilder.replaceContent(fileSurfer.element, element);
 	},
-	renderContent: () => {
+	renderContent: () =>
+	{
 		let data = {
 			title: fileSurfer.cloudService.TITLE,
 			icon: fileSurfer.cloudService.FA_ICON
@@ -68,7 +76,8 @@ const fileSurfer = {
 		let buttonsRect = document.getElementById("filesurfer-buttons").getBoundingClientRect();
 		document.getElementById("filesurfer-table-wrapper").style.maxHeight = Math.floor(blueboxRect.height - buttonsRect.height - tableWrapperRect.top - 24) + "px";
 	},
-	listFolderContent: (folderRef) => {
+	listFolderContent: (folderRef) =>
+	{
 		htmlBuilder.replaceElement(fileSurfer._getTableBodyElement(), pageSnippets.filesurfer.dummies.itemlist.produce());
 		fileSurfer.cloudService.getFolderContent(folderRef).then((folderContent) =>
 		{
@@ -83,19 +92,21 @@ const fileSurfer = {
 			}
 			fileSurfer._listCurrentContent();
 		});
-		fileSurfer.cloudService.getBreadcrumps(folderRef).then((breadcrumps) => {
+		fileSurfer.cloudService.getBreadcrumps(folderRef).then((breadcrumps) =>
+		{
 			let data = {
 				icon: fileSurfer.cloudService.FA_ICON,
 				breadcrumps: breadcrumps
 			};
-			let newBreadcrumpsElement = htmlBuilder.replaceElement(document.body.querySelector("#filesurfer p.breadcrumps"),  pageSnippets.filesurfer.content.breadcrumps.produce(fileSurfer, data));
+			let newBreadcrumpsElement = htmlBuilder.replaceElement(document.body.querySelector("#filesurfer p.breadcrumps"), pageSnippets.filesurfer.content.breadcrumps.produce(fileSurfer, data));
 			newBreadcrumpsElement.scrollTo({
 				left: newBreadcrumpsElement.scrollWidth,
 				behavior: "smooth"
 			});
 		});
 	},
-	onTableheaderClick: (clickEvent) => {
+	onTableheaderClick: (clickEvent) =>
+	{
 		const element = clickEvent.target.closest("[data-sortfield]");
 		const sortField = element.getAttribute("data-sortfield");
 		if (fileSurfer.sort.field === sortField)
@@ -106,7 +117,8 @@ const fileSurfer = {
 		fileSurfer._listCurrentContent();
 	},
 	onBreadcrumpClick: (clickEvent) => fileSurfer.onItemDblClick(clickEvent),
-	onItemClick: (clickEvent) => {
+	onItemClick: (clickEvent) =>
+	{
 		const item = clickEvent.target.closest("[data-id]");
 		for (let selectedItem of fileSurfer.element.querySelectorAll("table .selected"))
 		{
@@ -117,7 +129,8 @@ const fileSurfer = {
 			item.classList.add("selected");
 		}
 	},
-	onItemDblClick: (clickEvent) => {
+	onItemDblClick: (clickEvent) =>
+	{
 		const item = clickEvent.target.closest("[data-id]");
 		const itemRef = item.getAttribute("data-id");
 		switch (item.getAttribute("data-type"))
@@ -130,7 +143,8 @@ const fileSurfer = {
 				break;
 		}
 	},
-	onLoadClick: (clickEvent) => {
+	onLoadClick: (clickEvent) =>
+	{
 		let selectedTrElement = document.body.querySelector("#filesurfer table .selected");
 		if (selectedTrElement)
 		{
@@ -138,15 +152,17 @@ const fileSurfer = {
 			fileSurfer.close();
 		}
 	},
-	onSaveClick: (clickEvent) => {
+	onSaveClick: (clickEvent) =>
+	{
 		fileSurfer.cloudService.saveFile(fileSurfer.currentFolderId);
 		fileSurfer.close();
 	},
 	_getTableBodyElement: () => document.body.querySelector("#filesurfer table tbody"),
-	_listCurrentContent: () => {
+	_listCurrentContent: () =>
+	{
 		fileSurfer.currentContent.sort((a, b) =>
 		{
-			const PREFIX = {folder: "(a)", file:"(b)"};
+			const PREFIX = { folder: "(a)", file: "(b)" };
 			let compare = 0;
 			switch (fileSurfer.sort.field)
 			{
@@ -166,7 +182,7 @@ const fileSurfer = {
 	}
 };
 
-function _naturalPast(pastDate)
+function _naturalPast (pastDate)
 {
 	const wordings = ["just now", "{{n}} minutes ago", "{{6}} hours ago"];
 	const dayWordings = ["today", "yesterday", "two days ago"];

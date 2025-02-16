@@ -1,7 +1,7 @@
 "use strict";
 
 /*
-This file is part of the ONLINE WARBAND CREATOR (https://github.com/suppenhuhn79/sbhowc)
+This file is part of the ONLINE WARBAND CREATOR (https://github.com/chzager/sbhowc)
 Copyright 2021 Christoph Zager
 Licensed unter the GNU Affero General Public License, Version 3
 See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
@@ -11,7 +11,7 @@ var formsCore = {};
 
 formsCore.init = function (pageSnippetGroup)
 {
-	function _appendOptionElements(selectElement, array)
+	function _appendOptionElements (selectElement, array)
 	{
 		for (let item of array)
 		{
@@ -36,18 +36,18 @@ formsCore.init = function (pageSnippetGroup)
 		formsCore.editors.specialrulesSelector.appendChild(htmlBuilder.newElement("option[value='" + specialrule.key + "']", specialrule.text));
 	};
 	formsCore.unitMenu = new Menubox("unitMenu",
-	{
-		duplicate: "Duplicate unit",
-		copy: "Copy unit",
-		remove: "Remove unit",
-		x1: null,
-		moveup: "Move unit up",
-		movedown: "Move unit down"
-	}, formsCore.onUnitmenuEvent
-		);
+		{
+			duplicate: "Duplicate unit",
+			copy: "Copy unit",
+			remove: "Remove unit",
+			x1: null,
+			moveup: "Move unit up",
+			movedown: "Move unit down"
+		}, formsCore.onUnitmenuEvent
+	);
 };
 
-formsCore.onUnitmenuEvent = function(data)
+formsCore.onUnitmenuEvent = function (data)
 {
 	window.dispatchEvent(new CustomEvent("editor",
 		{
@@ -58,7 +58,7 @@ formsCore.onUnitmenuEvent = function(data)
 				originalEvent: data.originalEvent
 			}
 		}
-		));
+	));
 };
 
 formsCore.onValueEdited = (anyEvent) => formsCore.dispatchEditorEvent(anyEvent);
@@ -101,9 +101,9 @@ formsCore.dispatchEditorEvent = function (editorEvent)
 	let eventValue = (eventOrigin.value !== undefined) ? eventOrigin.value : eventOrigin.innerText;
 	switch (eventOrigin.getAttribute("data-type"))
 	{
-	case "number":
-		eventValue = Number(/\d+/.exec(eventValue));
-		break;
+		case "number":
+			eventValue = Number(/\d+/.exec(eventValue));
+			break;
 	};
 	let editorEventData =
 	{
@@ -163,7 +163,7 @@ formsCore.refreshUnit = function (unitIndex, refNode = null)
 
 formsCore.refreshSpecialrules = function (unitIndex, refNode)
 {
-	function _specialruleHint(specialruleKey)
+	function _specialruleHint (specialruleKey)
 	{
 		let result = owc.resources.defaultText(specialruleKey);
 		if (owc.resources.data[specialruleKey].personality === true)
@@ -226,9 +226,9 @@ formsCore.refreshWarbandSummary = function ()
 		for (let rulecheckResult of owc.rulecheck.checkAll())
 		{
 			variables["rule-violations"].push(
-			{
-				text: owc.rulecheck.getText(rulecheckResult)
-			}
+				{
+					text: owc.rulecheck.getText(rulecheckResult)
+				}
 			);
 		};
 	};

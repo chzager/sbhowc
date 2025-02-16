@@ -1,7 +1,7 @@
 "use strict";
 
 /*
-This file is part of the ONLINE WARBAND CREATOR (https://github.com/suppenhuhn79/sbhowc)
+This file is part of the ONLINE WARBAND CREATOR (https://github.com/chzager/sbhowc)
 Copyright 2021 Christoph Zager
 Licensed unter the GNU Affero General Public License, Version 3
 See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
@@ -11,8 +11,8 @@ owc.editor =
 {
 	undoer: new Undoer(),
 	specialrulesList: [],
-	qualityValues: (function (){let q = [];for (let v = 2; v <= 6; v += 1) q.push({key: v, label: v.toString() + "+"});return q;})(),
-	combatValues: (function (){let c = [];for (let v = 6; v >= 0; v -= 1) c.push({key: v, label: v.toString()});return c;})()
+	qualityValues: (function () { let q = []; for (let v = 2; v <= 6; v += 1) q.push({ key: v, label: v.toString() + "+" }); return q; })(),
+	combatValues: (function () { let c = []; for (let v = 6; v >= 0; v -= 1) c.push({ key: v, label: v.toString() }); return c; })()
 };
 
 owc.editor.init = function ()
@@ -30,82 +30,82 @@ owc.editor.onEditorEvent = function (editorEvent)
 	let specialruleIndex = eventDetail.specialruleIndex;
 	switch (action)
 	{
-	case "set-warbandname":
-		owc.editor.setWarbandName(eventDetail.value);
-		break;
-	case "set-name":
-		owc.editor.setUnitName(unitIndex, eventDetail.value);
-		owc.ui.printUnit(unitIndex);
-		break;
-	case "set-count":
-		owc.editor.setUnitCount(unitIndex, eventDetail.value);
-		owc.ui.printUnit(unitIndex);
-		break;
-	case "set-quality":
-		owc.editor.setUnitQuality(unitIndex, eventDetail.value);
-		owc.ui.printUnit(unitIndex);
-		break;
-	case "set-combat":
-		owc.editor.setUnitCombatscore(unitIndex, eventDetail.value);
-		owc.ui.printUnit(unitIndex);
-		break;
-	case "set-specialrules":
-		owc.editor.setSpecialrules(unitIndex, eventDetail.value);
-		owc.warband.checkPointsPools();
-		owc.ui.printUnit(unitIndex);
-		break;
-	case "set-additionaltext":
-		owc.editor.setSpecialruleText(unitIndex, specialruleIndex, eventDetail.value);
-		owc.ui.printUnit(unitIndex);
-		break;
-	case "set-pointspool":
-		owc.editor.setPointsPool(eventDetail.poolname, eventDetail.value);
-		owc.ui.visualizer.refreshWarbandSummary();
-		owc.ui.refreshUndoButton();
-		break;
-	case "addunit":
-		owc.editor.addUnit();
-		owc.ui.printWarband();
-		owc.ui.scrollToBottom();
-		break;
-	case "addspecialrule":
-		owc.editor.addSpecialrule(unitIndex, eventDetail.value);
-		owc.ui.printUnit(unitIndex);
-		/* reset the specialrule select */
-		eventDetail.originalEvent.target.value = "";
-		break;
-	case "removespecialrule":
-		owc.editor.removeSpecialrule(unitIndex, specialruleIndex);
-		owc.ui.printUnit(unitIndex);
-		break;
-	case "showunitmenu":
-		owc.ui.visualizer.unitMenu.popup(eventDetail.originalEvent, unitIndex);
-		break;
-	case "duplicate":
-		owc.editor.duplicateUnit(unitIndex);
-		owc.ui.printWarband();
-		break;
-	case "copy":
-		owc.editor.clipboard.copyUnit(unitIndex);
-		owc.ui.printWarband();
-		break;
-	case "pasteunit":
-		owc.editor.addUnit(eventDetail.unitcode);
-		owc.ui.printWarband();
-		owc.ui.scrollToBottom();
-		break;
-	case "remove":
-		owc.editor.removeUnit(unitIndex, eventDetail.value);
-		owc.ui.printWarband();
-		break;
-	case "moveup":
-		owc.editor.moveUnitUp(unitIndex, eventDetail.value);
-		owc.ui.printWarband();
-		break;
-	case "movedown":
-		owc.editor.moveUnitDown(unitIndex, eventDetail.value);
-		owc.ui.printWarband();
-		break;
+		case "set-warbandname":
+			owc.editor.setWarbandName(eventDetail.value);
+			break;
+		case "set-name":
+			owc.editor.setUnitName(unitIndex, eventDetail.value);
+			owc.ui.printUnit(unitIndex);
+			break;
+		case "set-count":
+			owc.editor.setUnitCount(unitIndex, eventDetail.value);
+			owc.ui.printUnit(unitIndex);
+			break;
+		case "set-quality":
+			owc.editor.setUnitQuality(unitIndex, eventDetail.value);
+			owc.ui.printUnit(unitIndex);
+			break;
+		case "set-combat":
+			owc.editor.setUnitCombatscore(unitIndex, eventDetail.value);
+			owc.ui.printUnit(unitIndex);
+			break;
+		case "set-specialrules":
+			owc.editor.setSpecialrules(unitIndex, eventDetail.value);
+			owc.warband.checkPointsPools();
+			owc.ui.printUnit(unitIndex);
+			break;
+		case "set-additionaltext":
+			owc.editor.setSpecialruleText(unitIndex, specialruleIndex, eventDetail.value);
+			owc.ui.printUnit(unitIndex);
+			break;
+		case "set-pointspool":
+			owc.editor.setPointsPool(eventDetail.poolname, eventDetail.value);
+			owc.ui.visualizer.refreshWarbandSummary();
+			owc.ui.refreshUndoButton();
+			break;
+		case "addunit":
+			owc.editor.addUnit();
+			owc.ui.printWarband();
+			owc.ui.scrollToBottom();
+			break;
+		case "addspecialrule":
+			owc.editor.addSpecialrule(unitIndex, eventDetail.value);
+			owc.ui.printUnit(unitIndex);
+			/* reset the specialrule select */
+			eventDetail.originalEvent.target.value = "";
+			break;
+		case "removespecialrule":
+			owc.editor.removeSpecialrule(unitIndex, specialruleIndex);
+			owc.ui.printUnit(unitIndex);
+			break;
+		case "showunitmenu":
+			owc.ui.visualizer.unitMenu.popup(eventDetail.originalEvent, unitIndex);
+			break;
+		case "duplicate":
+			owc.editor.duplicateUnit(unitIndex);
+			owc.ui.printWarband();
+			break;
+		case "copy":
+			owc.editor.clipboard.copyUnit(unitIndex);
+			owc.ui.printWarband();
+			break;
+		case "pasteunit":
+			owc.editor.addUnit(eventDetail.unitcode);
+			owc.ui.printWarband();
+			owc.ui.scrollToBottom();
+			break;
+		case "remove":
+			owc.editor.removeUnit(unitIndex, eventDetail.value);
+			owc.ui.printWarband();
+			break;
+		case "moveup":
+			owc.editor.moveUnitUp(unitIndex, eventDetail.value);
+			owc.ui.printWarband();
+			break;
+		case "movedown":
+			owc.editor.moveUnitDown(unitIndex, eventDetail.value);
+			owc.ui.printWarband();
+			break;
 	};
 	if (owc.editor.undoer.snapshots.length !== undoPoints)
 	{
@@ -121,10 +121,10 @@ owc.editor.buildSpecialrulesCollection = function ()
 		if (owc.settings.ruleScope.includes(owc.resources.data[key].scope))
 		{
 			owc.editor.specialrulesList.push(
-			{
-				key: key,
-				text: owc.helper.translate(key)
-			}
+				{
+					key: key,
+					text: owc.helper.translate(key)
+				}
 			);
 		};
 	};

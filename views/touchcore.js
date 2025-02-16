@@ -1,7 +1,7 @@
 "use strict";
 
 /*
-This file is part of the ONLINE WARBAND CREATOR (https://github.com/suppenhuhn79/sbhowc)
+This file is part of the ONLINE WARBAND CREATOR (https://github.com/chzager/sbhowc)
 Copyright 2021 Christoph Zager
 Licensed unter the GNU Affero General Public License, Version 3
 See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
@@ -21,22 +21,22 @@ touchCore.init = function (pageSnippetGroup)
 	touchCore.pointsPoolMenu = touchCore.newInputNumberMenu("pointspool", "pointsPools");
 
 	touchCore.unitMenu = new Menubox("unitMenu",
-	{
-		duplicate: "Duplicate unit",
-		copy: "Copy unit",
-		remove: "Remove unit",
-		x1: null,
-		moveup: "Move unit up",
-		movedown: "Move unit down"
-	}, touchCore.onUnitmenuEvent
-		);
+		{
+			duplicate: "Duplicate unit",
+			copy: "Copy unit",
+			remove: "Remove unit",
+			x1: null,
+			moveup: "Move unit up",
+			movedown: "Move unit down"
+		}, touchCore.onUnitmenuEvent
+	);
 };
 
-touchCore.getEventUnitIndex = function(clickEvent) 
+touchCore.getEventUnitIndex = function (clickEvent)
 {
 	let unitEnvelopeElement = clickEvent.target.closest("[data-unitindex]");
 	return (unitEnvelopeElement) ? Number(unitEnvelopeElement.getAttribute("data-unitindex")) : null;
-}
+};
 
 touchCore.popupMenubox = function (clickEvent, menubox, context)
 {
@@ -96,7 +96,7 @@ touchCore.onUnitCountClick = function (clickEvent)
 		{
 			UNIT: owc.helper.nonBlankUnitName(owc.warband.units[unitIndex])
 		}
-		));
+	));
 };
 
 touchCore.onQualityClick = function (clickEvent)
@@ -115,7 +115,7 @@ touchCore.onCombatClick = function (clickEvent)
 
 touchCore.onSpecialrulesClick = function (clickEvent)
 {
-	function _postRender(menuNode, unitIndex)
+	function _postRender (menuNode, unitIndex)
 	{
 		for (let itemNode of menuNode.querySelectorAll("[data-menuitem]"))
 		{
@@ -128,22 +128,22 @@ touchCore.onSpecialrulesClick = function (clickEvent)
 				itemNode.removeChild(itemNode.firstChild);
 				let wrapperNode = htmlBuilder.newElement("div");
 				let textPreNode = htmlBuilder.newElement("span",
-				{
-					onclick: (clickEvent) => clickEvent.target.parentElement.click()
-				},
-						specialruleText.substring(0, specialruleText.indexOf("...")));
+					{
+						onclick: (clickEvent) => clickEvent.target.parentElement.click()
+					},
+					specialruleText.substring(0, specialruleText.indexOf("...")));
 				let editorNode = htmlBuilder.newElement("span",
-				{
-					'data-isadditionaltext': "yes",
-					'data-defaultvalue': "...",
-					onclick: (clickEvent) => touchCore.specialrulesMenu.selectItem(clickEvent.target.closest("[data-menuitem]").getAttribute("data-menuitem"), true)
-				},
-						(specialruleIndex !== null) ? owc.warband.units[unitIndex].specialrules[Number(specialruleIndex[1])].additionalText : "...");
+					{
+						'data-isadditionaltext': "yes",
+						'data-defaultvalue': "...",
+						onclick: (clickEvent) => touchCore.specialrulesMenu.selectItem(clickEvent.target.closest("[data-menuitem]").getAttribute("data-menuitem"), true)
+					},
+					(specialruleIndex !== null) ? owc.warband.units[unitIndex].specialrules[Number(specialruleIndex[1])].additionalText : "...");
 				let textPostNode = htmlBuilder.newElement("span",
-				{
-					onclick: (clickEvent) => clickEvent.target.parentElement.click()
-				},
-						specialruleText.substring(specialruleText.indexOf("...") + 3));
+					{
+						onclick: (clickEvent) => clickEvent.target.parentElement.click()
+					},
+					specialruleText.substring(specialruleText.indexOf("...") + 3));
 				touchCore.makeEditable(editorNode);
 				itemNode.appendChild(textPreNode);
 				itemNode.appendChild(editorNode);
@@ -181,9 +181,9 @@ touchCore.onSpecialrulesClick = function (clickEvent)
 	if (owc.warband.units[unitIndex].specialrules.length > 0)
 	{
 		menuItems.push(
-		{
-			separator: true
-		}
+			{
+				separator: true
+			}
 		);
 	};
 	for (let specialrule of owc.editor.specialrulesList)
@@ -217,13 +217,13 @@ touchCore.onClickEvent = function (clickEvent)
 		eventOrigin = eventOrigin.parentNode;
 	};
 	let editorEvent = new CustomEvent("editor",
-	{
-		detail:
 		{
-			unitIndex:touchCore.getEventUnitIndex(clickEvent),
-			originalEvent: clickEvent
-		}
-	});
+			detail:
+			{
+				unitIndex: touchCore.getEventUnitIndex(clickEvent),
+				originalEvent: clickEvent
+			}
+		});
 	for (let attribute of eventOrigin.attributes)
 	{
 		if (attribute.name.startsWith("data-"))
@@ -234,7 +234,7 @@ touchCore.onClickEvent = function (clickEvent)
 	window.dispatchEvent(editorEvent);
 };
 
-touchCore.onUnitmenuEvent = function(data)
+touchCore.onUnitmenuEvent = function (data)
 {
 	window.dispatchEvent(new CustomEvent("editor",
 		{
@@ -245,21 +245,21 @@ touchCore.onUnitmenuEvent = function(data)
 				originalEvent: data.originalEvent
 			}
 		}
-		));
+	));
 };
 
 touchCore.onEditormenuEvent = function (data)
 {
 	owc.ui.sweepVolatiles();
 	let editorEvent = new CustomEvent("editor",
-	{
-		detail:
 		{
-			unitIndex: data.context,
-			editor: data.menubox.id
+			detail:
+			{
+				unitIndex: data.context,
+				editor: data.menubox.id
+			}
 		}
-	}
-		);
+	);
 	// console.log(data.menubox.multiselect, data.itemKey,  ((data.menubox.multiselect === false) && (data.itemKey)), data.buttonKey);
 	if ((data.itemKey) || (data.buttonKey === "ok"))
 	{
@@ -272,21 +272,21 @@ touchCore.onEditormenuEvent = function (data)
 		editorEvent.detail.value = value;
 		switch (data.menubox.id)
 		{
-		case "specialrules":
-			for (let i = 0, ii = data.selectedKeys.length; i < ii; i += 1)
-			{
-				let selectedKey = data.selectedKeys[i];
-				let additionaltextNode = (data.menubox.element.querySelector("[data-menuitem=\"" + selectedKey + "\"]").querySelector("[data-isadditionaltext]"));
-				if (additionaltextNode)
+			case "specialrules":
+				for (let i = 0, ii = data.selectedKeys.length; i < ii; i += 1)
 				{
-					data.selectedKeys[i] = selectedKey.substr(0, 2) + "." + additionaltextNode.textContent;
+					let selectedKey = data.selectedKeys[i];
+					let additionaltextNode = (data.menubox.element.querySelector("[data-menuitem=\"" + selectedKey + "\"]").querySelector("[data-isadditionaltext]"));
+					if (additionaltextNode)
+					{
+						data.selectedKeys[i] = selectedKey.substr(0, 2) + "." + additionaltextNode.textContent;
+					};
 				};
-			};
-			break;
-		case "pointspool":
-			editorEvent.detail.unitIndex = null;
-			editorEvent.detail.poolname = data.context;
-			break;
+				break;
+			case "pointspool":
+				editorEvent.detail.unitIndex = null;
+				editorEvent.detail.poolname = data.context;
+				break;
 		};
 		window.dispatchEvent(editorEvent);
 		window.activeMenubox = null;
@@ -329,7 +329,7 @@ touchCore.refreshUnit = function (unitIndex, refNode = null)
 
 touchCore.refreshSpecialrules = function (unitIndex, refNode)
 {
-	function _specialruleHint(specialruleKey)
+	function _specialruleHint (specialruleKey)
 	{
 		let result = owc.resources.defaultText(specialruleKey);
 		if (owc.resources.data[specialruleKey].personality === true)
@@ -389,9 +389,9 @@ touchCore.refreshWarbandSummary = function ()
 		for (let rulecheckResult of owc.rulecheck.checkAll())
 		{
 			variables["rule-violations"].push(
-			{
-				text: owc.rulecheck.getText(rulecheckResult)
-			}
+				{
+					text: owc.rulecheck.getText(rulecheckResult)
+				}
 			);
 		};
 	};
@@ -441,10 +441,10 @@ touchCore.newMenu = function (menuId, titleResource, items, buttons, multiselect
 	for (let button of buttons)
 	{
 		menuDef.buttons.push(
-		{
-			key: button,
-			label: owc.helper.translate(button)
-		}
+			{
+				key: button,
+				label: owc.helper.translate(button)
+			}
 		);
 	};
 	return new Menubox(menuId, menuDef, touchCore.onEditormenuEvent);
@@ -476,22 +476,24 @@ touchCore.newInputMenu = function (menuId, titleResource)
 touchCore.newInputNumberMenu = function (menuId, titleResource)
 {
 	let menuItems = [
-	{html: htmlBuilder.newElement("input",
 		{
-			type: "number",
-			'data-menuitem': "editor",
-			min: "1",
-			step: "1",
-			onclick: (clickEvent) => clickEvent.stopPropagation(),
-			onkeypress: (keypressEvent) =>
-			{
-				if (keypressEvent.keyCode === 13)
+			html: htmlBuilder.newElement("input",
 				{
-					menubox.element.querySelector("[data-menubutton=\"ok\"]").click();
+					type: "number",
+					'data-menuitem': "editor",
+					min: "1",
+					step: "1",
+					onclick: (clickEvent) => clickEvent.stopPropagation(),
+					onkeypress: (keypressEvent) =>
+					{
+						if (keypressEvent.keyCode === 13)
+						{
+							menubox.element.querySelector("[data-menubutton=\"ok\"]").click();
+						}
+					}
 				}
-			}
+			)
 		}
-		)}
 	];
 	let menubox = touchCore.newMenu(menuId, titleResource, menuItems, ["ok", "cancel"]);
 	menubox.element.classList.add("inputnumbermenu");
@@ -499,7 +501,8 @@ touchCore.newInputNumberMenu = function (menuId, titleResource)
 	return menubox;
 };
 
-window.addEventListener("keydown", (keyEvent) => {
+window.addEventListener("keydown", (keyEvent) =>
+{
 	if ((keyEvent.keyCode === 27) && (!!window.activeMenubox))
 	{
 		window.activeMenubox = null;

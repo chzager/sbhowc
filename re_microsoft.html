@@ -1,25 +1,22 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<meta charset="utf-8"/>
+		<meta charset="utf-8" />
 	</head>
 	<body>
 		<script src="lib/onedrive-api.js"></script>
 		<script>
 			let hash = window.location.hash;
 			let reminder = JSON.parse(localStorage.getItem("owc_reminder")) ?? {};
-			let home = window.location.origin + window.location.pathname.substr(0, window.location.pathname.lastIndexOf("/") +1) + ((!!reminder.pid) ? ("?pid=" + reminder.pid) : "");
+			let home = window.location.origin + window.location.pathname.substr(0, window.location.pathname.lastIndexOf("/") + 1) + (!!reminder.pid ? "?pid=" + reminder.pid : "");
 			/* get auth info from URL hash */
-			if ((hash.includes("access_token")) && (hash.includes("expires_in")))
-			{
+			if (hash.includes("access_token") && hash.includes("expires_in")) {
 				let token = decodeURIComponent(/access_token=([^&]+)/.exec(hash)[1]);
 				let expiresInSeconds = parseInt(/expires_in=([^&]+)/.exec(hash)[1]);
 				let expirationDate = new Date();
 				expirationDate.setTime(expirationDate.getTime() + parseInt(expiresInSeconds) * 1000);
 				onedriveApi.tokenCookie.set(token, expirationDate);
-			}
-			else
-			{
+			} else {
 				onedriveApi.tokenCookie.clear();
 				reminder.action = "notSignedIn";
 				localStorage.setItem("owc_reminder", JSON.stringify(reminder));
