@@ -9,10 +9,10 @@
  * @property {boolean} [personality] Whether this specialrule makes a unit a _personaliy_ (`true`) or not (`false`).
  * @property {Array<string>} [replaces] Ids of other specialrules that a replaced by this specialrule (e.g. "Shooter (long)" replaces "Shooter (medium)").
  * @property {Array<string>} [exclusive] Ids of other specialrules that are excluded for units having this specialrule.
- * In Distinction to `excludes`, exclusive specialrules are multidirectional and exclusive to all each other,
- * e.g. "Elementalist", "Magic User", "Summoner" etc. are all exclusive to each other.
+ * In distinction to `excludes`, exclusive specialrules are multidirectional and exclusive to all each other,
+ * e.g. "Elementalist", "Magic User", "Summoner" etc. are all exclusive to each other, meaning a unit can have only on of these.
  * @property {Array<string>} [excludes] Ids of other specialrules that are excluded for units having this specialrule.
- * In Distinction to `exclusive`, excludes are unidirectional, e.g. "Coward" excludes "Fearless", "Hero" and "Steadfast",
+ * In distinction to `exclusive`, excludes are unidirectional, e.g. "Coward" excludes "Fearless", "Hero" and "Steadfast",
  * but none of these three excludes any other.
  *
  * @typedef Specialrule
@@ -25,4 +25,5 @@
  * @typedef SpecialrulesDictionary
  * A dictionary of specialrules. Keys are specialules ids.
  * @type {{[k: string]: SpecialrulePrototype}}
+ *
  */
