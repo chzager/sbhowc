@@ -1,4 +1,5 @@
 // @ts-check
+
 /**
  * A single figure in _Song of Blades and Heroes_.
  */
@@ -37,6 +38,8 @@ class Unit
 	 */
 	specialrules;
 
+	/**
+	 */
 	constructor()
 	{
 		this.count = 1;
@@ -47,16 +50,12 @@ class Unit
 	};
 
 	/**
-	 * The points costs of this unit calculated upon its quality, combat value and specialules.
+	 * The point costs of this unit calculated upon its quality, combat value and specialules.
 	 */
 	get points ()
 	{
 		let result = 1;
 		let combat = Math.max(this.combat, 1 / 5);
-		// if (combat === 0)
-		// {
-		// combat = 1 / 5;
-		// };
 		let specialsPoints = 0;
 		for (let specialrule of this.specialrules)
 		{
@@ -67,7 +66,8 @@ class Unit
 	};
 
 	/**
-	 * Whether this unit is a _pesonality_ (`true`) or not (`false`). Certains specialrules make units personlities.
+	 * Whether this unit is a _pesonality_ (`true`) or not (`false`).
+	 * Certain specialrules make units personlities.
 	 */
 	get isPersonality ()
 	{
