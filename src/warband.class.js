@@ -1,4 +1,54 @@
-﻿/**
+// @ts-check
+/**
+ * A unit that is a member of a _Song of Blades and Heroes_ warband.
+ */
+class WarbandUnit extends Unit
+{
+	/**
+	 * The warband of which this unit is a member.
+	 * @type {Warband}
+	 */
+	warband;
+
+	/**
+	 * @param {Warband} warband The warband of which this unit is a member.
+	 */
+	constructor(warband)
+	{
+		super();
+		this.warband = warband;
+	}
+
+	/**
+	 * @param {string} specialruleKey Id of specialrule to add.
+	 * @param {SpecialrulesDictionary} specialrulesDictionary Dictionary to look up specialrules properties.
+	 * @returns {boolean} `true` if the specialrule has been added, otherwiese `false`.
+	 */
+	addSpecialrule (specialruleKey, specialrulesDictionary)
+	{
+		let result = super.addSpecialrule(specialruleKey, specialrulesDictionary);
+		if (!!Warband.POINTSPOOLS[specialruleKey])
+		{
+			this.warband.checkPointsPools();
+		};
+		return result;
+	};
+
+	/**
+	 * @param {number} specialruleIndex Index in this units `specialrules` to be removed.
+	 */
+	removeSpecialrule (specialruleIndex)
+	{
+		let result = super.removeSpecialrule(specialruleIndex);
+		if (!!Warband.POINTSPOOLS[this.specialrules[specialruleIndex].key])
+		{
+			this.warband.checkPointsPools();
+		};
+		return result;
+	};
+}
+
+/**
  * A _Song of Blades and Heroes_ warband is a bunch of figures aka `Unit`s.
  */
 class Warband
@@ -18,7 +68,7 @@ class Warband
 
 	/**
 	 * Units of this warband.
-	 * @type {Array<Unit>}
+	 * @type {Array<WarbandUnit>}
 	 */
 	units;
 
@@ -31,6 +81,8 @@ class Warband
 	 */
 	pointsPools;
 
+	/**
+	 */
 	constructor()
 	{
 		this.name = "";
@@ -137,28 +189,8 @@ class Warband
 	 */
 	addUnit (unit)
 	{
-		/* replace Unit default functions with Warband replacer functions */
-		unit._$addSpecialrule = unit.addSpecialrule;
-		unit._$removeSpecialrule = unit.removeSpecialrule;
-		unit.addSpecialrule = (specialruleKey, specialrulesDictionary) =>
-		{
-			let result = unit._$addSpecialrule(specialruleKey, specialrulesDictionary);
-			if (!!Warband.POINTSPOOLS[specialruleKey])
-			{
-				this.checkPointsPools();
-			};
-			return result;
-		};
-		unit.removeSpecialrule = (specialruleIndex) =>
-		{
-			let result = unit._$removeSpecialrule(specialruleIndex);
-			if (!!Warband.POINTSPOOLS[unit.specialrules[specialruleIndex].key])
-			{
-				this.checkPointsPools();
-			};
-			return result;
-		};
-		this.units.push(unit);
+		let wbUnit = Object.assign(new WarbandUnit(this), unit);
+		this.units.push(wbUnit);
 	};
 
 	/**
