@@ -1,346 +1,309 @@
-/*
-This file is part of the ONLINE WARBAND CREATOR (https://github.com/chzager/sbhowc)
-Copyright 2021 Christoph Zager
-Licensed unter the GNU Affero General Public License, Version 3
-See the full license text at https://www.gnu.org/licenses/agpl-3.0.en.html
+// @ts-check
+// TODO: Re-Implement "copy unit".
+// TODO: Re-Implement "classic touch" layout.
+// TODO: Implement "close" button in Blieboxes.
+// DOC entire file
+/**
+ * A warband calculator for the "Song of Blades and Heroes" fantasy tabletop skirmish rules.
+ * @copyright (c) 2025 Christoph Zager
+ * @license AGPL-3.0 https://www.gnu.org/licenses/agpl-3.0.en.html
+ * @link https://github.com/chzager/sbhowc
  */
-
-const owc =
+const owc = new class OnlineWarbandCalculator
 {
-	urlParam: {
-		WARBAND: "warband",
-		PRINT: "print",
-		PID: "pid"
-	},
-	meta: {
-		TITLE: "Online Warband Creator for Song of Blades and Heroes",
-		VERSION: "Feb22 release",
-		ORIGIN: "https://chzager.github.io/sbhowc"
-	},
-	stats: {
-		componentsLoaded: {
-			is: (...keys) =>
+	get meta ()
+	{
+		return Object.freeze({
+			title: "Online Warband Calculator for Song of Blades and Heroes",
+			// version: "Feb22 release",
+			version: "Nov25 development",
+			origin: "https://chzager.github.io/sbhowc",
+		});
+	}
+
+	/**
+	 */
+	constructor()
+	{
+		// Autofill values in document:
+		for (const node of /** @type {NodeListOf<HTMLElement>} */(document.querySelectorAll("[data-autofill]")))
+		{
+			let text = node.innerText;
+			for (const [key, value] of Object.entries(this.meta))
 			{
-				let result = true;
-				for (let key of keys)
+				text = text.replace("{{" + key.toLowerCase() + "}}", value);
+			}
+			node.innerText = text;
+		}
+		this.ui = new OwcUI();
+		this.ui.wait("Loading");
+		const specialrules = new OwcSpecialrulesDirectory();
+		this.settings = new OwcSettings();
+		this.localizer = new OwcLocalizer();
+		Promise.all([
+			this.#actionBar.bind(),
+			this.localizer.import("editor"),
+			specialrules.load()
+		])
+			.then(() =>
+			{
+				/** The currently edited waband. */
+				this.warband = new Warband(specialrules); // Will be set by actual values from settings later.
+				/** The mediator between the {@linkcode OwcLayout} user interface and the {@linkcode Warband} data. */
+				this.editor = new OwcEditor(this.warband, this.localizer, this.settings);
+			})
+			.then(() => this.settings.load()) // Settings require an Editor, that's why they are loaded here.
+			.then(() =>
+			{
+				const url = new URL(window.location.href);
+				const warbandCode = url.searchParams.get("warband");
+				const pid = url.searchParams.get("pid");
+				console.log("pid:", pid, "warband:", warbandCode);
+				try
 				{
-					result &&= (!!owc.stats.componentsLoaded[key]);
+					if (pid)
+					{
+						this.pid = pid;
+						/** @type {OwcLocalstorageData} */
+						const sotrageData = JSON.parse(localStorage?.getItem("owc_#" + pid));
+						this.warband.fromString(sotrageData.data);
+					}
+					else
+					{
+						if (warbandCode)
+						{
+							this.warband.fromString(warbandCode);
+							url.searchParams.delete("warband");
+							owc.ui.notify("The warband was imported from the URL.", "green");
+						}
+						else
+						{
+							this.warband.clear().addUnit();
+						}
+						this.newPid(url);
+					}
 				}
-				return result;
-			},
-			set: (key, isLoaded = true) =>
+				catch (e) // No big deal if the warband could not be restored from localStorage. Maybe the PID didn't even exist.
+				{
+					console.info("Could not restore warband:", e);
+					this.warband.clear().addUnit();
+				}
+			})
+			.finally(() =>
 			{
-				owc.stats.componentsLoaded[key] = (isLoaded === true) ? new Date() : null;
-				console.debug("Component '" + key + "' " + ((isLoaded) ? "is ready." : "was unloaded."));
-				owc.onComponentLoaded(key);
+				this.ui.waitEnd();
+			});
+		return;
+	}
+
+	#actionBar = new class
+	{
+		/** @type {Menubox2Transitions} */
+		#menuTransitions = { height: { closed: "0", opened: "auto" } };
+		#menuCss = "top-menu";
+
+		bind ()
+		{
+			function isHTMLElement (a)
+			{
+				return (a instanceof HTMLElement);
 			}
-		},
-		actionsPerformed: {
-			is: (key) => (!!owc.stats.actionsPerformed[key]),
-			isNot: (key) => !owc.stats.actionsPerformed.is(key),
-			set: (key, isPerformed = true) => owc.stats.actionsPerformed[key] = (isPerformed === true) ? new Date() : false,
-		}
-	},
-	warband: null
-};
-
-owc.init = function ()
-{
-	/* autofill values in document */
-	for (let node of document.querySelectorAll("[data-autofill]"))
-	{
-		let text = node.innerText;
-		for (let key in owc.meta)
-		{
-			text = text.replace("{{" + key.toLowerCase() + "}}", owc.meta[key]);
-		};
-		node.innerText = text;
-	};
-	owc.isPrinting = (window.location.getParam(owc.urlParam.PRINT) === "1");
-	/* generate PID */
-	owc.pid = window.location.getParam(owc.urlParam.PID);
-	if (owc.pid === "")
-	{
-		owc.pid = owc.generatrePid();
-	};
-	owc.warband = new Warband();
-	owc.settings.load();
-	owc.fetchResources();
-	if (owc.isPrinting === false)
-	{
-		owc.topMenu.init();
-		htmlBuilder.removeChildrenByQuerySelectors([".only-print"]);
-		fileIo.fetchServerFile("./res/didyouknow.json").then((values) =>
-		{
-			owc.didYouKnow = new DidYouKnow(document.getElementById("didyouknow_text"), values.hints);
-			owc.didYouKnow.printRandomHint();
-		});
-		pageSnippets.import("./snippets/warbandcode.xml").then(() => document.body.appendChild(pageSnippets.warbandcode.produce(warbandcode)));
-		pageSnippets.import("./snippets/restorer.xml").then(() => document.body.appendChild(pageSnippets.restorer.main.produce(restorer)));
-		pageSnippets.import("./snippets/settings.xml").then(() => document.body.appendChild(pageSnippets.settings.produce(settingsUi,
+			const actions = {
+				"file": (/** @type {PointerEvent} */evt) => isHTMLElement(evt.currentTarget) && this.#fileMenu.toggle(evt, null, evt.currentTarget),
+				"undo": (/** @type {PointerEvent} */evt) => isHTMLElement(evt.currentTarget) && this.#undoMenu.toggle(evt, null, evt.currentTarget),
+				"print": () => window.print(),
+				"share": (/** @type {PointerEvent} */evt) => isHTMLElement(evt.currentTarget) && this.#shareMenu.toggle(evt, null, evt.currentTarget),
+				"settings": (/** @type {PointerEvent} */evt) =>
+				{
+					evt.stopImmediatePropagation();
+					Menubox2.closeAll();
+					pageSnippets.import("./dialogs/settings/pagesnippet.xml")
+						.then(() => settingsBluebox.show(owc.settings, owc.editor));
+				}
+			};
+			for (const [name, func] of Object.entries(actions))
 			{
-				'combat-values': owc.editor.combatValues,
-				'quality-values': owc.editor.qualityValues
-			})));
-		pageSnippets.import("./snippets/filesurfer.xml").then(() =>
-		{
-			document.body.appendChild(pageSnippets.filesurfer.main.produce(fileSurfer));
-			fileSurfer.init();
-			owc.stats.componentsLoaded.set("filesurfer");
-		});
-	}
-	else
-	{
-		htmlBuilder.removeChildrenByQuerySelectors([".noprint", ".tooltip"]);
-	};
-};
-
-owc.main = function ()
-{
-	owc.ui.init();
-	owc.editor.init();
-	/* import warband from URL, restore from cache or create new */
-	if (owc.importWarband(window.location.getParam(owc.urlParam.WARBAND), false, "Warband successfully imported.") === false)
-	{
-		if (owc.cache.restore() === false)
-		{
-			owc.editor.newWarband();
-		};
-	};
-	/* -- */
-	history.replaceState({}, "", window.location.setParams({ [owc.urlParam.PID]: owc.pid }, ["print", "console"]));
-	owc.editor.buildSpecialrulesCollection();
-	owc.ui.visualizer.init();
-	owc.ui.printWarband();
-	owc.ui.waitEnd();
-	if ((owc.isPrinting) && (typeof window.print === "function"))
-	{
-		window.print();
-	}
-	owc.stats.actionsPerformed.set("main");
-};
-
-owc.isPid = (string) => (/^(?=\D*\d)[\d\w]{6}$/.test(string));
-
-owc.generatrePid = function ()
-{
-	let pid = [];
-	for (let i = 0; i < 6; i += 1)
-	{
-		let c = Math.floor(Math.random() * 36);
-		pid.push(String.fromCharCode((c < 10) ? c + 48 : c - 10 + 97));
-	}
-	/* make sure PID contains at least two numbers */
-	while (/\d.*\d/.test(pid.join("")) === false)
-	{
-		pid[Math.floor(Math.random() * pid.length)] = String.fromCharCode(48 + Math.floor(Math.random() * 10));
-	}
-	let result = pid.join("");
-	console.debug("generated new PID:", result);
-	return result;
-};
-
-owc.fetchResources = function ()
-{
-	function _requireResource (key, lang)
-	{
-		requiredResoures.push("./res/" + lang + "/" + key + "." + lang + ".json");
-	};
-	owc.ui.wait("Loading resources");
-	owc.stats.componentsLoaded.set("resources", false);
-	const REQUIRED_KEYS = ["meta", "specialrules-sbh", "specialrules-sww", "specialrules-sgd", "specialrules-sdg", "specialrules-sam"];
-	let requiredResoures = [];
-	/* require all resources for default language */
-	for (let resource of REQUIRED_KEYS)
-	{
-		_requireResource(resource, owc.resources.DEFAULT_LANGUAGE);
-	};
-	/* eventually require some resources for set language */
-	if (owc.settings.language !== owc.resources.DEFAULT_LANGUAGE)
-	{
-		_requireResource("meta", owc.settings.language);
-		for (let scopeKey of owc.settings.ruleScope)
-		{
-			_requireResource("specialrules-" + scopeKey, owc.settings.language);
-		};
-	};
-	owc.resources.import(requiredResoures).then(() => { owc.stats.componentsLoaded.set("resources"); });
-	/* load loayout */
-	owc.ui.visualizer?.unload?.();
-	let viewFullname = owc.settings.viewMode + "view";
-	console.debug("Layout '" + owc.settings.viewMode + "' is loaded:", owc.stats.componentsLoaded.is(viewFullname));
-	if (owc.stats.componentsLoaded.is(viewFullname) === false)
-	{
-		owc.stats.componentsLoaded.set("layout", false);
-		pageSnippets.import("./views/" + viewFullname + "/" + viewFullname + ".xml").then(
-			() =>
-			{
-				owc.stats.componentsLoaded.set(owc.settings.viewMode + "view");
-			},
-			(error) =>
-			{
-				console.error(error);
-				owc.ui.waitEnd();
-				owc.ui.warbandCanvas.appendChild(htmlBuilder.newElement("div.notification.red", "Error while loading layout \"" + owc.settings.viewMode + "\"."));
-			}
-		);
-	}
-	else
-	{
-		owc.stats.componentsLoaded.set(viewFullname);
-	}
-};
-
-owc.importWarband = function (codeString, autoPrint = true, notification = null)
-{
-	let result = false;
-	if (codeString !== "")
-	{
-		/* clear comments */
-		let warbandCode = "";
-		for (let line of codeString.split("\n"))
-		{
-			if (line.trim().startsWith("#") === false)
-			{
-				warbandCode += decodeURI(line.replaceAll(/\s/g, ""));
+				const buttonBarIcon = document.body.querySelector(`#top-menu [data-action="${name}"]`);
+				if (buttonBarIcon instanceof HTMLElement)
+				{
+					buttonBarIcon.addEventListener("click", func);
+				}
 			}
 		}
+
+		#fileMenu = new Menubox2("file", {
+			items: [
+				{
+					key: "new", label: "Start a new warband", icon: "fa-regular fa-file",
+					callback: () =>
+					{
+						owc.newPid();
+						owc.warband.clear().addUnit();
+						owc.editor.render();
+					}
+				},
+				{
+					key: "new-window", label: "New warband in a new window", icon: "fa-solid fa-up-right-from-square",
+					callback: () => window.open(window.location.origin + window.location.pathname)
+				},
+				{
+					key: "upload", label: "Open a warband file", icon: "fa-regular fa-folder-open",
+					callback: () => localFileIo.requestFile().then(code => owc.importWarband(code))
+				},
+				{ separator: true },
+				{
+					key: "download", label: "Download this warband as file", icon: "fa-solid fa-download",
+					callback: () => localFileIo.offerDownload(owc.getFileName(), owc.getWarbandCode())
+				},
+				{
+					key: "show-code", label: "Import/export warband code", icon: "fa-solid fa-code",
+					callback: () =>
+					{
+						pageSnippets.import("./dialogs/warbandcode/pagesnippet.xml")
+							.then(() => warbandcodeBluebox.show(owc.getWarbandCode()));
+					}
+				},
+			],
+			itemRenderer: iconizedMenuitemRenderer,
+			css: this.#menuCss,
+			transitions: this.#menuTransitions,
+		});
+
+		#undoMenu = new Menubox2("undo", {
+			items: [], // Items will be createy dynamically on popup.
+			itemRenderer: iconizedMenuitemRenderer,
+			css: [this.#menuCss, "undohistory"].join(" "),
+			transitions: this.#menuTransitions,
+			beforePopup: (mbx) =>
+			{
+				const undo = (/** @type {UIEvent} */event) =>
+				{
+					mbx.close();
+					if (event.currentTarget instanceof HTMLElement)
+					{
+						owc.editor.undo(Number(event.currentTarget.dataset.i));
+					}
+				};
+				const menuItemsWrapper = mbx.element.querySelector(".menubox-items");
+				if (owc.editor.snapshots.length === 0)
+				{
+					menuItemsWrapper.replaceChildren(iconizedMenuitemRenderer({ label: "Nothing to undo", icon: "fa-solid fa-umbrella-beach" }));
+				}
+				else
+				{
+					menuItemsWrapper.replaceChildren(iconizedMenuitemRenderer({ label: "Undo:", icon: "fa-solid fa-clock-rotate-left" }));
+					let currentWrapper = menuItemsWrapper;
+					let i = 1;
+					for (const snapshotItem of owc.editor.snapshots.slice(0, 10))
+					{
+						const innerWrapper = makeElement("div.wrapper",
+							makeElement("div.menubox-item", { "data-i": i.toString(), onclick: (evt) => undo(evt) },
+								makeElement("span.label", snapshotItem.label),
+								makeElement("span.points", { "data-sign": Math.sign(snapshotItem.pointsModification).toString() }, snapshotItem.pointsModification)
+							));
+						currentWrapper.appendChild(innerWrapper);
+						currentWrapper = innerWrapper;
+						i += 1;
+					}
+				}
+			}
+		});
+
+		#shareMenu = new Menubox2("share", {
+			items: [
+				{
+					key: "create-link", label: "Create share link", icon: "fa-solid fa-link",
+					callback: () =>
+					{
+						window.history.replaceState({}, "", new URL(owc.getShareUrl()));
+						owc.ui.notify("Link created. You can now share this page.", "green");
+					}
+				},
+				{
+					key: "copy-to-clipboard", label: "Copy URL to clipboard", icon: "fa-solid fa-clipboard",
+					callback: () =>
+					{
+						navigator.clipboard?.writeText?.(owc.getShareUrl())
+							.then(() => owc.ui.notify("The link to share is copied to your clipboard.", "green"));
+					}
+				},
+			],
+			align: { horizontal: "right" },
+			itemRenderer: iconizedMenuitemRenderer,
+			css: this.#menuCss,
+			transitions: this.#menuTransitions,
+		});
+	};
+
+	get warbandStorageKey ()
+	{
+		return "owc_#" + this.pid;
+	}
+
+	/**
+	 *
+	 * @param {URL} [url]
+	 */
+	newPid (url = new URL(window.location.href))
+	{
+		this.pid = (Math.random() * 1e16).toString(32).substring(0, 8);
+		url.searchParams.set("pid", this.pid);
+		window.history.replaceState({}, "", url);
+	}
+
+	getFileName ()
+	{
+		return this.localizer.nonBlankWarbandName(this.warband.name) + ".owc.txt";
+	}
+
+	getWarbandCode ()
+	{
+		const now = new Date();
+		const year = now.getFullYear();
+		const month = String(now.getMonth() + 1).padStart(2, "0");
+		const day = String(now.getDate()).padStart(2, "0");
+		const hours = String(now.getHours()).padStart(2, "0");
+		const minutes = String(now.getMinutes()).padStart(2, "0");
+		return [
+			"# " + this.localizer.nonBlankWarbandName(this.warband.name),
+			"# " + document.getElementById("warband-summary").firstElementChild.textContent,
+			"# " + `${year}-${month}-${day} ${hours}:${minutes}`,
+			"# " + this.meta.origin,
+			"",
+			this.warband.toString(),
+		].join("\n");
+	}
+
+	getShareUrl ()
+	{
+		return absoluteUrl("?warband=" + encodeURIComponent(this.warband.toString()));
+	}
+
+	/**
+	 *
+	 * @param {string} codeString
+	 * @returns
+	 */
+	importWarband (codeString)
+	{
+		const warbandCode = codeString
+			.split("\n")
+			.filter(l => !l.trim().startsWith("#")) // Ignore all comment lines.
+			.map(l => decodeURI(l.replaceAll(/\s/g, ""))) // Remove all whitespace.
+			.join("");
 		try
 		{
-			owc.warband.fromString(warbandCode, owc.resources.data);
-			owc.cache.update();
-			if (autoPrint)
-			{
-				owc.ui.printWarband();
-			}
-			if (notification)
-			{
-				owc.ui.notify(notification);
-			}
-			window.scrollTo({ top: 0, behavior: "smooth" });
-			result = true;
+			this.warband.fromString(warbandCode);
 		}
-		catch (ex)
+		catch (err)
 		{
-			console.error(ex.message);
-			owc.cache.restore();
+			console.error(err.message);
+			return false;
 		}
-	}
-	return result;
-};
-
-owc.getWarbandCode = function (includeComments = owc.settings.options.warbandcodeIncludesComments)
-{
-	let result = "";
-	if (includeComments)
-	{
-		let now = new Date();
-		result += "# " + owc.helper.nonBlankWarbandName() + "\n";
-		result += "# " + owc.helper.warbandSummary() + "\n";
-		result += "# " + now.toIsoFormatText() + "\n";
-		result += "# " + owc.meta.ORIGIN + "\n";
-		result += "\n";
-	};
-	result += owc.warband.toString();
-	return result;
-};
-
-owc.performReminderActions = function ()
-{
-	let reminder = localStorage.getItem("owc_reminder");
-	if (!!reminder)
-	{
-		localStorage.removeItem("owc_reminder");
-		reminder = JSON.parse(reminder);
-		if ((reminder.action === "fileSurfer") && (!!owc.cloud[reminder.provider]))
-		{
-			fileSurfer.registerService(reminder.provider);
-			fileSurfer.show();
-		}
-		else if (reminder.action === "notSignedIn")
-		{
-			owc.ui.notify("Your sign in attempt was not successful.", "yellow");
-		}
-		else if (reminder.action === "noPermission")
-		{
-			owc.cloud[reminder.provider].complainNoPermission();
-		}
-	}
-	owc.stats.actionsPerformed.set("reminder");
-};
-
-owc.onComponentLoaded = function (componentKey)
-{
-	if (owc.stats.componentsLoaded.is("layout"))
-	{
-		owc.ui.visualizer = window[owc.settings.viewMode + "view"];
-	}
-	if (owc.stats.componentsLoaded.is("resources", "layout") && owc.stats.actionsPerformed.isNot("main"))
-	{
-		owc.main();
-	}
-	if (owc.stats.componentsLoaded.is("resources", "layout", "filesurfer") && owc.stats.actionsPerformed.isNot("reminder"))
-	{
-		owc.performReminderActions();
-	}
-	if (owc.stats.componentsLoaded.is("filesurfer", "fileio"))
-	{
-		fileSurfer.init();
-		/*
-		let cloudService = localStorage.getItem("fileSurfer");
-		if ((!!cloudService) && (typeof owc.cloud[cloudService].registerToFilerSurfer === "function"))
-		{
-			owc.cloud[cloudService].registerToFilerSurfer();
-		}
-		*/
-	}
-	if (/\w+view$/.test(componentKey))
-	{
-		owc.stats.componentsLoaded.set("layout");
-	}
-};
-
-/* helper functions */
-owc.helper = {
-	nonBlankUnitName: (unit) => (unit.name.trim() !== "") ? unit.name : owc.helper.translate("defaultUnitName"),
-	nonBlankWarbandName: () => (owc.warband.name.trim() !== "") ? owc.warband.name : owc.helper.translate("defaultWarbandName"),
-	warbandSummary: () => document.getElementById("warbandfooter").querySelector("p").innerText,
-	translate: (key, variables) => owc.resources.translate(key, owc.settings.language, variables)
-};
-
-/* cache */
-owc.cache = {
-	update: () =>
-	{
-		/* do not store an empty warband (#17) */
-		if (owc.warband.isEmpty === false)
-		{
-			let data =
-			{
-				title: owc.helper.nonBlankWarbandName(),
-				'figure-count': owc.warband.figureCount, // will be dropped in future versions
-				points: owc.warband.points, // will be dropped in future versions
-				data: owc.warband.toString(),
-				date: (new Date()).toISOString()
-			};
-			localStorage.setItem("owc_#" + owc.pid, JSON.stringify(data));
-		}
-	},
-	restore: () =>
-	{
-		let result = false;
-		let storedData = JSON.parse(localStorage.getItem("owc_#" + owc.pid) ?? localStorage.getItem(owc.pid));
-		if (typeof storedData?.data === "string")
-		{
-			owc.cache.fields = storedData;
-			owc.warband.fromString(storedData.data, owc.resources.data);
-			result = true;
-		}
-		return result;
-	},
-	cleanup: async () =>
-	{
-		/* every 14 days we will discard the oldest cache entries to keep at mont 100 enties */
-		console.error("Not implemented yet.");
+		this.editor.render();
+		window.scrollTo({ top: 0, behavior: "smooth" });
+		this.editor.snapshots = [];
+		this.editor.storeWarbandInBrowser();
+		return true;
 	}
 };

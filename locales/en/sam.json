@@ -1,0 +1,15 @@
+﻿{
+	"$schema": "../../schemas/locale.json",
+	"bd": "Bard",
+	"cv": "Chivalry",
+	"dg": "Dogged",
+	"hh": "Hero's Horse",
+	"ic": "Inconvenient",
+	"jz": "Jouster",
+	"kt": "Knight",
+	"lw": "Legendary Wizard",
+	"pt": "Protect ...",
+	"sf": "Solar Force",
+	"so": "Stubborn",
+	"uq": "Unique"
+}

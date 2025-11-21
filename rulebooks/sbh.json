@@ -1,0 +1,222 @@
+{
+	"$schema": "../schemas/rulebook.json",
+	"id": "sbh",
+	"data": {
+		"am": {
+			"label": "Amphibious",
+			"points": 3
+		},
+		"an": {
+			"label": "Animal",
+			"points": -3
+		},
+		"at": {
+			"label": "Artificial",
+			"points": 3
+		},
+		"as": {
+			"label": "Assassin",
+			"points": 15,
+			"personality": true
+		},
+		"bg": {
+			"label": "Big",
+			"points": 3
+		},
+		"cc": {
+			"label": "Cleric",
+			"points": 15,
+			"personality": true
+		},
+		"cl": {
+			"label": "Clinging",
+			"points": 3
+		},
+		"cm": {
+			"label": "Combat Master",
+			"points": 10,
+			"personality": true
+		},
+		"ds": {
+			"label": "Danger Sense",
+			"points": 3
+		},
+		"da": {
+			"label": "Dashing",
+			"points": 3
+		},
+		"dw": {
+			"label": "Desert Walk",
+			"points": 3
+		},
+		"et": {
+			"label": "Entangle",
+			"points": 15
+		},
+		"fl": {
+			"label": "Fearless",
+			"points": 3
+		},
+		"fy": {
+			"label": "Flying",
+			"points": 10
+		},
+		"fr": {
+			"label": "Forester",
+			"points": 3
+		},
+		"fd": {
+			"label": "Free Disengage",
+			"points": 3
+		},
+		"gt": {
+			"label": "Gargantuan",
+			"points": 9,
+			"replaces": [
+				"bg",
+				"hg"
+			]
+		},
+		"go": {
+			"label": "Good shot",
+			"points": 3
+		},
+		"ge": {
+			"label": "Greedy",
+			"points": -2
+		},
+		"gg": {
+			"label": "Gregarious",
+			"points": 3
+		},
+		"ha": {
+			"label": "Heavy Armor",
+			"points": 3
+		},
+		"hr": {
+			"label": "Hero",
+			"points": 15,
+			"personality": true
+		},
+		"hg": {
+			"label": "Huge",
+			"points": 5,
+			"replaces": [
+				"bg"
+			]
+		},
+		"ld": {
+			"label": "Leader",
+			"points": 15,
+			"personality": true
+		},
+		"ls": {
+			"label": "Legendary Archer",
+			"points": 15,
+			"personality": true
+		},
+		"lt": {
+			"label": "Lethal",
+			"generic": true,
+			"points": 3
+		},
+		"m3": {
+			"label": "Long Move",
+			"points": 10,
+			"replaces": [
+				"m1"
+			]
+		},
+		"mu": {
+			"label": "Magic-User",
+			"points": 15,
+			"personality": true,
+			"variants": [
+				"ee",
+				"nc",
+				"sc",
+				"sm",
+				"ec",
+				"il",
+				"si"
+			]
+		},
+		"mn": {
+			"label": "Mounted",
+			"points": 6
+		},
+		"pn": {
+			"label": "Poison",
+			"points": 3
+		},
+		"ra": {
+			"label": "Rabble",
+			"points": -5
+		},
+		"sv": {
+			"label": "Savage",
+			"points": 3
+		},
+		"s1": {
+			"label": "Shooter (short)",
+			"points": 2,
+			"replaces": [
+				"s2",
+				"s3"
+			]
+		},
+		"s2": {
+			"label": "Shooter (medium)",
+			"points": 4
+		},
+		"s3": {
+			"label": "Shooter (long)",
+			"points": 7
+		},
+		"m1": {
+			"label": "Short Move",
+			"points": -3
+		},
+		"sl": {
+			"label": "Slow",
+			"points": -5
+		},
+		"st": {
+			"label": "Steadfast",
+			"points": 3
+		},
+		"sh": {
+			"label": "Stealth",
+			"points": 3,
+			"excludes": [
+				"ha"
+			]
+		},
+		"sw": {
+			"label": "Swarm",
+			"points": 3
+		},
+		"ts": {
+			"label": "Tailslap",
+			"points": 3
+		},
+		"tr": {
+			"label": "Terror",
+			"points": 15,
+			"personality": true
+		},
+		"tg": {
+			"label": "Tough",
+			"points": 15,
+			"personality": true
+		},
+		"ud": {
+			"label": "Undead",
+			"points": 3
+		},
+		"ua": {
+			"label": "Unerring aim",
+			"points": 3
+		}
+	}
+}

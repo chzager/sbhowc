@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<!-- <ps:pagesnippets xmlns="http://www.w3.org/1999/xhtml" xmlns:ps="https://github.com/chzager/pagesnippets" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://github.com/chzager/pagesnippets https://chzager.github.io/pagesnippets/pagesnippets.xsd"> -->
+<ps:pagesnippets xmlns="http://www.w3.org/1999/xhtml" xmlns:ps="https://github.com/chzager/pagesnippets" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://github.com/chzager/pagesnippets http://localhost:8800/lib/pagesnippets/pagesnippets.xsd">
+	<ps:stylesheet src="style.css" />
+	<ps:script src="listlayout.js" />
+	<ps:snippet-group name="layouts">
+		<ps:snippet-group name="list">
+			<ps:snippet name="main">
+				<div class="desktop">
+					<div name="warbandname" contenteditable="true" data-blank="{{locales.blankWarbandName}}" ps:onblur="onWarbandNameBlur">{{warband.name}}</div>
+					<table>
+						<colgroup>
+							<col style="width:7%;" />
+							<col style="width:27%;" />
+							<col style="width:10%;" />
+							<col style="width:10%;" />
+							<col style="width:10%;" />
+							<col style="width:36%;" />
+							<col style="width:1.5em;" class="screen-only" />
+						</colgroup>
+						<thead>
+							<tr class="unitsheader">
+								<th>
+									<ps:call-function name="getLocaleText">
+										<ps:argument value="count" />
+									</ps:call-function>
+								</th>
+								<th>
+									<ps:call-function name="getLocaleText">
+										<ps:argument value="name" />
+									</ps:call-function>
+								</th>
+								<th class="center">{{locales.points}}</th>
+								<th class="center">{{locales.quality}}</th>
+								<th class="center">{{locales.combat}}</th>
+								<th>{{locales.specialrules}}</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<ps:for-each list="warband.units">
+								<tr class="unit" data-id="{{id}}">
+									<td>
+										<input type="number" size="1" min="1" name="count" data-value="{{count}}" value="{{count}}" ps:onchange="onUnitCountChanged" />
+									</td>
+									<td>
+										<div name="name" contenteditable="true" data-blank="{{locales.blankUnitName}}" data-ispersonality="{{isPersonality}}" ps:onblur="onUnitNameBlur">{{name}}</div>
+									</td>
+									<td class="center" name="points">{{points}}</td>
+									<td class="center">
+										<select name="quality" size="1" data-value="{{quality}}" value="{{quality}}" ps:onchange="onQualityChanged">
+											<ps:for-each list="qualitySelectOptions">
+												<option value="{{key}}">{{label}}</option>
+											</ps:for-each>
+										</select>
+									</td>
+									<td class="center">
+										<select name="combat" size="1" data-value="{{combat}}" value="{{combat}}" ps:onchange="onCombatChanged">
+											<ps:for-each list="combatSelectOptions">
+												<option value="{{key}}">{{label}}</option>
+											</ps:for-each>
+										</select>
+									</td>
+									<td>
+										<div class="specialrules">
+											<ps:for-each list="specialrules">
+												<span name="specialrule" data-index="{{_index}}" data-key="{{key}}">
+													<ps:call-function name="renderSpecialrule" />
+												</span>
+											</ps:for-each>
+											<select size="1" name="specialrules" ps:onchange="addSepecialRule">
+												<option>[{{locales.addSpecialrule}}]</option>
+												<ps:for-each list="specialrulesSelectOptions">
+													<option value="{{key}}">{{label}}</option>
+												</ps:for-each>
+											</select>
+										</div>
+									</td>
+									<td>
+										<i class="fa-solid fa-ellipsis-vertical unitmenu-icon screen-only" ps:onclick="popupUnitMenu"></i>
+									</td>
+								</tr>
+							</ps:for-each>
+							<tr class="buttons screen-only">
+								<td colspan="999">
+									<div class="flex">
+										<button style="flex:1;" ps:onclick="addUnit">{{locales.addUnit}}</button>
+										<!--
+									<ps:if test="{{paste-unit-text}}">
+										<div class="addunit" data-action="pasteunit" data-unitcode="{{clipboard-unit-code}}" ps:onclick="onValueEdited">{{paste-unit-text}}</div>
+										</ps:if>
+										-->
+									</div>
+								</td>
+							</tr>
+							<ps:if test="{{pointpools.length}} &gt; 0">
+								<ps:for-each list="pointpools">
+									<tr data-pointspool="{{key}}">
+										<td class="pointspool" colspan="2">{{label}}</td>
+										<td>
+											<span name="pointspool" data-key="{{key}}" data-blank="0" contenteditable="true" data-type="number" ps:onblur="setPoolPoints">{{points}}</span>
+										</td>
+										<td colspan="9"></td>
+									</tr>
+								</ps:for-each>
+							</ps:if>
+						</tbody>
+					</table>
+				</div>
+			</ps:snippet>
+		</ps:snippet-group>
+	</ps:snippet-group>
+</ps:pagesnippets>

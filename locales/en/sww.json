@@ -1,0 +1,19 @@
+﻿{
+	"$schema": "../../schemas/locale.json",
+	"bm": "Beastmaster",
+	"be": "Berserk",
+	"bu": "Burrowing",
+	"dr": "Drain",
+	"ee": "Elementalist",
+	"eePointsPool": "Elemental summoning pool",
+	"gs": "Giant Slayer",
+	"gf": "Group Fighter",
+	"ht": "Hatred of ...",
+	"mo": "Mountaineer",
+	"rb": "Running Blow",
+	"sr": "Sharpshooter",
+	"sd": "Shieldwall",
+	"sn": "Snow Walk",
+	"sb": "Standard Bearer",
+	"sk": "Swamp Walk"
+}

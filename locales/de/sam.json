@@ -1,0 +1,15 @@
+{
+	"$schema": "../../schemas/locale.json",
+	"bd": "Barde",
+	"cv": "Tugendhaft",
+	"dg": "Hartnäckig",
+	"hh": "Pferd des Helden",
+	"ic": "",
+	"jz": "Tjoster",
+	"kt": "Ritter",
+	"lw": "Erzmagier",
+	"pt": "Beschützer von ...",
+	"sf": "Sonnenmacht",
+	"so": "",
+	"uq": "Einzigartig"
+}

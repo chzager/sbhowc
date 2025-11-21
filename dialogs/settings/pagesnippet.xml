@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<ps:pagesnippets xmlns="http://www.w3.org/1999/xhtml" xmlns:ps="https://github.com/chzager/pagesnippets" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://github.com/chzager/pagesnippets https://chzager.github.io/pagesnippets/pagesnippets.xsd">
+	<ps:script src="settings.js" />
+	<ps:snippet-group name="bluebox">
+		<ps:snippet name="settings">
+			<div id="settings">
+				<h1>Settings</h1>
+				<div class="client">
+					<p>Select expansions to use special rules from:</p>
+					<div>
+						<label for="rulebook.sbh.enabled" style="pointer-events:none;">
+							<input type="checkbox" id="rulebook.sbh.enabled" disabled="disabled" checked="checked" />
+							<span>Song of Blades and Heroes</span>
+						</label>
+						<label for="rulebook.sgd.enabled">
+							<input type="checkbox" id="rulebook.sgd.enabled" ps:onclick="setProperty" />
+							<span>Song of Gold and Darkness</span>
+						</label>
+						<label for="rulebook.sww.enabled">
+							<input type="checkbox" id="rulebook.sww.enabled" ps:onclick="setProperty" />
+							<span>Song of Wind and Water</span>
+						</label>
+						<label for="rulebook.sdg.enabled">
+							<input type="checkbox" id="rulebook.sdg.enabled" ps:onclick="setProperty" />
+							<span>Song of Deeds and Glory</span>
+						</label>
+						<label for="rulebook.sam.enabled">
+							<input type="checkbox" id="rulebook.sam.enabled" ps:onclick="setProperty" />
+							<span>Song of Arthur and Merlin</span>
+						</label>
+					</div>
+					<hr />
+					<p>Default values for new units:</p>
+					<div class="two-column-grid">
+						<span>Quality:</span>
+						<select size="1" id="defaults.quality" data-type="number" value="{{defaultQualityValue}}" ps:onchange="setProperty">
+							<ps:for-each list="qualityValues">
+								<option value="{{key}}">{{label}}</option>
+							</ps:for-each>
+						</select>
+						<span>Combat:</span>
+						<select size="1" id="defaults.combat" data-type="number" value="{{defaultCombatValue}}" ps:onchange="setProperty">
+							<ps:for-each list="combatValues">
+								<option value="{{key}}">{{label}}</option>
+							</ps:for-each>
+						</select>
+					</div>
+					<hr />
+					<p>Choose the language for unit profiles:</p>
+					<select id="editor.language" size="1" ps:onchange="setProperty">
+						<option value="en">English</option>
+						<option value="de">Deutsch</option>
+					</select>
+					<hr />
+					<p>What layout for the unit sheets do you prefer?</p>
+					<div ps:onclick="setLayout">
+						<label for="layout_classic">
+							<input type="radio" id="layout_classic" name="layout" data-layout="classic" />
+							<span>Classic unit profiles</span>
+						</label>
+						<label for="layout_classictouch">
+							<input type="radio" id="layout_classictouch" name="layout" data-layout="classictouch" />
+							<span>Classic unit profiles, optimized for touchscreen devices</span>
+						</label>
+						<label for="layout_list">
+							<input type="radio" id="layout_list" name="layout" data-layout="list" />
+							<span>Tabular list (better for bigger screens)</span>
+						</label>
+					</div>
+					<hr />
+					<p>More Options:</p>
+					<div>
+						<label for="editor.highlightPersonalities">
+							<input type="checkbox" id="editor.highlightPersonalities" ps:onclick="setProperty" />
+							<span>Highlight personalities</span>
+						</label>
+						<label for="editor.personalitiesInPoints">
+							<input type="checkbox" id="editor.personalitiesInPoints" ps:onclick="setProperty" />
+							<span>Show personalities points instead of percents</span>
+						</label>
+						<label for="editor.applyRuleChecks">
+							<input type="checkbox" id="editor.applyRuleChecks" ps:onclick="setProperty" />
+							<span>Check rule compliance</span>
+						</label>
+					</div>
+				</div>
+				<div class="buttons">
+					<button ps:onclick="apply">
+						<i class="fa-regular fa-check-circle"></i>
+						<span>Apply</span>
+					</button>
+				</div>
+			</div>
+		</ps:snippet>
+	</ps:snippet-group>
+</ps:pagesnippets>

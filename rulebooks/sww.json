@@ -1,0 +1,80 @@
+﻿{
+	"$schema": "../schemas/rulebook.json",
+	"id": "sww",
+	"data": {
+		"bm": {
+			"label": "Beastmaster",
+			"points": 8,
+			"personality": true,
+			"exculdes": [
+				"an"
+			]
+		},
+		"be": {
+			"label": "Berserk",
+			"points": 4,
+			"excludes": [
+				"da"
+			]
+		},
+		"bu": {
+			"label": "Burrowing",
+			"points": 4
+		},
+		"dr": {
+			"label": "Drain",
+			"points": 8
+		},
+		"ee": {
+			"label": "Elementalist",
+			"points": 15,
+			"personality": true,
+			"pooling": true
+		},
+		"gs": {
+			"label": "Giant Slayer",
+			"points": 3,
+			"excludes": [
+				"hg"
+			]
+		},
+		"gf": {
+			"label": "Group Fighter",
+			"points": 3,
+			"personality": true
+		},
+		"ht": {
+			"label": "Hatred",
+			"generic": true,
+			"points": 3
+		},
+		"mo": {
+			"label": "Mountaineer",
+			"points": 2
+		},
+		"rb": {
+			"label": "Running Blow",
+			"points": 8
+		},
+		"sr": {
+			"label": "Sharpshooter",
+			"points": 4
+		},
+		"sd": {
+			"label": "Shieldwall",
+			"points": 1
+		},
+		"sn": {
+			"label": "Snow Walk",
+			"points": 3
+		},
+		"sb": {
+			"label": "Standard Bearer",
+			"points": 0
+		},
+		"sk": {
+			"label": "Swamp Walk",
+			"points": 3
+		}
+	}
+}

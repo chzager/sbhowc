@@ -1,0 +1,58 @@
+﻿{
+	"$schema": "../schemas/rulebook.json",
+	"id": "sam",
+	"data": {
+		"bd": {
+			"label": "Bard",
+			"points": 10,
+			"personality": true
+		},
+		"cv": {
+			"label": "Chivalry",
+			"points": 0
+		},
+		"dg": {
+			"label": "Dogged",
+			"points": -2
+		},
+		"hh": {
+			"label": "Hero's Horse",
+			"points": 6,
+			"personality": true
+		},
+		"ic": {
+			"label": "Inconvenient",
+			"points": 5
+		},
+		"jz": {
+			"label": "Jouster",
+			"points": 3
+		},
+		"kt": {
+			"label": "Knight",
+			"points": 1
+		},
+		"lw": {
+			"label": "Legendary Wizard",
+			"points": 99,
+			"personality": true
+		},
+		"pt": {
+			"label": "Protect",
+			"generic": true,
+			"points": -2
+		},
+		"sf": {
+			"label": "Solar Force",
+			"points": 0
+		},
+		"so": {
+			"label": "Stubborn",
+			"points": -2
+		},
+		"uq": {
+			"label": "Unique",
+			"points": 0
+		}
+	}
+}

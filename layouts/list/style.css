@@ -1,0 +1,70 @@
+/* units table */
+#list-layout table {
+	table-layout: fixed;
+	border-collapse: collapse;
+	border-spacing: 0px;
+	margin-bottom: 1em;
+	width: 100%;
+
+	select {
+		&[name="quality"],
+		&[name="combat"] {
+			padding: 0 0.5em;
+		}
+	}
+
+	input {
+		width: 100%;
+	}
+
+	thead tr {
+		background-color: var(--unit-head-background-color);
+		font-weight: bold;
+	}
+
+	th,
+	td {
+		border-top: 1px solid #b0b8c0;
+		border-bottom: 1px solid #b0b8c0;
+		padding: 0.5em 0.2em;
+		vertical-align: top;
+		&.pointspool {
+			font-style: italic;
+		}
+	}
+
+	[name="name"] {
+		width: 100%;
+		&[data-ispersonality="true"] {
+			font-weight: bold;
+		}
+	}
+
+	[name="pointspool"] {
+		width: 100%;
+		text-align: center;
+	}
+
+	.center {
+		text-align: center;
+	}
+}
+
+@media screen {
+	#list-layout table {
+		thead {
+			background: linear-gradient(135deg, #d8d8d8 60%, #b8b8b8 100%);
+		}
+		tbody {
+			background: linear-gradient(10deg, #ffffff 65%, #f2f2f2 100%);
+		}
+		tr.buttons td {
+			border-bottom: none;
+			padding-inline: 5em;
+			button {
+				border-radius: 0.5em;
+				padding: 0.3em;
+			}
+		}
+	}
+}

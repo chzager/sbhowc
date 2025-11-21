@@ -1,152 +1,134 @@
-div.blue {
-	background-color: white;
-	padding: 0px 2rem 0px 2rem;
+.blueboxwapper {
 	position: fixed;
-	-webkit-backface-visibility: hidden;
-	backface-visibility: hidden;
-	top: 0px;
-	left: 100%;
-	margin-left: 2rem;
-	height: 100%;
-	overflow: hidden scroll;
+	top: -100vh;
 	z-index: var(--z-index-bluebox);
-	box-shadow: 0px 0.5rem 1.5rem black;
-	transition-duration: 0.15s;
-	transition-timing-function: ease-out;
-}
+	right: 0;
+	left: 0;
+	bottom: 0;
+	transition: top 0.15s linear;
 
-div.blue *:not(i) {
-	font-family: var(--sans-font);
-	cursor: default;
-}
-div.blue a {
-	cursor: pointer;
-}
+	.bluebox {
+		--hover-foreground: #405080;
+		--hover-background: #ecf4ff;
 
-div.blue h1 {
-	font-size: 2rem;
-	font-weight: bold;
-	padding: 1em 0px 0.5em 0px;
-	border-bottom: 0.1rem solid silver;
-	color: #888;
-	position: sticky;
-	z-index: 1;
-	top: 0px;
-	background-color: white;
-}
+		display: flex;
+		cursor: default;
+		flex-direction: column;
+		padding: 2rem 4rem;
+		background-color: #fff;
+		box-shadow: 0px 5px 2em #00000080;
+		overflow: hidden;
+		margin: 0 5%;
+		height: 100vh;
 
-div.blue h1 > i {
-	float: right;
-	font-size: 1.5rem;
-	cursor: pointer;
-}
-div.blue h1 > i:hover {
-	color: black;
-}
-div.blue h1 > span {
-	display: inline-block;
-	max-width: calc(100% - 2rem);
-	overflow: clip;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-}
+		h1 {
+			font-size: 2rem;
+			font-weight: normal;
+			padding: 1em 0px 0.5em 0px;
+			border-bottom: 0.1rem solid silver;
+			color: #888;
+			overflow: clip;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		}
 
-div.blue div.blue-viewport {
-	max-width: 640px;
-}
+		p {
+			display: block;
+			margin-bottom: 1rem;
+			font-size: 1rem;
+			color: grey;
+		}
 
-div.blue div.blue-viewport > div,
-div.blue div.blue-viewport div.as-panel {
-	padding: 1.25rem 0;
-}
+		button {
+			display: flex;
+			column-gap: 0.3em;
+			padding: 0.5em 1em;
+			font-family: var(--sans-font);
+			font-size: 1em;
+			background-color: #fff;
+			border: none;
+			border-bottom: 5px solid var(--hover-foreground);
+			cursor: pointer;
+			box-shadow: 0 2px 4px #00000042;
+			&:hover {
+				color: var(--hover-foreground);
+				background-color: var(--hover-background);
+			}
+			&:hover:active {
+				border-bottom-width: 2px;
+				margin-bottom: 3px;
+				transform: translateY(3px);
+			}
+		}
 
-div.blue div.blue-viewport > div + div,
-div.blue div.blue-viewport div.as-panel {
-	border-top: 0.1rem solid silver;
-}
-div.blue div.blue-viewport > div:last-child {
-	padding-bottom: 3rem;
-}
+		.client {
+			overflow-y: auto;
+			padding-top: 2em;
+		}
 
-div.blue div.blue-viewport > div > p {
-	display: block;
-	margin-bottom: 1rem;
-	font-size: 1rem;
-	color: grey;
-}
+		.buttons {
+			display: flex;
+			column-gap: 1em;
+			align-items: flex-start;
+			padding-top: 1em;
+			position: sticky;
+			bottom: 0;
+		}
 
-div.blue input,
-div.blue button,
-div.blue label,
-div.blue select {
-	font-size: 1rem;
-	cursor: pointer;
-}
-div.blue input[type="button"],
-div.blue button {
-	padding: 0.1em 1em;
-	cursor: pointer;
-}
-div.blue input[type="button"] + input[type="button"] {
-	margin-left: 0.5rem;
-}
-div.blue button * {
-	cursor: pointer;
-}
-div.blue select {
-	padding: 0.2em;
-}
-div.blue input.rightbound {
-	float: right;
-}
-
-div.blue label:hover {
-	color: #607080;
-	background-color: #f0f0f0;
-}
-
-div.blue div.two-column-grid {
-	display: grid;
-	grid-gap: 0px;
-	padding: 0px;
-	grid-template-columns: min-content auto;
-}
-div.blue div.two-column-grid > * {
-	margin-right: 0.5em;
-	margin-bottom: 0.5em;
-	display: flex;
-	align-items: center;
-}
-
-div.blue .notification {
-	border: 0.2rem solid;
-	padding: 0.3em;
-	box-shadow: 0.05em 0.05em 0.2em #00000080;
-	margin-top: -0.2em;
-	left: 2rem;
-	font-weight: normal;
-	text-indent: 0;
-	border-radius: 0.4em;
-	visibility: hidden;
-	display: inline-block;
-	position: absolute;
-}
-div.blue .notification.visible {
-	visibility: visible;
-	animation-name: fadein-fadeout;
-	animation-duration: 4s;
-}
-@keyframes fadein-fadeout {
-	0% {
-		opacity: 0;
+		input,
+		label,
+		select {
+			font-size: 1rem;
+			cursor: pointer;
+		}
+		select {
+			padding: 0.2em;
+			min-width: 3em;
+		}
+		label:hover {
+			color: var(--hover-foreground);
+			background-color: var(--hover-background);
+		}
 	}
-	10% {
-		opacity: 1;
+	textarea {
+		width: 100%;
+		max-width: 100%;
+		min-width: 100%;
+		height: 30vh;
+		font-family: var(--monospace-font);
+		font-size: 1rem;
+		background-color: #f0f0f0;
+		border: none;
+		padding: 0.5rem;
+		border-radius: 0.5em;
+		cursor: text;
+		outline: none;
+		word-break: break-all;
 	}
-	75% {
-		opacity: 1;
+
+	hr {
+		height: 0;
+		border: none;
+		border-bottom: 2px solid #ccc;
+		margin: 1em 0;
 	}
-	100% {
-		opacity: 0;
+
+	label {
+		display: block;
+		padding: 0.2em;
+		border-radius: 0.2em;
+		input {
+			margin-right: 0.5em;
+		}
+	}
+
+	div.two-column-grid {
+		display: grid;
+		grid-gap: 0.3em 0.5em;
+		grid-template-columns: min-content auto;
+		align-items: baseline;
+		select {
+			max-width: max-content;
+		}
 	}
 }

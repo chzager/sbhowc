@@ -1,0 +1,73 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"type": "object",
+	"properties": {
+		"id": {
+			"type": "string",
+			"description": "Rulebook (abbreviation) that introduces this specialrules."
+		},
+		"data": {
+			"type": "object",
+			"description": "A list of specialrule definitions where the keys a the specialrule IDs.",
+			"patternProperties": {
+				"^[a-z][a-z1-9]$": {
+					"description": "ID of a specialrule. This is either two letters or a letter and a number and must be unique across all rulebooks.",
+					"type": "object",
+					"properties": {
+						"label": {
+							"type": "string",
+							"description": "Label of this specialrule. Note that the actual display text comes from a locales file."
+						},
+						"points": {
+							"type": "number",
+							"description": "Points costs of this specialrule."
+						},
+						"personality": {
+							"type": "boolean",
+							"description": "Does this specialrule makes an unit a personality?"
+						},
+						"generic": {
+							"type": "boolean",
+							"description": "Indicates that this is a generic specialrule that needs specification in the unit."
+						},
+						"replaces": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							},
+							"description": "IDs of other specialrules that are replaced by this specialrule (e.g. 'Shooter (long)' replaces 'Shooter (medium)'). \"replaces\" needs to be set only once; it is handled recursively. This is for convenience in the editor."
+						},
+						"variants": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							},
+							"description": "IDs of specialrules that are variants of this specialrule. Variants mutually exclude each other and are recursive (e.g. if \"A,B are variants\" and \"B,C are variants\", then C and A are also variants. \"variants\" needs to be set only once; they are handled recursively."
+						},
+						"excludes": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							},
+							"description": "IDs of other specialrules that an unit can't have along with this specialrule. In contrast to \"variants\" excludes work one-way and are not mutual (e.g. when \"A excludes B,C\" it is perfectly fine for an unit having B and C as long as it doesn't also have A). Excludes apply also to variants."
+						},
+						"pooling": {
+							"type": "boolean",
+							"description": "Indicates that this specialrule creates a separate pool point on the unit's warband."
+						}
+					},
+					"required": [
+						"label",
+						"points"
+					],
+					"additionalProperties": false
+				}
+			},
+			"additionalProperties": false
+		}
+	},
+	"required": [
+		"id",
+		"data"
+	]
+}

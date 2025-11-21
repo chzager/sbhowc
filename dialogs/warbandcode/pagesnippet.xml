@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<ps:pagesnippets xmlns="http://www.w3.org/1999/xhtml" xmlns:ps="https://github.com/chzager/pagesnippets" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://github.com/chzager/pagesnippets https://chzager.github.io/pagesnippets/pagesnippets.xsd">
+	<ps:script src="warbandcode.js" />
+	<ps:snippet-group name="bluebox">
+		<ps:snippet name="warbandcode">
+			<div id="warbandcode">
+				<h1>Warband code</h1>
+				<div class="client">
+					<p>You can copy this code to a text-file and save your warband. Or you can enter a code here to restore a warband.</p>
+					<textarea autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">{{code}}</textarea>
+				</div>
+				<div class="buttons">
+					<button ps:onclick="copyToClipboard">
+						<i class="fa-regular fa-clipboard"></i>
+						<span>Copy to clipboard<span></span></span>
+					</button>
+					<button ps:onclick="apply">
+						<i class="fa-regular fa-check-circle"></i>
+						<span>Apply</span>
+					</button>
+				</div>
+			</div>
+		</ps:snippet>
+	</ps:snippet-group>
+</ps:pagesnippets>

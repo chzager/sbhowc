@@ -1,0 +1,19 @@
+﻿{
+	"$schema": "../../schemas/locale.json",
+	"ac": "Acrobat",
+	"cw": "Coward",
+	"dc": "Distract",
+	"ev": "Evil",
+	"gb": "Ghost Blade",
+	"mr": "Magic Resistance",
+	"mt": "Mutant",
+	"nc": "Necromancer",
+	"sm": "Summoner",
+	"smPointsPool": "Summoning pool",
+	"op": "Opportunistic",
+	"pl": "Paladin",
+	"sc": "Sorcerer",
+	"tp": "Traps",
+	"tt": "Teleport",
+	"wr": "Were"
+}

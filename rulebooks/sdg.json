@@ -1,0 +1,69 @@
+﻿{
+	"$schema": "../schemas/rulebook.json",
+	"id": "sdg",
+	"data": {
+		"bs": {
+			"label": "Blacksmith",
+			"points": 1
+		},
+		"bl": {
+			"label": "Blast",
+			"points": 15
+		},
+		"br": {
+			"label": "Brewmaster",
+			"points": 1
+		},
+		"cn": {
+			"label": "Champion",
+			"points": 9,
+			"personality": true
+		},
+		"di": {
+			"label": "Diplomat",
+			"points": 8,
+			"personality": true
+		},
+		"ec": {
+			"label": "Enchanter",
+			"points": 15,
+			"personality": true
+		},
+		"il": {
+			"label": "Illusionist",
+			"points": 15,
+			"personality": true
+		},
+		"im": {
+			"label": "Immortal",
+			"points": 20,
+			"personality": true
+		},
+		"lb": {
+			"label": "Laborer",
+			"points": 3
+		},
+		"nb": {
+			"label": "Noble",
+			"points": 5,
+			"personality": true
+		},
+		"ou": {
+			"label": "Outrider",
+			"points": 8
+		},
+		"rl": {
+			"label": "Reckless",
+			"points": 5
+		},
+		"rf": {
+			"label": "Reflect",
+			"points": 4
+		},
+		"si": {
+			"label": "Shield-Mage",
+			"points": 10,
+			"personality": true
+		}
+	}
+}

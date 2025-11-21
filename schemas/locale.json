@@ -1,0 +1,11 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"type": "object",
+	"patternProperties": {
+		"\\w+": {
+			"type": "string",
+			"description": "Key of the resource and its localized text."
+		}
+	},
+	"additionalProperties": false
+}

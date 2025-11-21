@@ -1,162 +1,131 @@
-.menubox {
-	z-index: var(--z-index-topmost);
-}
-
-/* warband and share menus */
-
-.menubox.topdown {
-	overflow: hidden;
-	position: absolute;
-	background-color: var(--complement-white-color);
-	box-shadow: 0.3rem 0.3rem 1rem #00000080;
-	transition: height 0.15s ease-out, visibility 0.15s;
-	box-sizing: content-box;
-}
-
-.menubox.horizontal {
-	padding: 0px 0.5rem;
-}
-
-.menubox.horizontal .items {
-	display: flex;
-	flex-wrap: wrap;
-	position: relative;
-}
-
-.menubox.horizontal .menuitem {
-	font-family: var(--sans-font);
-	font-size: 1rem;
-	padding: 0.8em 1em 0.5em 1em;
-	border-bottom: 0.3em solid transparent;
-	color: var(--complement-black-color);
-	cursor: pointer;
-}
-.menubox.horizontal .menuitem:hover {
-	color: var(--complement-dark-color);
-	border-bottom-color: var(--complement-dark-color);
-}
-
-.menubox.vertical {
-	padding: 0px;
-}
-
-.menubox.vertical .items {
-	display: flex;
-	flex-wrap: wrap;
-	flex-direction: column;
-	position: relative;
-}
-
-.menubox.vertical .menuitem {
-	font-family: var(--sans-font);
-	font-size: 1rem;
-	padding: 0.8em 2.4em 0.8em 2.4em;
-	border-right: 0.3em solid transparent;
-	color: var(--complement-black-color);
-	cursor: pointer;
-	position: relative;
-}
-.menubox.vertical .menuitem:hover {
-	color: var(--complement-dark-color);
-	border-right-color: var(--complement-dark-color);
-}
-
-.menubox .menuitem > i {
-	position: absolute;
-	top: 0.9em;
-	left: 0.8em;
+@media print {
+	.menubox {
+		display: none;
+	}
 }
 
 /* unit context menu */
+@media screen {
+	.menubox {
+		--hover-foreground: #405080;
+		--hover-background: #ecf4ff;
+		--red-foreground: #ca3040;
+		--red-background: #ffe0e0;
+		--dim-hover-foreground: #96a2c0;
+		font-family: var(--sans-font);
 
-[data-menubox="unitMenu"] {
-	display: inline-block;
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	font-family: var(--sans-font);
-	border: 1px solid #808080;
-	background-color: white;
-	padding: 0.2em;
-	box-shadow: 0.2rem 0.2rem 1rem #00000080;
-	z-index: initial;
-}
+		.menubox-item {
+			max-width: 30em;
+			overflow-x: hidden;
+			text-overflow: ellipsis;
+		}
 
-[data-menubox="unitMenu"] .menuitem {
-	padding: 0.3em 0.5em;
-	cursor: pointer;
-}
+		i {
+			margin-left: -0.5em;
+			margin-right: 0.4em;
+			display: inline-block;
+			width: 1.2em;
+			text-align: center;
+		}
 
-[data-menubox="unitMenu"] .menuitem:hover {
-	color: #607080;
-	background-color: #f0f0f0;
-}
+		/* Top button bar menus */
+		&.top-menu {
+			z-index: var(--z-index-topmost);
+			background-color: var(--complement-white-color);
+			box-shadow: 0.05rem 0.15rem 0.5rem #00000080;
+			border-radius: 0;
+			border: none;
+			padding: 0.6em 0;
+			transition: height 0.15s ease-out, opacity 0.15s;
 
-[data-menubox="unitMenu"] .separator {
-	height: 0.1rem;
-	background-color: #808080;
-	border: 0px;
-	margin: 0.6em;
-}
+			.menubox-item,
+			.menubox-label {
+				font-family: var(--sans-font);
+				font-size: 1.1rem;
+				padding: 0.5em 1.5em;
+				margin: 0;
+				border-radius: 0;
+				border-width: 0 0.3em;
+				border-style: solid;
+				border-color: transparent;
+				color: var(--complement-black-color);
+				max-width: unset;
+			}
+			.menubox-item:hover {
+				color: var(--complement-dark-color);
+				background-color: initial;
+				border-color: var(--complement-dark-color);
+			}
 
-/* menubox as dialogbox */
+			&.undohistory {
+				.wrapper:hover > .menubox-item {
+					color: var(--complement-dark-color);
+					background-color: initial;
+					border-color: var(--complement-dark-color);
+				}
 
-.menubox.dialogbox {
-	--border-color: silver;
-	background-color: white;
-	font-family: var(--sans-font);
-	padding: 2em;
-	border: none;
-	box-shadow: 0px 0px 1.3em 0.4em #00000080;
-	min-width: 300px;
-	max-width: 600px;
-	position: fixed;
-	font-size: 1rem;
-}
+				.menubox-item,
+				.menubox-label {
+					display: flex;
+					.label {
+						flex: 1;
+						max-width: 30em;
+						margin-right: 1em;
+						overflow-x: hidden;
+						text-overflow: ellipsis;
+					}
+					.label:before {
+						content: "\2022"; /* bullet point */
+						display: inline-block;
+						width: 1em;
+					}
+					.points {
+						font-family: monospace;
+						border-radius: 0.3em;
+						font-size: 0.9em;
+						padding: 0.1em 0.3em;
+						margin-left: auto;
+						&[data-sign="1"] {
+							color: #564;
+							background-color: #ae9;
+						}
+						&[data-sign="1"]::before {
+							content: "+";
+						}
+						&[data-sign="-1"] {
+							color: #c00;
+							background-color: #fcc;
+						}
+						&[data-sign="0"] {
+							color: #aaa;
+						}
+						&[data-sign="0"]::before {
+							content: "\00b1";
+						}
+					}
+				}
+			}
+		}
 
-.menubox.dialogbox .title {
-	font-size: 1.5em;
-	font-weight: normal;
-	text-align: center;
-	color: #888;
-	padding-bottom: 1rem;
-	border-bottom: 2px solid var(--border-color);
-	margin-bottom: 2rem;
-	cursor: default;
-}
-
-.menubox.dialogbox .items p {
-	padding: 0 0 1rem 0;
-	line-height: 1.3em;
-}
-.menubox.dialogbox .items p a:hover {
-	color: black;
-	background: rgba(0, 0, 0, 0.1);
-}
-
-.menubox.dialogbox .buttons {
-	margin-top: 1rem;
-	border-top: 2px solid var(--border-color);
-	padding-top: 1.5rem;
-	display: flex;
-	font-size: 1rem;
-}
-
-.menubox.dialogbox [data-menubutton] {
-	border: 2px solid #d8d8d8;
-	padding: 0.2em;
-	width: 100%;
-	text-align: center;
-	color: grey;
-	cursor: pointer;
-}
-
-.menubox.dialogbox [data-menubutton]:not(:nth-child(1)) {
-	margin-left: 1em;
-}
-
-.menubox.dialogbox [data-menubutton]:hover {
-	background-color: #eee;
-	color: #666;
-	border-color: #aaa;
+		/* Unit menubox */
+		&[data-menubox="unit-menu"] {
+			font-size: 95%;
+			.menubox-item {
+				&.red:hover {
+					color: var(--red-foreground);
+					background-color: var(--red-background);
+				}
+				&.red i {
+					color: var(--red-foreground);
+				}
+				&.submenuitem:after {
+					font-family: var(--fontawesome);
+					content: "\f107"; /* angle-down */
+					font-weight: 600;
+					margin-left: 1em;
+					float: right;
+				}
+			}
+		}
+	}
 }

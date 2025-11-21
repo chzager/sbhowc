@@ -1,45 +1,44 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>Online Warband Creator for Song of Blades and Heroes</title>
+		<title>Online Warband Calculator for Song of Blades and Heroes</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<!-- Preconnct -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
 		<!-- Google Fonts -->
 		<link href="https://fonts.googleapis.com/css2?family=Norican&display=swap" rel="stylesheet" />
 		<link href="https://fonts.googleapis.com/css2?family=Roboto&family=Source+Serif+Pro:wght@400;600&display=swap" rel="stylesheet" />
+		<link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro&display=swap" rel="stylesheet" />
 		<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet" />
-		<!-- basic styles -->
-		<link rel="stylesheet" href="styles/core.css" />
+
+		<!-- <script src="https://cdn.jsdelivr.net/gh/chzager/pagesnippets/pagesnippets2.min.js"></script> -->
+		<script src="/lib/pagesnippets/pagesnippets2.js"></script>
+		<!-- <script src="https://cdn.jsdelivr.net/gh/chzager/menubox/menubox2.min.js"></script> -->
+		<script src="/lib/menubox/menubox2.js"></script>
+		<script src="https://chzager.github.io/on-screen-console/onscreenconsole.js"></script>
+
+		<!-- Stylesheets -->
+		<link rel="stylesheet" href="styles/index.css" />
+		<link rel="stylesheet" href="styles/editor.css" />
+		<link rel="stylesheet" href="/lib/menubox/menubox2.css" />
 		<link rel="stylesheet" href="styles/menubox.css" />
 		<link rel="stylesheet" href="styles/bluebox.css" />
-
-		<!-- polyfill prototypes -->
-		<script src="lib/proto/date.prototype.js"></script>
-		<script src="lib/proto/location.prototype.js"></script>
-		<!-- tools -->
-		<script src="https://suppenhuhn79.github.io/vanilla-tools/didyouknow.js"></script>
-		<script src="https://suppenhuhn79.github.io/vanilla-tools/fileio.js"></script>
-		<script src="https://suppenhuhn79.github.io/vanilla-tools/htmlbuilder.js"></script>
-		<script src="https://suppenhuhn79.github.io/vanilla-tools/menubox.js"></script>
-		<script src="https://suppenhuhn79.github.io/vanilla-tools/undoer.js"></script>
-		<script src="https://suppenhuhn79.github.io/pagesnippets/pagesnippets.js"></script>
-		<script src="https://chzager.github.io/on-screen-console/onscreenconsole.js"></script>
-		<!-- basic classes -->
-		<script src="src/unit.class.js"></script>
-		<script src="src/warband.class.js"></script>
 
 		<!-- FontAwesome -->
 		<script src="https://kit.fontawesome.com/fa37b6d3d1.js" crossorigin="anonymous" async="async" defer="defer"></script>
 		<!-- cloud storage APIs -->
-		<script src="lib/onedrive-api.js" defer="defer"></script>
-		<script src="lib/googledrive-api.js" defer="defer"></script>
+		<!-- <script src="lib/onedrive-api.js" defer="defer"></script> -->
+		<!-- <script src="lib/googledrive-api.js" defer="defer"></script> -->
 	</head>
 
 	<body>
-		<div id="title" class="noprint">
+		<div id="title" class="screen-only">
 			<div class="viewport">
-				<h1>Online Warband Creator</h1>
+				<h1>Online Warband Calculator</h1>
 				<h2>
 					<div class="tiny">for</div>
 					Song of Blades and&nbsp;Heroes
@@ -53,36 +52,29 @@
 			</div>
 		</div>
 
-		<div id="top-menu-floater" class="noprint">
-			<div id="top-menu-stripe">
-				<div class="viewport">
-					<div class="flex-box">
-						<i class="far fa-file" onclick="owc.topMenu.newWarbandClick(event);"></i>
-						<i class="fas fa-fw fa-angle-double-down" id="top-menu-toggle-button" onclick="owc.topMenu.onWarbandMenuButtonClick(event);"></i>
-						<i class="fas fa-fw fa-print" onclick="owc.topMenu.printPreviewClick(event);"></i>
-						<i class="fas fa-fw fa-share-alt" id="share-menu-button" onclick="owc.topMenu.onShareMenuButtonClick(event);"></i>
-						<i class="fas fa-fw fa-cog" onclick="owc.topMenu.showSettingsClick(event);"></i>
+		<div id="top-menu" class="screen-only">
+			<div class="viewport">
+				<div class="flex-box">
+					<div class="primary">
+						<i class="fa-solid fa-file" data-action="file"></i>
+						<i class="fa-solid fa-clock-rotate-left" data-action="undo"></i>
+					</div>
+					<div>
+						<i class="fa-solid fa-print" data-action="print"></i>
+						<i class="fa-solid fa-share-nodes" data-action="share"></i>
+						<i class="fa-solid fa-gear" data-action="settings"></i>
 					</div>
 				</div>
 			</div>
-			<div id="top-menu-substripe" class="viewport">
-				<i class="fas fa-fw fa-undo-alt" id="undo-button" onclick="owc.editor.undo();"></i>
-			</div>
 		</div>
 
-		<div id="warbandCanvas" class="viewport">&#160;</div>
-
-		<div id="print-footer" class="viewport only-print">
-			<p data-autofill="yes">Created with {{title}}, {{version}}, {{origin}}</p>
+		<div id="warband-editor" class="viewport">
+			<div id="editor-layout"></div>
+			<div id="warband-summary"></div>
+			<div id="print-footer" data-autofill="yes" class="print-only">Created with {{title}}, {{version}}, {{origin}}</div>
 		</div>
 
-		<div id="didyouknow" class="noprint">
-			<h1>Did you know..?</h1>
-			<p id="didyouknow_text">...You need to have JavaScript enabled to use the <em>Song of Blades and Heroes Online Warband Creator</em>.</p>
-			<p id="didyouknow_next" onclick="owc.didYouKnow.printNextHint();">Show another hint</p>
-		</div>
-
-		<div id="footer" class="noprint">
+		<div id="footer" class="screen-only">
 			<div class="viewport">
 				<div class="flex-container">
 					<div>
@@ -103,7 +95,7 @@
 					</div>
 					<div>
 						<div class="block">
-							<span>Online Warband Creator</span>
+							<span>Online Warband Calculator</span>
 							<span>Copyright Christoph&nbsp;Zager, licensed unter the <a href="https://www.gnu.org/licenses/agpl-3.0.en.html" target="_blank">GNU Affero General Public License, Version&nbsp;3</a>.</span>
 						</div>
 						<div class="block iconic">
@@ -114,7 +106,7 @@
 						<div class="block iconic">
 							<i class="fab fa-github"></i>
 							<span>Visit</span>
-							<span>the Online Warband Creator project at <a href="https://github.com/chzager/sbhowc" target="_blank">GitHub</a>.</span>
+							<span>the Online Warband Calculator project at <a href="https://github.com/chzager/sbhowc" target="_blank">GitHub</a>.</span>
 						</div>
 						<div class="block iconic">
 							<i class="fab fa-readme"></i>
@@ -126,24 +118,20 @@
 			</div>
 		</div>
 
-		<div id="loading-wrapper">
-			<div class="loading-text sans-serif">Fetching data...</div>
+		<div id="loading-wrapper" style="display: none">
+			<div class="loading-text sans-serif">...</div>
 			<div class="loading-gradient">&nbsp;</div>
 		</div>
-		<div id="blur" class="volatile" onclick="owc.ui.onBlurElementClick(event);">&nbsp;</div>
-		<div id="printoverlay" class="only-print">&nbsp;</div>
 
+		<script src="src/bluebox.js"></script>
+		<script src="src/editor.js"></script>
+		<script src="src/layout.js"></script>
+		<script src="src/misc.js"></script>
+		<script src="src/resources.js"></script>
+		<script src="src/settings.js"></script>
+		<script src="src/ui.js"></script>
+		<script src="src/validator.js"></script>
+		<script src="src/warband.js"></script>
 		<script src="owc.js"></script>
-		<script src="owc.settings.js"></script>
-		<script src="owc.resources.js"></script>
-		<script src="owc.rulecheck.js"></script>
-		<script src="owc.editor.js"></script>
-		<script src="owc.ui.js"></script>
-		<script src="owc.topmenu.js"></script>
-		<script src="owc.fileio.js" defer="defer"></script>
-		<script src="owc.share.js" defer="defer"></script>
-		<script>
-			owc.init();
-		</script>
 	</body>
 </html>

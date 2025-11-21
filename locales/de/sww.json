@@ -1,0 +1,18 @@
+﻿{
+	"$schema": "../../schemas/locale.json",
+	"bm": "Tierführer",
+	"be": "Berserker",
+	"bu": "Graben",
+	"dr": "Ausbluten",
+	"ee": "Elementarmagier",
+	"gs": "Riesentöter",
+	"gf": "Gegenhalten",
+	"ht": "Erzfeind ...",
+	"mo": "Wipfelläufer",
+	"rb": "",
+	"sr": "Scharfschütze",
+	"sd": "Schildwall",
+	"sn": "Gletscherläufer",
+	"sb": "Standartenträger",
+	"sk": "Sumpfläufer"
+}

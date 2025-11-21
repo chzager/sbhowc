@@ -1,0 +1,17 @@
+﻿{
+	"$schema": "../../schemas/locale.json",
+	"bs": "Blacksmith",
+	"bl": "Blast",
+	"br": "Brewmaster",
+	"cn": "Champion",
+	"di": "Diplomat",
+	"ec": "Enchanter",
+	"il": "Illusionist",
+	"im": "Immortal",
+	"lb": "Laborer",
+	"nb": "Noble",
+	"ou": "Outrider",
+	"rl": "Reckless",
+	"rf": "Reflect",
+	"si": "Shield-Mage"
+}

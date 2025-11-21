@@ -1,0 +1,21 @@
+#classic-layout form {
+	display: flex;
+	flex-direction: column;
+	row-gap: 1.5em;
+}
+
+@media (min-width: 715px) {
+	#classic-layout {
+		form {
+			display: grid;
+			grid-template-columns: 1fr 1fr; /* Two equal-width columns */
+			gap: 1.5em; /* Space between rows and columns */
+		}
+
+		button {
+			padding: 1.5em;
+			max-height: min-content;
+			max-width: var(--max-unit-sheet-width);
+		}
+	}
+}
