@@ -6,7 +6,7 @@
 			"label": "Beastmaster",
 			"points": 8,
 			"personality": true,
-			"exculdes": [
+			"excludes": [
 				"an"
 			]
 		},

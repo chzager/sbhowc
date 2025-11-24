@@ -1,7 +1,5 @@
 // @ts-check
-// TODO: Re-Implement "copy unit".
 // TODO: Re-Implement "classic touch" layout.
-// TODO: Implement "close" button in Blieboxes.
 // DOC entire file
 /**
  * A warband calculator for the "Song of Blades and Heroes" fantasy tabletop skirmish rules.
@@ -29,9 +27,9 @@ const owc = new class OnlineWarbandCalculator
 		for (const node of /** @type {NodeListOf<HTMLElement>} */(document.querySelectorAll("[data-autofill]")))
 		{
 			let text = node.innerText;
-			for (const [key, value] of Object.entries(this.meta))
+			for (const [match, key] of text.matchAll(/\{\{(\w+)\}\}/g))
 			{
-				text = text.replace("{{" + key.toLowerCase() + "}}", value);
+				text = text.replace(match, this.meta[key] || key);
 			}
 			node.innerText = text;
 		}
@@ -92,6 +90,13 @@ const owc = new class OnlineWarbandCalculator
 			.finally(() =>
 			{
 				this.ui.waitEnd();
+				document.addEventListener("visibilitychange", () =>
+				{
+					if (document.visibilityState === "visible")
+					{
+						this.settings.load(); // In case that the settings were modified in another tab, reload them here.
+					}
+				});
 			});
 		return;
 	}
@@ -102,23 +107,31 @@ const owc = new class OnlineWarbandCalculator
 		#menuTransitions = { height: { closed: "0", opened: "auto" } };
 		#menuCss = "top-menu";
 
+		/**
+		 * @param {OnlineWarbandCalculator} parent
+		 */
+		constructor(parent)
+		{
+			this.parent = parent;
+		}
 		bind ()
 		{
-			function isHTMLElement (a)
+			function isHTMLElement (obj)
 			{
-				return (a instanceof HTMLElement);
+				return (obj instanceof HTMLElement);
 			}
 			const actions = {
 				"file": (/** @type {PointerEvent} */evt) => isHTMLElement(evt.currentTarget) && this.#fileMenu.toggle(evt, null, evt.currentTarget),
 				"undo": (/** @type {PointerEvent} */evt) => isHTMLElement(evt.currentTarget) && this.#undoMenu.toggle(evt, null, evt.currentTarget),
 				"print": () => window.print(),
 				"share": (/** @type {PointerEvent} */evt) => isHTMLElement(evt.currentTarget) && this.#shareMenu.toggle(evt, null, evt.currentTarget),
+				"language": (/** @type {PointerEvent} */evt) => isHTMLElement(evt.currentTarget) && this.#languageMenu.toggle(evt, null, evt.currentTarget),
 				"settings": (/** @type {PointerEvent} */evt) =>
 				{
 					evt.stopImmediatePropagation();
 					Menubox2.closeAll();
 					pageSnippets.import("./dialogs/settings/pagesnippet.xml")
-						.then(() => settingsBluebox.show(owc.settings, owc.editor));
+						.then(() => settingsBluebox.show(this.parent.settings, this.parent.editor));
 				}
 			};
 			for (const [name, func] of Object.entries(actions))
@@ -137,9 +150,9 @@ const owc = new class OnlineWarbandCalculator
 					key: "new", label: "Start a new warband", icon: "fa-regular fa-file",
 					callback: () =>
 					{
-						owc.newPid();
-						owc.warband.clear().addUnit();
-						owc.editor.render();
+						this.parent.newPid();
+						this.parent.warband.clear().addUnit();
+						this.parent.editor.render();
 					}
 				},
 				{
@@ -147,21 +160,35 @@ const owc = new class OnlineWarbandCalculator
 					callback: () => window.open(window.location.origin + window.location.pathname)
 				},
 				{
-					key: "upload", label: "Open a warband file", icon: "fa-regular fa-folder-open",
-					callback: () => localFileIo.requestFile().then(code => owc.importWarband(code))
+					key: "clone-to-new-window", label: "Clone this warband to a new window", icon: "fa-solid fa-clone",
+					callback: () => window.open(this.parent.getShareUrl())
 				},
 				{ separator: true },
 				{
+					key: "upload", label: "Open a warband file", icon: "fa-regular fa-folder-open",
+					callback: () => localFileIo.requestFile().then(code => this.parent.importWarband(code))
+				},
+				{
 					key: "download", label: "Download this warband as file", icon: "fa-solid fa-download",
-					callback: () => localFileIo.offerDownload(owc.getFileName(), owc.getWarbandCode())
+					callback: () => localFileIo.offerDownload(this.parent.getFileName(), this.parent.getWarbandCode())
 				},
 				{
 					key: "show-code", label: "Import/export warband code", icon: "fa-solid fa-code",
 					callback: () =>
 					{
 						pageSnippets.import("./dialogs/warbandcode/pagesnippet.xml")
-							.then(() => warbandcodeBluebox.show(owc.getWarbandCode()));
+							.then(() => warbandcodeBluebox.show(this.parent.getWarbandCode()));
 					}
+				},
+				{ separator: true },
+				{
+					key: "restore", label: "Restore a previous session", icon: "fa-solid fa-clock-rotate-left",
+					callback: () =>
+					{
+						pageSnippets.import("./dialogs/restorer/pagesnippet.xml")
+							.then(() => restorerBluebox.show());
+					}
+
 				},
 			],
 			itemRenderer: iconizedMenuitemRenderer,
@@ -170,7 +197,7 @@ const owc = new class OnlineWarbandCalculator
 		});
 
 		#undoMenu = new Menubox2("undo", {
-			items: [], // Items will be createy dynamically on popup.
+			items: [], // Items will be createy dynamically on before popup.
 			itemRenderer: iconizedMenuitemRenderer,
 			css: [this.#menuCss, "undohistory"].join(" "),
 			transitions: this.#menuTransitions,
@@ -181,20 +208,20 @@ const owc = new class OnlineWarbandCalculator
 					mbx.close();
 					if (event.currentTarget instanceof HTMLElement)
 					{
-						owc.editor.undo(Number(event.currentTarget.dataset.i));
+						this.parent.editor.undo(Number(event.currentTarget.dataset.i));
 					}
 				};
 				const menuItemsWrapper = mbx.element.querySelector(".menubox-items");
-				if (owc.editor.snapshots.length === 0)
+				if (this.parent.editor.snapshots.length === 0)
 				{
 					menuItemsWrapper.replaceChildren(iconizedMenuitemRenderer({ label: "Nothing to undo", icon: "fa-solid fa-umbrella-beach" }));
 				}
 				else
 				{
-					menuItemsWrapper.replaceChildren(iconizedMenuitemRenderer({ label: "Undo:", icon: "fa-solid fa-clock-rotate-left" }));
+					menuItemsWrapper.replaceChildren(iconizedMenuitemRenderer({ label: "Undo:", icon: "fa-solid fa-arrow-rotate-left" }));
 					let currentWrapper = menuItemsWrapper;
 					let i = 1;
-					for (const snapshotItem of owc.editor.snapshots.slice(0, 10))
+					for (const snapshotItem of this.parent.editor.snapshots.slice(0, 10))
 					{
 						const innerWrapper = makeElement("div.wrapper",
 							makeElement("div.menubox-item", { "data-i": i.toString(), onclick: (evt) => undo(evt) },
@@ -209,22 +236,34 @@ const owc = new class OnlineWarbandCalculator
 			}
 		});
 
+		/*
+	if (typeof navigator.share === "function")
+	{
+		this.parent.topMenu.shareMenu.appendItem(
+			{
+				key: "browser",
+				label: "More...",
+				iconHtml: htmlBuilder.newElement("i.fas.fa-ellipsis-h")
+			}
+		);
+	}
+	*/
 		#shareMenu = new Menubox2("share", {
 			items: [
 				{
 					key: "create-link", label: "Create share link", icon: "fa-solid fa-link",
 					callback: () =>
 					{
-						window.history.replaceState({}, "", new URL(owc.getShareUrl()));
-						owc.ui.notify("Link created. You can now share this page.", "green");
+						window.history.replaceState({}, "", new URL(this.parent.getShareUrl()));
+						this.parent.ui.notify("Link created. You can now share this page.", "green");
 					}
 				},
 				{
 					key: "copy-to-clipboard", label: "Copy URL to clipboard", icon: "fa-solid fa-clipboard",
 					callback: () =>
 					{
-						navigator.clipboard?.writeText?.(owc.getShareUrl())
-							.then(() => owc.ui.notify("The link to share is copied to your clipboard.", "green"));
+						navigator.clipboard?.writeText?.(this.parent.getShareUrl())
+							.then(() => this.parent.ui.notify("The link to share is copied to your clipboard.", "green"));
 					}
 				},
 			],
@@ -233,7 +272,25 @@ const owc = new class OnlineWarbandCalculator
 			css: this.#menuCss,
 			transitions: this.#menuTransitions,
 		});
-	};
+
+		#languageMenu = new Menubox2("language", {
+			items: [
+				{ key: "en", label: "English" },
+				{ key: "de", label: "Deutsch" }
+			],
+			// TODO: Make curent language checked.
+			callback: (mit) => this.parent.settings.setProperty("editor.language", mit.key),
+			align: { horizontal: "right" },
+			itemRenderer: (def) =>
+			{
+				const menuItem = Menubox2.itemRenderer(def);
+				menuItem.insertBefore(makeElement("span.lang-icon", def.key), menuItem.firstChild);
+				return menuItem;
+			},
+			css: this.#menuCss,
+			transitions: this.#menuTransitions,
+		});
+	}(this);
 
 	get warbandStorageKey ()
 	{

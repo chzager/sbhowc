@@ -172,11 +172,24 @@ class Unit
 	}
 
 	/**
+	 * Returns a copy of this unit in a new object instance.
+	 */
+	clone ()
+	{
+		const cloned = new Unit(this.warband);
+		cloned.name = this.name;
+		cloned.quality = this.quality;
+		cloned.combat = this.combat;
+		cloned.specialrules = this.specialrules.map(s => Object.assign({}, s));
+		return cloned;
+	}
+
+	/**
 	 * Parses unit data from a string.
 	 * @param {string} unitString A unit's string code.
-	 * @param {string} version The version that was used for generating the unit code.
+	 * @param {string} [version] The version that was used for generating the unit code.
 	 */
-	fromString (unitString, version)
+	fromString (unitString, version = Warband.CURRENT_VERSION)
 	{
 		switch (version)
 		{

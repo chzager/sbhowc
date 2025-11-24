@@ -104,6 +104,7 @@ type OwcValidationFunction = () => OwcValidationResult | Array<OwcValidationResu
 
 interface OwcLocalstorageData {
 	title: string;
+	figures: number;
 	points: number;
 	data: string;
 	date: string;
@@ -111,4 +112,21 @@ interface OwcLocalstorageData {
 
 interface IconizedMenuboxItemDef extends Menubox2ItemDefinition {
 	icon?: string;
+}
+
+
+interface OwcClipboardData {
+	label: string;
+	data: string;
+	expires: string;
+}
+interface OwcRestorerItem {
+	/** Hash value opf the warband's code. */
+	hash: string;
+	title: string;
+	figures: number;
+	points: number;
+	/** The warband's code. */
+	code: string;
+	foundIn: Array<string>;
 }

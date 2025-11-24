@@ -105,6 +105,22 @@
 					}
 				}
 			}
+
+			.lang-icon {
+				text-transform: uppercase;
+				font-size: 65%;
+				padding: 1px 3px 0 3px;
+				border-radius: 3px;
+				margin: 0 0.7em 0 -1em;
+				background-color: var(--complement-black-color);
+				color: var(--complement-white-color);
+				position: relative;
+				top: -2px;
+				font-weight: 700;
+			}
+			.menubox-item:hover .lang-icon {
+				background-color: var(--complement-dark-color);
+			}
 		}
 
 		/* Unit menubox */

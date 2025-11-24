@@ -223,3 +223,22 @@ function iconizedMenuitemRenderer (def)
 	}
 	return menuItem;
 }
+
+/**
+ * // DOC
+ * @param {string} string
+ * @returns
+ */
+function stringHash (string)
+{
+	/* This is based on https://github.com/darkskyapp/string-hash
+	Since the basic code is public domain, this function is public domain as well.
+	 */
+	let hash = 0;
+	let i = string.length;
+	while (i)
+	{
+		hash = (hash * 33) ^ string.charCodeAt(--i);
+	}
+	return hash >>> 0;
+}

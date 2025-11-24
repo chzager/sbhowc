@@ -6,16 +6,32 @@
 
 @media (min-width: 715px) {
 	#classic-layout {
-		form {
+		div.unitsheet-grid {
 			display: grid;
 			grid-template-columns: 1fr 1fr; /* Two equal-width columns */
 			gap: 1.5em; /* Space between rows and columns */
-		}
 
-		button {
-			padding: 1.5em;
-			max-height: min-content;
-			max-width: var(--max-unit-sheet-width);
+			thead .flex {
+				display: flex;
+				flex-direction: row;
+				column-gap: 0.5em;
+				align-items: baseline;
+			}
+
+			.buttons {
+				display: flex;
+				flex-direction: column;
+				row-gap: 0.5em;
+				button {
+					padding: 0.5em 1.5em;
+					flex: 1;
+					max-height: min-content;
+					max-width: var(--max-unit-sheet-width);
+				}
+				button:first-child {
+					padding: 1.5em;
+				}
+			}
 		}
 	}
 }

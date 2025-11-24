@@ -2,7 +2,6 @@
 // DOC entire file
 const warbandcodeBluebox = new class extends Bluebox
 {
-	// snippetName = ""
 	/**
 	 *
 	 * @param {string} code

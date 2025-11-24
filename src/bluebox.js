@@ -27,19 +27,13 @@ class Bluebox
 	 */
 	open (snippetName, snippetData)
 	{
-		// const blueboxContentElement = /** @type {HTMLElement} */(pageSnippets.produce(snippetName, snippetData));
 		const blueboxContentElement = /** @type {HTMLElement} */(pageSnippets.produce(snippetName, snippetData));
 		blueboxContentElement.classList.add("bluebox");
 		blueboxContentElement.onclick = (evt) => evt.stopPropagation();
-		// blueboxContentElement.insertBefore(
-		// 	makeElement("h1", this.title),
-		// 	blueboxContentElement.firstChild
-		// );
 		this.element = makeElement("div.viewport.blueboxwapper", blueboxContentElement);
+		this.element.appendChild(makeElement("div.fa-regular.fa-circle-xmark.close-button", { onclick: () => this.close() }));
 		document.body.appendChild(this.element);
-		setTimeout(() =>
-			this.element.style.top = "0"
-			, 10);
+		setTimeout(() => { this.element.style.top = "0"; }, 10);
 		Bluebox.current = this;
 	}
 

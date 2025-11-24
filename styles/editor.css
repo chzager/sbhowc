@@ -9,6 +9,7 @@
 	flex: 1;
 	cursor: default;
 	margin: 1em auto 3em auto;
+	width: 100%;
 
 	* {
 		font-family: var(--warband-font);
@@ -24,6 +25,10 @@
 		margin: 0 0 1em 0;
 	}
 
+	[data-highlight-personalities="true"] [data-ispersonality="true"] {
+		font-weight: bold;
+	}
+
 	input,
 	select,
 	[contenteditable="true"] {
@@ -32,13 +37,11 @@
 		box-sizing: border-box;
 		display: inline-block;
 		cursor: text;
+		padding: 0;
 	}
 	input,
 	select {
-		padding: 0 0.2em;
-	}
-	select {
-		cursor: pointer;
+		max-width: max-content;
 	}
 
 	div.specialrules {
@@ -55,22 +58,36 @@
 
 	#warband-summary {
 		margin-top: 1.5em;
+		span {
+			display: inline-block;
+		}
 		.rule-violation {
 			color: red;
-			margin-left: 1.3em;
-			text-indent: -1.3em;
+			text-indent: -1.4em;
+			margin-left: 1.6em;
 			&::before {
 				content: "\f06a"; /* circle-exclamation */
 				font-family: var(--fontawesome);
-				font-weight: 900;
+				font-weight: 800;
 				font-size: 0.9em;
-				padding-right: 0.3em;
+				padding-right: 0.5em;
 			}
 		}
 	}
 }
 
 @media print {
+	input[type="number"] {
+		appearance: textfield; /* Firefox */
+		-moz-appearance: textfield; /* Firefox */
+	}
+
+	input[type="number"]::-webkit-inner-spin-button,
+	input[type="number"]::-webkit-outer-spin-button {
+		-webkit-appearance: none; /* Chrome, Safari, Edge */
+		margin: 0;
+	}
+
 	#warband-editor {
 		.tooltip {
 			display: none;
@@ -91,8 +108,8 @@
 			bottom: 0;
 			margin-top: 3em;
 			pointer-events: none;
-			div,
-			div::before {
+			span,
+			span::before {
 				max-width: fit-content;
 				background-color: #fff;
 				border-radius: 0.5em;
@@ -169,9 +186,6 @@
 		tr {
 			background-color: var(--unit-head-background-color);
 		}
-		[data-ispersonality="true"] {
-			font-weight: bold;
-		}
 		[name="count"] {
 			width: 3em;
 		}
@@ -204,7 +218,6 @@
 		appearance: none;
 		-webkit-appearance: none; /* Safari */
 		-moz-appearance: none; /* Firefox */
-		min-width: 2em;
 	}
 	/* Make specialrule selector insisible by default; enable it on screen only. */
 	select[name="specialrules"] {
@@ -221,6 +234,15 @@
 			background-color: white;
 			box-shadow: var(--input-hover-shadow);
 			color: #000;
+		}
+
+		input,
+		select {
+			padding: 0 0.2em;
+			min-width: 2em;
+		}
+		select {
+			cursor: pointer;
 		}
 
 		input,
@@ -243,9 +265,12 @@
 			}
 		}
 
-		[contenteditable="true"]:focus {
+		[contenteditable="true"].dyn-width:focus {
 			min-width: 1em;
-			padding-right: 1em;
+			&::after {
+				content: "";
+				padding-right: 1em;
+			}
 		}
 
 		select[name="specialrules"] {
@@ -290,7 +315,13 @@
 			&:hover {
 				background: linear-gradient(to bottom, #f3f7fe 50%, #dce3f2 100%);
 				border-color: #8295bd;
-				color: #8295bd;
+				border-style: solid;
+				color: #63718f;
+				box-shadow: var(--input-hover-shadow);
+				&:active {
+					transform: translateY(2px);
+					box-shadow: 0.08em 0.05em 0.15em #00000040;
+				}
 			}
 		}
 	}

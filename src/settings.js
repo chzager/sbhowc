@@ -19,6 +19,8 @@ class OwcSettings
 		"editor.personalitiesInPoints": true,
 		"editor.applyRuleChecks": true,
 		"editor.highlightPersonalities": true,
+		"print.warbandCode": false,
+		"print.warnings": true,
 	});
 
 	/** @type {typeof OwcSettings.DEFAULTS} */
@@ -94,6 +96,13 @@ class OwcSettings
 					{
 						owc.editor.render();
 					}
+					break;
+				case "print.warbandCode":
+					document.getElementById("warband-print-code").style.display = (value) ? "initial" : "none";
+					break;
+				case "print.warnings":
+					document.getElementById("warband-warnings").classList.toggle("screen-only", !value);
+					break;
 			}
 		}
 	}

@@ -1,0 +1,65 @@
+#restorer {
+	h1 + p {
+		margin-top: 1em;
+	}
+	.warning {
+		border: 2px solid var(--color-red-font);
+		border-radius: 0.5em;
+		border-left-width: 0.75em;
+		background-color: var(--color-red-background);
+		color: var(--color-red-font);
+		margin: 0.5em 0 1em 0;
+		padding: 0.3em;
+		em {
+			font-style: normal;
+			font-weight: bold;
+		}
+	}
+
+	.client {
+		padding-top: 0;
+		border: 1px solid #aaa;
+	}
+	table {
+		border-collapse: collapse;
+		border-spacing: 0;
+		width: 100%;
+		.right {
+			text-align: right;
+		}
+		th,
+		td {
+			padding: 0.5em 0.3em;
+		}
+		thead {
+			position: sticky;
+			top: 0;
+			z-index: 1;
+			th {
+				background: linear-gradient(to bottom, #f2f2f2 70%, #e0e0e0 100%);
+				font-weight: bold;
+			}
+		}
+		tbody {
+			tr:hover {
+				color: var(--hover-foreground);
+				background-color: var(--hover-background);
+				cursor: pointer;
+			}
+			td.cut {
+				overflow-x: hidden;
+				text-overflow: ellipsis;
+			}
+			td.delete {
+				text-align: center;
+				color: #ddd;
+				tr:hover & {
+					color: #aaa;
+				}
+				tr:hover &:hover {
+					color: #e20;
+				}
+			}
+		}
+	}
+}

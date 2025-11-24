@@ -1,12 +1,11 @@
 // @ts-check
-// ALL OK 2025-11-15
 /**
- * Layout for classic unit profiles as known from the rulebooks; with inputs for desktop devices.
+ * Layout for unit profiles as a single table; with inputs for desktop devices.
  */
-class ClassicLayout extends OwcDesktopLayout
+class ArmylistLayout extends OwcDesktopLayout
 {
 	/** @inheritdoc */
-	static id = "classic";
+	static id = "armylist";
 
 	/**
 	 * // DOC
@@ -16,7 +15,7 @@ class ClassicLayout extends OwcDesktopLayout
 	{
 		/** @type {HTMLElement} */
 		const countPrinterElement = this.element.querySelector(`[data-id="${unit.id}"] [name="count-printer"]`);
-		countPrinterElement.textContent = `x${unit.count}`;
+		countPrinterElement.textContent = `${unit.count}x`;
 		countPrinterElement.style.display = (unit.count > 1) ? "initial" : "none";
 	}
 
@@ -43,4 +42,4 @@ class ClassicLayout extends OwcDesktopLayout
 	}
 }
 
-owc.editor.registerLayout(ClassicLayout);
+owc.editor.registerLayout(ArmylistLayout);

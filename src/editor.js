@@ -85,6 +85,7 @@ class OwcEditor
 		items: [
 			{ key: "copy", label: "Copy unit", icon: "fa-solid fa-copy" },
 			{ key: "duplicate", label: "Duplicate unit", icon: "fa-solid fa-clone fa-flip-vertical" },
+			{ key: "separate", label: "Separate one figure", icon: "fa-solid fa-code-branch" },
 			{ separator: true },
 			{
 				key: "move-before", label: "Move unit before", icon: "fa-solid fa-arrow-up",
@@ -107,6 +108,7 @@ class OwcEditor
 			};
 			const unit = mbx.context;
 			const uIdx = unit.index;
+			this.unitMenu.getItemByKey("separate").enabled = (unit.count > 1);
 			const moveBeforeItem = this.unitMenu.getItemByKey("move-before");
 			moveBeforeItem.submenu.replaceItems(unit.warband.units.slice(0, uIdx).map(unitToMenuItem));
 			moveBeforeItem.enabled = (moveBeforeItem.submenu.items.length > 0);
@@ -127,9 +129,14 @@ class OwcEditor
 				switch (itm.key)
 				{
 					case "copy":
+						this.clipboard.copyUnit(unit);
+						this.render();
 						break;
 					case "duplicate":
-						this.addUnit(new Unit(this.warband).fromString(unit.toString(), Warband.CURRENT_VERSION), this.warband.units.findIndex(u => (u.id === unit.id)));
+						this.addUnit(unit.clone(), this.warband.units.findIndex(u => (u.id === unit.id)));
+						break;
+					case "separate":
+						this.separateUnit(unit);
 						break;
 					case "delete":
 						this.deleteUnit(unit);
@@ -189,6 +196,7 @@ class OwcEditor
 		if (this.snapshots.length > 0)
 		{
 			this.warband.fromString(this.snapshots.splice(0, count)[count - 1].warbandCode);
+			this.storeWarbandInBrowser();
 			this.render();
 		}
 	}
@@ -212,7 +220,7 @@ class OwcEditor
 	 * Adds an unit to the warband.
 	 * @param {Unit} [unit] Unit to be added. If omitted, a new unit with default combat and quality values is created.
 	 * @param {number} [index] Zero-based index within the warband's units array where to insert the unit. If omitted, the unit is added at the end.
-	 * @returns *false* to prevent any browser-default action on a button click.
+			 * @returns *false* to prevent any browser-default action on a button click.
 	 */
 	addUnit (unit, index)
 	{
@@ -357,6 +365,26 @@ class OwcEditor
 	}
 
 	/**
+	 * From a unit with more than one figure this separates one figure into a new unit.
+	 * @param {Unit} unit Unit from which to separate one figure.
+	 */
+	separateUnit (unit)
+	{
+		if ((unit.count > 1) && this.#applyManipulation(
+			`Separate ${this.localizer.nonBlankUnitName(unit.name)}`,
+			() =>
+			{
+				const separate = unit.clone();
+				unit.count -= 1; // Decrease the count of figure in the original unit by one.
+				this.warband.addUnit(separate, this.warband.units.findIndex(u => (u.id === unit.id)) + 1);
+			}
+		))
+		{
+			this.#currentLayout.render();
+		}
+	}
+
+	/**
 	 * Removes an unit for the warband.
 	 * @param {Unit} unit The unit to be removed.
 	 */
@@ -394,6 +422,7 @@ class OwcEditor
 		document.title = this.localizer.nonBlankWarbandName(this.warband.name)
 			+ ` (${this.warband.points} ${this.localizer.translate("points")}) - `
 			+ owc.meta.title;
+		document.getElementById("warband-print-code").textContent = this.warband.toString();
 	}
 
 	/**
@@ -414,16 +443,16 @@ class OwcEditor
 			warbandSummary += ` (${this.localizer.translate((this.settings.options.personalitiesInPoints) ? "personalitiesPoints" : "personalitiesPercent", warbandStats)})`;
 		}
 		const rulescheckResult = (this.settings.options.applyRuleChecks) ? this.validator.validate() : [];
-		document.getElementById("warband-summary").replaceChildren(
-			makeElement("div", warbandSummary),
-			...rulescheckResult.map(r => makeElement("div.rule-violation", r))
+		document.getElementById("totals").textContent = warbandSummary;
+		document.getElementById("warband-warnings").replaceChildren(
+			...rulescheckResult.map(r => makeElement("span.rule-violation", r))
 		);
 		this.updateWindowTitle();
 	}
 
 	/**
 	 * Caches the current warband (if it is not empty) in the broswer's `localStorage` using the {@linkcode owc.warbandStorageKey}.
-	 * @see {@linkcode Warband.isEmpty}
+	 * @see {@linkcode Warband.isEmpty()}
 	 */
 	storeWarbandInBrowser ()
 	{
@@ -431,10 +460,59 @@ class OwcEditor
 		{
 			localStorage?.setItem(owc.warbandStorageKey, JSON.stringify({
 				title: this.warband.name,
+				figures: this.warband.figureCount,
 				points: this.warband.points,
 				data: this.warband.toString(),
 				date: (new Date()).toJSON()
 			}));
 		}
 	}
+
+	// DOC everyting from here
+	clipboard = new class
+	{
+		/**
+		 * @param {OwcEditor} parent
+		 */
+		constructor(parent)
+		{
+			this.STORAGE_KEY = "owc_clipboard";
+			this.parent = parent;
+		}
+
+		/**
+		 *
+		 * @param {Unit} unit
+		 */
+		copyUnit (unit)
+		{
+			const TIME_TO_LIVE = 30; // minutes
+			const clipboardUnit = unit.clone();
+			/** @type {OwcClipboardData} */
+			const clipboardData = {
+				label: this.parent.localizer.nonBlankUnitName(clipboardUnit.name),
+				data: clipboardUnit.toString(),
+				expires: new Date(new Date().getTime() + TIME_TO_LIVE * 60 * 1000).toJSON()
+			};
+			localStorage.setItem(this.STORAGE_KEY, JSON.stringify(clipboardData));
+		}
+
+		/** @returns {OwcClipboardData} */
+		getData ()
+		{
+			this.cleanup();
+			return JSON.parse(localStorage.getItem(this.STORAGE_KEY));
+		}
+
+		cleanup ()
+		{
+			const clipboardData = JSON.parse(localStorage.getItem(this.STORAGE_KEY));
+			const expirationDate = Date.parse(clipboardData?.expires);
+			if (!isNaN(expirationDate) && (Date.now() > expirationDate))
+			{
+				localStorage.removeItem(this.STORAGE_KEY);
+
+			}
+		}
+	}(this);
 }

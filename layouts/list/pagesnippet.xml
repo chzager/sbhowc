@@ -84,12 +84,8 @@
 							<tr class="buttons screen-only">
 								<td colspan="999">
 									<div class="flex">
-										<button style="flex:1;" ps:onclick="addUnit">{{locales.addUnit}}</button>
-										<!--
-									<ps:if test="{{paste-unit-text}}">
-										<div class="addunit" data-action="pasteunit" data-unitcode="{{clipboard-unit-code}}" ps:onclick="onValueEdited">{{paste-unit-text}}</div>
-										</ps:if>
-										-->
+										<button ps:onclick="addUnit">{{locales.addUnit}}</button>
+										<ps:call-function name="getPasteUnitButton" />
 									</div>
 								</td>
 							</tr>

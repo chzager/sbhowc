@@ -2,14 +2,14 @@
 #list-layout table {
 	table-layout: fixed;
 	border-collapse: collapse;
-	border-spacing: 0px;
+	border-spacing: 0;
 	margin-bottom: 1em;
 	width: 100%;
 
 	select {
 		&[name="quality"],
 		&[name="combat"] {
-			padding: 0 0.5em;
+			padding: 0 1em;
 		}
 	}
 
@@ -35,11 +35,10 @@
 
 	[name="name"] {
 		width: 100%;
-		&[data-ispersonality="true"] {
-			font-weight: bold;
-		}
 	}
-
+	[name="count"] {
+		text-align: left;
+	}
 	[name="pointspool"] {
 		width: 100%;
 		text-align: center;
@@ -61,7 +60,13 @@
 		tr.buttons td {
 			border-bottom: none;
 			padding-inline: 5em;
+			.flex {
+				display: flex;
+				flex-direction: row;
+				column-gap: 0.5em;
+			}
 			button {
+				flex: 1;
 				border-radius: 0.5em;
 				padding: 0.3em;
 			}

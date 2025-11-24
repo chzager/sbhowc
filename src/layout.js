@@ -33,11 +33,15 @@ class OwcLayout
 		this.warband = editor.warband;
 		/** Provider of localization functionality. */
 		this.localizer = localizer;
-		/** The individual layout's data to be passed to the page snippet on production. This extends the generic editor's page snippet data. @type {PageSnippetsProductionData} */
-		this.snippetData = {};
 		/** The HTML element that represents this layout on the document. @type {HTMLElement} */
 		this.element; // Will be created in this `render()` method.
 	}
+
+	/** The individual layout's data to be passed to the page snippet on production. This extends the generic editor's page snippet data. @type {PageSnippetsProductionData} */
+	get snippetData ()
+	{
+		return {};
+	};
 
 	/**
 	 * Renders the current warband in this layout into the document.
@@ -70,6 +74,19 @@ class OwcLayout
 			})),
 			addUnit: () => this.editor.addUnit(),
 			popupUnitMenu: (/** @type {PointerEvent} */evt) => (evt.currentTarget instanceof HTMLElement) && this.editor.unitMenu.popup(evt, this.getEventUnit(evt), evt.currentTarget),
+			getPasteUnitButton: (/** @type {HTMLElement} */ele) =>
+			{
+				try
+				{
+					const clipboardUnit = new Unit(this.warband).fromString(this.editor.clipboard.getData()?.data);
+					ele.appendChild(makeElement(
+						"button",
+						this.localizer.translate("pasteUnit", { UNIT: this.localizer.nonBlankUnitName(clipboardUnit.name) }),
+						{ onclick: () => this.editor.addUnit(clipboardUnit) }
+					));
+				}
+				catch {}
+			}
 		};
 		for (const [name, value] of Object.entries(this.snippetData))
 		{
@@ -85,6 +102,7 @@ class OwcLayout
 		console.debug("Layout snippet data:", snippetData);
 		this.element = /** @type {HTMLElement} */(pageSnippets.produce(`layouts/${this.name}/main`, snippetData));
 		this.element.id = this.name + "-layout";
+		this.element.dataset.highlightPersonalities = this.editor.settings.options.highlightPersonalities.toString();
 		this.editor.updateWarbandSummary();
 		document.getElementById("editor-layout").replaceChildren(this.element);
 	}
@@ -138,68 +156,72 @@ class OwcDesktopLayout extends OwcLayout
 	}
 
 	/** @inheritdoc */
-	snippetData = {
-		/**
-		 * Renders elements that display and receive actions on an individual specialrule onto this element.
-		 * @param {HTMLElement} element The receipient element for the specialrules.
-		 * @param {OwcSpecialruleInstance} data The explicit specialrule to be rendered.
-		 */
-		renderSpecialrule: (element, data) =>
-		{
-			const specialruleLocaleText = (this.localizer.has(data.key)) ? this.localizer.translate(data.key) : this.warband.specialrulesDirectory.get(data.key).label;
-			if (specialruleLocaleText.includes("...") && data.additionalText)
+	get snippetData ()
+	{
+		return {
+			/**
+			 * Renders elements that display and receive actions on an individual specialrule onto this element.
+			 * @param {HTMLElement} element The receipient element for the specialrules.
+			 * @param {OwcSpecialruleInstance} data The explicit specialrule to be rendered.
+			 */
+			renderSpecialrule: (element, data) =>
 			{
-				const [textBefore, textAfter] = specialruleLocaleText.split("...");
-				element.replaceChildren(
-					makeElement("span.specialrule-deletehelper", textBefore.trim(), "&#x0020;"),
-					makeElement("span.specialrule-additionaltext.active", data.additionalText, {
-						contenteditable: "true", // HTML attribute values are always strings.
-						"data-blank": "...",
-						onblur: (evt) => this.onSepcialruleTextChange(evt),
-					}),
-				);
-				if (!!textAfter.trim())
+				const specialruleLocaleText = (this.localizer.has(data.key)) ? this.localizer.translate(data.key) : this.warband.specialrulesDirectory.get(data.key).label;
+				if (specialruleLocaleText.includes("...") && data.additionalText)
 				{
-					element.appendChild(makeElement("span", "&#x0020;", textAfter.trim()));
+					const [textBefore, textAfter] = specialruleLocaleText.split("...");
+					element.replaceChildren(
+						makeElement("span.specialrule-deletehelper", textBefore.trim(), "&#x0020;"),
+						makeElement("span.specialrule-additionaltext.active.dyn-width", data.additionalText, {
+							contenteditable: "true", // HTML attribute values are always strings.
+							"data-blank": "...",
+							onblur: (evt) => this.onSepcialruleTextChange(evt),
+						}),
+					);
+					if (!!textAfter.trim())
+					{
+						element.appendChild(makeElement("span", "&#x0020;", textAfter.trim()));
+					}
 				}
-			}
-			else
-			{
-				element.replaceChildren(makeElement("span.specialrule-deletehelper", specialruleLocaleText));
-			}
-			if (!this.editor.settings.ruleScope.includes(data.rulebook))
-			{
-				element.firstElementChild.classList.add("out-of-scope");
-			}
-			element.appendChild(makeElement("div.tooltip", [
-				data.label,
-				data.rulebook.toUpperCase(),
-				(data.isPersonality) && "personality"
-			].filter(Boolean).join(", ")));
+				else
+				{
+					element.replaceChildren(makeElement("span.specialrule-deletehelper", specialruleLocaleText));
+				}
+				if (!this.editor.settings.ruleScope.includes(data.rulebook))
+				{
+					element.firstElementChild.classList.add("out-of-scope");
+				}
+				element.appendChild(makeElement("div.tooltip", [
+					data.label,
+					`${data.points} Pts`,
+					data.rulebook.toUpperCase(),
+					(data.isPersonality) && "personality"
+				].filter(Boolean).join(", ")));
 			// console.log(data);
 			/** @type {HTMLElement} */(element.querySelector(".specialrule-deletehelper")).onclick = (evt) => this.onSpecialruleDelete(evt);
-		},
+			},
 
-		/** @type {ElementEventHandler<HTMLElement, UIEvent>} */
-		onWarbandNameBlur: (evt) => this.editor.setWarbandName(evt.currentTarget.textContent),
+			/** @type {ElementEventHandler<HTMLElement, UIEvent>} */
+			onWarbandNameBlur: (evt) => this.editor.setWarbandName(evt.currentTarget.textContent),
 
-		/** @type {ElementEventHandler<HTMLElement, UIEvent>} */
-		onUnitNameBlur: (evt) => this.editor.setUnitName(this.getEventUnit(evt), evt.currentTarget.textContent),
+			/** @type {ElementEventHandler<HTMLElement, UIEvent>} */
+			onUnitNameBlur: (evt) => this.editor.setUnitName(this.getEventUnit(evt), evt.currentTarget.textContent),
 
-		/** @type {ElementEventHandler<HTMLInputElement, UIEvent>} */
-		onUnitCountChanged: (evt) => this.editor.setUnitCount(this.getEventUnit(evt), Number(evt.currentTarget.value)),
+			/** @type {ElementEventHandler<HTMLInputElement, UIEvent>} */
+			onUnitCountChanged: (evt) => this.editor.setUnitCount(this.getEventUnit(evt), Number(evt.currentTarget.value)),
 
-		/** @type {ElementEventHandler<HTMLSelectElement, UIEvent>} */
-		onQualityChanged: (evt) => this.editor.setUnitQuality(this.getEventUnit(evt), Number(evt.currentTarget.value)),
+			/** @type {ElementEventHandler<HTMLSelectElement, UIEvent>} */
+			onQualityChanged: (evt) => this.editor.setUnitQuality(this.getEventUnit(evt), Number(evt.currentTarget.value)),
 
-		/** @type {ElementEventHandler<HTMLSelectElement, UIEvent>} */
-		onCombatChanged: (evt) => this.editor.setUnitCombat(this.getEventUnit(evt), Number(evt.currentTarget.value)),
+			/** @type {ElementEventHandler<HTMLSelectElement, UIEvent>} */
+			onCombatChanged: (evt) => this.editor.setUnitCombat(this.getEventUnit(evt), Number(evt.currentTarget.value)),
 
-		/** @type {ElementEventHandler<HTMLSelectElement, UIEvent>} */
-		addSepecialRule: (evt) => this.editor.addUnitSpecialrule(this.getEventUnit(evt), evt.currentTarget.value),
+			/** @type {ElementEventHandler<HTMLSelectElement, UIEvent>} */
+			addSepecialRule: (evt) => this.editor.addUnitSpecialrule(this.getEventUnit(evt), evt.currentTarget.value),
 
-		/** @type {ElementEventHandler<HTMLElement, UIEvent>} */
-		setPoolPoints: (evt) => this.editor.setPointsPool(evt.currentTarget.dataset.key, Number(evt.currentTarget.textContent)),
+			/** @type {ElementEventHandler<HTMLElement, UIEvent>} */
+			setPoolPoints: (evt) => this.editor.setPointsPool(evt.currentTarget.dataset.key, Number(evt.currentTarget.textContent)),
+		};
 	};
 
 	/** @inheritdoc */

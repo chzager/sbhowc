@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<ps:pagesnippets xmlns="http://www.w3.org/1999/xhtml" xmlns:ps="https://github.com/chzager/pagesnippets" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://github.com/chzager/pagesnippets https://chzager.github.io/pagesnippets/pagesnippets.xsd">
+	<ps:stylesheet src="style.css" />
+	<ps:script src="restorer.js" />
+	<ps:snippet-group name="bluebox">
+		<ps:snippet name="restorer">
+			<div id="restorer">
+				<h1>Restore a session</h1>
+				<p>Your sessions are cached within your browser.</p>
+				<div class="warning">
+					<em>WARNING!</em> This is no way to save your warbands. You may experience a <em>full data loss at any time</em> and without prediction. The only way to securly save your warbands is via "save to file" to your device or a cloud storage. </div>
+				<div id="restorer-table-frame" />
+				<div class="client">
+					<table class="localStorage">
+						<thead>
+							<tr>
+								<th>Warband</th>
+								<th class="right">Figures</th>
+								<th class="right">Points</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody id="restorer-tbody">
+							<ps:for-each list="items">
+								<tr data-hash="{{hash}}" ps:onclick="restoreItem">
+									<td class="cut">{{title}}</td>
+									<td class="right">{{figures}}</td>
+									<td class="right">{{points}}</td>
+									<td class="delete" ps:onclick="delete">
+										<i class="fa-solid fa-trash"></i>
+									</td>
+								</tr>
+							</ps:for-each>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</ps:snippet>
+	</ps:snippet-group>
+</ps:pagesnippets>
