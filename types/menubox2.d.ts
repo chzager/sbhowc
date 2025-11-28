@@ -1,6 +1,6 @@
 /**
  * Menubox - pop-up GUI elements as menus for web applications.
- * @version 1.0.0
+ * @version 1.1.0
  * @copyright (c) 2024 Christoph Zager
  * @license MIT
  * @link https://github.com/chzager/menubox
@@ -223,8 +223,7 @@ interface Menubox2Separator {
 	separator: any;
 }
 
-// DOC
-/** CSS styles to apply on the menubox when opening. The first value is for closed state, the second value is for opened state. Remember to declare matching transitions in the CSS class of the menubox. */
+/** CSS styles to apply on the menubox in closed or open state. Remember to declare matching transitions in the CSS for the menubox. */
 interface Menubox2Transitions {
 	[property: string]: {
 		/** Property value when the menubox is opened. */

@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<!-- <ps:pagesnippets xmlns="http://www.w3.org/1999/xhtml" xmlns:ps="https://github.com/chzager/pagesnippets" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://github.com/chzager/pagesnippets https://chzager.github.io/pagesnippets/pagesnippets.xsd"> -->
-<ps:pagesnippets xmlns="http://www.w3.org/1999/xhtml" xmlns:ps="https://github.com/chzager/pagesnippets" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://github.com/chzager/pagesnippets http://localhost:8800/lib/pagesnippets/pagesnippets.xsd">
+<ps:pagesnippets xmlns="http://www.w3.org/1999/xhtml" xmlns:ps="https://github.com/chzager/pagesnippets" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://github.com/chzager/pagesnippets https://chzager.github.io/pagesnippets/pagesnippets.xsd">
 	<ps:stylesheet src="style.css" />
 	<ps:script src="armylistlayout.js" />
 	<ps:snippet-group name="layouts">
 		<ps:snippet-group name="armylist">
 			<ps:snippet name="main">
 				<div class="desktop">
-					<div name="warbandname" contenteditable="true" data-blank="{{locales.blankWarbandName}}" ps:onblur="onWarbandNameBlur">{{warband.name}}</div>
+					<div name="warbandname" contenteditable="plaintext-only" data-blank="{{locales.blankWarbandName}}" ps:onblur="onWarbandNameBlur">{{warband.name}}</div>
 					<div class="list">
 						<ps:for-each list="warband.units">
 							<div class="unit" data-id="{{id}}">
 								<p class="head">
 									<input type="number" name="count" class="screen-only" min="1" data-value="{{count}}" value="{{count}}" ps:onchange="onUnitCountChanged" />
 									<div class="print-only" name="count-printer"></div>
-									<div name="name" contenteditable="true" data-blank="{{locales.blankUnitName}}" ps:onblur="onUnitNameBlur">{{name}}</div>
+									<div name="name" contenteditable="plaintext-only" data-blank="{{locales.blankUnitName}}" ps:onblur="onUnitNameBlur">{{name}}</div>
 									<div class="stats">
-										<div>
+										<div class="ih">
 											<span>Q&#x0020;</span>
 											<select name="quality" size="1" data-value="{{quality}}" value="{{quality}}" ps:onchange="onQualityChanged">
 												<ps:for-each list="qualitySelectOptions">
@@ -24,7 +23,7 @@
 												</ps:for-each>
 											</select>
 										</div>
-										<div>
+										<div class="ih">
 											<span>C&#x0020;</span>
 											<select name="combat" size="1" data-value="{{combat}}" value="{{combat}}" ps:onchange="onCombatChanged">
 												<ps:for-each list="combatSelectOptions">
@@ -47,18 +46,13 @@
 											</ps:call-function>
 										</span>
 									</ps:if>
-									<div class="specialrules">
+									<div class="ih specialrules">
 										<ps:for-each list="specialrules">
-											<span name="specialrule" data-index="{{_index}}" data-key="{{key}}">
+											<span name="specialrule" data-key="{{key}}">
 												<ps:call-function name="renderSpecialrule" />
 											</span>
 										</ps:for-each>
-										<select size="1" name="specialrules" ps:onchange="addSepecialRule">
-											<option>[{{locales.addSpecialrule}}]</option>
-											<ps:for-each list="specialrulesSelectOptions">
-												<option value="{{key}}">{{label}}</option>
-											</ps:for-each>
-										</select>
+										<div class="clickable specialruletrigger" ps:onclick="editSpecialrules">{{locales.editSpecialrules}}</div>
 									</div>
 								</p>
 							</div>
@@ -67,21 +61,17 @@
 							<button ps:onclick="addUnit">{{locales.addUnit}}</button>
 							<ps:call-function name="getPasteUnitButton" />
 						</div>
-						<!--
-							<ps:if test="{{pointpools.length}} &gt; 0">
-								<ps:for-each list="pointpools">
-									<tr data-pointspool="{{key}}">
-										<td class="pointspool" colspan="2">{{label}}</td>
-										<td>
-											<span name="pointspool" data-key="{{key}}" data-blank="0" contenteditable="true" data-type="number" ps:onblur="setPoolPoints">{{points}}</span>
-										</td>
-										<td colspan="9"></td>
-									</tr>
-								</ps:for-each>
-							</ps:if>
-							-->
 					</div>
 				</div>
+			</ps:snippet>
+			<ps:snippet name="pointspool">
+				<p class="ih pointspool">
+					<span>{{label}}</span>
+					<span>
+						<span name="pointspool" data-key="{{key}}" data-blank="0" class="dyn-width" contenteditable="plaintext-only" data-type="number" ps:onblur="setPoolPoints">{{points}}</span>
+						<span>&#x0020;Pt.</span>
+					</span>
+				</p>
 			</ps:snippet>
 		</ps:snippet-group>
 	</ps:snippet-group>

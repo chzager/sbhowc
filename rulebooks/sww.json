@@ -45,7 +45,7 @@
 		},
 		"ht": {
 			"label": "Hatred",
-			"generic": true,
+			"needsSpecification": true,
 			"points": 3
 		},
 		"mo": {

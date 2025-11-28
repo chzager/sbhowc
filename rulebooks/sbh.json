@@ -117,7 +117,7 @@
 		},
 		"lt": {
 			"label": "Lethal",
-			"generic": true,
+			"needsSpecification": true,
 			"points": 3
 		},
 		"m3": {

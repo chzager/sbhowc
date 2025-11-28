@@ -133,6 +133,8 @@ class OwcEditor
 						this.render();
 						break;
 					case "duplicate":
+						console.log(unit.id, this.warband.units);
+						console.log(this.warband.units.findIndex(u => (u.id === unit.id)));
 						this.addUnit(unit.clone(), this.warband.units.findIndex(u => (u.id === unit.id)));
 						break;
 					case "separate":
@@ -315,14 +317,14 @@ class OwcEditor
 	}
 
 	/**
-	 * Sets the additional text of a generic specialrule of an unit.
+	 * Sets the additional text of a specifiable specialrule of an unit.
 	 * @param {Unit} unit The affected unit.
-	 * @param {number} specialruleIndex Zero-based index of the affected speciarule in the unit's `speciarules` array. (That's because a generic specialrule can be added multiple times to an unit.)
-	 * @param {string} val The new addional text of the generic specialrule.
+	 * @param {string} specialruleKey Key of the affected speciarule.
+	 * @param {string} val The new addional text of the specifiable specialrule.
 	 */
-	setUnitSpecialruleAdditionalText (unit, specialruleIndex, val)
+	setUnitSpecialruleAdditionalText (unit, specialruleKey, val)
 	{
-		const specialrule = unit.specialrules[specialruleIndex];
+		const specialrule = unit.specialrules.find(s => (s.key === specialruleKey));
 		if (this.#applyManipulation(
 			`Specify "${this.warband.specialrulesDirectory.get(specialrule.key).label}" special rule on ${this.localizer.nonBlankUnitName(unit.name)}`,
 			() => specialrule.additionalText = val
@@ -333,13 +335,13 @@ class OwcEditor
 	/**
 	 * Removes a specialrule from an unit.
 	 * @param {Unit} unit The affected unit.
-	 * @param {number} specialruleIndex Zero-based index of the speciarule to be removed in the unit's `speciarules` array. (That's because a generic specialrule can be aded multiple times to an unit.)
+	 * @param {string} specialruleKey Key of the speciarule to be removed.
 	 */
-	removeUnitSpecialrule (unit, specialruleIndex)
+	removeUnitSpecialrule (unit, specialruleKey)
 	{
 		if (this.#applyManipulation(
-			`Revoke "${this.warband.specialrulesDirectory.get(unit.specialrules[specialruleIndex].key).label}" special rule from ${this.localizer.nonBlankUnitName(unit.name)}`,
-			() => unit.removeSpecialrule(specialruleIndex)
+			`Revoke "${this.warband.specialrulesDirectory.get(specialruleKey).label}" special rule from ${this.localizer.nonBlankUnitName(unit.name)}`,
+			() => unit.removeSpecialrule(specialruleKey)
 		))
 		{
 			this.#currentLayout.render();

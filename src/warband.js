@@ -69,9 +69,6 @@ class Unit
 	/**
 	 * Gives this unit a specialrule.
 	 *
-	 * If the unit already has the specialrule, it will only be added another time if it is a `generic`
-	 * specialrule which mus be sepcified in more detail via an additional text.
-	 *
 	 * This handles the `replaces` directive if defined on the specialrule (e.g. "Shooter (long)" replaces "Shooter (medium)").
 	 *
 	 * @param {string} specialruleKey Key of specialrule to add.
@@ -83,8 +80,7 @@ class Unit
 		const resource = this.warband.specialrulesDirectory.get(specialruleKey);
 		if (resource)
 		{
-			const isGeneric = resource.generic;
-			if (!this.hasSpecialrule(specialruleKey) || isGeneric)
+			if (!this.hasSpecialrule(specialruleKey))
 			{
 				/** @type {OwcSpecialruleInstance} */
 				const specialrule =
@@ -96,7 +92,7 @@ class Unit
 					isPersonality: (resource.personality === true),
 					pooling: resource.pooling,
 				};
-				if (isGeneric)
+				if (resource.needsSpecification)
 				{
 					specialrule.additionalText = "...";
 				}
@@ -132,11 +128,11 @@ class Unit
 
 	/**
 	 * Removes a specialrule from this unit's specialrules.
-	 * @param {number} specialruleIndex Index in this unit's `specialrules` to be removed.
+	 * @param {string} specialruleKey Key of special rule to be removed from this unit.
 	 */
-	removeSpecialrule (specialruleIndex)
+	removeSpecialrule (specialruleKey)
 	{
-		this.specialrules.splice(specialruleIndex, 1);
+		this.specialrules.splice(this.specialrules.findIndex(s => (s.key === specialruleKey)), 1);
 		this.warband.checkPointsPools();
 	}
 
@@ -235,7 +231,7 @@ class Warband
 	static UNIT_SEPARATOR = "@";
 
 	/**
-	 * @param {Map<string,OwcSpecialruleDirectoryEntry>} specialrulesDirectory A directory that contains specialrules.
+	 * @param {OwcSpecialrulesDirectory} specialrulesDirectory A directory that contains specialrules.
 	 */
 	constructor(specialrulesDirectory)
 	{
@@ -349,16 +345,16 @@ class Warband
 	 * @param {Unit} [unit] Unit to be added. If omitted, a new unit with default combat and quality values is created.
 	 * @param {number} [index] Zero-based index within the warband's units array where to insert the unit. If omitted, the unit is added at the end.
 	 */
-	addUnit (unit = new Unit(this), index = null)
+	addUnit (unit = new Unit(this), index = undefined)
 	{
 		unit.warband = this;
-		if (index > 0)
+		if (isNaN(index))
 		{
-			this.units.splice(index, 0, unit);
+			this.units.push(unit);
 		}
 		else
 		{
-			this.units.push(unit);
+			this.units.splice(index, 0, unit);
 		}
 		return unit;
 	}

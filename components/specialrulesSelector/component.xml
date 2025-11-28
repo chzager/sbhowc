@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<ps:pagesnippets xmlns="http://www.w3.org/1999/xhtml" xmlns:ps="https://github.com/chzager/pagesnippets" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://github.com/chzager/pagesnippets https://chzager.github.io/pagesnippets/pagesnippets.xsd">
+	<ps:stylesheet src="style.css" />
+	<ps:script src="https://cdn.jsdelivr.net/gh/SortableJS/Sortable/Sortable.min.js" />
+	<ps:script src="index.js" />
+	<ps:snippet-group name="components">
+		<ps:snippet-group name="specialrulesSelector">
+			<ps:snippet name="main">
+				<div id="specialrulesSelector">
+					<h1>{{title}}</h1>
+					<div name="list">
+						<div data-sortable="1">
+							<ps:for-each list="selectedSpecialrules">
+								<ps:insert-snippet name="/components/specialrulesSelector/item">
+									<ps:param name="checked" value="true" />
+									<ps:param name="canSort" value="true" />
+								</ps:insert-snippet>
+							</ps:for-each>
+						</div>
+						<ps:if test="{{selectedSpecialrules}}.length &gt; 0">
+							<hr />
+						</ps:if>
+						<ps:for-each list="availableSpecialrules">
+							<ps:insert-snippet name="/components/specialrulesSelector/item">
+								<ps:param name="checked" value="false" />
+							</ps:insert-snippet>
+						</ps:for-each>
+					</div>
+					<div class="buttons">
+						<button ps:onclick="okClicked">OK</button>
+					</div>
+				</div>
+			</ps:snippet>
+			<ps:snippet name="item">
+				<p class="item" data-key="{{key}}" data-ispersonality="{{isPersonality}}" data-checked="{{checked}}" ps:onclick="toggleSpecialrule">
+					<ps:if test="!!{{canSort}}">
+						<i class="fa-solid fa-arrows-alt-v sort"></i>
+					</ps:if>
+					<span>{{textBefore}}</span>
+					<ps:if test="!!{{additionalText}}">
+						<span contenteditable="plaintext-only" data-blank="..." ps:onclick="additionalTextClicked" ps:onblur="setAdditionalText">{{additionalText}}</span>
+						<ps:if test="{{textAfter}}">
+							<span>{{textAfter}}</span>
+						</ps:if>
+					</ps:if>
+					<span data-points="{{points}}" data-sign="{{pointsSign}}">{{points}}</span>
+				</p>
+			</ps:snippet>
+		</ps:snippet-group>
+	</ps:snippet-group>
+</ps:pagesnippets>

@@ -20,8 +20,8 @@
 	}
 
 	.bluebox {
-		--hover-foreground: #405080;
-		--hover-background: #ecf4ff;
+		--menuitem-hover-foreground: #405080;
+		--menuitem-hover-background: #ecf4ff;
 		display: flex;
 		cursor: default;
 		font-family: var(--sans-font);
@@ -73,12 +73,12 @@
 			font-size: 1em;
 			background-color: #fff;
 			border: none;
-			border-bottom: 5px solid var(--hover-foreground);
+			border-bottom: 5px solid var(--menuitem-hover-foreground);
 			cursor: pointer;
 			box-shadow: 0 2px 4px #00000042;
 			&:hover {
-				color: var(--hover-foreground);
-				background-color: var(--hover-background);
+				color: var(--menuitem-hover-foreground);
+				background-color: var(--menuitem-hover-background);
 			}
 			&:hover:active {
 				border-bottom-width: 2px;
@@ -107,8 +107,8 @@
 			min-width: 3em;
 		}
 		label:hover {
-			color: var(--hover-foreground);
-			background-color: var(--hover-background);
+			color: var(--menuitem-hover-foreground);
+			background-color: var(--menuitem-hover-background);
 		}
 
 		textarea {

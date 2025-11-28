@@ -1,0 +1,72 @@
+#classic-touch-layout {
+	&,
+	* {
+		cursor: crosshair;
+	}
+
+	/* "ia" stands for "interactive". */
+	.ia:hover,
+	.ia:hover *,
+	button:hover {
+		cursor: pointer;
+	}
+
+	button {
+		display: inline-block;
+		flex: 1;
+		font-family: var(--sans-font);
+		text-align: center;
+		border-radius: 1em;
+		border: 2px dashed #bdbdbd;
+		padding: 0.5em 1.5em;
+		max-height: min-content;
+		max-width: var(--max-unit-sheet-width);
+		background-color: #f0f0f0;
+		border-color: #808080;
+		color: #808080;
+		&.add-specialrule {
+			padding: 0.2em;
+			width: 100%;
+		}
+	}
+}
+
+.menubox.touch-radio {
+	border-radius: 1em;
+	padding: 0.5em;
+	min-width: 10em;
+	.menubox-label {
+		border-radius: 0; /* reset menubox default. */
+		font-style: normal; /* reset menubox default. */
+		font-weight: bold;
+		text-align: center;
+		color: #808080;
+		border-bottom: 2px solid #808080;
+		padding-bottom: 0.5em;
+		margin-bottom: 0.5em;
+		cursor: default;
+	}
+	.menubox-item {
+		padding: 0.5em 1em;
+		&::before {
+			font-family: var(--fontawesome);
+			font-weight: 400;
+			content: "\f111"; /* circle */
+			color: var(--dim-foreground);
+			margin-left: -0.25em;
+			margin-right: 0.75em;
+		}
+		&:hover::before {
+			color: var(--menuitem-hover-foreground);
+		}
+		&.checked {
+			background-color: #eee;
+			color: var(--menuitem-hover-foreground);
+			&::before {
+				content: "\f058"; /* circle-check */
+				font-weight: 800;
+				color: inherit;
+			}
+		}
+	}
+}

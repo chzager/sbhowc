@@ -42,8 +42,8 @@
 		}
 		tbody {
 			tr:hover {
-				color: var(--hover-foreground);
-				background-color: var(--hover-background);
+				color: var(--menuitem-hover-foreground);
+				background-color: var(--menuitem-hover-background);
 				cursor: pointer;
 			}
 			td.cut {

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<ps:pagesnippets xmlns="http://www.w3.org/1999/xhtml" xmlns:ps="https://github.com/chzager/pagesnippets" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://github.com/chzager/pagesnippets https://chzager.github.io/pagesnippets/pagesnippets.xsd">
+	<ps:stylesheet src="style.css" />
+	<ps:script src="classic-touchlayout.js" />
+	<ps:snippet-group name="layouts">
+		<ps:snippet-group name="classic-touch">
+			<ps:snippet name="main">
+				<div class="touch">
+					<div name="warbandname" class="ia" ps:onclick="promptWarbandName">
+						<ps:choose>
+							<ps:if test="!!{{warband.name}}">
+								<ps:text>{{warband.name}}</ps:text>
+							</ps:if>
+							<ps:else>
+								<ps:text>{{locales.blankWarbandName}}</ps:text>
+							</ps:else>
+						</ps:choose>
+					</div>
+					<div class="unitsheet-grid">
+						<ps:for-each list="warband.units">
+							<table class="unitsheet" data-id="{{id}}">
+								<thead>
+									<tr>
+										<td colspan="3">
+											<div class="flex">
+												<div name="name" style="flex:1;" class="ia" data-ispersonality="{{isPersonality}}" ps:onclick="promptUnitName">
+													<ps:choose>
+														<ps:if test="!!{{name}}">
+															<ps:text>{{name}}</ps:text>
+														</ps:if>
+														<ps:else>
+															<ps:text>{{locales.blankUnitName}}</ps:text>
+														</ps:else>
+													</ps:choose>
+												</div>
+												<div data-value="{{count}}" class="ia" ps:onclick="promptUnitCount">x{{count}}</div>
+												<i class="fa-solid fa-ellipsis-vertical ia screen-only" ps:onclick="popupUnitMenu"></i>
+											</div>
+										</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>
+											<span>{{locales.points}}:&#160;</span>
+											<span name="points">{{points}}</span>
+										</td>
+										<td class="ia" ps:onclick="promptQuality">
+											<span>{{locales.quality}}:&#160;{{quality}}+</span>
+										</td>
+										<td class="ia" ps:onclick="promptCombat">
+											<span>{{locales.combat}}:&#160;{{combat}}</span>
+										</td>
+									</tr>
+									<tr>
+										<td>{{locales.specialrules}}:</td>
+										<td colspan="2" class="ia specialruletrigger" ps:onclick="editSpecialrules">
+											<ps:choose>
+												<ps:if test="{{specialrules}}.length === 0">
+													<button class="add-specialrule">{{locales.addSpecialrule}}</button>
+												</ps:if>
+												<ps:else>
+													<div class="specialrules">
+														<ps:for-each list="specialrules">
+															<span name="specialrule" data-key="{{key}}">
+																<ps:call-function name="renderSpecialrule" />
+															</span>
+														</ps:for-each>
+													</div>
+												</ps:else>
+											</ps:choose>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</ps:for-each>
+						<div class="buttons">
+							<button ps:onclick="addUnit">{{locales.addUnit}}</button>
+							<ps:call-function name="getPasteUnitButton" />
+						</div>
+						<ps:if test="{{pointpools.length}} &gt; 0">
+							<table id="pointspools-container" class="unitsheet">
+								<thead>
+									<tr>
+										<td colspan="3">
+											<ps:call-function name="getLocaleText">
+												<ps:argument value="pointsPools" />
+											</ps:call-function>
+										</td>
+									</tr>
+								</thead>
+								<tbody>
+									<ps:for-each list="pointpools">
+										<tr data-pointspool="{{key}}">
+											<td class="pointspool" colspan="2">{{label}}</td>
+											<td class="ia">
+												<span name="pointspool" data-key="{{key}}" ps:onclick="promptPoolPoints">{{points}}&#160;{{locales.points}}</span>
+											</td>
+										</tr>
+									</ps:for-each>
+								</tbody>
+							</table>
+						</ps:if>
+					</div>
+				</div>
+			</ps:snippet>
+		</ps:snippet-group>
+	</ps:snippet-group>
+</ps:pagesnippets>

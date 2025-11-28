@@ -4,15 +4,12 @@
 	}
 }
 
-/* unit context menu */
 @media screen {
 	.menubox {
-		--hover-foreground: #405080;
-		--hover-background: #ecf4ff;
 		--red-foreground: #ca3040;
 		--red-background: #ffe0e0;
-		--dim-hover-foreground: #96a2c0;
 		font-family: var(--sans-font);
+		z-index: var(--z-index-topmost);
 
 		.menubox-item {
 			max-width: 30em;
@@ -30,14 +27,15 @@
 
 		/* Top button bar menus */
 		&.top-menu {
-			z-index: var(--z-index-topmost);
 			background-color: var(--complement-white-color);
 			box-shadow: 0.05rem 0.15rem 0.5rem #00000080;
 			border-radius: 0;
 			border: none;
-			padding: 0.6em 0;
 			transition: height 0.15s ease-out, opacity 0.15s;
 
+			.menubox-wrapper {
+				margin: 0.5em 0;
+			}
 			.menubox-item,
 			.menubox-label {
 				font-family: var(--sans-font);
@@ -55,6 +53,9 @@
 				color: var(--complement-dark-color);
 				background-color: initial;
 				border-color: var(--complement-dark-color);
+			}
+			.menubox-separator {
+				background-color: #e0c0a0;
 			}
 
 			&.undohistory {

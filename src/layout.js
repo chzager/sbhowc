@@ -53,7 +53,7 @@ class OwcLayout
 			blankWarbandName: this.localizer.nonBlankWarbandName(),
 			blankUnitName: this.localizer.nonBlankUnitName(),
 		};
-		for (const commonResource of ["quality", "combat", "specialrules", "points", "addUnit", "addSpecialrule"])
+		for (const commonResource of ["quality", "combat", "specialrules", "points", "addUnit", "addSpecialrule", "editSpecialrules"])
 		{
 			locales[commonResource] = this.localizer.translate(commonResource);
 		}
@@ -73,6 +73,7 @@ class OwcLayout
 				points: points
 			})),
 			addUnit: () => this.editor.addUnit(),
+			editSpecialrules: (/** @type {PointerEvent} */evt) => new SpecialrulesSelector(this.editor).popup(evt, this.getEventUnit(evt)),
 			popupUnitMenu: (/** @type {PointerEvent} */evt) => (evt.currentTarget instanceof HTMLElement) && this.editor.unitMenu.popup(evt, this.getEventUnit(evt), evt.currentTarget),
 			getPasteUnitButton: (/** @type {HTMLElement} */ele) =>
 			{
@@ -217,7 +218,14 @@ class OwcDesktopLayout extends OwcLayout
 			onCombatChanged: (evt) => this.editor.setUnitCombat(this.getEventUnit(evt), Number(evt.currentTarget.value)),
 
 			/** @type {ElementEventHandler<HTMLSelectElement, UIEvent>} */
-			addSepecialRule: (evt) => this.editor.addUnitSpecialrule(this.getEventUnit(evt), evt.currentTarget.value),
+			addSepecialRule: (evt) =>
+			{
+				this.editor.addUnitSpecialrule(this.getEventUnit(evt), evt.currentTarget.value);
+				if (evt.currentTarget)
+				{
+					evt.currentTarget.selectedIndex = 0;
+				}
+			},
 
 			/** @type {ElementEventHandler<HTMLElement, UIEvent>} */
 			setPoolPoints: (evt) => this.editor.setPointsPool(evt.currentTarget.dataset.key, Number(evt.currentTarget.textContent)),
@@ -241,13 +249,13 @@ class OwcDesktopLayout extends OwcLayout
 		{
 			this.editor.removeUnitSpecialrule(
 				this.getEventUnit(event),
-				Number(/** @type {HTMLElement} */(event.currentTarget.closest("[data-index][data-key]")).dataset.index)
+				/** @type {HTMLElement} */(event.currentTarget.closest("[data-key]")).dataset.key
 			);
 		}
 	}
 
 	/**
-	 * Handles changes of a generic specialrules's additional text. Calls the editor for updating the affected specialrule's additional text in its unit.
+	 * Handles changes of a specifiable specialrules's additional text. Calls the editor for updating the affected specialrule's additional text in its unit.
 	 * @param {FocusEvent} event Triggering event.
 	 */
 	onSepcialruleTextChange (event)
@@ -256,7 +264,7 @@ class OwcDesktopLayout extends OwcLayout
 		{
 			this.editor.setUnitSpecialruleAdditionalText(
 				this.getEventUnit(event),
-				Number(/** @type {HTMLElement} */(event.currentTarget.closest("[data-index][data-key]")).dataset.index),
+				/** @type {HTMLElement} */(event.currentTarget.closest("[data-key]")).dataset.key,
 				event.currentTarget.textContent
 			);
 		}

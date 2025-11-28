@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<ps:pagesnippets xmlns="http://www.w3.org/1999/xhtml" xmlns:ps="https://github.com/chzager/pagesnippets" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://github.com/chzager/pagesnippets https://chzager.github.io/pagesnippets/pagesnippets.xsd">
+	<ps:stylesheet src="style.css" />
+	<ps:script src="index.js" />
+	<ps:snippet-group name="components">
+		<ps:snippet name="inputPrompt">
+			<div id="inputPrompt">
+				<h1>{{title}}</h1>
+				<ps:choose>
+					<ps:if test="{{type}} === 'text'">
+						<input type="text" value="{{value}}" ps:onkeydown="onKeyDown" />
+					</ps:if>
+					<ps:if test="{{type}} === 'number'">
+						<input type="number" min="{{min}}" max="{{max}}" value="{{value}}" ps:onkeydown="onKeyDown" />
+					</ps:if>
+				</ps:choose>
+				<div class="buttons">
+					<button name="ok" ps:onclick="onOk">OK</button>
+				</div>
+			</div>
+		</ps:snippet>
+	</ps:snippet-group>
+</ps:pagesnippets>

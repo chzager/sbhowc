@@ -1,6 +1,5 @@
 /* #region Warband editor area */
 #warband-editor {
-	--max-unit-sheet-width: 500px;
 	--unit-head-background-color: #d8d8d8;
 	--input-border-radius: 0.15em;
 	--input-hover-border-color: rgba(92, 92, 92, 0.7);
@@ -18,7 +17,7 @@
 	}
 
 	[name="warbandname"] {
-		font-size: 2rem;
+		font-size: 2em;
 		font-weight: bold;
 		width: 100%;
 		text-align: center;
@@ -31,7 +30,8 @@
 
 	input,
 	select,
-	[contenteditable="true"] {
+	[contenteditable],
+	.clickable {
 		border: 1px solid transparent;
 		border-radius: var(--input-border-radius);
 		box-sizing: border-box;
@@ -77,11 +77,11 @@
 }
 
 @media print {
+	/* Remove "up/down" buttons from `<input type="number">` elements. */
 	input[type="number"] {
 		appearance: textfield; /* Firefox */
 		-moz-appearance: textfield; /* Firefox */
 	}
-
 	input[type="number"]::-webkit-inner-spin-button,
 	input[type="number"]::-webkit-outer-spin-button {
 		-webkit-appearance: none; /* Chrome, Safari, Edge */
@@ -89,6 +89,10 @@
 	}
 
 	#warband-editor {
+		padding: 0;
+		margin: 1em 0 0 0;
+		width: 100vw;
+		.clickable,
 		.tooltip {
 			display: none;
 		}
@@ -100,23 +104,6 @@
 		[name="warbandname"] {
 			margin-top: 1em;
 			text-shadow: 0.05em 0.05em 0.3em #00000052;
-		}
-
-		/* No need for warband summary to be sticky on printer. */
-		#warband-summary {
-			position: sticky;
-			bottom: 0;
-			margin-top: 3em;
-			pointer-events: none;
-			span,
-			span::before {
-				max-width: fit-content;
-				background-color: #fff;
-				border-radius: 0.5em;
-				box-shadow: 0 0 0 2px #fff;
-				pointer-events: auto;
-				cursor: text;
-			}
 		}
 
 		span[name="specialrule"] {
@@ -153,6 +140,15 @@
 			}
 		}
 
+		.clickable {
+			color: #aaa;
+			padding: 0 0.2em;
+			cursor: pointer;
+			&:hover {
+				color: #000;
+			}
+		}
+
 		i.fa-regular,
 		i.fa-solid {
 			font-family: var(--fontawesome);
@@ -160,43 +156,98 @@
 			width: 1em;
 			text-align: center;
 		}
+
+		/* No need for warband summary to be sticky on printer. */
+		#warband-summary {
+			position: sticky;
+			bottom: 0;
+			margin-top: 3em;
+			pointer-events: none;
+			span,
+			span::before {
+				max-width: fit-content;
+				background-color: #fff;
+				border-radius: 0.5em;
+				box-shadow: 0 0 0 2px #fff;
+				pointer-events: auto;
+				cursor: text;
+			}
+		}
 	}
 }
 /* #endregion */
 
 /* #region Classic unit sheet. */
-#warband-editor table.unitsheet {
-	border: none;
-	border-collapse: collapse;
-	border-spacing: 0;
-	table-layout: fixed;
-	width: 100%;
-	max-width: var(--max-unit-sheet-width);
-	align-self: start; /* Align table to the top of the grid cell */
+#warband-editor {
+	--max-unit-sheet-width: 500px;
+	div.unitsheet-grid {
+		display: flex;
+		flex-direction: column;
+		row-gap: 1.5em;
 
-	td {
-		text-align: left;
-		vertical-align: baseline;
-		padding: 0.35em;
-		border: 1px solid black;
-		font-weight: normal;
+		thead .flex {
+			display: flex;
+			flex-direction: row;
+			column-gap: 0.5em;
+			align-items: baseline;
+		}
+
+		.buttons {
+			display: flex;
+			flex-direction: column;
+			row-gap: 0.5em;
+			button {
+				max-height: min-content;
+				max-width: var(--max-unit-sheet-width);
+			}
+			button:first-child {
+				padding: 1.5em;
+			}
+		}
+
+		table.unitsheet {
+			border: none;
+			border-collapse: collapse;
+			border-spacing: 0;
+			table-layout: fixed;
+			width: 100%;
+			max-width: var(--max-unit-sheet-width);
+			align-self: start; /* Align table to the top of the grid cell */
+
+			td {
+				text-align: left;
+				vertical-align: top;
+				padding: 0.35em;
+				border: 1px solid black;
+				font-weight: normal;
+			}
+
+			thead {
+				tr {
+					background-color: var(--unit-head-background-color);
+				}
+				[name="count"] {
+					width: 3em;
+				}
+				/* The "count" input shall not be visible until its value is greater than 1. */
+				&:not(:hover):not(:focus) input[name="count"][data-value="1"]:not(:hover):not(:focus) {
+					color: transparent;
+				}
+			}
+
+			tbody td {
+				width: 33.33%;
+			}
+		}
 	}
-
-	thead {
-		tr {
-			background-color: var(--unit-head-background-color);
+}
+@media (min-width: 715px) {
+	#warband-editor {
+		div.unitsheet-grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr; /* Two equal-width columns */
+			gap: 1.5em;
 		}
-		[name="count"] {
-			width: 3em;
-		}
-		/* The "count" input shall not be visible until its value is greater than 1. */
-		&:not(:hover):not(:focus) input[name="count"][data-value="1"]:not(:hover):not(:focus) {
-			color: transparent;
-		}
-	}
-
-	tbody td {
-		width: 33.33%;
 	}
 }
 @media screen {
@@ -211,9 +262,9 @@
 }
 /* #endregion */
 
-/* #region Input elements for "desktop" layouts. */
+/* #region "desktop" layouts input elements. */
 #warband-editor .desktop {
-	/* Remove caret from `<select>` elements */
+	/* Remove caret from `<select>` elements. */
 	select {
 		appearance: none;
 		-webkit-appearance: none; /* Safari */
@@ -226,10 +277,11 @@
 }
 @media screen {
 	#warband-editor .desktop {
-		/* Highlight any input elements on TH/TD hover */
-		td:hover input,
-		td:hover select,
-		td:hover [contenteditable="true"] {
+		/* Highlight any input elements on respective hover ("ih" stands for "input hover"). */
+		.ih:hover input,
+		.ih:hover select,
+		.ih:hover [contenteditable],
+		.ih:hover .clickable {
 			border-color: var(--input-hover-border-color);
 			background-color: white;
 			box-shadow: var(--input-hover-shadow);
@@ -247,7 +299,8 @@
 
 		input,
 		select,
-		[contenteditable="true"] {
+		[contenteditable],
+		.clickable {
 			&:hover,
 			&:focus {
 				border-color: var(--input-hover-border-color);
@@ -265,7 +318,7 @@
 			}
 		}
 
-		[contenteditable="true"].dyn-width:focus {
+		[contenteditable].dyn-width:focus {
 			min-width: 1em;
 			&::after {
 				content: "";
@@ -304,12 +357,14 @@
 
 		button {
 			display: inline-block;
-			border: 2px dashed #bdbdbd;
-			background-color: #f3f3f3;
-			background: linear-gradient(to bottom, #f9f9f9 50%, #efefef 100%);
+			flex: 1;
 			font-family: var(--sans-font);
 			text-align: center;
 			border-radius: 1em;
+			border: 2px dashed #bdbdbd;
+			padding: 0.5em 1.5em;
+			background-color: #f3f3f3;
+			background: linear-gradient(to bottom, #f9f9f9 50%, #efefef 100%);
 			color: #bdbdbd;
 			cursor: pointer;
 			&:hover {

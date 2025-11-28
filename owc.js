@@ -1,5 +1,4 @@
 // @ts-check
-// TODO: Re-Implement "classic touch" layout.
 // DOC entire file
 /**
  * A warband calculator for the "Song of Blades and Heroes" fantasy tabletop skirmish rules.
@@ -39,6 +38,7 @@ const owc = new class OnlineWarbandCalculator
 		this.settings = new OwcSettings();
 		this.localizer = new OwcLocalizer();
 		Promise.all([
+			pageSnippets.import(absoluteUrl("components/specialrulesSelector/component.xml")),
 			this.#actionBar.bind(),
 			this.localizer.import("editor"),
 			specialrules.load()
@@ -278,7 +278,6 @@ const owc = new class OnlineWarbandCalculator
 				{ key: "en", label: "English" },
 				{ key: "de", label: "Deutsch" }
 			],
-			// TODO: Make curent language checked.
 			callback: (mit) => this.parent.settings.setProperty("editor.language", mit.key),
 			align: { horizontal: "right" },
 			itemRenderer: (def) =>

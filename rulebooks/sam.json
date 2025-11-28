@@ -39,7 +39,7 @@
 		},
 		"pt": {
 			"label": "Protect",
-			"generic": true,
+			"needsSpecification": true,
 			"points": -2
 		},
 		"sf": {

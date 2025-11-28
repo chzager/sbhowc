@@ -27,5 +27,7 @@
 	"unitNamePrompt": "Name der Einheit",
 	"ok": "OK",
 	"cancel": "Abbrechen",
-	"personality": "Persönlichkeit"
+	"personality": "Persönlichkeit",
+	"editSpecialrules": "Sonderregeln bearbeiten",
+	"specialrulesOfUnit": "Sonderregeln von {UNIT}"
 }

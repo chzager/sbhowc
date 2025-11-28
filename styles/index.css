@@ -28,6 +28,10 @@
 	--color-yellow-font: #7d7603;
 	--color-yellow-background: #fff776;
 
+	--menuitem-hover-foreground: #405080;
+	--menuitem-hover-background: #ecf4ff;
+	--menuitem-dim-hover-foreground: #96a2c0;
+
 	--z-index-title: 5;
 	--z-index-top-menu-floater: 4;
 	--z-index-footer: 2;
@@ -405,6 +409,7 @@ a[target="_blank"]:after {
 	--code-color: #888;
 	position: absolute;
 	bottom: 0;
+	left: 0;
 	font-family: var(--monospace-font);
 	word-break: break-all;
 	font-size: 2mm;

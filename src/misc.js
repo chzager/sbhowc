@@ -1,12 +1,12 @@
 // @ts-check
 /**
- * Adds event listeners to all `[contenteditable="true"]` and `input` elements within the given element to handle blur,
+ * Adds event listeners to all `[contenteditable]` and `input` elements within the given element to handle blur,
  * focus or keydown events for managing blank and default values, prettifying text and alike.
  * @param {HTMLElement} element Container of input elements to which to attach the input handler.
 */
 function attachInputHelper (element)
 {
-	for (const contenteditable of /** @type {NodeListOf<HTMLElement>} */(element.querySelectorAll("[contenteditable='true']")))
+	for (const contenteditable of /** @type {NodeListOf<HTMLElement>} */(element.querySelectorAll("[contenteditable]")))
 	{
 		const blankReplacer = contenteditable.dataset.blank;
 		if (!contenteditable.textContent.trim())

@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<!-- <ps:pagesnippets xmlns="http://www.w3.org/1999/xhtml" xmlns:ps="https://github.com/chzager/pagesnippets" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://github.com/chzager/pagesnippets https://chzager.github.io/pagesnippets/pagesnippets.xsd"> -->
-<ps:pagesnippets xmlns="http://www.w3.org/1999/xhtml" xmlns:ps="https://github.com/chzager/pagesnippets" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://github.com/chzager/pagesnippets http://localhost:8800/lib/pagesnippets/pagesnippets.xsd">
-	<ps:stylesheet src="style.css" />
+<ps:pagesnippets xmlns="http://www.w3.org/1999/xhtml" xmlns:ps="https://github.com/chzager/pagesnippets" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://github.com/chzager/pagesnippets https://chzager.github.io/pagesnippets/pagesnippets.xsd">
 	<ps:script src="classiclayout.js" />
 	<ps:snippet-group name="layouts">
 		<ps:snippet-group name="classic">
 			<ps:snippet name="main">
 				<div class="desktop">
-					<div name="warbandname" contenteditable="true" data-blank="{{locales.blankWarbandName}}" ps:onblur="onWarbandNameBlur">{{warband.name}}</div>
+					<div name="warbandname" contenteditable="plaintext-only" data-blank="{{locales.blankWarbandName}}" ps:onblur="onWarbandNameBlur">{{warband.name}}</div>
 					<div class="unitsheet-grid">
 						<ps:for-each list="warband.units">
 							<table class="unitsheet" data-id="{{id}}">
 								<thead>
 									<tr>
-										<td colspan="3">
+										<td colspan="3" class="ih">
 											<div class="flex">
-												<div name="name" style="flex:1;" contenteditable="true" data-blank="{{locales.blankUnitName}}" data-ispersonality="{{isPersonality}}" ps:onblur="onUnitNameBlur">{{name}}</div>
+												<div name="name" style="flex:1;" contenteditable="plaintext-only" data-blank="{{locales.blankUnitName}}" data-ispersonality="{{isPersonality}}" ps:onblur="onUnitNameBlur">{{name}}</div>
 												<input type="number" name="count" class="screen-only" min="1" data-value="{{count}}" value="{{count}}" ps:onchange="onUnitCountChanged" />
 												<div class="print-only" name="count-printer"></div>
 												<i class="fa-solid fa-ellipsis-vertical screen-only" ps:onclick="popupUnitMenu"></i>
@@ -29,7 +27,7 @@
 											<span>{{locales.points}}:&#160;</span>
 											<span name="points">{{points}}</span>
 										</td>
-										<td>
+										<td class="ih">
 											<span>{{locales.quality}}:&#160;</span>
 											<select name="quality" size="1" data-value="{{quality}}" value="{{quality}}" ps:onchange="onQualityChanged">
 												<ps:for-each list="qualitySelectOptions">
@@ -37,7 +35,7 @@
 												</ps:for-each>
 											</select>
 										</td>
-										<td>
+										<td class="ih">
 											<span>{{locales.combat}}:&#160;</span>
 											<select name="combat" size="1" data-value="{{combat}}" value="{{combat}}" ps:onchange="onCombatChanged">
 												<ps:for-each list="combatSelectOptions">
@@ -48,19 +46,14 @@
 									</tr>
 									<tr>
 										<td>{{locales.specialrules}}:</td>
-										<td colspan="2">
+										<td colspan="2" class="ih">
 											<div class="specialrules">
 												<ps:for-each list="specialrules">
-													<span name="specialrule" data-index="{{_index}}" data-key="{{key}}">
+													<span name="specialrule" data-key="{{key}}">
 														<ps:call-function name="renderSpecialrule" />
 													</span>
 												</ps:for-each>
-												<select size="1" name="specialrules" ps:onchange="addSepecialRule">
-													<option>[{{locales.addSpecialrule}}]</option>
-													<ps:for-each list="specialrulesSelectOptions">
-														<option value="{{key}}">{{label}}</option>
-													</ps:for-each>
-												</select>
+												<div class="clickable specialruletrigger" ps:onclick="editSpecialrules">{{locales.editSpecialrules}}</div>
 											</div>
 										</td>
 									</tr>
@@ -86,8 +79,8 @@
 									<ps:for-each list="pointpools">
 										<tr data-pointspool="{{key}}">
 											<td class="pointspool" colspan="2">{{label}}</td>
-											<td>
-												<span name="pointspool" data-key="{{key}}" data-blank="0" contenteditable="true" data-type="number" ps:onblur="setPoolPoints">{{points}}</span>
+											<td class="ih">
+												<span name="pointspool" data-key="{{key}}" data-blank="0" class="dyn-width" contenteditable="plaintext-only" data-type="number" ps:onblur="setPoolPoints">{{points}}</span>
 												<span>&#160;{{locales.points}}</span>
 											</td>
 										</tr>

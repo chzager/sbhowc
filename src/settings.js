@@ -14,7 +14,7 @@ class OwcSettings
 		"defaults.quality": 3,
 		"defaults.combat": 3,
 		"editor.language": "en",
-		"editor.layout": "classic",
+		"editor.layout": ("ontouchstart" in window) ? "classic-touch" : "classic",
 		"editor.countFigures": true,
 		"editor.personalitiesInPoints": true,
 		"editor.applyRuleChecks": true,
@@ -171,14 +171,17 @@ class OwcSettings
 		try
 		{
 			storedSettings = JSON.parse(localStorage?.getItem(OwcSettings.STORAGE_KEY));
+			if (storedSettings)
+			{
+				for (const [key, value] of Object.entries(OwcSettings.DEFAULTS))
+				{
+					// @ts-ignore - `string` is not compatible with `keyof typeof OwcSettings.properties` can be ignored because `setProperty()` checks the name.
+					this.setProperty(key, storedSettings[key] ?? value);
+				}
+			}
 		}
 		finally
 		{
-			for (const [key, value] of Object.entries(OwcSettings.DEFAULTS))
-			{
-				// @ts-ignore - `string` is not compatible with `keyof typeof OwcSettings.properties` can be ignored because `setProperty()` checks the name.
-				this.setProperty(key, storedSettings[key] ?? value);
-			}
 		}
 		owc.localizer.import(...this.ruleScope).then(() => owc.editor.layout = this.#properties["editor.layout"]); // This finally renders the editor.
 		this.#isLoading = false;

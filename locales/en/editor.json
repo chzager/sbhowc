@@ -25,7 +25,10 @@
 	"countOfUnit": "Count of {UNIT}",
 	"warbandNamePrompt": "Warband name",
 	"unitNamePrompt": "Unit name",
+	"prompt.pointsPool.title": "Points in {POOL}",
 	"ok": "OK",
 	"cancel": "Cancel",
-	"personality": "personality"
+	"personality": "personality",
+	"editSpecialrules": "edit special rules",
+	"specialrulesOfUnit": "Special rules of {UNIT}"
 }

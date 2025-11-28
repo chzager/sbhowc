@@ -26,9 +26,9 @@
 							"type": "boolean",
 							"description": "Does this specialrule makes an unit a personality?"
 						},
-						"generic": {
+						"needsSpecification": {
 							"type": "boolean",
-							"description": "Indicates that this is a generic specialrule that needs specification in the unit."
+							"description": "Indicates that this specialrule needs a specification at the unit."
 						},
 						"replaces": {
 							"type": "array",
@@ -53,7 +53,7 @@
 						},
 						"pooling": {
 							"type": "boolean",
-							"description": "Indicates that this specialrule creates a separate pool point on the unit's warband."
+							"description": "Indicates that this specialrule creates a separate pool point in the warband."
 						}
 					},
 					"required": [

@@ -45,6 +45,13 @@
 		span.personality {
 			float: right;
 		}
+
+		p.pointspool {
+			display: flex;
+			& > span:first-child {
+				flex: 1;
+			}
+		}
 	}
 }
 
@@ -52,17 +59,6 @@
 	#armylist-layout div.list {
 		--border-color: #b0b8c0;
 		div.unit {
-			/* Highlight any input elements on parent hover */
-			div.stats div:hover {
-				input,
-				select,
-				[contenteditable="true"] {
-					border-color: var(--input-hover-border-color);
-					background-color: white;
-					box-shadow: var(--input-hover-shadow);
-					color: #000;
-				}
-			}
 			[name="count"] {
 				width: 3em;
 			}

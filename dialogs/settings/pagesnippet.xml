@@ -68,7 +68,7 @@
 							<span>Classic unit profiles</span>
 						</label>
 						<label for="layout_classictouch">
-							<input type="radio" id="layout_classictouch" name="layout" data-layout="classictouch" />
+							<input type="radio" id="layout_classictouch" name="layout" data-layout="classic-touch" />
 							<span>Classic unit profiles, optimized for touchscreen devices</span>
 						</label>
 						<label for="layout_list">
