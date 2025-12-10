@@ -25,7 +25,7 @@
 	--color-red-background: #fcc;
 	--color-green-font: #529b20;
 	--color-green-background: #d2eeca;
-	--color-yellow-font: #7d7603;
+	--color-yellow-font: #898432;
 	--color-yellow-background: #fff776;
 
 	--menuitem-hover-foreground: #405080;
@@ -38,8 +38,8 @@
 	--z-index-overlays: 8;
 	--z-index-bluebox: 10;
 	--z-index-above-bluebox: 11;
-	--z-index-loading-wrapper: 90;
 	--z-index-topmost: 100;
+	--z-index-loading-spinner: 900;
 }
 
 @media print {
@@ -284,121 +284,6 @@ a[target="_blank"]:after {
 	margin-top: 1rem;
 }
 
-#loading-wrapper {
-	position: fixed;
-	-webkit-backface-visibility: hidden;
-	backface-visibility: hidden;
-	top: 35vh;
-	left: 30%;
-	width: 40%;
-	background-color: #ffffff;
-	padding: 1em 1.5em;
-	border-radius: 1em;
-	box-shadow: 1rem 1rem 4rem rgba(0, 0, 0, 0.4);
-	cursor: wait;
-	z-index: var(--z-index-loading-wrapper);
-}
-@media screen and (max-width: 1000px) {
-	#loading-wrapper {
-		left: 10%;
-		width: 80%;
-	}
-}
-#loading-wrapper .loading-text {
-	font-family: var(--sans-font);
-	margin-bottom: 0.5em;
-}
-#loading-wrapper .loading-gradient {
-	width: 100%;
-	background-size: 150% 100%;
-	border-radius: 1em;
-	background-image: repeating-linear-gradient(100deg, #d0dcf4 0%, #f3f7fe 35%, #ffde7e 35.1%, #ffde7e 50%, #ff8e00 50.1%, #ff8e00 60%, #f3f7fe 60.1%, #d0dcf4 100%);
-}
-#loading-wrapper .loading-gradient.animated {
-	animation: loading-gradient linear 1s infinite;
-}
-@keyframes loading-gradient {
-	0% {
-		background-position: 200% 0%;
-	}
-	100% {
-		background-position: -100% 0%;
-	}
-}
-
-.notification {
-	font-family: var(--sans-font) !important;
-	font-weight: normal;
-	border: 0.2rem solid;
-	padding: 0.5em;
-	box-shadow: 0.3rem 0.3rem 1rem #00000080;
-	border-radius: 0.8em;
-	display: block;
-	text-indent: -1.24em;
-	padding-left: 1.7em;
-	-webkit-backface-visibility: hidden;
-	backface-visibility: hidden;
-	z-index: var(--z-index-topmost);
-	cursor: default;
-}
-.notification.popup {
-	font-size: 1.3rem;
-	top: 35vh;
-	max-width: 60vw;
-	position: fixed;
-	animation-name: popin-flyout;
-	animation-duration: 4s;
-}
-.notification.green {
-	border-color: var(--color-green-font);
-	background-color: var(--color-green-background);
-	color: var(--color-green-font);
-}
-.notification.green:before {
-	font-family: var(--fontawesome);
-	font-weight: 900;
-	content: "\f058\20";
-}
-.notification.yellow {
-	border-color: var(--color-yellow-font);
-	background-color: var(--color-yellow-background);
-	color: var(--color-yellow-font);
-}
-.notification.yellow:before {
-	font-family: var(--fontawesome);
-	font-weight: 900;
-	content: "\f05a\20";
-}
-.notification.red {
-	border-color: var(--color-red-font);
-	background-color: var(--color-red-background);
-	color: var(--color-red-font);
-}
-.notification.red:before {
-	font-family: var(--fontawesome);
-	font-weight: 900;
-	content: "\f057\20";
-}
-@keyframes popin-flyout {
-	0% {
-		opacity: 0;
-	}
-	5% {
-		transform: scale(1.2);
-	}
-	10% {
-		transform: scale(1);
-		opacity: 1;
-	}
-	75% {
-		opacity: 1;
-		transform: translate(0px, 0);
-	}
-	100% {
-		opacity: 0;
-		transform: translate(0px, -25vh);
-	}
-}
 #warbandCanvas .notification {
 	font-size: 1.4rem;
 }
@@ -417,3 +302,57 @@ a[target="_blank"]:after {
 	border-top: 0.05mm solid var(--code-color);
 	padding-top: 1mm;
 }
+
+#loading-spinner {
+	position: fixed;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 100vh;
+	z-index: var(--z-index-loading-spinner);
+	cursor: wait;
+	i {
+		display: block;
+		position: fixed;
+		font-size: 20vh;
+		animation: spin 1.3s linear infinite, blend 5s ease-in-out infinite;
+		animation-play-state: paused; /* start paused */
+		will-change: transform, color;
+	}
+}
+
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+@keyframes blend {
+	0% {
+		color: #d0dcf4;
+	}
+	33% {
+		color: #ffd500;
+	}
+	66% {
+		color: #ff8e00;
+	}
+	100% {
+		color: #d0dcf4;
+	}
+}
+
+/*
+background-image: repeating-linear-gradient(100deg,
+#d0dcf4 0%,
+#f3f7fe 35%,
+#ffde7e 35.1%,
+#ffde7e 50%,
+#ff8e00 50.1%,
+#ff8e00 60%,
+#f3f7fe 60.1%,
+#d0dcf4 100%);
+*/

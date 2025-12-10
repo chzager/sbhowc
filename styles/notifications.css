@@ -1,0 +1,59 @@
+div.notification {
+	font-family: var(--sans-font);
+	font-size: 1.3rem;
+	font-weight: normal;
+	position: fixed;
+	top: 35vh;
+	max-width: 60vw;
+	display: flex;
+	column-gap: 0.5em;
+	align-items: baseline;
+	padding: 1em;
+	border-bottom: 5px solid;
+	box-shadow: 0.3rem 0.3rem 1rem #00000080;
+	cursor: default;
+	z-index: var(--z-index-topmost);
+	animation-name: popin-flyout;
+	animation-duration: 4s;
+
+	&.green {
+		border-color: var(--color-green-font);
+		background-color: var(--color-green-background);
+		color: var(--color-green-font);
+	}
+	&.yellow {
+		border-color: var(--color-yellow-font);
+		background-color: var(--color-yellow-background);
+		color: var(--color-yellow-font);
+	}
+	&.red {
+		border-color: var(--color-red-font);
+		background-color: var(--color-red-background);
+		color: var(--color-red-font);
+	}
+
+	span {
+		flex: 1;
+	}
+}
+
+@keyframes popin-flyout {
+	0% {
+		opacity: 0;
+	}
+	5% {
+		transform: scale(1.2);
+	}
+	10% {
+		transform: scale(1);
+		opacity: 1;
+	}
+	75% {
+		opacity: 1;
+		transform: translate(0px, 0);
+	}
+	100% {
+		opacity: 0;
+		transform: translate(0px, -25vh);
+	}
+}

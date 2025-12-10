@@ -28,7 +28,7 @@
 		/* Top button bar menus */
 		&.top-menu {
 			background-color: var(--complement-white-color);
-			box-shadow: 0.05rem 0.15rem 0.5rem #00000080;
+			box-shadow: 0.05em 0.15em 0.5em #00000080;
 			border-radius: 0;
 			border: none;
 			transition: height 0.15s ease-out, opacity 0.15s;
@@ -39,7 +39,7 @@
 			.menubox-item,
 			.menubox-label {
 				font-family: var(--sans-font);
-				font-size: 1.1rem;
+				font-size: 1.1em;
 				padding: 0.5em 1.5em;
 				margin: 0;
 				border-radius: 0;

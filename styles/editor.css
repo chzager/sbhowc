@@ -99,6 +99,15 @@
 	}
 }
 
+@media print and (max-width: 510px) {
+	#warband-editor {
+		margin: 0;
+		[name="warbandname"] {
+			font-size: 1.75em;
+		}
+	}
+}
+
 @media screen {
 	#warband-editor {
 		[name="warbandname"] {
@@ -112,12 +121,12 @@
 				position: absolute;
 				visibility: hidden;
 				font-family: var(--sans-font);
-				font-size: 0.8rem;
+				font-size: 0.8em;
 				color: black;
-				padding: 0.4rem;
+				padding: 0.4em;
 				margin-top: 0.5em;
 				background-color: #ffffd0;
-				box-shadow: 0.2rem 0.2rem 0.7rem #00000080;
+				box-shadow: 0.2em 0.2em 0.7em #00000080;
 				z-index: 99999;
 				border-radius: 0.5em;
 				pointer-events: none;
