@@ -426,7 +426,7 @@ class OwcEditor
 	 */
 	updateWindowTitle ()
 	{
-		document.title = this.localizer.nonBlankWarbandName(this.warband.name)
+		document.title = (this.warband.name || this.warband.units[0]?.name || this.localizer.nonBlankWarbandName())
 			+ ` (${this.warband.points} ${this.localizer.translate("points")}) - `
 			+ owc.meta.title;
 		document.getElementById("warband-print-code").textContent = this.warband.toString();
