@@ -94,17 +94,25 @@ interface OwcValidationResult {
 	key: string;
 	values?: { [x: string]: string | number }
 }
-// OK 2025-11-04
+
+/** Method type for performing specific validations of the warband. */
 type OwcValidationFunction = () => OwcValidationResult | Array<OwcValidationResult>;
 
+/** Data structure for warbands stored in the browser's `localStorage`. */
 interface OwcLocalstorageData {
+	/** The warband's name. */
 	title: string;
+	/** Count of figures in the warband. */
 	figures: number;
+	/** The warband's total points. */
 	points: number;
+	/** The warband code as string. */
 	data: string;
+	/** Date of when the warband was cached. */
 	date: string;
 }
 
+/** Definitions of {@linkcode Menubox2} items with Font Awesome icons. */
 interface IconizedMenuboxItemDef extends Menubox2ItemDefinition {
 	icon?: string;
 }
