@@ -56,14 +56,18 @@ class OwcEditor
 	}
 	set layout (val)
 	{
-		((this.layouts.has(val)) ? Promise.resolve() : pageSnippets.import(`./layouts/${val}/pagesnippet.xml`))
-			.then(() =>
-			{
-				this.#currentLayout = this.layouts.get(val);
-				console.log(`Ready to use new layout "${val}".`);
-				this.#currentLayout.render();
-			});
-
+		if (this.layouts.has(val))
+		{
+			this.#currentLayout = this.layouts.get(val);
+			this.#currentLayout.render();
+		}
+		else
+		{
+			ui.wait();
+			pageSnippets.import(`./layouts/${val}/pagesnippet.xml`)
+				// Rendering is done when the loaded layout registeres itsetlf.
+				.finally(() => ui.waitEnd());
+		}
 	}
 
 	/**
@@ -75,6 +79,7 @@ class OwcEditor
 		const editorLayout = new layoutClass(this, this.localizer);
 		this.layouts.set(editorLayout.name, editorLayout);
 		console.log("Editor layout registered:", layoutClass.name, this.layouts.entries());
+		this.layout = editorLayout.name;
 	}
 
 	/**

@@ -71,7 +71,7 @@ class OwcLocalizer extends Map
 	 * Translates a text resource to the {@linkcode targetLanguage}.
 	 * @param {string} resourceId Id of the resource to be translated.
 	 * @param {{ [key: string]: string | number }} [placeholders] If the text contains placeholders (in curled brackets, e.g. `{UNIT}`), this gives the values for the placeholders.
-	 * @returns The localized text with all placeholders replaced by actual values.
+	 * @returns The text in the target language with all placeholders replaced by actual values.
 	 */
 	translate (resourceId, placeholders = {})
 	{
@@ -79,13 +79,8 @@ class OwcLocalizer extends Map
 		{
 			if (resource)
 			{
-				let text = resource[this.#targetLanguage] || resource[OwcLocalizer.DEFAULT_LANGUAGE];
-				for (const [_, key] of text.matchAll(/\{([A-Z]+)\}/g))
-				{
-					const value = placeholders[key] || key;
-					text = text.replace("{" + key + "}", value.toString());
-				}
-				return text;
+				const text = resource[this.#targetLanguage] || resource[OwcLocalizer.DEFAULT_LANGUAGE];
+				return stringFill(text, placeholders);
 			}
 			else
 			{

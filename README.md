@@ -1,8 +1,8 @@
 # Online Warband Creator for Song of Blades and Heroes
 
-_Song of Blades and Heroes_ (SBH) is a slim, easy to learn, fast play, skirmish level fantasy tabletop rule system by Andrea Sfiligoi, published by Ganesha Games (https://www.ganeshagames.net). With this system, figures from any manufacturer at any scale can be used. Besides a ton of prefactured unit profiles, players can create their own units with any abilities ("special rules") they see fit.
+_Song of Blades and Heroes_ (SBH) is a slim, easy to learn, fast play, skirmish level fantasy tabletop rule system by Andrea Sfiligoi, published by Ganesha Games (https://www.ganeshagames.net). With this system, figures from any manufacturer at 15mm or 28mm scale can be used. Besides a ton of prefactured unit profiles, players can create their own units with any abilities ("special rules") they see fit.
 
-**_Online Warband Creator_ (SBHOWC) is a tool for designing units and calculating warband points.**
+**_Online Warband Calculator_ (SBHOWC) is a tool for designing units and calculating warband points.**
 
 Key features:
 
@@ -53,5 +53,3 @@ Functionality is tested with the latest versions of Mozilla Firefox and Google C
 Versioning does not follow the usual sequences, but versions are numbered after the year and month of their release.
 
 **You are welcome to contribute.** :heart:
-
-If you want to clone this repository, please note that submodules are used.

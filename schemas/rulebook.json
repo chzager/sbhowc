@@ -11,7 +11,7 @@
 			"description": "A list of specialrule definitions where the keys a the specialrule IDs.",
 			"patternProperties": {
 				"^[a-z][a-z1-9]$": {
-					"description": "ID of a specialrule. This is either two letters or a letter and a number and must be unique across all rulebooks.",
+					"description": "Key of a specialrule. This is either two letters or a letter and a number and must be unique across all rulebooks.",
 					"type": "object",
 					"properties": {
 						"label": {

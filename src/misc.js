@@ -1,68 +1,7 @@
 // @ts-check
-/**
- * Adds event listeners to all `[contenteditable]` and `input` elements within the given element to handle blur,
- * focus or keydown events for managing blank and default values, prettifying text and alike.
- * @param {HTMLElement} element Container of input elements to which to attach the input handler.
-*/
-function attachInputHelper (element)
-{
-	for (const contenteditable of /** @type {NodeListOf<HTMLElement>} */(element.querySelectorAll("[contenteditable]")))
-	{
-		const blankReplacer = contenteditable.dataset.blank;
-		if (!contenteditable.textContent.trim())
-		{
-			contenteditable.textContent = blankReplacer;
-		}
-		contenteditable.spellcheck = false;
-		contenteditable.addEventListener("focus", () =>
-		{
-			if (contenteditable.textContent.trim() === blankReplacer)
-			{
-				contenteditable.textContent = "";
-			}
-		});
-		const originalBlurEvent = contenteditable.onblur;
-		contenteditable.onblur = (evt) =>
-		{
-			let prettifiedContent = contenteditable.textContent
-				.trim()
-				.replace(/\s+/g, " "); // Remove multiple whitespaces.
-			switch (contenteditable.getAttribute("data-type"))
-			{
-				case "number":
-					prettifiedContent = /\d+/.exec(contenteditable.textContent)?.[0] || "0";
-					break;
-				default:
-					if (!prettifiedContent)
-					{
-						prettifiedContent = blankReplacer;
-					}
-			}
-			contenteditable.textContent = prettifiedContent;
-			originalBlurEvent?.call(contenteditable, evt);
-		};
-		contenteditable.addEventListener("keydown", e =>
-		{
-			switch (e.key)
-			{
-				case "Enter":
-				case "Escape":
-					contenteditable.blur();
-					break;
-			}
-		});
-	}
-	for (const input of /** @type {NodeListOf<HTMLInputElement>} */(element.querySelectorAll("input")))
-	{
-		input.addEventListener("blur", () =>
-		{
-			input.dataset.value = input.value;
-		});
-	}
-}
 
 // DOC
-const localFileIo = new class LocalFileIO
+const localFileIo = new class
 {
 	/**
 	 *
@@ -80,7 +19,7 @@ const localFileIo = new class LocalFileIO
 				{
 					const fileReader = new FileReader();
 					fileReader.onload = () => resolve(fileReader.result.toString());
-					fileReader.readAsText(/** @type {HTMLInputElement} */(fileEvent.target).files[0]);
+					fileReader.readAsText(/** @type {HTMLInputElement} */(fileEvent.currentTarget).files[0]);
 				}
 			});
 			document.body.appendChild(inputNode);
@@ -106,6 +45,136 @@ const localFileIo = new class LocalFileIO
 		anchorNode.click();
 		anchorNode.remove();
 	};
+};
+
+// DOC
+const notifications = new class
+{
+	#currenCount = 0;
+	#currentOffset = 0;
+
+	/**
+	 * Pops up a notification within the browser tab.
+	 * @param {string} text The text to be displayed.
+	 * @param {"green"|"yellow"|"red"} color Color of the notification. Defaults to `"green"`.
+	 */
+	notify (text, color = "green")
+	{
+		const element = makeElement("div.notification.popup." + color,
+			makeElement("i.fa-solid." + {
+				green: "fa-check-circle",
+				red: "fa-times-circle",
+				yellow: "fa-info-circle",
+			}[color]),
+			makeElement("span", text),
+			{
+				onanimationend: () =>
+				{
+					element.remove();
+					if ((this.#currenCount -= 1) === 0)
+					{
+						this.#currentOffset = 0;
+					}
+				}
+			}
+		);
+		document.body.appendChild(element);
+		const rect = element.getBoundingClientRect();
+		element.style.left = Math.round((document.body.clientWidth - rect.width) / 2) + "px";
+		element.style.top = Math.round(rect.top + this.#currentOffset) + "px";
+		this.#currenCount += 1;
+		this.#currentOffset += rect.height + 6;
+	}
+};
+
+// DOC
+const ui = new class
+{
+	#spinner = document.getElementById("loading-spinner");
+
+	constructor()
+	{
+		this.isTouchDevice = "ontouchstart" in document.documentElement;
+	}
+
+	wait ()
+	{
+		this.#spinner.style.display = null;
+		this.#spinner.querySelector("i").style.animationPlayState = "running";
+	}
+
+	waitEnd ()
+	{
+		this.#spinner.style.display = "none";
+		this.#spinner.querySelector("i").style.animationPlayState = "paused";
+	}
+};
+
+// DOC
+const inputHelper = new class
+{
+	/**
+	 * // DOC: Review:
+	 * Adds event listeners to all `[contenteditable]` and `input` elements within the given element to handle blur,
+	 * focus or keydown events for managing blank and default values, prettifying text and alike.
+	 * @param {HTMLElement} element Container of input elements to which to attach the input handler.
+	 */
+	attach (element)
+	{
+		for (const contenteditable of /** @type {NodeListOf<HTMLElement>} */(element.querySelectorAll("[contenteditable]")))
+		{
+			const blankReplacer = contenteditable.dataset.blank;
+			if (!contenteditable.textContent.trim())
+			{
+				contenteditable.textContent = blankReplacer;
+			}
+			contenteditable.spellcheck = false;
+			contenteditable.addEventListener("focus", () =>
+			{
+				if (contenteditable.textContent.trim() === blankReplacer)
+				{
+					contenteditable.textContent = "";
+				}
+			});
+			const originalBlurEvent = contenteditable.onblur;
+			contenteditable.onblur = (evt) =>
+			{
+				let prettifiedContent = contenteditable.textContent
+					.trim()
+					.replace(/\s+/g, " "); // Remove multiple whitespaces.
+				switch (contenteditable.getAttribute("data-type"))
+				{
+					case "number":
+						prettifiedContent = /\d+/.exec(contenteditable.textContent)?.[0] || "0";
+						break;
+					default:
+						if (!prettifiedContent)
+						{
+							prettifiedContent = blankReplacer;
+						}
+				}
+				contenteditable.textContent = prettifiedContent;
+				originalBlurEvent?.call(contenteditable, evt);
+			};
+			contenteditable.addEventListener("keydown", e =>
+			{
+				switch (e.key)
+				{
+					case "Enter":
+					case "Escape":
+						contenteditable.blur();
+						break;
+				}
+			});
+		}
+		for (const input of /** @type {NodeListOf<HTMLInputElement>} */(element.querySelectorAll("input")))
+		{
+			input.addEventListener("blur", () =>
+			{
+				input.dataset.value = input.value;
+			});
+		}
+	}
 };
 
 /**
@@ -183,30 +252,26 @@ function makeElement (definition, ...content)
  * @param {string} url The desired resources URL. It may be a relative URL which will be extendend to the current window location.
  * @returns A Promise that resolves to the resources file content.
  */
-function fetchEx (url)
+async function fetchEx (url)
 {
-	return fetch(absoluteUrl(url))
-		.then(response =>
+	const response = await fetch(absoluteUrl(url));
+	if (!response.ok)
+	{
+		return new ReferenceError(`Getting "${url}" returned HTTP status code ${response.status}.`);
+	}
+	else
+	{
+		const responseText = await response.text();
+		switch (/\.([a-z]+?)$/.exec(url)?.[1].toLowerCase())
 		{
-			return (response.ok) ? response.text() : Promise.reject(new ReferenceError(`Getting "${url}" returned HTTP status code ${response.status}.`));
-		})
-		.then(responseText =>
-		{
-			switch (/\.([a-z]+?)$/.exec(url)?.[1].toLowerCase())
-			{
-				case "json":
-					return JSON.parse(responseText);
-				case "xml":
-					return new DOMParser().parseFromString(responseText, "text/xml");
-				default:
-					return responseText;
-			}
-		});
-	// .catch((/** @type {Error} */reason) =>
-	// {
-	// 	this.ui.notify(`${reason.name} in ${url}.`, "red");
-	// 	console.warn(url, reason);
-	// });
+			case "json":
+				return JSON.parse(responseText);
+			case "xml":
+				return new DOMParser().parseFromString(responseText, "text/xml");
+			default:
+				return responseText;
+		}
+	}
 }
 
 /**
@@ -241,4 +306,19 @@ function stringHash (string)
 		hash = (hash * 33) ^ string.charCodeAt(--i);
 	}
 	return hash >>> 0;
+}
+
+/**
+ *
+ * @param {string} text
+ * @param {{[key: string]: any}} placeholders
+ * @returns
+ */
+function stringFill (text, placeholders)
+{
+	for (const [match, key] of text.matchAll(/\{(\w+)\}/g))
+	{
+		text = text.replace(match, (placeholders[key] ?? match).toString());
+	}
+	return text;
 }

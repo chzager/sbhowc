@@ -1,5 +1,5 @@
 // @ts-check
-// DOC wntire file
+// DOC entire file
 const inputDialog = new class
 {
 	#veil = document.body.appendChild(makeElement(
@@ -44,13 +44,14 @@ const inputDialog = new class
 	{
 		return new Promise(resolve =>
 		{
+			// Methods:
 			const confirm = () =>
 			{
 				const value = this.#element.querySelector("input").value;
 				resolve((type === "number") ? Number(value) : value);
 				this.close();
 			};
-
+			// Actual code:
 			const snippetData = {
 				type: type,
 				title: title,

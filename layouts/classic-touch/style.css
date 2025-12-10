@@ -70,3 +70,11 @@
 		}
 	}
 }
+
+@media print {
+	#classic-touch-layout {
+		[data-value="1"] {
+			display: none;
+		}
+	}
+}

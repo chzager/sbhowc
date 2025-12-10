@@ -32,8 +32,7 @@ const owc = new class OnlineWarbandCalculator
 			}
 			node.innerText = text;
 		}
-		this.ui = new OwcUI();
-		this.ui.wait("Loading");
+		ui.wait();
 		const specialrules = new OwcSpecialrulesDirectory();
 		this.settings = new OwcSettings();
 		this.localizer = new OwcLocalizer();
@@ -72,7 +71,7 @@ const owc = new class OnlineWarbandCalculator
 						{
 							this.warband.fromString(warbandCode);
 							url.searchParams.delete("warband");
-							owc.ui.notify("The warband was imported from the URL.", "green");
+							notifications.notify("The warband was imported from the URL.", "green");
 						}
 						else
 						{
@@ -89,12 +88,13 @@ const owc = new class OnlineWarbandCalculator
 			})
 			.finally(() =>
 			{
-				this.ui.waitEnd();
+				// this.ui.waitEnd(); -- Waiting ends when the layout is ready.
+				// In case that the settings were modified or a unit was copied in another tab, refresh this tab when the user returns here.
 				document.addEventListener("visibilitychange", () =>
 				{
 					if (document.visibilityState === "visible")
 					{
-						this.settings.load(); // In case that the settings were modified in another tab, reload them here.
+						this.settings.load();
 					}
 				});
 			});
@@ -130,8 +130,10 @@ const owc = new class OnlineWarbandCalculator
 				{
 					evt.stopImmediatePropagation();
 					Menubox2.closeAll();
+					ui.wait();
 					pageSnippets.import("./dialogs/settings/pagesnippet.xml")
-						.then(() => settingsBluebox.show(this.parent.settings, this.parent.editor));
+						.then(() => settingsBluebox.show(this.parent.settings, this.parent.editor))
+						.finally(() => ui.waitEnd());
 				}
 			};
 			for (const [name, func] of Object.entries(actions))
@@ -166,7 +168,7 @@ const owc = new class OnlineWarbandCalculator
 				{ separator: true },
 				{
 					key: "upload", label: "Open a warband file", icon: "fa-regular fa-folder-open",
-					callback: () => localFileIo.requestFile().then(code => this.parent.importWarband(code))
+					callback: () => localFileIo.requestFile().then(code => this.parent.importWarband(code) || notifications.notify("This file does not contain a valid warband code.", "red"))
 				},
 				{
 					key: "download", label: "Download this warband as file", icon: "fa-solid fa-download",
@@ -176,8 +178,10 @@ const owc = new class OnlineWarbandCalculator
 					key: "show-code", label: "Import/export warband code", icon: "fa-solid fa-code",
 					callback: () =>
 					{
+						ui.wait();
 						pageSnippets.import("./dialogs/warbandcode/pagesnippet.xml")
-							.then(() => warbandcodeBluebox.show(this.parent.getWarbandCode()));
+							.then(() => warbandcodeBluebox.show(this.parent.getWarbandCode()))
+							.finally(() => ui.waitEnd());
 					}
 				},
 				{ separator: true },
@@ -185,8 +189,10 @@ const owc = new class OnlineWarbandCalculator
 					key: "restore", label: "Restore a previous session", icon: "fa-solid fa-clock-rotate-left",
 					callback: () =>
 					{
+						ui.wait();
 						pageSnippets.import("./dialogs/restorer/pagesnippet.xml")
-							.then(() => restorerBluebox.show());
+							.then(() => restorerBluebox.show())
+							.finally(() => ui.waitEnd());
 					}
 
 				},
@@ -255,7 +261,7 @@ const owc = new class OnlineWarbandCalculator
 					callback: () =>
 					{
 						window.history.replaceState({}, "", new URL(this.parent.getShareUrl()));
-						this.parent.ui.notify("Link created. You can now share this page.", "green");
+						notifications.notify("Link created. You can now share this page.", "green");
 					}
 				},
 				{
@@ -263,7 +269,7 @@ const owc = new class OnlineWarbandCalculator
 					callback: () =>
 					{
 						navigator.clipboard?.writeText?.(this.parent.getShareUrl())
-							.then(() => this.parent.ui.notify("The link to share is copied to your clipboard.", "green"));
+							.then(() => notifications.notify("The link to share is copied to your clipboard.", "green"));
 					}
 				},
 			],
@@ -347,6 +353,7 @@ const owc = new class OnlineWarbandCalculator
 			.filter(l => !l.trim().startsWith("#")) // Ignore all comment lines.
 			.map(l => decodeURI(l.replaceAll(/\s/g, ""))) // Remove all whitespace.
 			.join("");
+		const warbandBackup = this.warband.toString();
 		try
 		{
 			this.warband.fromString(warbandCode);
@@ -354,6 +361,7 @@ const owc = new class OnlineWarbandCalculator
 		catch (err)
 		{
 			console.error(err.message);
+			this.warband.fromString(warbandBackup);
 			return false;
 		}
 		this.editor.render();
@@ -361,5 +369,29 @@ const owc = new class OnlineWarbandCalculator
 		this.editor.snapshots = [];
 		this.editor.storeWarbandInBrowser();
 		return true;
+	}
+
+	plainTextWarband ()
+	{
+		// const unitFormat = "{count} {name} {personalityFlag}\n{locale_points}: {points} | {locale_quality}: {quality}+ | {locale_combat}: {combat}\n{locale_specialrules}: {specialrules}\n------------------";
+		const unitFormat = "{count}{name}\tQ {quality}+ | C {combat} | {points} Pt.\n{specialrules}\t{personalityFlag}\n\n";
+		const result = [
+			this.localizer.nonBlankWarbandName(this.warband.name),
+			"",
+			...this.warband.units.map(u => stringFill(unitFormat, {
+				count: (u.count > 1) ? `${u.count}x ` : "",
+				name: this.localizer.nonBlankUnitName(u.name),
+				personalityFlag: (u.isPersonality) ? `[${this.localizer.translate("personality")}]` : "",
+				points: u.points,
+				quality: u.quality,
+				combat: u.combat,
+				specialrules: u.specialrules.map(s => this.localizer.translate(s.key).replace("...", s.additionalText)).join(", "),
+				locale_points: this.localizer.translate("points"),
+				locale_quality: this.localizer.translate("quality"),
+				locale_combat: this.localizer.translate("combat"),
+				locale_specialrules: this.localizer.translate("specialrules"),
+			}))
+		];
+		return result.join("\n");
 	}
 };

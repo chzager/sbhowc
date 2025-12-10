@@ -153,16 +153,8 @@ class ClassicTouchLayout extends OwcLayout
 			},
 		};
 	};
-
-	render ()
-	{
-		Promise.all([
-			pageSnippets.hasSnippet("/components/inputPrompt") || pageSnippets.import(absoluteUrl("components/inputDialog/component.xml")),
-		]).then(() =>
-		{
-			super.render();
-		});
-	}
 }
 
-owc.editor.registerLayout(ClassicTouchLayout);
+pageSnippets
+	.import(absoluteUrl("components/inputDialog/component.xml"))
+	.then(() => owc.editor.registerLayout(ClassicTouchLayout));

@@ -8,7 +8,7 @@
 				<h1>Restore a session</h1>
 				<p>Your sessions are cached within your browser.</p>
 				<div class="warning">
-					<em>WARNING!</em> This is no way to save your warbands. You may experience a <em>full data loss at any time</em> and without prediction. The only way to securly save your warbands is via "save to file" to your device or a cloud storage. </div>
+					<em>WARNING!</em> Data in this cache is <em>not persistent</em>! The only way to securly save your warbands is a file dowload to your device or upload to a cloud storage. </div>
 				<div id="restorer-table-frame" />
 				<div class="client">
 					<table class="localStorage">

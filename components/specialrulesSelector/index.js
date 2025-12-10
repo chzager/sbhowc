@@ -109,7 +109,7 @@ class SpecialrulesSelector
 			okClicked: () => this.close(),
 		};
 		this.element = /** @type {HTMLElement} */(pageSnippets.produce("/components/specialrulesSelector/main", snippetData));
-		attachInputHelper(this.element);
+		inputHelper.attach(this.element);
 		// @ts-ignore - We don't have a defintion file for `Sortable`.
 		new Sortable(this.element.querySelector("[data-sortable]"), {
 			draggable: ".item",
@@ -121,8 +121,7 @@ class SpecialrulesSelector
 		const elementRect = this.element.getBoundingClientRect();
 		const position = new DOMPoint(
 			Math.min(Math.max(event.clientX - (elementRect.width / 2), 0), visualViewport.width - elementRect.width),
-			Math.min(Math.max(window.scrollY + event.clientY - (elementRect.height / 2), window.scrollY), window.scrollY + visualViewport.height - elementRect.height)
-			// Math.max(window.scrollY + event.clientY - (elementRect.height / 2), window.scrollY),
+			Math.min(Math.max(event.clientY - (elementRect.height / 2), window.scrollY), visualViewport.height - elementRect.height)
 		);
 		this.element.style.left = `${position.x}px`;
 		this.element.style.top = `${position.y}px`;

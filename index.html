@@ -15,17 +15,18 @@
 		<link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro&display=swap" rel="stylesheet" />
 		<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet" />
 
-		<script src="https://cdn.jsdelivr.net/gh/chzager/pagesnippets/pagesnippets2.min.js"></script>
 		<!-- <script src="/lib/pagesnippets/pagesnippets2.js"></script> -->
+		<script src="https://cdn.jsdelivr.net/gh/chzager/pagesnippets/pagesnippets2.min.js"></script>
 		<!-- <script src="/lib/menubox/menubox2.js"></script> -->
+		<!-- <link rel="stylesheet" href="/lib/menubox/menubox2.css" /> -->
 		<script src="https://cdn.jsdelivr.net/gh/chzager/menubox/menubox2.min.js"></script>
-		<!-- <link href="https://cdn.jsdelivr.net/gh/chzager/menubox/menubox2.css" rel="stylesheet" /> -->
-		<script src="https://chzager.github.io/on-screen-console/onscreenconsole.js"></script>
+		<link href="https://cdn.jsdelivr.net/gh/chzager/menubox/menubox2.css" rel="stylesheet" />
+		<!-- <script src="https://chzager.github.io/on-screen-console/onscreenconsole.js"></script> -->
 
 		<!-- Stylesheets -->
 		<link rel="stylesheet" href="styles/index.css" />
 		<link rel="stylesheet" href="styles/editor.css" />
-		<link rel="stylesheet" href="/lib/menubox/menubox2.css" />
+		<link rel="stylesheet" href="styles/notifications.css" />
 		<link rel="stylesheet" href="styles/menubox.css" />
 		<link rel="stylesheet" href="styles/bluebox.css" />
 
@@ -76,7 +77,7 @@
 				<span id="totals"></span>
 				<div id="warband-warnings"></div>
 			</div>
-			<div id="print-footer" data-autofill="yes" class="print-only">Created with {{title}}, {{version}}, {{origin}}</div>
+			<div id="print-footer" data-autofill="yes" class="print-only">Created with {{title}}, {{origin}}</div>
 		</div>
 		<div id="warband-print-code" class="print-only"></div>
 
@@ -124,9 +125,8 @@
 			</div>
 		</div>
 
-		<div id="loading-wrapper" style="display: none">
-			<div class="loading-text sans-serif">...</div>
-			<div class="loading-gradient">&nbsp;</div>
+		<div id="loading-spinner" style="display: none">
+			<i class="fas fa-spinner"></i>
 		</div>
 
 		<script src="src/bluebox.js"></script>
@@ -135,7 +135,6 @@
 		<script src="src/misc.js"></script>
 		<script src="src/resources.js"></script>
 		<script src="src/settings.js"></script>
-		<script src="src/ui.js"></script>
 		<script src="src/validator.js"></script>
 		<script src="src/warband.js"></script>
 		<script src="owc.js"></script>

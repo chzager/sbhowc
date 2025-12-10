@@ -100,7 +100,6 @@ class OwcLayout
 				snippetData[name] = value;
 			}
 		}
-		console.debug("Layout snippet data:", snippetData);
 		this.element = /** @type {HTMLElement} */(pageSnippets.produce(`layouts/${this.name}/main`, snippetData));
 		this.element.id = this.name + "-layout";
 		this.element.dataset.highlightPersonalities = this.editor.settings.options.highlightPersonalities.toString();
@@ -236,7 +235,7 @@ class OwcDesktopLayout extends OwcLayout
 	render ()
 	{
 		super.render();
-		attachInputHelper(this.element);
+		inputHelper.attach(this.element);
 	}
 
 	/**

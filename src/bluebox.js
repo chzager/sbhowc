@@ -1,7 +1,7 @@
 // @ts-check
 // DOC entire file
 /**
- * Developer's note: This is called "Bluebox" because in the very first version this were actual blue boxes,
+ * Developer's note: This is called "Bluebox" because in the very first version (anno 2009) this were actual blue boxes,
  * so the name was retained for nostalgic reasons.
  */
 class Bluebox
@@ -31,7 +31,7 @@ class Bluebox
 		blueboxContentElement.classList.add("bluebox");
 		blueboxContentElement.onclick = (evt) => evt.stopPropagation();
 		this.element = makeElement("div.viewport.blueboxwapper", blueboxContentElement);
-		this.element.appendChild(makeElement("div.fa-regular.fa-circle-xmark.close-button", { onclick: () => this.close() }));
+		this.element.firstElementChild.appendChild(makeElement("div.fa-regular.fa-circle-xmark.close-button", { onclick: () => this.close() }));
 		document.body.appendChild(this.element);
 		setTimeout(() => { this.element.style.top = "0"; }, 10);
 		Bluebox.current = this;
