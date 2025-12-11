@@ -475,7 +475,9 @@ class OwcEditor
 		}
 	}
 
-	// DOC everyting from here
+	/**
+	 * Clipboard for copying units. Actually this uses the browser's `localStorage`.
+	 */
 	clipboard = new class
 	{
 		/**
@@ -483,13 +485,15 @@ class OwcEditor
 		 */
 		constructor(parent)
 		{
+			/** Key that is used in the localStorage for storing data. */
 			this.STORAGE_KEY = "owc_clipboard";
 			this.parent = parent;
 		}
 
 		/**
-		 *
-		 * @param {Unit} unit
+		 * Stores an unit in the clipboard.
+		 * This also sets an expiration date to +30 minutes.
+		 * @param {Unit} unit Unit to be put to the clipboard.
 		 */
 		copyUnit (unit)
 		{
@@ -504,13 +508,24 @@ class OwcEditor
 			localStorage.setItem(this.STORAGE_KEY, JSON.stringify(clipboardData));
 		}
 
-		/** @returns {OwcClipboardData} */
+		/**
+		 * Returns the data that is currently stored in the clipboard.
+		 * @returns {OwcClipboardData}
+		 */
 		getData ()
 		{
-			this.cleanup();
-			return JSON.parse(localStorage.getItem(this.STORAGE_KEY));
+			const clipboardData = JSON.parse(localStorage.getItem(this.STORAGE_KEY));
+			const expirationDate = Date.parse(clipboardData?.expires);
+			if (!isNaN(expirationDate) && (Date.now() > expirationDate))
+			{
+				this.cleanup();
+			}
+			return clipboardData;
 		}
 
+		/**
+		 * Clears the stored data from the clipboard (deletes the entry from the localStorage).
+		 */
 		cleanup ()
 		{
 			const clipboardData = JSON.parse(localStorage.getItem(this.STORAGE_KEY));
@@ -518,7 +533,6 @@ class OwcEditor
 			if (!isNaN(expirationDate) && (Date.now() > expirationDate))
 			{
 				localStorage.removeItem(this.STORAGE_KEY);
-
 			}
 		}
 	}(this);
