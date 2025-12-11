@@ -1,28 +1,26 @@
 // @ts-check
-// DOC entire file
 /**
  * Developer's note: This is called "Bluebox" because in the very first version (anno 2009) this were actual blue boxes,
  * so the name was retained for nostalgic reasons.
  */
 class Bluebox
 {
-	/** @type {Bluebox} */
+	/** The currently displaying Bluebox. @type {Bluebox} */
 	static current;
 
 	/**
-	 *
+	 * Show this Bluebox.
 	 * @param  {...any} args
 	 * @abstract
 	 */
 	show (...args)
-	{
-		// Abstract.
-	}
+	{} // Abstract.
 
 	/**
-	 *
-	 * @param {string} snippetName
-	 * @param {PageSnippetsProductionData} snippetData
+	 * Actually renders the Bluebox'es element and shows it on the document.
+	 * **Call this in `show()` in the derived classes.**
+	 * @param {string} snippetName The PageSnippet name of the Bluebox to show.
+	 * @param {PageSnippetsProductionData} snippetData Data for the Bluebox.
 	 * @protected
 	 */
 	open (snippetName, snippetData)
@@ -37,6 +35,9 @@ class Bluebox
 		Bluebox.current = this;
 	}
 
+	/**
+	 * Closes the Bluebox.
+	 */
 	close ()
 	{
 		this.element?.addEventListener("transitionend", () =>
@@ -49,8 +50,8 @@ class Bluebox
 	}
 
 	/**
-	 *
-	 * @param {PointerEvent} event
+	 * Closes the currently showing Bluebox (if any).
+	 * @param {PointerEvent} event Triggering event.
 	 */
 	static closeCurrent (event)
 	{
@@ -63,4 +64,3 @@ class Bluebox
 }
 
 document.body.addEventListener("click", evt => Bluebox.closeCurrent(evt));
-// document.body.addEventListener("click", evt => Bluebox.closeCurrent(evt));

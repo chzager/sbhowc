@@ -1,11 +1,13 @@
 // @ts-check
-// DOC entire file
 /**
+ * Settings for the look and behaviour of the OWC and management methods for them.
  */
 class OwcSettings
 {
+	/** Key that is used in the localStorage for storing the settings. */
 	static STORAGE_KEY = "owc_settings";
 
+	/** Default setting values. */
 	static DEFAULTS = Object.freeze({
 		"rulebook.sam.enabled": false,
 		"rulebook.sdg.enabled": false,
@@ -23,29 +25,30 @@ class OwcSettings
 		"print.warnings": true,
 	});
 
-	/** @type {typeof OwcSettings.DEFAULTS} */
+	/**
+	 * Internal storage of the current values.
+	 * @type {typeof OwcSettings.DEFAULTS}
+	 */
 	#properties = Object.assign({}, OwcSettings.DEFAULTS);
 
+	/**
+	 * Internal flag to prevent the triggering of `setProperty()` and application of values ​​during loading.
+	 */
 	#isLoading = true;
 
-	/**
-	 *
-	 * @param {keyof typeof OwcSettings.DEFAULTS} name
-	 */
-	getProperty (name)
-	{
-		return this.#properties[name];
-	}
 
+	/**
+	 * Provides all settings properties with their values.
+	 */
 	getAllProperties ()
 	{
 		return { ...this.#properties };
 	}
 
 	/**
-	 *
-	 * @param {keyof typeof OwcSettings.DEFAULTS} name
-	 * @param {any} value
+	 * Sets a settings properties value. This may trigger a reload of data or re-rendering of the editor.
+	 * @param {keyof typeof OwcSettings.DEFAULTS} name Name of the settings property to set.
+	 * @param {any} value The new value of the settings property.
 	 */
 	setProperty (name, value)
 	{
@@ -107,7 +110,9 @@ class OwcSettings
 		}
 	}
 
-	/** @returns {Array<string>} */
+	/**
+	 * @returns {Array<string>} A list of all selected rule books (abbreviations only).
+	 */
 	get ruleScope ()
 	{
 		// @ts-ignore - IntelliSense doesn't recognize that there are no falsy values in the result array.
@@ -120,6 +125,9 @@ class OwcSettings
 		].filter(Boolean);
 	}
 
+	/**
+	 * @returns The quality and combat values set as default for new units.
+	 */
 	get defaults ()
 	{
 		return {
@@ -128,7 +136,9 @@ class OwcSettings
 		};
 	}
 
-	/** @type {OwcSettingsOptions} */
+	/**
+	 * @returns {OwcSettingsOptions} Various settings options for rendering the warband.
+	 */
 	get options ()
 	{
 		return {
@@ -139,18 +149,25 @@ class OwcSettings
 		};
 	};
 
-	/** @type {string} */
+	/**
+	 * @returns {string} The name of the current editor layout.
+	 */
 	get editorLayout ()
 	{
 		return owc.editor.layout;
 	}
 
-	/** @type {string} */
+	/**
+	 * @returns {string} The current localization language.
+	 */
 	get language ()
 	{
 		return owc.localizer.targetLanguage;
 	}
 
+	/**
+	 * Saves all settings to the browser's `localStorage`.
+	 */
 	save ()
 	{
 		if (!this.#isLoading)
@@ -164,6 +181,9 @@ class OwcSettings
 		}
 	}
 
+	/**
+	 * Loads settings from the browser's `localStorage`.
+	 */
 	load ()
 	{
 		this.#isLoading = true;

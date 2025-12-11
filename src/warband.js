@@ -1,10 +1,10 @@
 ﻿// @ts-check
-// ALL OK 2025-11-14
 /**
  * An unit (mostly a single figure) in a _Song of Blades and Heroes_ {@linkcode Warband}.
  */
 class Unit
 {
+	/** Characters to encode quality and combat values to a unit's text code. */
 	static VALUE_CODES = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 	/**
@@ -227,7 +227,10 @@ class Unit
  */
 class Warband
 {
+	/** The current version of the warband text code. */
 	static CURRENT_VERSION = "v1";
+
+	/** Character that separates units in the warband text code. */
 	static UNIT_SEPARATOR = "@";
 
 	/**
@@ -248,7 +251,7 @@ class Warband
 	}
 
 	/**
-	 * The points of this warband, calculated as a sum of all units points and all points stored in pools.
+	 * @returns The points of this warband, calculated as a sum of all units points and all points stored in pools.
 	 */
 	get points ()
 	{
@@ -261,7 +264,7 @@ class Warband
 	}
 
 	/**
-	 * Total points of all figures (personalities and non-personalities) in this warband.
+	 * @returns Total points of all figures (personalities and non-personalities) in this warband.
 	 */
 	get figurePoints ()
 	{
@@ -274,7 +277,7 @@ class Warband
 	}
 
 	/**
-	 * Points of figures in this warband that are recognized personalities.
+	 * @returns Points of figures in this warband that are recognized personalities.
 	 */
 	get personalityPoints ()
 	{
@@ -287,8 +290,7 @@ class Warband
 	}
 
 	/**
-	 * Count of figures in this warband. Since a {@linkcode Unit} can has any count of figures (greater than one),
-	 * the count of warband figures may differ from the count of units in this warband object.
+	 * @returns Count of figures in this warband. Since a {@linkcode Unit} can has any count of figures (greater than one), the count of warband figures may differ from the count of units in this warband object.
 	 */
 	get figureCount ()
 	{
@@ -296,10 +298,7 @@ class Warband
 	}
 
 	/**
-	 * Whether this warband has actual units (`false`) or is treated empty (`true`).
-	 *
-	 * A warband is recognized as empty as long as no unit has a name or a specialrule.
-	 * See https://github.com/chzager/sbhowc/issues/17
+	 * @returns Whether this warband has actual units (`false`) or is treated empty (`true`). A warband is recognized as empty if no unit has a name or special rule (https://github.com/chzager/sbhowc/issues/17).
 	 */
 	get isEmpty ()
 	{

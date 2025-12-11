@@ -1,5 +1,4 @@
 // @ts-check
-// ALL OK 2025-11-15
 /**
  * An `OwcEditor` is a mediator between the {@linkcode OwcLayout} user interface and the {@linkcode Warband} data.
  * It receives events from the UI and performs corresponding actions on the data an updates visuals outside the
@@ -38,7 +37,9 @@ class OwcEditor
 		this.snapshots = [];
 	}
 
-	/** @returns A simple, sorted array of keys and localized texts of all specialrules included in the currently opted-in rulebooks. */
+	/**
+	 * @returns A simple, sorted array of keys and localized texts of all specialrules included in the currently opted-in rulebooks.
+	 */
 	get specialrulesList ()
 	{
 		return Array.from(this.warband.specialrulesDirectory.values())
@@ -227,7 +228,7 @@ class OwcEditor
 	 * Adds an unit to the warband.
 	 * @param {Unit} [unit] Unit to be added. If omitted, a new unit with default combat and quality values is created.
 	 * @param {number} [index] Zero-based index within the warband's units array where to insert the unit. If omitted, the unit is added at the end.
-			 * @returns *false* to prevent any browser-default action on a button click.
+	 * @returns *false* to prevent any browser-default action on a button click.
 	 */
 	addUnit (unit, index)
 	{

@@ -1,5 +1,4 @@
 // @ts-check
-// ALL OK 2025-11-15
 /**
  * Directory of text resources in available languages and localization methods.
  * @augments Map<string,{[lang:string]:string}>
@@ -15,7 +14,6 @@ class OwcLocalizer extends Map
 	/**
 	 * List of all loaded resource files.
 	 * @type {Set<string>}
-	 * @private
 	 */
 	loadedUrls = new Set();
 
@@ -32,10 +30,7 @@ class OwcLocalizer extends Map
 	{
 		this.#targetLanguage = val;
 		this.import(...Array.from(this.loadedUrls).map(u => /(\w+)\.json$/.exec(u)[1]))
-			.finally(() =>
-			{
-				owc.editor.render();
-			});
+			.finally(() => owc.editor.render());
 	}
 
 	/**
@@ -110,7 +105,7 @@ class OwcLocalizer extends Map
 }
 
 /**
- * A directory of specialrule definitions.
+ * A directory of special rule definitions.
  * @augments Map<string,OwcSpecialruleDirectoryEntry>
  */
 class OwcSpecialrulesDirectory extends Map
@@ -121,7 +116,7 @@ class OwcSpecialrulesDirectory extends Map
 	 * Note: Since this method loads ALL specialrules, it must be called only once.
 	 * @returns A promise that resolves when all files have been loaded.
 	 */
-	load ()
+	async load ()
 	{
 		if (this.size > 0)
 		{
@@ -150,33 +145,30 @@ class OwcSpecialrulesDirectory extends Map
 					}
 				}));
 		}
-		return Promise.allSettled(asyncs)
-			.then(() =>
+		await Promise.allSettled(asyncs);
+		for (const specialrule of super.values())
+		{
+			// Manage recursive references:
+			for (const property of ["replaces", "variants"])
 			{
-				for (const specialrule of super.values())
+				const propertyKeys = specialrule[property] ?? [];
+				for (const propertyKey of propertyKeys)
 				{
-					// Manage recursive references:
-					for (const property of ["replaces", "variants"])
+					const otherSpecialrules = (super.get(propertyKey)[property] ??= []);
+					for (const otherKey of [specialrule.key, ...propertyKeys])
 					{
-						const propertyKeys = specialrule[property] ?? [];
-						for (const propertyKey of propertyKeys)
-						{
-							const otherSpecialrules = (super.get(propertyKey)[property] ??= []);
-							for (const otherKey of [specialrule.key, ...propertyKeys])
-							{
-								!otherSpecialrules.includes(otherKey) && (propertyKey !== otherKey) && otherSpecialrules.push(otherKey);
-							}
-						}
-					}
-					// Add variants to excludes:
-					for (const excludeKey of specialrule.excludes ?? [])
-					{
-						for (const variantKey of super.get(excludeKey).variants ?? [])
-						{
-							specialrule.excludes.includes(variantKey) || specialrule.excludes.push(variantKey);
-						}
+						!otherSpecialrules.includes(otherKey) && (propertyKey !== otherKey) && otherSpecialrules.push(otherKey);
 					}
 				}
-			});
+			}
+			// Add variants to excludes:
+			for (const excludeKey of specialrule.excludes ?? [])
+			{
+				for (const variantKey of super.get(excludeKey).variants ?? [])
+				{
+					specialrule.excludes.includes(variantKey) || specialrule.excludes.push(variantKey);
+				}
+			}
+		}
 	}
 }

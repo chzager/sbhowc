@@ -88,10 +88,11 @@ interface OwcUndoerSnapshot {
 	pointsModification: number;
 }
 
-// DOC everything from here
-// OK 2025-11-04
+/** Result data from an {@linkcode OwcValidationFunction}. */
 interface OwcValidationResult {
+	/** The locales resource key to put the rule violation into writing. */
 	key: string;
+	/** Placeholder values for the locales resource. */
 	values?: { [x: string]: string | number }
 }
 

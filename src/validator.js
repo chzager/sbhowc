@@ -1,5 +1,4 @@
 // @ts-check
-// ALL OK 2025-11-17
 /**
  * Checker for compliance of a warband compilation against all requirements of the rules.
  */

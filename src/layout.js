@@ -1,5 +1,4 @@
 // @ts-check
-// ALL OK 2025-11-15
 /**
  * Basic class for the warband editor and unit profile layouts.
  * @abstract
@@ -37,7 +36,9 @@ class OwcLayout
 		this.element; // Will be created in this `render()` method.
 	}
 
-	/** The individual layout's data to be passed to the page snippet on production. This extends the generic editor's page snippet data. @type {PageSnippetsProductionData} */
+	/**
+	 * @returns {PageSnippetsProductionData} The individual layout's data to be passed to the page snippet on production. This extends the generic editor's page snippet data.
+	 */
 	get snippetData ()
 	{
 		return {};
@@ -197,7 +198,6 @@ class OwcDesktopLayout extends OwcLayout
 					data.rulebook.toUpperCase(),
 					(data.isPersonality) && "personality"
 				].filter(Boolean).join(", ")));
-			// console.log(data);
 			/** @type {HTMLElement} */(element.querySelector(".specialrule-deletehelper")).onclick = (evt) => this.onSpecialruleDelete(evt);
 			},
 
