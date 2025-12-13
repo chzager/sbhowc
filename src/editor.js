@@ -139,8 +139,6 @@ class OwcEditor
 						this.render();
 						break;
 					case "duplicate":
-						console.log(unit.id, this.warband.units);
-						console.log(this.warband.units.findIndex(u => (u.id === unit.id)));
 						this.addUnit(unit.clone(), this.warband.units.findIndex(u => (u.id === unit.id)));
 						break;
 					case "separate":
