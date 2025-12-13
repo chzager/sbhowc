@@ -13,7 +13,7 @@
 		"be": {
 			"label": "Berserk",
 			"points": 4,
-			"excludes": [
+			"variants": [
 				"da"
 			]
 		},
