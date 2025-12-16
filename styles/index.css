@@ -1,4 +1,3 @@
-/* // TODO: Review all */
 :root {
 	font-size: 16px;
 	--title-font: "Norican", cursive;
@@ -83,7 +82,7 @@ textarea {
 
 body {
 	overflow-x: hidden;
-	width: 100%;
+	width: 100vw;
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
@@ -98,21 +97,21 @@ a {
 	color: inherit;
 	border-bottom: 0.1em dotted;
 	text-decoration: none;
-}
-a:hover {
-	color: white;
-	background-color: rgba(255, 255, 255, 0.3);
-}
-a.light:hover {
-	color: black;
-	background: rgba(0, 0, 0, 0.1);
-}
-a[target="_blank"]:after {
-	font-family: var(--fontawesome);
-	font-weight: 900;
-	content: "\00a0\f35d";
-	font-size: 80%;
-	vertical-align: 0.1em;
+	&:hover {
+		color: white;
+		background-color: rgba(255, 255, 255, 0.3);
+	}
+	&.light:hover {
+		color: black;
+		background: rgba(0, 0, 0, 0.1);
+	}
+	&[target="_blank"]:after {
+		font-family: var(--fontawesome);
+		font-weight: 900;
+		content: "\00a0\f35d";
+		font-size: 80%;
+		vertical-align: 0.1em;
+	}
 }
 
 .viewport {
@@ -122,7 +121,7 @@ a[target="_blank"]:after {
 	padding: 0 0.3em;
 }
 
-/* #region Title */
+/* #region title */
 #title {
 	color: white;
 	background-color: var(--primary-color);
@@ -176,16 +175,18 @@ a[target="_blank"]:after {
 	}
 }
 @media screen and (max-width: 44rem) {
-	#title h1 {
-		font-size: 9vw;
-	}
-	#title h2 {
-		font-size: 7vw;
+	#title {
+		h1 {
+			font-size: 9vw;
+		}
+		h2 {
+			font-size: 7vw;
+		}
 	}
 }
 /* #endregion */
 
-/* #region Top menu */
+/* #region top menu */
 #top-menu {
 	--icon-size: 1.5rem;
 	--icon-space: 0.3em;
@@ -203,9 +204,9 @@ a[target="_blank"]:after {
 	.flex-box {
 		display: flex;
 		flex-wrap: nowrap;
-	}
-	.flex-box .primary {
-		flex: 1;
+		.primary {
+			flex: 1;
+		}
 	}
 
 	i {
@@ -214,68 +215,68 @@ a[target="_blank"]:after {
 		margin: var(--icon-space);
 		cursor: pointer;
 		box-sizing: content-box;
-	}
-	i:hover {
-		color: var(--complement-dark-color);
-		text-shadow: 0 0 0.2em var(--complement-white-color);
-		/* background-color: var(--complement-white-color); */
+		&:hover {
+			color: var(--complement-dark-color);
+			text-shadow: 0 0 0.2em var(--complement-white-color);
+		}
 	}
 }
 /* #endregion */
 
-/* #region Page footer */
+/* #region page footer */
 @media screen {
 	#footer {
 		--light-color: #cdcdd3;
 		--dim-color: #888;
+
 		font-family: var(--sans-font);
 		color: var(--light-color);
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
 		background-color: #55575a;
-		margin-top: 8rem;
 		padding-top: 2rem;
 		padding-bottom: 1rem;
 		box-shadow: -0.4rem 0.8rem 0.5rem 0.8rem black;
 		position: relative;
 		z-index: var(--z-index-footer);
-	}
-	#footer .flex-container {
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-	}
-	#footer .flex-container > div {
-		width: calc(50% - 2em);
-		margin: 0 1em 1.5em 1em;
-	}
-	@media screen and (max-width: 600px) {
-		#footer .flex-container {
-			flex-direction: column;
+
+		.flex-container {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			& > div {
+				width: calc(50% - 2em);
+				margin: 0 1em 1.5em 1em;
+			}
+			div.block {
+				margin-bottom: 1.5em;
+				&.iconic {
+					position: relative;
+					padding-left: 1.5em;
+				}
+				span:nth-of-type(1) {
+					text-transform: uppercase;
+				}
+				span:nth-of-type(2) {
+					color: var(--dim-color);
+				}
+				i.fab,
+				i.fas {
+					position: absolute;
+					top: 0.2em;
+					left: 0;
+				}
+			}
 		}
-		#footer .flex-container > div {
+	}
+}
+@media screen and (max-width: 600px) {
+	#footer .flex-container {
+		flex-direction: column;
+		& > div {
 			width: calc(100% - 2em);
 		}
-	}
-	#footer .flex-container div.block {
-		margin-bottom: 1.5em;
-	}
-	#footer .flex-container div.block.iconic {
-		position: relative;
-		padding-left: 1.5em;
-	}
-	#footer .flex-container div.block span:nth-of-type(1) {
-		text-transform: uppercase;
-	}
-	#footer .flex-container div.block span:nth-of-type(2) {
-		color: var(--dim-color);
-	}
-	#footer .flex-container div.block i.fab,
-	#footer .flex-container div.block i.fas {
-		position: absolute;
-		top: 0.2em;
-		left: 0;
 	}
 }
 /* #endregion */
@@ -283,12 +284,6 @@ a[target="_blank"]:after {
 #print-footer {
 	margin-top: 1rem;
 }
-
-#warbandCanvas .notification {
-	font-size: 1.4rem;
-}
-
-/* #endregion */
 
 #warband-print-code {
 	--code-color: #888;
@@ -332,7 +327,7 @@ a[target="_blank"]:after {
 }
 @keyframes blend {
 	0% {
-		color: #d0dcf4;
+		color: #83a6ee;
 	}
 	33% {
 		color: #ffd500;
@@ -341,18 +336,6 @@ a[target="_blank"]:after {
 		color: #ff8e00;
 	}
 	100% {
-		color: #d0dcf4;
+		color: #83a6ee;
 	}
 }
-
-/*
-background-image: repeating-linear-gradient(100deg,
-#d0dcf4 0%,
-#f3f7fe 35%,
-#ffde7e 35.1%,
-#ffde7e 50%,
-#ff8e00 50.1%,
-#ff8e00 60%,
-#f3f7fe 60.1%,
-#d0dcf4 100%);
-*/

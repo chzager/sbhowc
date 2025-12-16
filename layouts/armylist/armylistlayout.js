@@ -8,8 +8,10 @@ class ArmylistLayout extends OwcDesktopLayout
 	static id = "armylist";
 
 	/**
-	 * // DOC
-	 * @param {Unit} unit
+	 * The "unit count print element" is a print-only `<div>` element in the layout. Whenever the value
+	 * of the unit count `<input>` element changes, this function updates the content of this hidden
+	 * print-only element.
+	 * @param {Unit} unit Affected unit.
 	 */
 	#updateUnitCountPrintElement (unit)
 	{
@@ -22,13 +24,15 @@ class ArmylistLayout extends OwcDesktopLayout
 	/** @inheritdoc */
 	get snippetData ()
 	{
-		const result = super.snippetData;
-		result.onUnitCountChanged = (evt) =>
-		{
-			super.snippetData.onUnitCountChanged(evt);
-			this.#updateUnitCountPrintElement(this.getEventUnit(evt));
-		};
-		return result;
+		return Object.assign(super.snippetData,
+			{
+				/** @type {ElementEventHandler<HTMLInputElement, UIEvent>} */
+				onUnitCountChanged: (evt) =>
+				{
+					super.snippetData.onUnitCountChanged(evt);
+					this.#updateUnitCountPrintElement(this.getEventUnit(evt));
+				}
+			});
 	}
 
 	/** @inheritdoc */
@@ -39,7 +43,7 @@ class ArmylistLayout extends OwcDesktopLayout
 		{
 			this.#updateUnitCountPrintElement(unit);
 		}
-		// Attach every points pool to the first unit triggering that points pool.
+		// Attach points pools to the first unit triggering that points pool.
 		for (const [pointspoolKey, pointspoolValue] of this.warband.pointsPools)
 		{
 			const poolingUnit = this.warband.units.find(u => u.specialrules.some(s => (s.key === pointspoolKey)));

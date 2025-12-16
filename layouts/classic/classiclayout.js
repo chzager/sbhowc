@@ -1,7 +1,6 @@
 // @ts-check
-// ALL OK 2025-11-15
 /**
- * Layout for classic unit profiles as known from the rulebooks; with inputs for desktop devices.
+ * Layout for classic unit profiles as known from the rule books; with inputs for desktop devices.
  */
 class ClassicLayout extends OwcDesktopLayout
 {
@@ -9,8 +8,10 @@ class ClassicLayout extends OwcDesktopLayout
 	static id = "classic";
 
 	/**
-	 * // DOC
-	 * @param {Unit} unit
+	 * The "unit count print element" is a print-only `<div>` element in the layout. Whenever the value
+	 * of the unit count `<input>` element changes, this function updates the content of this hidden
+	 * print-only element.
+	 * @param {Unit} unit Affected unit.
 	 */
 	#updateUnitCountPrintElement (unit)
 	{
@@ -23,13 +24,15 @@ class ClassicLayout extends OwcDesktopLayout
 	/** @inheritdoc */
 	get snippetData ()
 	{
-		const result = super.snippetData;
-		result.onUnitCountChanged = (evt) =>
-		{
-			super.snippetData.onUnitCountChanged(evt);
-			this.#updateUnitCountPrintElement(this.getEventUnit(evt));
-		};
-		return result;
+		return Object.assign(super.snippetData,
+			{
+				/** @type {ElementEventHandler<HTMLInputElement, UIEvent>} */
+				onUnitCountChanged: (evt) =>
+				{
+					super.snippetData.onUnitCountChanged(evt);
+					this.#updateUnitCountPrintElement(this.getEventUnit(evt));
+				}
+			});
 	}
 
 	/** @inheritdoc */
