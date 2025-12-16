@@ -33,6 +33,7 @@
 			padding-bottom: 0.5em;
 			margin-bottom: 0.5em;
 			cursor: default;
+			user-select: none;
 		}
 
 		input {
