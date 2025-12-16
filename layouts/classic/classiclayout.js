@@ -26,7 +26,7 @@ class ClassicLayout extends OwcDesktopLayout
 	{
 		return Object.assign(super.snippetData,
 			{
-				/** @type {ElementEventHandler<HTMLInputElement, UIEvent>} */
+				/** @type {ElementEventHandler<HTMLInputElement>} */
 				onUnitCountChanged: (evt) =>
 				{
 					super.snippetData.onUnitCountChanged(evt);

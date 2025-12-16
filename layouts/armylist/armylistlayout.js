@@ -26,7 +26,7 @@ class ArmylistLayout extends OwcDesktopLayout
 	{
 		return Object.assign(super.snippetData,
 			{
-				/** @type {ElementEventHandler<HTMLInputElement, UIEvent>} */
+				/** @type {ElementEventHandler<HTMLInputElement>} */
 				onUnitCountChanged: (evt) =>
 				{
 					super.snippetData.onUnitCountChanged(evt);
@@ -52,7 +52,7 @@ class ArmylistLayout extends OwcDesktopLayout
 					key: pointspoolKey,
 					label: this.localizer.translate(pointspoolKey + "PointsPool"),
 					points: pointspoolValue,
-					/** @type {ElementEventHandler<HTMLElement, UIEvent>} */
+					/** @type {ElementEventHandler} */
 					setPoolPoints: (evt) => this.editor.setPointsPool(evt.currentTarget.dataset.key, Number(evt.currentTarget.textContent)),
 				}));
 				inputHelper.attach(pointspoolElement);

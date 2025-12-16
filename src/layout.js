@@ -201,32 +201,32 @@ class OwcDesktopLayout extends OwcLayout
 			/** @type {HTMLElement} */(element.querySelector(".specialrule-deletehelper")).onclick = (evt) => this.onSpecialruleDelete(evt);
 			},
 
-			/** @type {ElementEventHandler<HTMLElement, UIEvent>} */
+			/** @type {ElementEventHandler} */
 			onWarbandNameBlur: (evt) => this.editor.setWarbandName(evt.currentTarget.textContent),
 
-			/** @type {ElementEventHandler<HTMLElement, UIEvent>} */
+			/** @type {ElementEventHandler} */
 			onUnitNameBlur: (evt) => this.editor.setUnitName(this.getEventUnit(evt), evt.currentTarget.textContent),
 
-			/** @type {ElementEventHandler<HTMLInputElement, UIEvent>} */
+			/** @type {ElementEventHandler<HTMLInputElement>} */
 			onUnitCountChanged: (evt) => this.editor.setUnitCount(this.getEventUnit(evt), Number(evt.currentTarget.value)),
 
-			/** @type {ElementEventHandler<HTMLSelectElement, UIEvent>} */
+			/** @type {ElementEventHandler<HTMLSelectElement>} */
 			onQualityChanged: (evt) => this.editor.setUnitQuality(this.getEventUnit(evt), Number(evt.currentTarget.value)),
 
-			/** @type {ElementEventHandler<HTMLSelectElement, UIEvent>} */
+			/** @type {ElementEventHandler<HTMLSelectElement>} */
 			onCombatChanged: (evt) => this.editor.setUnitCombat(this.getEventUnit(evt), Number(evt.currentTarget.value)),
 
-			/** @type {ElementEventHandler<HTMLSelectElement, UIEvent>} */
+			/** @deprecated We're using the {@linkcode SpecialrulesSelector} now. @type {ElementEventHandler<HTMLSelectElement>} */
 			addSepecialRule: (evt) =>
 			{
-				this.editor.addUnitSpecialrule(this.getEventUnit(evt), evt.currentTarget.value);
 				if (evt.currentTarget)
 				{
+					this.editor.addUnitSpecialrule(this.getEventUnit(evt), evt.currentTarget.value);
 					evt.currentTarget.selectedIndex = 0;
 				}
 			},
 
-			/** @type {ElementEventHandler<HTMLElement, UIEvent>} */
+			/** @type {ElementEventHandler} */
 			setPoolPoints: (evt) => this.editor.setPointsPool(evt.currentTarget.dataset.key, Number(evt.currentTarget.textContent)),
 		};
 	};

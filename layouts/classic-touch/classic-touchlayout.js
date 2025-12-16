@@ -1,7 +1,7 @@
 // @ts-check
 // DOC entire file
 /**
- * Layout for classic unit profiles as known from the rulebooks; with inputs for touch devices.
+ * Layout for classic unit profiles as known from the rule books; with inputs for touch devices.
  */
 class ClassicTouchLayout extends OwcLayout
 {
@@ -80,52 +80,46 @@ class ClassicTouchLayout extends OwcLayout
 				}
 			},
 
-			/** @type {ElementEventHandler<HTMLElement, UIEvent>} */
-			promptWarbandName: (evt) =>
+			/** @type {AsyncElementEventHandler} */
+			promptWarbandName: async (evt) =>
 			{
 				const triggerElement = evt.currentTarget;
-				inputDialog.prompt(
+				const newValue = await inputDialog.prompt(
 					"text",
 					this.localizer.translate("warbandNamePrompt"),
 					this.warband.name
-				).then(newValue =>
-				{
-					this.editor.setWarbandName(newValue);
-					triggerElement.textContent = newValue;
-				});
+				);
+				this.editor.setWarbandName(newValue);
+				triggerElement.textContent = newValue;
 			},
 
-			/** @type {ElementEventHandler<HTMLElement, UIEvent>} */
-			promptUnitName: (evt) =>
+			/** @type {AsyncElementEventHandler} */
+			promptUnitName: async (evt) =>
 			{
 				const triggerElement = evt.currentTarget;
 				const unit = this.getEventUnit(evt);
-				inputDialog.prompt(
+				const newValue = await inputDialog.prompt(
 					"text",
 					this.localizer.translate("unitNamePrompt"),
 					unit.name
-				).then(newValue =>
-				{
-					this.editor.setUnitName(unit, newValue);
-					triggerElement.textContent = newValue;
-				});
+				);
+				this.editor.setUnitName(unit, newValue);
+				triggerElement.textContent = newValue;
 			},
 
-			/** @type {ElementEventHandler<HTMLInputElement, UIEvent>} */
-			promptUnitCount: (evt) =>
+			/** @type {AsyncElementEventHandler<HTMLInputElement>} */
+			promptUnitCount: async (evt) =>
 			{
 				const triggerElement = evt.currentTarget;
 				const unit = this.getEventUnit(evt);
-				inputDialog.prompt(
+				const newValue = await inputDialog.prompt(
 					"number",
-					this.localizer.translate("unitNamePrompt"),
+					this.localizer.translate("countOfUnit", { UNIT: this.localizer.nonBlankUnitName(unit.name) }),
 					unit.count,
 					1
-				).then(newValue =>
-				{
-					this.editor.setUnitCount(unit, newValue);
-					triggerElement.textContent = `x${newValue}`;
-				});
+				);
+				this.editor.setUnitCount(unit, newValue);
+				triggerElement.textContent = `x${newValue}`;
 			},
 
 			/** @param {PointerEvent} evt */
@@ -134,22 +128,19 @@ class ClassicTouchLayout extends OwcLayout
 			/** @param {PointerEvent} evt */
 			promptCombat: (evt) => this.#combatMenu.popup(evt, this.getEventUnit(evt)),
 
-			/** @type {ElementEventHandler<HTMLElement, UIEvent>} */
-			promptPoolPoints: (evt) =>
+			/** @type {AsyncElementEventHandler} */
+			promptPoolPoints: async (evt) =>
 			{
 				const triggerElement = evt.currentTarget;
 				const poolKey = evt.currentTarget.dataset.key;
-
-				inputDialog.prompt(
+				const newValue = await inputDialog.prompt(
 					"number",
 					this.localizer.translate("prompt.pointsPool.title"),
 					this.warband.pointsPools.get(poolKey),
 					0
-				).then(newValue =>
-				{
-					triggerElement.textContent = `${newValue ?? 0} ${this.localizer.translate("points")}`;
-					this.editor.setPointsPool(poolKey, newValue);
-				});
+				);
+				triggerElement.textContent = `${newValue ?? 0} ${this.localizer.translate("points")}`;
+				this.editor.setPointsPool(poolKey, newValue);
 			},
 		};
 	};

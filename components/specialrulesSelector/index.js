@@ -32,11 +32,9 @@ class SpecialrulesSelector
 	 */
 	popup (event, unit)
 	{
-		console.log("POPUP", unit);
 		const mapSpecialrule = (/** @type {OwcSpecialruleDirectoryEntry|OwcSpecialruleInstance} */srl) =>
 		{
 			const specialruleLocaleText = (this.localizer.has(srl.key)) ? this.localizer.translate(srl.key) : this.specialrulesDirectory.get(srl.key).label;
-			/* @type {OwcSpecialruleInstance & { displayText: string, textBefore?: string, additionalText?: string, textAfter?: string }} */
 			const r = {
 				key: srl.key,
 				points: srl.points,
@@ -56,7 +54,6 @@ class SpecialrulesSelector
 			}
 			return r;
 		};
-		//
 		SpecialrulesSelector.activeInstance?.close();
 		this.#unit = unit;
 		this.#unitBefore = unit.clone();
@@ -73,7 +70,7 @@ class SpecialrulesSelector
 				.map(mapSpecialrule)
 				.sort((a, b) => a.displayText.localeCompare(b.displayText)),
 
-			/** @type {ElementEventHandler<HTMLElement, PointerEvent>} */
+			/** @type {ElementEventHandler} */
 			additionalTextClicked: (evt) =>
 			{
 				evt.stopImmediatePropagation();
@@ -83,14 +80,14 @@ class SpecialrulesSelector
 				this.#unit.addSpecialrule(checkItem.dataset.key);
 			},
 
-			/** @type {ElementEventHandler<HTMLElement, PointerEvent>} */
+			/** @type {ElementEventHandler} */
 			setAdditionalText: (evt) =>
 			{
 				const key = /** @type {HTMLElement} */(evt.currentTarget.closest("[data-key]")).dataset.key;
 				this.editor.setUnitSpecialruleAdditionalText(unit, key, evt.currentTarget.textContent);
 			},
 
-			/** @type {ElementEventHandler<HTMLSelectElement, UIEvent>} */
+			/** @type {ElementEventHandler<HTMLSelectElement>} */
 			toggleSpecialrule: (evt) =>
 			{
 				const key = evt.currentTarget.dataset.key;
