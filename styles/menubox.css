@@ -49,13 +49,17 @@
 				color: var(--complement-black-color);
 				max-width: unset;
 			}
-			.menubox-item:hover {
+			.menubox-item:not(.disabled):hover {
 				color: var(--complement-dark-color);
 				background-color: initial;
 				border-color: var(--complement-dark-color);
 			}
+			.menubox-item.disabled {
+				opacity: 0.5;
+			}
 			.menubox-separator {
-				background-color: #e0c0a0;
+				background-color: var(--complement-black-color);
+				opacity: 0.25;
 			}
 
 			&.undohistory {

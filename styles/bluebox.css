@@ -9,8 +9,8 @@
 
 	.close-button {
 		position: absolute;
-		top: 1em;
-		right: 2.2em;
+		top: 1.5em;
+		right: 3em;
 		font-size: 1.5em;
 		color: #cacccf;
 		cursor: pointer;
@@ -170,7 +170,7 @@
 		}
 		.close-button {
 			top: 1.5em;
-			right: 4.4em;
+			right: 4.5em;
 		}
 	}
 }
