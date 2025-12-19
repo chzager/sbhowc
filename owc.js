@@ -116,17 +116,14 @@ const owc = new class OnlineWarbandCalculator
 		}
 		bind ()
 		{
-			function isHTMLElement (obj)
-			{
-				return (obj instanceof HTMLElement);
-			}
+			/** @type {Object<string,ElementEventHandler<HTMLElement,PointerEvent>>} */
 			const actions = {
-				"file": (/** @type {PointerEvent} */evt) => isHTMLElement(evt.currentTarget) && this.#fileMenu.toggle(evt, null, evt.currentTarget),
-				"undo": (/** @type {PointerEvent} */evt) => isHTMLElement(evt.currentTarget) && this.#undoMenu.toggle(evt, null, evt.currentTarget),
+				"file": (evt) => this.#fileMenu.toggle(evt, null, evt.currentTarget),
+				"undo": (evt) => this.#undoMenu.toggle(evt, null, evt.currentTarget),
 				"print": () => window.print(),
-				"share": (/** @type {PointerEvent} */evt) => isHTMLElement(evt.currentTarget) && this.#shareMenu.toggle(evt, null, evt.currentTarget),
-				"language": (/** @type {PointerEvent} */evt) => isHTMLElement(evt.currentTarget) && this.#languageMenu.toggle(evt, null, evt.currentTarget),
-				"settings": (/** @type {PointerEvent} */evt) =>
+				"share": (evt) => this.#shareMenu.toggle(evt, null, evt.currentTarget),
+				"language": (evt) => this.#languageMenu.toggle(evt, null, evt.currentTarget),
+				"settings": (evt) =>
 				{
 					evt.stopImmediatePropagation();
 					Menubox2.closeAll();

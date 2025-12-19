@@ -1,6 +1,6 @@
 // Genue basic type:
-type ElementEventHandler<T extends HTMLElement = HTMLElement> = (event: UIEvent & { currentTarget: T }) => any;
-type AsyncElementEventHandler<T extends HTMLElement = HTMLElement> = (event: UIEvent & { currentTarget: T }) => Promise<any>;
+type ElementEventHandler<T extends HTMLElement = HTMLElement, E extends UIEvent = UIEvent> = (event: E & { currentTarget: T }) => any;
+type AsyncElementEventHandler<T extends HTMLElement = HTMLElement, E extends UIEvent = UIEvent> = (event: E & { currentTarget: T }) => Promise<any>;
 
 /** A special rule as it is assigned to an unit. */
 interface OwcSpecialruleInstance {
