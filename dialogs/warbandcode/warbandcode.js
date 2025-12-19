@@ -1,27 +1,34 @@
 // @ts-check
-// DOC entire file
+/**
+ * Bluebox that shows a warband's text code. For copying and pasting.
+ */
 const warbandcodeBluebox = new class extends Bluebox
 {
+	/** @returns The `<textarea>` element on this bluebox to provide or take the warband text code. */
+	get #textarea ()
+	{
+		return this.element.querySelector("textarea");
+	}
+
 	/**
-	 *
-	 * @param {string} code
+	 * Pops up the bluebox.
+	 * @param {string} code Warband text code to be shown in the bluebox.
 	 */
 	show (code)
 	{
 		super.open("/bluebox/warbandcode", {
 			code: code,
-			copyToClipboard: () =>
+			copyToClipboard: async () =>
 			{
-				const textElement = this.element.querySelector("textarea");
-				navigator.clipboard?.writeText?.(textElement.value)
-					.then(() => notifications.notify("The warband code was copied to your clipboard.", "green"));
+				await navigator.clipboard?.writeText?.(this.#textarea.value);
+				notifications.notify("The warband code was copied to your clipboard.", "green");
 			},
 			pasteFromClipboard: async () =>
 			{
 				try
 				{
 					const text = await navigator.clipboard.readText();
-					this.element.querySelector("textarea").value = text;
+					this.#textarea.value = text;
 				}
 				catch (error)
 				{
@@ -31,7 +38,7 @@ const warbandcodeBluebox = new class extends Bluebox
 			},
 			apply: () =>
 			{
-				if (owc.importWarband(this.element.querySelector("textarea").value))
+				if (owc.importWarband(this.#textarea.value))
 				{
 					notifications.notify("The warband code was imported.", "green");
 					this.close();

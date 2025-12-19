@@ -1,9 +1,12 @@
 // @ts-check
-// DOC entire file
+/**
+ * Bluebox for restoring sessions that are stored in the browser's `localStorage`.
+ * @see {@linkcode OwcEditor.storeWarbandInBrowser()}
+ */
 const restorerBluebox = new class extends Bluebox
 {
 	/**
-	 *
+	 * Pops up the bluebox.
 	 */
 	show ()
 	{
@@ -29,33 +32,29 @@ const restorerBluebox = new class extends Bluebox
 		}
 		const snippetData = {
 			items: Array.from(storageMap.values()).sort((a, b) => a.title.localeCompare(b.title)),
-			restoreItem: (/** @type {UIEvent} */evt) =>
+			/** @type {ElementEventHandler} */
+			restoreItem: (evt) =>
 			{
-				if (evt.currentTarget instanceof HTMLElement)
-				{
-					const storageItem = storageMap.get(evt.currentTarget.dataset.hash);
-					owc.pid = storageItem.foundIn[0].substring(5);
-					const url = new URL(window.location.href);
-					url.searchParams.set("pid", owc.pid);
-					window.history.replaceState({}, "", url);
-					owc.importWarband(storageItem.code);
-					this.close();
-				}
+				const storageItem = storageMap.get(evt.currentTarget.dataset.hash);
+				owc.pid = storageItem.foundIn[0].substring(5);
+				const url = new URL(window.location.href);
+				url.searchParams.set("pid", owc.pid);
+				window.history.replaceState({}, "", url);
+				owc.importWarband(storageItem.code);
+				this.close();
 			},
-			delete: (/** @type {UIEvent} */evt) =>
+			/** @type {ElementEventHandler} */
+			delete: (evt) =>
 			{
 				evt.stopImmediatePropagation();
-				if (evt.currentTarget instanceof HTMLElement)
+				/** @type {HTMLElement} */
+				const tr = evt.currentTarget.closest("[data-hash]");
+				const storageItem = storageMap.get(tr.dataset.hash);
+				for (const storageKey of storageItem.foundIn)
 				{
-					/** @type {HTMLElement} */
-					const tr = evt.currentTarget.closest("[data-hash]");
-					const storageItem = storageMap.get(tr.dataset.hash);
-					for (const storageKey of storageItem.foundIn)
-					{
-						localStorage.removeItem(storageKey);
-					}
-					tr.remove();
+					localStorage.removeItem(storageKey);
 				}
+				tr.remove();
 			},
 		};
 		super.open("/bluebox/restorer", snippetData);

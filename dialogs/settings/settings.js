@@ -1,11 +1,13 @@
 // @ts-check
-// DOC entire file
+/**
+ * Bluebox for setting the various settings of the app.
+ */
 const settingsBluebox = new class extends Bluebox
 {
 	/**
-	 *
-	 * @param {OwcSettings} settings
-	 * @param {OwcEditor} editor
+	 * Pops up the bluebox.
+	 * @param {OwcSettings} settings Actual settings object instance.
+	 * @param {OwcEditor} editor The OWC editor.
 	 */
 	show (settings, editor)
 	{
@@ -19,15 +21,12 @@ const settingsBluebox = new class extends Bluebox
 			defaultQualityValue: settings.defaults.quality,
 			combatValues: editor.combatValues,
 			defaultCombatValue: settings.defaults.combat,
-			setLayout: (/** @type {UIEvent} */evt) =>
+			setLayout: () =>
 			{
-				if (evt.target instanceof HTMLInputElement)
-				{
-					settings.setProperty(
-						"editor.layout",
+				settings.setProperty(
+					"editor.layout",
 						/** @type {HTMLElement} */(this.element.querySelector('input[data-layout]:checked')).dataset.layout
-					);
-				}
+				);
 			},
 			setProperty: (/** @type {UIEvent} */evt) =>
 			{
