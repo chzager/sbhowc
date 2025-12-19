@@ -126,6 +126,7 @@ const owc = new class OnlineWarbandCalculator
 				"settings": (evt) =>
 				{
 					evt.stopImmediatePropagation();
+					SpecialrulesSelector.activeInstance?.close();
 					Menubox2.closeAll();
 					ui.wait();
 					pageSnippets.import("./dialogs/settings/pagesnippet.xml")
