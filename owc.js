@@ -44,7 +44,7 @@ const owc = new class OnlineWarbandCalculator
 		])
 			.then(() =>
 			{
-				/** The currently edited waband. */
+				/** The currently edited warband. */
 				this.warband = new Warband(specialrules); // Will be set by actual values from settings later.
 				/** The mediator between the {@linkcode OwcLayout} user interface and the {@linkcode Warband} data. */
 				this.editor = new OwcEditor(this.warband, this.localizer, this.settings);
@@ -62,8 +62,8 @@ const owc = new class OnlineWarbandCalculator
 					{
 						this.pid = pid;
 						/** @type {OwcLocalstorageData} */
-						const sotrageData = JSON.parse(localStorage?.getItem("owc_#" + pid));
-						this.warband.fromString(sotrageData.data);
+						const storageData = JSON.parse(localStorage?.getItem("owc_#" + pid));
+						this.warband.fromString(storageData.data);
 					}
 					else
 					{
@@ -201,7 +201,7 @@ const owc = new class OnlineWarbandCalculator
 		});
 
 		#undoMenu = new Menubox2("undo", {
-			items: [], // Items will be createy dynamically on before popup.
+			items: [], // Items will be created dynamically on before popup.
 			itemRenderer: iconizedMenuitemRenderer,
 			css: [this.#menuCss, "undohistory"].join(" "),
 			transitions: this.#menuTransitions,

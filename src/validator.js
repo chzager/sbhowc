@@ -28,7 +28,7 @@ class WarbandValidator
 			.filter(Boolean) // Remove nulls.
 			.map(r => this.localizer.translate(r.key, r.values)); // Localize.
 		return result;
-		/* Developer's note: Surley the whole thing could be done in less code while being more performant,
+		/* Developer's note: Surely the whole thing could be done in less code while being more performant,
 		 * using one single loop over all units and their special rules. But I decided to keep every
 		 * requirement of the rules in a separate code block to keep logical clusters. Regarding Performance:
 		 * this can be disregarded with this amount of data.

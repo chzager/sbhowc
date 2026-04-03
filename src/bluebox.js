@@ -1,7 +1,7 @@
 // @ts-check
 /**
- * Developer's note: This is called "Bluebox" because in the very first version (anno 2009) this were actual blue boxes,
- * so the name was retained for nostalgic reasons.
+ * Developer's note: This is called "Bluebox" because in the very first version (anno 2009) this were boxes
+ * actually colored blue, so the name was retained for nostalgic reasons.
  */
 class Bluebox
 {
@@ -17,7 +17,7 @@ class Bluebox
 	{} // Abstract.
 
 	/**
-	 * Actually renders the Bluebox'es element and shows it on the document.
+	 * Actually renders the Bluebox's element and shows it on the document.
 	 * **Call this in `show()` in the derived classes.**
 	 * @param {string} snippetName The PageSnippet name of the Bluebox to show.
 	 * @param {PageSnippetsProductionData} snippetData Data for the Bluebox.

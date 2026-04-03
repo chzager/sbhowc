@@ -49,7 +49,7 @@ class Unit
 	}
 
 	/**
-	 * @returns Whether this unit is a _pesonality_ or not. Certain specialrules make units personalities.
+	 * @returns Whether this unit is a _personality_ or not. Certain specialrules make units personalities.
 	 */
 	get isPersonality ()
 	{
@@ -72,7 +72,7 @@ class Unit
 	 * This handles the `replaces` directive if defined on the specialrule (e.g. "Shooter (long)" replaces "Shooter (medium)").
 	 *
 	 * @param {string} specialruleKey Key of specialrule to add.
-	 * @returns `true` if the specialrule has been added, otherwiese `false`.
+	 * @returns `true` if the specialrule has been added, otherwise `false`.
 	 */
 	addSpecialrule (specialruleKey)
 	{

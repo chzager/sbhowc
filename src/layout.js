@@ -5,7 +5,7 @@
  */
 class OwcLayout
 {
-	/** Unique identifier of this layout. As key for the {@linkcode OwcEditor}'s layouts directory. */
+	/** Unique identifier of this layout. As key for the {@linkcode OwcEditor}'s layouts directory. @type {string} */
 	static id = null;
 
 	/**
@@ -22,13 +22,13 @@ class OwcLayout
 		}
 		else if (!thisId)
 		{
-			throw new TypeError(`${this.constructor.name} must have a static id poperty.`);
+			throw new TypeError(`${this.constructor.name} must have a static id property.`);
 		}
 		/** The unique identifier of this layout. */
 		this.name = thisId;
 		/** The {@linkcode OwcEditor} using this layout. */
 		this.editor = editor;
-		/** The warband that is currently beeing edited. This is a shortcut to `this.editor.warband`. */
+		/** The warband that is currently being edited. This is a shortcut to `this.editor.warband`. */
 		this.warband = editor.warband;
 		/** Provider of localization functionality. */
 		this.localizer = localizer;
@@ -101,7 +101,7 @@ class OwcLayout
 				snippetData[name] = value;
 			}
 		}
-		this.element = /** @type {HTMLElement} */(pageSnippets.produce(`layouts/${this.name}/main`, snippetData));
+		this.element = /** @type {HTMLElement} */(pageSnippets.produce(`/layouts/${this.name}/main`, snippetData));
 		this.element.id = this.name + "-layout";
 		this.element.dataset.highlightPersonalities = this.editor.settings.options.highlightPersonalities.toString();
 		this.editor.updateWarbandSummary();
@@ -235,7 +235,7 @@ class OwcDesktopLayout extends OwcLayout
 	render ()
 	{
 		super.render();
-		inputHelper.attach(this.element);
+		enhanceInputs(this.element);
 	}
 
 	/**

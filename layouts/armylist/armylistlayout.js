@@ -55,7 +55,7 @@ class ArmylistLayout extends OwcDesktopLayout
 					/** @type {ElementEventHandler} */
 					setPoolPoints: (evt) => this.editor.setPointsPool(evt.currentTarget.dataset.key, Number(evt.currentTarget.textContent)),
 				}));
-				inputHelper.attach(pointspoolElement);
+				enhanceInputs(pointspoolElement);
 				this.element.querySelector(`[data-id="${poolingUnit.id}"]`).appendChild(pointspoolElement);
 			}
 		}

@@ -23,18 +23,24 @@ const inputDialog = new class
 	 * Pops up an input dialog.
 	 *
 	 * @overload
-	 * @param {"text"} type Type of the input value.
-	 * @param {string} title Title of the dialog.
-	 * @param {string} [value] Preset value.
+	 * @param {"text"} type
+	 * @param {string} title
+	 * @param {string} [value]
 	 * @returns {Promise<string>}
 	 *
 	 * @overload
-	 * @param {"number"} type Type of the input value.
-	 * @param {string} title Title of the dialog.
-	 * @param {number} [value] Preset value.
+	 * @param {"number"} type
+	 * @param {string} title
+	 * @param {number} [value]
 	 * @param {number} [min] Minimum allowed number.
 	 * @param {number} [max] Maximum allowed number.
 	 * @returns {Promise<number>}
+	 *
+	 * @param {"text"|"number"} type Type of the input value.
+	 * @param {string} title Title of the dialog.
+	 * @param {string|number} [value] Preset value.
+	 * @param {...any} args Additional values depending on the value type.
+	 * @returns {Promise<number|string>}
 	 */
 	prompt (type, title, value, ...args)
 	{
@@ -68,7 +74,7 @@ const inputDialog = new class
 			this.#element = /** @type {HTMLElement} */(pageSnippets.produce("/components/inputPrompt", snippetData));
 			this.#veil.appendChild(this.#element);
 			this.#veil.style.display = "block";
-			// Currently there is no definitive way to react when then virtual keyboard on a touch device
+			// Currently there is no definitive way to react when the virtual keyboard on a touch device
 			// shrinks available height, so we set the position of the prompt menu to the upper quarter.
 			this.#element.style.top = Math.round((window.innerHeight / 4) - (this.#element.offsetHeight / 2)) + "px";
 			this.#element.style.left = Math.round((visualViewport.width - this.#element.offsetWidth) / 2) + "px";

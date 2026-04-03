@@ -19,13 +19,13 @@ class OwcEditor
 	 */
 	constructor(warband, localizer, settings)
 	{
-		/** The warband that is currently beeing edited. */
+		/** The warband that is currently being edited. */
 		this.warband = warband;
 		/** Provider of localization functionality. */
 		this.localizer = localizer;
 		/** Editor, display and other settings.  */
 		this.settings = settings;
-		/** Map of all registeres layout variants. */
+		/** Map of all registered layout variants. */
 		this.layouts = new Map();
 		/** List of all possible unit quality values, both numeric and display text. */
 		this.qualityValues = (function () { let q = []; for (let v = 2; v <= 6; v += 1) q.push({ key: v, label: v.toString() + "+" }); return q; })();

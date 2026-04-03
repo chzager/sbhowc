@@ -13,7 +13,7 @@ Key features:
   - Song of Wind and Water
   - Song of Deeds and Glory
   - Song of Arthur and Merlin
-- Up to date with errata form Ganesha Games "Free Hack" magazine
+- Up to date with errata from Ganesha Games "Free Hack" magazine
 - Checks rule compliance of units and warband
 - Localized for various languages
 - Printer-friendly output

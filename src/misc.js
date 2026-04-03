@@ -1,11 +1,13 @@
 // @ts-check
 
-// DOC
+/**
+ * Helper for uploading/downloading files on the local device.
+ */
 const localFileIo = new class
 {
 	/**
-	 *
-	 * @returns resolves to
+	 * Prompts the user to select a plain-text file from their device to upload.
+	 * @returns {Promise<string>} A promise that resolves to the selected file's text content.
 	 */
 	requestFile ()
 	{
@@ -29,13 +31,13 @@ const localFileIo = new class
 	}
 
 	/**
-	 *
-	 * @param {string} filename
-	 * @param {string} data
+	 * Generates a file and offer it to the user for download. The actual user experience may vary depending on the browser.
+	 * @param {string} filename Suggested file name for the download. Illegal characters will be removed.
+	 * @param {string} data The file's text content.
 	 */
 	offerDownload (filename, data)
 	{
-		const file = new Blob([data], { "type": "text/plain" });
+		const file = new Blob([data], { type: "text/plain" });
 		const anchorNode = makeElement("a", {
 			style: "display:none",
 			href: URL.createObjectURL(file),
@@ -47,16 +49,21 @@ const localFileIo = new class
 	};
 };
 
-// DOC
+/**
+ * Helper for displaying user notifications in the document.
+ */
 const notifications = new class
 {
-	#currenCount = 0;
+	/** The current count of active notifications. */
+	#currentCount = 0;
+
+	/** The current offset in pixels on the y-axis as top-position for the next notification. */
 	#currentOffset = 0;
 
 	/**
-	 * Pops up a notification within the browser tab.
+	 * Pops up a notification on the document.
 	 * @param {string} text The text to be displayed.
-	 * @param {"green"|"yellow"|"red"} color Color of the notification. Defaults to `"green"`.
+	 * @param {"green"|"yellow"|"red"} [color] Color of the notification. Defaults to `"green"`.
 	 */
 	notify (text, color = "green")
 	{
@@ -71,7 +78,7 @@ const notifications = new class
 				onanimationend: () =>
 				{
 					element.remove();
-					if ((this.#currenCount -= 1) === 0)
+					if ((this.#currentCount -= 1) === 0)
 					{
 						this.#currentOffset = 0;
 					}
@@ -82,27 +89,33 @@ const notifications = new class
 		const rect = element.getBoundingClientRect();
 		element.style.left = Math.round((document.body.clientWidth - rect.width) / 2) + "px";
 		element.style.top = Math.round(rect.top + this.#currentOffset) + "px";
-		this.#currenCount += 1;
+		this.#currentCount += 1;
 		this.#currentOffset += rect.height + 6;
 	}
 };
 
-// DOC
+/**
+ * Helper for setting the UI state.
+ */
 const ui = new class
 {
+	/** Loading spinner element (acutally the veil over the entire document that contains the spinner). */
 	#spinner = document.getElementById("loading-spinner");
 
-	constructor()
-	{
-		this.isTouchDevice = "ontouchstart" in document.documentElement;
-	}
-
+	/**
+	 * Locks the document for any user interaction and displays a spinner.
+	 * @see {@linkcode waitEnd()}
+	 */
 	wait ()
 	{
 		this.#spinner.style.display = null;
 		this.#spinner.querySelector("i").style.animationPlayState = "running";
 	}
 
+	/**
+	 * Unlocks the document and ends the spinner.
+	 * @see {@linkcode wait()}
+	 */
 	waitEnd ()
 	{
 		this.#spinner.style.display = "none";
@@ -110,72 +123,67 @@ const ui = new class
 	}
 };
 
-// DOC
-const inputHelper = new class
+/**
+ * Adds event listeners to all `[contenteditable]` and `input` elements within the given element
+ * to handle focus, blur and keydown events for managing blank and default values, prettifying text and alike.
+ * @param {HTMLElement} element Container of input elements to which to attach the input handler.
+ */
+function enhanceInputs (element)
 {
-	/**
-	 * // DOC: Review:
-	 * Adds event listeners to all `[contenteditable]` and `input` elements within the given element to handle blur,
-	 * focus or keydown events for managing blank and default values, prettifying text and alike.
-	 * @param {HTMLElement} element Container of input elements to which to attach the input handler.
-	 */
-	attach (element)
+	for (const contenteditable of /** @type {NodeListOf<HTMLElement>} */(element.querySelectorAll("[contenteditable]")))
 	{
-		for (const contenteditable of /** @type {NodeListOf<HTMLElement>} */(element.querySelectorAll("[contenteditable]")))
+		const blankReplacer = contenteditable.dataset.blank;
+		if (!contenteditable.textContent.trim())
 		{
-			const blankReplacer = contenteditable.dataset.blank;
-			if (!contenteditable.textContent.trim())
+			contenteditable.textContent = blankReplacer;
+		}
+		contenteditable.spellcheck = false;
+		contenteditable.addEventListener("focus", () =>
+		{
+			if (contenteditable.textContent.trim() === blankReplacer)
 			{
-				contenteditable.textContent = blankReplacer;
+				contenteditable.textContent = "";
 			}
-			contenteditable.spellcheck = false;
-			contenteditable.addEventListener("focus", () =>
-			{
-				if (contenteditable.textContent.trim() === blankReplacer)
-				{
-					contenteditable.textContent = "";
-				}
-			});
-			const originalBlurEvent = contenteditable.onblur;
-			contenteditable.onblur = (evt) =>
-			{
-				let prettifiedContent = contenteditable.textContent
-					.trim()
-					.replace(/\s+/g, " "); // Remove multiple whitespaces.
-				switch (contenteditable.getAttribute("data-type"))
-				{
-					case "number":
-						prettifiedContent = /\d+/.exec(contenteditable.textContent)?.[0] || "0";
-						break;
-					default:
-						if (!prettifiedContent)
-						{
-							prettifiedContent = blankReplacer;
-						}
-				}
-				contenteditable.textContent = prettifiedContent;
-				originalBlurEvent?.call(contenteditable, evt);
-			};
-			contenteditable.addEventListener("keydown", e =>
-			{
-				switch (e.key)
-				{
-					case "Enter":
-					case "Escape":
-						contenteditable.blur();
-						break;
-				}
-			});
-		}
-		for (const input of /** @type {NodeListOf<HTMLInputElement>} */(element.querySelectorAll("input")))
+		});
+		const originalBlurEvent = contenteditable.onblur;
+		contenteditable.onblur = (evt) =>
 		{
-			input.addEventListener("blur", () =>
+			let prettifiedContent = contenteditable.textContent
+				.trim()
+				.replace(/\s+/g, " "); // Remove multiple whitespaces.
+			switch (contenteditable.getAttribute("data-type"))
 			{
-				input.dataset.value = input.value;
-			});
-		}
+				case "number":
+					prettifiedContent = /\d+/.exec(contenteditable.textContent)?.[0] || "0";
+					break;
+				default:
+					if (!prettifiedContent)
+					{
+						prettifiedContent = blankReplacer;
+					}
+			}
+			contenteditable.textContent = prettifiedContent;
+			originalBlurEvent?.call(contenteditable, evt);
+		};
+		contenteditable.addEventListener("keydown", e =>
+		{
+			switch (e.key)
+			{
+				case "Enter":
+				case "Escape":
+					contenteditable.blur();
+					break;
+			}
+		});
 	}
-};
+	for (const input of /** @type {NodeListOf<HTMLInputElement>} */(element.querySelectorAll("input")))
+	{
+		input.addEventListener("blur", () =>
+		{
+			input.dataset.value = input.value;
+		});
+	}
+}
 
 /**
  * Normalizes a relative URL to an absolute URL in the current window location.
@@ -290,14 +298,14 @@ function iconizedMenuitemRenderer (def)
 }
 
 /**
- * // DOC
- * @param {string} string
- * @returns
+ * String hashing function.
+ * @param {string} string The string for which to calculate its hash.
+ * @returns The calculated hash value of the given string. Always an unsigned, 32-bit integer.
  */
 function stringHash (string)
 {
 	/* This is based on https://github.com/darkskyapp/string-hash
-	Since the basic code is public domain, this function is public domain as well.
+	 * Since the basic code is public domain, this function is public domain as well.
 	 */
 	let hash = 0;
 	let i = string.length;
@@ -309,10 +317,10 @@ function stringHash (string)
 }
 
 /**
- *
- * @param {string} text
- * @param {{[key: string]: any}} placeholders
- * @returns
+ * Fills placeholders in a string with actual values. Placeholders are enclosed in singel curly brackets.
+ * @param {string} text The text that contains placeholders.
+ * @param {{[key: string]: any}} placeholders An object containing the placeholder values where the keys are the playerholder names.
+ * @returns The original text with all placeholders replaced by the given values.
  */
 function stringFill (text, placeholders)
 {
