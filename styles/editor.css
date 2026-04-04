@@ -172,6 +172,7 @@
 			bottom: 0;
 			margin-top: 3em;
 			pointer-events: none;
+			background-color: #ffffff60;
 			span,
 			span::before {
 				max-width: fit-content;
@@ -187,66 +188,64 @@
 /* #endregion */
 
 /* #region Classic unit sheet. */
-#warband-editor {
+#warband-editor .unitsheet-grid {
 	--max-unit-sheet-width: 500px;
-	div.unitsheet-grid {
+	display: flex;
+	flex-direction: column;
+	row-gap: 1.5em;
+
+	thead .flex {
+		display: flex;
+		flex-direction: row;
+		column-gap: 0.5em;
+		align-items: baseline;
+	}
+
+	.buttons {
 		display: flex;
 		flex-direction: column;
-		row-gap: 1.5em;
-
-		thead .flex {
-			display: flex;
-			flex-direction: row;
-			column-gap: 0.5em;
-			align-items: baseline;
-		}
-
-		.buttons {
-			display: flex;
-			flex-direction: column;
-			row-gap: 0.5em;
-			button {
-				max-height: min-content;
-				max-width: var(--max-unit-sheet-width);
-			}
-			button:first-child {
-				padding: 1.5em;
-			}
-		}
-
-		table.unitsheet {
-			border: none;
-			border-collapse: collapse;
-			border-spacing: 0;
-			table-layout: fixed;
-			width: 100%;
+		row-gap: 0.5em;
+		button {
+			max-height: min-content;
 			max-width: var(--max-unit-sheet-width);
-			align-self: start; /* Align table to the top of the grid cell */
+		}
+		button:first-child {
+			padding: 1.5em;
+		}
+	}
 
-			td {
-				text-align: left;
-				vertical-align: top;
-				padding: 0.35em;
-				border: 1px solid black;
-				font-weight: normal;
-			}
+	table.unitsheet {
+		border: none;
+		border-collapse: collapse;
+		border-spacing: 0;
+		table-layout: fixed;
+		width: 100%;
+		max-width: var(--max-unit-sheet-width);
+		align-self: start; /* Align table to the top of the grid cell */
 
-			thead {
-				tr {
-					background-color: var(--unit-head-background-color);
-				}
-				[name="count"] {
-					width: 3em;
-				}
-				/* The "count" input shall not be visible until its value is greater than 1. */
-				&:not(:hover):not(:focus) input[name="count"][data-value="1"]:not(:hover):not(:focus) {
-					color: transparent;
-				}
-			}
+		td {
+			text-align: left;
+			vertical-align: top;
+			padding: 0.35em;
+			border: 1px solid black;
+			font-weight: normal;
+		}
 
-			tbody td {
-				width: 33.33%;
+		thead {
+			tr {
+				background-color: var(--unit-head-background-color);
 			}
+			[name="count"] {
+				width: 3em;
+			}
+			/* The "count" input shall not be visible until its value is greater than 1. */
+			&:not(:hover):not(:focus) input[name="count"][data-value="1"]:not(:hover):not(:focus) {
+				color: transparent;
+			}
+		}
+
+		tbody td {
+			width: 33.33%;
 		}
 	}
 }

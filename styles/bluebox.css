@@ -68,35 +68,37 @@
 			color: grey;
 		}
 
-		button {
-			display: flex;
-			column-gap: 0.3em;
-			padding: 0.5em 1em;
-			font-family: var(--sans-font);
-			font-size: 1em;
-			background-color: #fff;
-			border: none;
-			border-bottom: 5px solid var(--menuitem-hover-foreground);
-			cursor: pointer;
-			box-shadow: 0 2px 4px #00000042;
-			&:hover {
-				color: var(--menuitem-hover-foreground);
-				background-color: var(--menuitem-hover-background);
-			}
-			&:hover:active {
-				border-bottom-width: 2px;
-				margin-bottom: 3px;
-				transform: translateY(3px);
-			}
-		}
-
 		.buttons {
 			display: flex;
-			column-gap: 1em;
+			flex-wrap: wrap;
+			column-gap: 1ch;
+			row-gap: 0.5em;
 			align-items: flex-start;
 			padding-top: 1em;
 			position: sticky;
 			bottom: 0;
+			button {
+				display: flex;
+				column-gap: 0.3em;
+				padding: 0.5em 1em;
+				font-family: var(--sans-font);
+				font-size: 1em;
+				background-color: #fff;
+				border: none;
+				border: 1px solid #ddd;
+				border-bottom: 5px solid var(--menuitem-hover-foreground);
+				cursor: pointer;
+				box-shadow: 0 2px 4px #00000042;
+				&:hover {
+					color: var(--menuitem-hover-foreground);
+					background-color: var(--menuitem-hover-background);
+				}
+				&:hover:active {
+					border-bottom-width: 2px;
+					margin-bottom: 3px;
+					transform: translateY(3px);
+				}
+			}
 		}
 
 		input,

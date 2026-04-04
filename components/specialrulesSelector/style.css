@@ -105,13 +105,9 @@
 				margin-left: 1em;
 				font-size: 85%;
 				font-weight: normal;
-				background-color: #e8e8e8;
-				color: #777;
 				padding: 0.1em 0.3em;
 				border-radius: 0.3em;
-				&[data-sign="1"]::before {
-					content: "+";
-				}
+				/* Colors come from 'index.css' `[data-points]` */
 			}
 		}
 	}

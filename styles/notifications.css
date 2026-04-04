@@ -1,4 +1,11 @@
 div.notification {
+	--notification-font-red: #c00;
+	--notification-background-red: #fcc;
+	--notification-font-green: #529b20;
+	--notification-background-green: #d2eeca;
+	--notification-font-yellow: #898432;
+	--notification-background-yellow: #fff776;
+
 	font-family: var(--sans-font);
 	font-size: 1.3rem;
 	font-weight: normal;
@@ -17,19 +24,19 @@ div.notification {
 	animation-duration: 4s;
 
 	&.green {
-		border-color: var(--color-green-font);
-		background-color: var(--color-green-background);
-		color: var(--color-green-font);
+		border-color: var(--notification-font-green);
+		background-color: var(--notification-background-green);
+		color: var(--notification-font-green);
 	}
 	&.yellow {
-		border-color: var(--color-yellow-font);
-		background-color: var(--color-yellow-background);
-		color: var(--color-yellow-font);
+		border-color: var(--notification-font-yellow);
+		background-color: var(--notification-background-yellow);
+		color: var(--notification-font-yellow);
 	}
 	&.red {
-		border-color: var(--color-red-font);
-		background-color: var(--color-red-background);
-		color: var(--color-red-font);
+		border-color: var(--notification-font-red);
+		background-color: var(--notification-background-red);
+		color: var(--notification-font-red);
 	}
 
 	span {

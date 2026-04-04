@@ -204,7 +204,7 @@ const owc = new class OnlineWarbandCalculator
 		#undoMenu = new Menubox2("undo", {
 			items: [], // Items will be created dynamically on before popup.
 			itemRenderer: iconizedMenuitemRenderer,
-			css: [this.#menuCss, "undohistory"].join(" "),
+			css: this.#menuCss,
 			transitions: this.#menuTransitions,
 			beforePopup: (mbx) =>
 			{
@@ -231,7 +231,7 @@ const owc = new class OnlineWarbandCalculator
 						const innerWrapper = makeElement("div.wrapper",
 							makeElement("div.menubox-item", { "data-i": i.toString(), onclick: (evt) => undo(evt) },
 								makeElement("span.label", snapshotItem.label),
-								makeElement("span.points", { "data-sign": Math.sign(snapshotItem.pointsModification).toString() }, snapshotItem.pointsModification)
+								makeElement("span", { "data-points": snapshotItem.pointsModification, "data-sign": Math.sign(snapshotItem.pointsModification).toString() }, snapshotItem.pointsModification)
 							));
 						currentWrapper.appendChild(innerWrapper);
 						currentWrapper = innerWrapper;
@@ -293,6 +293,13 @@ const owc = new class OnlineWarbandCalculator
 			},
 			css: this.#menuCss,
 			transitions: this.#menuTransitions,
+			beforePopup: (self) =>
+			{
+				for (const item of self.items)
+				{
+					(this.parent.settings.language === item.key) ? item.element.classList.add("checked") : item.element.classList.remove("checked");
+				}
+			}
 		});
 	}(this);
 

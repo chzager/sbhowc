@@ -20,13 +20,6 @@
 	--complement-dark-color: #d88600;
 	--complement-black-color: #533300;
 
-	--color-red-font: #c00;
-	--color-red-background: #fcc;
-	--color-green-font: #529b20;
-	--color-green-background: #d2eeca;
-	--color-yellow-font: #898432;
-	--color-yellow-background: #fff776;
-
 	--menuitem-hover-foreground: #405080;
 	--menuitem-hover-background: #ecf4ff;
 	--menuitem-dim-hover-foreground: #96a2c0;
@@ -311,9 +304,32 @@ a {
 		display: block;
 		position: fixed;
 		font-size: 20vh;
-		animation: spin 1.3s linear infinite, blend 5s ease-in-out infinite;
+		animation:
+			spin 1.3s linear infinite,
+			blend 5s ease-in-out infinite;
 		animation-play-state: paused; /* start paused */
 		will-change: transform, color;
+	}
+}
+
+[data-points] {
+	&[data-sign="1"] {
+		color: #564;
+		background-color: #ae9;
+		&::before {
+			content: "+";
+		}
+	}
+	&[data-sign="-1"] {
+		color: #c00;
+		background-color: #fcc;
+	}
+	&[data-sign="0"] {
+		color: #777;
+		background-color: #e8e8e8;
+		&::before {
+			content: "\00b1"; /* plus-minus sign */
+		}
 	}
 }
 
