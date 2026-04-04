@@ -197,7 +197,7 @@ function absoluteUrl (relativeUrl)
 /**
  * Creates a new HTML element.
  * @see https://gist.github.com/chzager/aa4d64d486e2568aba03754f64ce1ebe
- * @param {string} definition The tag of the desired HTML element and optionally an Id and css classes, in a _query selector_ like notation (i.e. `"div#id.class1.class2"`).
+ * @param {string} definition The tag of the desired HTML element and optionally an ID and CSS classes, in a _query selector_ like notation (i.e. `"div#id.class1.class2"`).
  * @param {Array<string | number | HTMLElement | {[key: string]: string | number | boolean | Function}>} content Content (or children) to be created on/in the HTML element. This may be text content, child HTML elements or a record of attributes or event handlers.
  * @returns {HTMLElement} Returns the newly created HTML element with all its content and children.
  */
@@ -205,8 +205,8 @@ function makeElement (definition, ...content)
 {
 	const [_m, tagName, _g2, id, _g4, classes] = /^([a-z0-9]+)(#([^.\s\[]+))?(\.(.+))?/.exec(definition);
 	const element = document.createElement(tagName);
-	(!!id) && (element.id = id);
-	(!!classes) && element.classList.add(...classes.split("."));
+	!!id && (element.id = id);
+	!!classes && element.classList.add(...classes.split("."));
 	for (let item of content.filter(i => (i !== null) && (i !== undefined)))
 	{
 		switch (typeof item)
@@ -219,7 +219,7 @@ function makeElement (definition, ...content)
 			case "string":
 				for (const [match, unicodeChar] of item.matchAll(/&#x([0-9a-f]+);/ig))
 				{
-					item = item.replace(match, JSON.parse("\"\\u" + unicodeChar + "\""));
+					item = item.replace(match, JSON.parse(`"\\u${unicodeChar}"`));
 				}
 				element.appendChild(document.createTextNode(item));
 				break;
@@ -232,7 +232,11 @@ function makeElement (definition, ...content)
 				{
 					for (const [key, value] of Object.entries(item))
 					{
-						if (typeof value === "string")
+						if (key.startsWith("data-"))
+						{
+							element.dataset[key.substring(6)] = value.toString();
+						}
+						else if (typeof value === "string")
 						{
 							element.setAttribute(key, value);
 						}
