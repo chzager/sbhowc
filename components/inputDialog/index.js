@@ -1,4 +1,3 @@
-// @ts-check
 /**
  * A modal dialog for user inputs (text or numbers).
  */
@@ -77,10 +76,10 @@ const inputDialog = new class
 			// Currently there is no definitive way to react when the virtual keyboard on a touch device
 			// shrinks available height, so we set the position of the prompt menu to the upper quarter.
 			this.#element.style.top = Math.round((window.innerHeight / 4) - (this.#element.offsetHeight / 2)) + "px";
-			this.#element.style.left = Math.round((visualViewport.width - this.#element.offsetWidth) / 2) + "px";
-			const inputElement = this.#element.querySelector("input");
+			this.#element.style.left = Math.round(((visualViewport?.width ?? window.innerWidth) - this.#element.offsetWidth) / 2) + "px";
 			if (type === "text")
 			{
+				const inputElement = this.#element.querySelector("input");
 				inputElement.focus();
 				setTimeout(() =>
 				{

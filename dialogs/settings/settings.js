@@ -1,4 +1,3 @@
-// @ts-check
 /**
  * Bluebox for setting the various settings of the app.
  */
@@ -57,7 +56,7 @@ const settingsBluebox = new class extends Bluebox
 								break;
 						}
 					}
-					// @ts-ignore - `string` is not compatible with `keyof typeof OwcSettings.properties` can be ignored because `setProperty()` checks the name.
+					// @ts-expect-error: Argument of type 'string' is not assignable to parameter of type '"rulebook.sam.enabled" | ... ' - `string` is not compatible with `keyof typeof OwcSettings.properties` can be ignored because `setProperty()` checks the name.
 					settings.setProperty(name, value);
 				}
 			},

@@ -1,4 +1,3 @@
-// @ts-check
 /**
  * Directory of text resources in available languages and localization methods.
  * @augments Map<string,{[lang:string]:string}>

@@ -1,4 +1,3 @@
-// @ts-check
 /**
  * Bluebox for restoring sessions that are stored in the browser's `localStorage`.
  * @see {@linkcode OwcEditor.storeWarbandInBrowser()}

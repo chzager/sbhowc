@@ -1,11 +1,10 @@
-// @ts-check
 /**
  * A modal dialog for selecting an editing specialrules of an unit.
  */
 class SpecialrulesSelector
 {
 	/**
-	 * The currently active instance. @type {SpecialrulesSelector}
+	 * The currently active instance. @type {SpecialrulesSelector|null}
 	 */
 	static activeInstance = null;
 
@@ -19,13 +18,13 @@ class SpecialrulesSelector
 	 * The currently edited unit.
 	 * @type {Unit}
 	 */
-	#unit = null;
+	#unit;
 
 	/**
 	 * The currently edited unit before edit. That's to be compared to the unit's current state to determine if any actual changes were made.
 	 * @type {Unit}
 	 */
-	#unitBefore = null;
+	#unitBefore;
 
 	/**
 	 * The warband code before edition for the undo snapshot.
@@ -132,7 +131,7 @@ class SpecialrulesSelector
 		};
 		this.#element = /** @type {HTMLElement} */(pageSnippets.produce("/components/specialrulesSelector/main", snippetData));
 		enhanceInputs(this.#element);
-		// @ts-ignore - We don't have a defintion file for `Sortable`.
+		// @ts-expect-error: Cannot find name 'Sortable'. -> We don't have a defintion file for `Sortable`.
 		new Sortable(this.#element.querySelector("[data-sortable]"), {
 			draggable: ".item",
 			handle: ".sort", // handle's class
@@ -142,8 +141,8 @@ class SpecialrulesSelector
 		document.body.appendChild(this.#element);
 		const elementRect = this.#element.getBoundingClientRect();
 		const position = new DOMPoint(
-			Math.min(Math.max(event.clientX - (elementRect.width / 2), 0), visualViewport.width - elementRect.width),
-			Math.min(Math.max(event.clientY - (elementRect.height / 2), window.scrollY), visualViewport.height - elementRect.height)
+			Math.min(Math.max(event.clientX - (elementRect.width / 2), 0), (visualViewport?.width ?? window.innerWidth) - elementRect.width),
+			Math.min(Math.max(event.clientY - (elementRect.height / 2), window.scrollY), (visualViewport?.height ?? window.innerHeight) - elementRect.height)
 		);
 		this.#element.style.left = `${position.x}px`;
 		this.#element.style.top = `${position.y}px`;

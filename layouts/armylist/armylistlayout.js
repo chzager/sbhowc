@@ -1,4 +1,3 @@
-// @ts-check
 /**
  * Unusual table-like layout; with inputs for desktop devices.
  */

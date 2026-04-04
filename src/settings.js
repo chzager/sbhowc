@@ -1,4 +1,3 @@
-// @ts-check
 /**
  * Settings for the look and behaviour of the OWC and management methods for them.
  */
@@ -62,7 +61,7 @@ class OwcSettings
 		}
 		else
 		{
-			// @ts-ignore - IntelliSense falsely assumes that `this.#properties` is read-only.
+			// @ts-expect-error: Cannot assign to '"defaults.combat"' because it is a read-only property. -> `this.#properties` is not read-only.
 			this.#properties[name] = value;
 			this.save();
 			switch (name)
@@ -115,7 +114,7 @@ class OwcSettings
 	 */
 	get ruleScope ()
 	{
-		// @ts-ignore - IntelliSense doesn't recognize that there are no falsy values in the result array.
+		// @ts-expect-error: Type '(string | false)[]' is not assignable to type 'string[]'. -> `filter(Boolean)` at the end ensures that there are no falsy values in the result array.
 		return [
 			"sbh",
 			this.#properties["rulebook.sam.enabled"] && "sam",
@@ -190,12 +189,12 @@ class OwcSettings
 		let storedSettings = {};
 		try
 		{
-			storedSettings = JSON.parse(localStorage?.getItem(OwcSettings.STORAGE_KEY));
+			storedSettings = JSON.parse(localStorage?.getItem(OwcSettings.STORAGE_KEY) ?? "{}");
 			if (storedSettings)
 			{
 				for (const [key, value] of Object.entries(OwcSettings.DEFAULTS))
 				{
-					// @ts-ignore - `string` is not compatible with `keyof typeof OwcSettings.properties` can be ignored because `setProperty()` checks the name.
+					// @ts-expect-error: Argument of type 'string' is not assignable to parameter of type '"rulebook.sam.enabled" | ...' -> `setProperty()` checks the given key is a `keyof typeof OwcSettings.properties` and can legally be asigned.
 					this.setProperty(key, storedSettings[key] ?? value);
 				}
 			}

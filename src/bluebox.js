@@ -1,12 +1,16 @@
-// @ts-check
 /**
  * Developer's note: This is called "Bluebox" because in the very first version (anno 2009) this were boxes
  * actually colored blue, so the name was retained for nostalgic reasons.
  */
 class Bluebox
 {
-	/** The currently displaying Bluebox. @type {Bluebox} */
+	/** The currently displaying Bluebox. @type {Bluebox|null} */
 	static current;
+
+	/**
+	 * @type {HTMLElement}
+	 */
+	element;
 
 	/**
 	 * Show this Bluebox.
@@ -40,12 +44,15 @@ class Bluebox
 	 */
 	close ()
 	{
-		this.element?.addEventListener("transitionend", () =>
+		if (this.element)
 		{
-			this.element.remove();
-			this.element = null;
-		});
-		this.element.style.top = "-100vh";
+			this.element.addEventListener("transitionend", () =>
+			{
+				this.element?.remove();
+				this.element = null;
+			});
+			this.element.style.top = "-100vh";
+		}
 		Bluebox.current = null;
 	}
 

@@ -1,4 +1,3 @@
-// @ts-check
 /**
  * An `OwcEditor` is a mediator between the {@linkcode OwcLayout} user interface and the {@linkcode Warband} data.
  * It receives events from the UI and performs corresponding actions on the data an updates visuals outside the
@@ -513,7 +512,7 @@ class OwcEditor
 		 */
 		getData ()
 		{
-			const clipboardData = JSON.parse(localStorage.getItem(this.STORAGE_KEY));
+			const clipboardData = JSON.parse(localStorage.getItem(this.STORAGE_KEY) ?? "{}");
 			const expirationDate = Date.parse(clipboardData?.expires);
 			if (!isNaN(expirationDate) && (Date.now() > expirationDate))
 			{
@@ -527,7 +526,7 @@ class OwcEditor
 		 */
 		cleanup ()
 		{
-			const clipboardData = JSON.parse(localStorage.getItem(this.STORAGE_KEY));
+			const clipboardData = JSON.parse(localStorage.getItem(this.STORAGE_KEY) ?? "{}");
 			const expirationDate = Date.parse(clipboardData?.expires);
 			if (!isNaN(expirationDate) && (Date.now() > expirationDate))
 			{

@@ -1,4 +1,3 @@
-// @ts-check
 /**
  * Layout for unit profiles as a single table; with inputs for desktop devices.
  */

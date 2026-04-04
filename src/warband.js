@@ -1,5 +1,4 @@
-﻿// @ts-check
-/**
+﻿/**
  * An unit (mostly a single figure) in a _Song of Blades and Heroes_ {@linkcode Warband}.
  */
 class Unit
@@ -344,17 +343,10 @@ class Warband
 	 * @param {Unit} [unit] Unit to be added. If omitted, a new unit with default combat and quality values is created.
 	 * @param {number} [index] Zero-based index within the warband's units array where to insert the unit. If omitted, the unit is added at the end.
 	 */
-	addUnit (unit = new Unit(this), index = undefined)
+	addUnit (unit = new Unit(this), index = this.units.length)
 	{
 		unit.warband = this;
-		if (isNaN(index))
-		{
-			this.units.push(unit);
-		}
-		else
-		{
-			this.units.splice(index, 0, unit);
-		}
+		this.units.splice(index, 0, unit);
 		return unit;
 	}
 

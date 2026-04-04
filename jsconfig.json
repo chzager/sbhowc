@@ -5,7 +5,12 @@
 			"DOM",
 			"ES2022",
 			"DOM.Iterable"
-		]
+		],
+		"checkJs": true,
+		"strict": true,
+		"strictNullChecks": false,
+		"strictPropertyInitialization": false,
+		"noImplicitAny": false
 	},
 	"include": [
 		"**/*.js",

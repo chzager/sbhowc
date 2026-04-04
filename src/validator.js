@@ -1,4 +1,3 @@
-// @ts-check
 /**
  * Checker for compliance of a warband compilation against all requirements of the rules.
  */

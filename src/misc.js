@@ -1,5 +1,3 @@
-// @ts-check
-
 /**
  * Helper for uploading/downloading files on the local device.
  */
@@ -99,7 +97,9 @@ const notifications = new class
  */
 const ui = new class
 {
-	/** Loading spinner element (acutally the veil over the entire document that contains the spinner). */
+	/**
+	 * Loading spinner element (acutally the veil over the entire document that contains the spinner).
+	 */
 	#spinner = document.getElementById("loading-spinner");
 
 	/**
@@ -108,7 +108,7 @@ const ui = new class
 	 */
 	wait ()
 	{
-		this.#spinner.style.display = null;
+		this.#spinner.style.removeProperty("display");
 		this.#spinner.querySelector("i").style.animationPlayState = "running";
 	}
 
@@ -132,7 +132,7 @@ function enhanceInputs (element)
 {
 	for (const contenteditable of /** @type {NodeListOf<HTMLElement>} */(element.querySelectorAll("[contenteditable]")))
 	{
-		const blankReplacer = contenteditable.dataset.blank;
+		const blankReplacer = contenteditable.dataset.blank || "";
 		if (!contenteditable.textContent.trim())
 		{
 			contenteditable.textContent = blankReplacer;
@@ -198,7 +198,7 @@ function absoluteUrl (relativeUrl)
  * Creates a new HTML element.
  * @see https://gist.github.com/chzager/aa4d64d486e2568aba03754f64ce1ebe
  * @param {string} definition The tag of the desired HTML element and optionally an Id and css classes, in a _query selector_ like notation (i.e. `"div#id.class1.class2"`).
- * @param  {...string | number | HTMLElement | {[key: string]: string | number | boolean | Function} } [content] Content (or children) to be created on/in the HTML element. This may be text content, child HTML elements or a record of attributes or event handlers.
+ * @param {Array<string | number | HTMLElement | {[key: string]: string | number | boolean | Function}>} content Content (or children) to be created on/in the HTML element. This may be text content, child HTML elements or a record of attributes or event handlers.
  * @returns {HTMLElement} Returns the newly created HTML element with all its content and children.
  */
 function makeElement (definition, ...content)

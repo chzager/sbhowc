@@ -1,4 +1,3 @@
-// @ts-check
 // DOC entire file
 /**
  * A warband calculator for the "Song of Blades and Heroes" fantasy tabletop skirmish rules.
@@ -114,6 +113,7 @@ const owc = new class OnlineWarbandCalculator
 		{
 			this.parent = parent;
 		}
+
 		bind ()
 		{
 			/** @type {Object<string,ElementEventHandler<HTMLElement,PointerEvent>>} */
@@ -139,6 +139,7 @@ const owc = new class OnlineWarbandCalculator
 				const buttonBarIcon = document.body.querySelector(`#top-menu [data-action="${name}"]`);
 				if (buttonBarIcon instanceof HTMLElement)
 				{
+					// @ts-expect-error: No overload matches this call. -> `func` is of type `ElementEventHandler` which extends the required function specification.
 					buttonBarIcon.addEventListener("click", func);
 				}
 			}
@@ -215,7 +216,7 @@ const owc = new class OnlineWarbandCalculator
 						this.parent.editor.undo(Number(event.currentTarget.dataset.i));
 					}
 				};
-				const menuItemsWrapper = mbx.element.querySelector(".menubox-items");
+				const menuItemsWrapper = /** @type {HTMLElement} */(mbx.element.querySelector(".menubox-items"));
 				if (this.parent.editor.snapshots.length === 0)
 				{
 					menuItemsWrapper.replaceChildren(iconizedMenuitemRenderer({ label: "Nothing to undo", icon: "fa-solid fa-umbrella-beach" }));
@@ -287,7 +288,7 @@ const owc = new class OnlineWarbandCalculator
 			itemRenderer: (def) =>
 			{
 				const menuItem = Menubox2.itemRenderer(def);
-				menuItem.insertBefore(makeElement("span.lang-icon", def.key), menuItem.firstChild);
+				menuItem.insertBefore(makeElement("span.lang-icon", def.key ?? "??"), menuItem.firstChild);
 				return menuItem;
 			},
 			css: this.#menuCss,
@@ -358,7 +359,7 @@ const owc = new class OnlineWarbandCalculator
 		}
 		catch (err)
 		{
-			console.error(err.message);
+			console.error((err instanceof Error) ? err.message : err);
 			this.warband.fromString(warbandBackup);
 			return false;
 		}

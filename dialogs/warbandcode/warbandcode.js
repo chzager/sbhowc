@@ -1,4 +1,3 @@
-// @ts-check
 /**
  * Bluebox that shows a warband's text code. For copying and pasting.
  */

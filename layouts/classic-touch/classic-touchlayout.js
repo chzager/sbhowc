@@ -1,4 +1,3 @@
-// @ts-check
 // DOC entire file
 /**
  * Layout for classic unit profiles as known from the rule books; with inputs for touch devices.
@@ -122,10 +121,10 @@ class ClassicTouchLayout extends OwcLayout
 				triggerElement.textContent = `x${newValue}`;
 			},
 
-			/** @param {PointerEvent} evt */
+			/** @type {ElementEventHandler<HTMLElement,PointerEvent>} evt */
 			promptQuality: (evt) => this.#qualityMenu.popup(evt, this.getEventUnit(evt)),
 
-			/** @param {PointerEvent} evt */
+			/** @type {ElementEventHandler<HTMLElement,PointerEvent>} evt */
 			promptCombat: (evt) => this.#combatMenu.popup(evt, this.getEventUnit(evt)),
 
 			/** @type {AsyncElementEventHandler} */

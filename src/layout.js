@@ -1,4 +1,3 @@
-// @ts-check
 /**
  * Basic class for the warband editor and unit profile layouts.
  * @abstract
@@ -6,7 +5,7 @@
 class OwcLayout
 {
 	/** Unique identifier of this layout. As key for the {@linkcode OwcEditor}'s layouts directory. @type {string} */
-	static id = null;
+	static id = ""; // Must be set in derived class.
 
 	/**
 	 * @param {OwcEditor} editor The current editor using this layout.
@@ -14,13 +13,13 @@ class OwcLayout
 	 */
 	constructor(editor, localizer)
 	{
-		// @ts-ignore - "Property 'id' does not exist on type 'Function'" -> We know it does exist here.
+		// @ts-expect-error: "Property 'id' does not exist on type 'Function'" -> It actually does exist here, see line 9.
 		const thisId = /** @type {string} */(this.constructor.id);
 		if (this.constructor === OwcLayout)
 		{
 			throw new TypeError("Illegal constructor: OwcLayout is an abstract class.");
 		}
-		else if (!thisId)
+		else if (!(!!thisId)) // "!"=not + "!!"=falsy
 		{
 			throw new TypeError(`${this.constructor.name} must have a static id property.`);
 		}
@@ -32,8 +31,6 @@ class OwcLayout
 		this.warband = editor.warband;
 		/** Provider of localization functionality. */
 		this.localizer = localizer;
-		/** The HTML element that represents this layout on the document. @type {HTMLElement} */
-		this.element; // Will be created in this `render()` method.
 	}
 
 	/**
@@ -101,6 +98,7 @@ class OwcLayout
 				snippetData[name] = value;
 			}
 		}
+		/** The HTML element that represents this layout on the document. */
 		this.element = /** @type {HTMLElement} */(pageSnippets.produce(`/layouts/${this.name}/main`, snippetData));
 		this.element.id = this.name + "-layout";
 		this.element.dataset.highlightPersonalities = this.editor.settings.options.highlightPersonalities.toString();
@@ -116,11 +114,17 @@ class OwcLayout
 	 */
 	getEventUnit (event)
 	{
+		let unit;
 		if (event.currentTarget instanceof HTMLElement)
 		{
 			const id = /** @type {HTMLElement} */(event.currentTarget.closest("[data-id]")).dataset.id;
-			return this.warband.units.find(u => (u.id === id));
+			unit = this.warband.units.find(u => (u.id === id));
 		}
+		if (!unit)
+		{
+			throw new Error("No unit found that would be referenced by event.", { cause: event.currentTarget });
+		}
+		return unit;
 	}
 
 	/**
