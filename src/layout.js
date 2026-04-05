@@ -4,8 +4,12 @@
  */
 class OwcLayout
 {
-	/** Unique identifier of this layout. As key for the {@linkcode OwcEditor}'s layouts directory. @type {string} */
-	static id = ""; // Must be set in derived class.
+	/**
+	 * Unique identifier of this layout. As key for the {@linkcode OwcEditor}'s layouts directory.
+	 * @type {string}
+	 * @abstract
+	 */
+	static id = "";
 
 	/**
 	 * @param {OwcEditor} editor The current editor using this layout.

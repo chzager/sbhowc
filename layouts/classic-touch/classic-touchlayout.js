@@ -4,7 +4,7 @@
  */
 class ClassicTouchLayout extends OwcLayout
 {
-	/** @inheritdoc */
+	/** @type {"classic-touch"} No more abstract. */
 	static id = "classic-touch";
 
 	#qualityMenu = new Menubox2("quality[classic-touch]", {

@@ -3,7 +3,7 @@
  */
 class ListLayout extends OwcDesktopLayout
 {
-	/** @inheritdoc */
+	/** @type {"list"} No more abstract. */
 	static id = "list";
 }
 

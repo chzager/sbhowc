@@ -3,7 +3,7 @@
  */
 class ClassicLayout extends OwcDesktopLayout
 {
-	/** @inheritdoc */
+	/** @type {"classic"} No more abstract. */
 	static id = "classic";
 
 	/**
