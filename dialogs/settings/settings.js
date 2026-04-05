@@ -4,18 +4,18 @@
 const settingsBluebox = new class extends Bluebox
 {
 	/**
-	 * Pops up the bluebox.
+	 * @override
 	 * @param {OwcSettings} settings Actual settings object instance.
 	 * @param {OwcEditor} editor The OWC editor.
 	 */
 	show (settings, editor)
 	{
-		function isInputElement (ele)
+		function isInputElement (/** @type {any}*/ele)
 		{
 			return (ele instanceof HTMLInputElement) || (ele instanceof HTMLSelectElement);
 		}
 		this.settings = settings;
-		super.open("/bluebox/settings", {
+		super.render("/bluebox/settings", {
 			qualityValues: editor.qualityValues,
 			defaultQualityValue: settings.defaults.quality,
 			combatValues: editor.combatValues,

@@ -10,12 +10,12 @@ const warbandcodeBluebox = new class extends Bluebox
 	}
 
 	/**
-	 * Pops up the bluebox.
+	 * @override
 	 * @param {string} code Warband text code to be shown in the bluebox.
 	 */
 	show (code)
 	{
-		super.open("/bluebox/warbandcode", {
+		super.render("/bluebox/warbandcode", {
 			code: code,
 			copyToClipboard: async () =>
 			{

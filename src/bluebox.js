@@ -4,30 +4,36 @@
  */
 class Bluebox
 {
-	/** The currently displaying Bluebox. @type {Bluebox|null} */
+	/**
+	 * The currently displaying Bluebox.
+	 * @type {Bluebox|null}
+	 */
 	static current;
 
 	/**
+	 * The Bluebox's element on the document.
 	 * @type {HTMLElement}
+	 * @protected
 	 */
 	element;
 
 	/**
-	 * Show this Bluebox.
-	 * @param  {...any} args
+	 * Pops up the Bluebox (renders it's element on the document and triggers the "fly-in" animation).
+	 * @param {...any} args
 	 * @abstract
 	 */
 	show (...args)
-	{} // Abstract.
+	{
+		throw new Error("Abstract method 'show' must be implemented by subclass.");
+	}
 
 	/**
-	 * Actually renders the Bluebox's element and shows it on the document.
-	 * **Call this in `show()` in the derived classes.**
+	 * Actually renders the Bluebox's element onto the document.
 	 * @param {string} snippetName The PageSnippet name of the Bluebox to show.
 	 * @param {PageSnippetsProductionData} snippetData Data for the Bluebox.
-	 * @protected
+	 * @protected Call {@linkcode show()} to pop up the Bluebox.
 	 */
-	open (snippetName, snippetData)
+	render (snippetName, snippetData)
 	{
 		const blueboxContentElement = /** @type {HTMLElement} */(pageSnippets.produce(snippetName, snippetData));
 		blueboxContentElement.classList.add("bluebox");
@@ -55,19 +61,13 @@ class Bluebox
 		}
 		Bluebox.current = null;
 	}
-
-	/**
-	 * Closes the currently showing Bluebox (if any).
-	 * @param {PointerEvent} event Triggering event.
-	 */
-	static closeCurrent (event)
-	{
-		if (event.currentTarget instanceof HTMLElement && !event.currentTarget.closest(".bluebox"))
-		{
-			Bluebox.current?.close();
-		}
-
-	}
 }
 
-document.body.addEventListener("click", evt => Bluebox.closeCurrent(evt));
+// When a Bluebox is active, any click outside of it will close it.
+document.body.addEventListener("click", evt =>
+{
+	if (evt.currentTarget instanceof HTMLElement && !evt.currentTarget.closest(".bluebox"))
+	{
+		Bluebox.current?.close();
+	}
+});

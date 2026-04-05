@@ -4,9 +4,7 @@
  */
 const restorerBluebox = new class extends Bluebox
 {
-	/**
-	 * Pops up the bluebox.
-	 */
+	/** @override */
 	show ()
 	{
 		/** @type {Map<string,OwcRestorerItem>} */
@@ -56,6 +54,6 @@ const restorerBluebox = new class extends Bluebox
 				tr.remove();
 			},
 		};
-		super.open("/bluebox/restorer", snippetData);
+		super.render("/bluebox/restorer", snippetData);
 	}
 };
