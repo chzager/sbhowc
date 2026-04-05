@@ -43,7 +43,7 @@ class OwcLocalizer extends Map
 		const asyncs = [];
 		for (const k of resourceKey)
 		{
-			const url = `locales/${this.#targetLanguage}/${k}.json`;
+			const url = `data/locales/${this.#targetLanguage}/${k}.json`;
 			if (!this.loadedUrls.has(url))
 			{
 				asyncs.push(fetchEx(url)
@@ -125,7 +125,7 @@ class OwcSpecialrulesDirectory extends Map
 		const asyncs = [];
 		for (const rulebookAbbr of ["sbh", "sgd", "sww", "sdg", "sam"])
 		{
-			asyncs.push(fetchEx(`rulebooks/${rulebookAbbr}.json`)
+			asyncs.push(fetchEx(`data/rulebooks/${rulebookAbbr}.json`)
 				.then((/** @type {OwcRulebookJson} */rulebook) =>
 				{
 					// Append data from imported rulebook:

@@ -64,7 +64,7 @@ class OwcEditor
 		else
 		{
 			ui.wait();
-			pageSnippets.import(`./layouts/${val}/pagesnippet.xml`)
+			pageSnippets.import(`./ui/layouts/${val}/pagesnippet.xml`)
 				// Rendering is done when the loaded layout registeres itsetlf.
 				.finally(() => ui.waitEnd());
 		}

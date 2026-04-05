@@ -1,4 +1,4 @@
-// Genue basic type:
+// Generic basic type:
 type ElementEventHandler<T extends HTMLElement = HTMLElement, E extends UIEvent = UIEvent> = (event: E & { currentTarget: T }) => any;
 type AsyncElementEventHandler<T extends HTMLElement = HTMLElement, E extends UIEvent = UIEvent> = (event: E & { currentTarget: T }) => Promise<any>;
 
@@ -15,7 +15,7 @@ interface OwcSpecialruleInstance {
 	/** Whether this specialrule makes the unit a _personality_ (`true`) or not (`false`). */
 	isPersonality: boolean;
 	/** Indicates that this specialrule creates a separate pool point in the warband. */
-	pooling: boolean;
+	pooling?: boolean;
 	/** Additional text that specifies this specialrule in more detail. */
 	additionalText?: string;
 }
@@ -96,7 +96,7 @@ interface OwcValidationResult {
 }
 
 /** Method type for performing specific validations of the warband. */
-type OwcValidationFunction = () => OwcValidationResult | Array<OwcValidationResult>;
+type OwcValidationFunction = () => OwcValidationResult | Array<OwcValidationResult> | undefined;
 
 /** Data structure for warbands stored in the browser's `localStorage`. */
 interface OwcLocalstorageData {

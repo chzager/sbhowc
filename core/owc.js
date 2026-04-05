@@ -40,7 +40,7 @@ const owc = new class OnlineWarbandCalculator
 		/** Provider of localization functionality. */
 		this.localizer = new OwcLocalizer();
 		Promise.all([
-			pageSnippets.import(absoluteUrl("components/specialrulesSelector/component.xml")),
+			pageSnippets.import("./ui/components/specialrulesSelector/component.xml"),
 			this.#toolBar.bind(),
 			this.localizer.import("editor"),
 			specialrules.load(),
@@ -142,7 +142,7 @@ const owc = new class OnlineWarbandCalculator
 					ui.wait();
 					try
 					{
-						await pageSnippets.import("./dialogs/settings/pagesnippet.xml");
+						await pageSnippets.import("./ui/dialogs/settings/pagesnippet.xml");
 						settingsBluebox.show(this.parent.settings, this.parent.editor);
 					}
 					finally
@@ -223,7 +223,7 @@ const owc = new class OnlineWarbandCalculator
 					callback: async () =>
 					{
 						ui.wait();
-						await pageSnippets.import("./dialogs/warbandcode/pagesnippet.xml");
+						await pageSnippets.import("./ui/dialogs/warbandcode/pagesnippet.xml");
 						warbandcodeBluebox.show(this.parent.getWarbandCode());
 						ui.waitEnd();
 					}
@@ -234,7 +234,7 @@ const owc = new class OnlineWarbandCalculator
 					callback: async () =>
 					{
 						ui.wait();
-						await pageSnippets.import("./dialogs/restorer/pagesnippet.xml");
+						await pageSnippets.import("./ui/dialogs/restorer/pagesnippet.xml");
 						restorerBluebox.show();
 						ui.waitEnd();
 					}

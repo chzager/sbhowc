@@ -170,5 +170,5 @@ class ClassicTouchLayout extends OwcLayout
 }
 
 pageSnippets
-	.import(absoluteUrl("components/inputDialog/component.xml"))
+	.import("./ui/components/inputDialog/component.xml")
 	.then(() => owc.editor.registerLayout(ClassicTouchLayout));
