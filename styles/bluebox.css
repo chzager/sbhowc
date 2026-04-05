@@ -7,21 +7,6 @@
 	bottom: 0;
 	transition: top 0.15s linear;
 
-	.close-button {
-		position: absolute;
-		top: 1.5em;
-		right: 3em;
-		font-size: 1.5em;
-		color: #cacccf;
-		cursor: pointer;
-		background-color: #fff;
-		border-radius: 99px;
-		padding: 3px;
-		&:hover {
-			font-weight: 900;
-		}
-	}
-
 	.bluebox {
 		--menuitem-hover-foreground: #405080;
 		--menuitem-hover-background: #ecf4ff;
@@ -45,6 +30,21 @@
 			overflow: clip;
 			white-space: nowrap;
 			text-overflow: ellipsis;
+		}
+
+		.close-button {
+			position: absolute;
+			top: 1.5em;
+			right: 2.3em;
+			font-size: 1.5em;
+			color: #cacccf;
+			cursor: pointer;
+			background-color: #fff;
+			border-radius: 99px;
+			padding: 3px;
+			&:hover {
+				font-weight: 900;
+			}
 		}
 
 		.client {
@@ -169,10 +169,10 @@
 	.blueboxwapper {
 		.bluebox {
 			padding: 2em 4em;
-		}
-		.close-button {
-			top: 1.5em;
-			right: 4.5em;
+			.close-button {
+				top: 1.5em;
+				right: 4.5em;
+			}
 		}
 	}
 }

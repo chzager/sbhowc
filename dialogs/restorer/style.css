@@ -3,6 +3,8 @@
 		margin-top: 1em;
 	}
 	.warning {
+		--color-red-font: #c00;
+		--color-red-background: #fcc;
 		border: 2px solid var(--color-red-font);
 		border-radius: 0.5em;
 		border-left-width: 0.75em;
