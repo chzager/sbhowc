@@ -89,7 +89,7 @@ class ClassicTouchLayout extends OwcLayout
 					this.warband.name
 				);
 				this.editor.setWarbandName(newValue);
-				triggerElement.textContent = newValue;
+				triggerElement.textContent = this.localizer.nonBlankWarbandName(newValue);
 			},
 
 			/** @type {AsyncElementEventHandler} */
@@ -103,7 +103,7 @@ class ClassicTouchLayout extends OwcLayout
 					unit.name
 				);
 				this.editor.setUnitName(unit, newValue);
-				triggerElement.textContent = newValue;
+				triggerElement.textContent = this.localizer.nonBlankUnitName(newValue);
 			},
 
 			/** @type {AsyncElementEventHandler<HTMLInputElement>} */
