@@ -134,7 +134,7 @@ class ClassicTouchLayout extends OwcLayout
 				const poolKey = evt.currentTarget.dataset.key;
 				const newValue = await inputDialog.prompt(
 					"number",
-					this.localizer.translate("prompt.pointsPool.title"),
+					this.localizer.translate("prompt.pointsPool.title", { POOL: this.localizer.translate(poolKey + "PointsPool") }),
 					this.warband.pointsPools.get(poolKey),
 					0
 				);

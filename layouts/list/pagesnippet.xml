@@ -88,7 +88,7 @@
 									<tr data-pointspool="{{key}}">
 										<td class="pointspool" colspan="2">{{label}}</td>
 										<td class="ih">
-											<span name="pointspool" data-key="{{key}}" data-blank="0" contenteditable="plaintext-only" data-type="number" ps:onblur="setPoolPoints">{{points}}</span>
+											<span name="pointspool" data-key="{{key}}" data-blank="0" contenteditable="plaintext-only" data-type="number" ps:onblur="onPoolpointsBlur">{{points}}</span>
 										</td>
 										<td colspan="9"></td>
 									</tr>

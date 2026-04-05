@@ -68,7 +68,7 @@
 				<p class="ih pointspool">
 					<span>{{label}}</span>
 					<span>
-						<span name="pointspool" data-key="{{key}}" data-blank="0" class="dyn-width" contenteditable="plaintext-only" data-type="number" ps:onblur="setPoolPoints">{{points}}</span>
+						<span name="pointspool" data-key="{{key}}" data-blank="0" class="dyn-width" contenteditable="plaintext-only" data-type="number" ps:onblur="onPoolpointsBlur">{{points}}</span>
 						<span>&#x0020;Pt.</span>
 					</span>
 				</p>

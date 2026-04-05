@@ -43,16 +43,16 @@ class ArmylistLayout extends OwcDesktopLayout
 			this.#updateUnitCountPrintElement(unit);
 		}
 		// Attach points pools to the first unit triggering that points pool.
-		for (const [pointspoolKey, pointspoolValue] of this.warband.pointsPools)
+		for (const [poolKey, pointspoolValue] of this.warband.pointsPools)
 		{
-			const poolingUnit = this.warband.units.find(u => u.specialrules.some(s => (s.key === pointspoolKey)));
+			const poolingUnit = this.warband.units.find(u => u.specialrules.some(s => (s.key === poolKey)));
 			{
 				const pointspoolElement = /** @type {HTMLElement} */(pageSnippets.produce("/layouts/armylist/pointspool", {
-					key: pointspoolKey,
-					label: this.localizer.translate(pointspoolKey + "PointsPool"),
+					key: poolKey,
+					label: this.localizer.translate(poolKey + "PointsPool"),
 					points: pointspoolValue,
 					/** @type {ElementEventHandler} */
-					setPoolPoints: (evt) => this.editor.setPointsPool(evt.currentTarget.dataset.key, Number(evt.currentTarget.textContent)),
+					onPoolpointsBlur: (evt) => this.editor.setPointsPool(evt.currentTarget.dataset.key, Number(evt.currentTarget.textContent)),
 				}));
 				enhanceInputs(pointspoolElement);
 				this.element.querySelector(`[data-id="${poolingUnit.id}"]`).appendChild(pointspoolElement);

@@ -411,7 +411,7 @@ class OwcEditor
 	setPointsPool (poolKey, value)
 	{
 		if (this.#applyManipulation(
-			`Assign ${value} points in ${this.warband.specialrulesDirectory.get(poolKey).label} pool`,
+			`Assign ${value} points in ${this.localizer.translate(poolKey + "PointsPool")}`,
 			() => this.warband.pointsPools.set(poolKey, value)
 		))
 		{

@@ -224,18 +224,11 @@ class OwcDesktopLayout extends OwcLayout
 			/** @type {ElementEventHandler<HTMLSelectElement>} */
 			onCombatChanged: (evt) => this.editor.setUnitCombat(this.getEventUnit(evt), Number(evt.currentTarget.value)),
 
-			/** @deprecated We're using the {@linkcode SpecialrulesSelector} now. @type {ElementEventHandler<HTMLSelectElement>} */
-			addSepecialRule: (evt) =>
-			{
-				if (evt.currentTarget)
-				{
-					this.editor.addUnitSpecialrule(this.getEventUnit(evt), evt.currentTarget.value);
-					evt.currentTarget.selectedIndex = 0;
-				}
-			},
-
-			/** @type {ElementEventHandler} */
-			setPoolPoints: (evt) => this.editor.setPointsPool(evt.currentTarget.dataset.key, Number(evt.currentTarget.textContent)),
+			/**
+			 * Event handler for when a points pool input element loses focus. Applies the input's value as the new points for that pool.
+			 * @type {ElementEventHandler}
+			 */
+			onPoolpointsBlur: (evt) => this.editor.setPointsPool(evt.currentTarget.dataset.key, Number(evt.currentTarget.textContent)),
 		};
 	};
 
