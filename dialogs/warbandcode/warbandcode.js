@@ -28,6 +28,7 @@ const warbandcodeBluebox = new class extends Bluebox
 				{
 					const text = await navigator.clipboard.readText();
 					this.#textarea.value = text;
+					notifications.notify("The clipboard content was pasted.", "green");
 				}
 				catch (error)
 				{

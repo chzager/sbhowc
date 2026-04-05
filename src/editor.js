@@ -22,14 +22,14 @@ class OwcEditor
 		this.warband = warband;
 		/** Provider of localization functionality. */
 		this.localizer = localizer;
-		/** Editor, display and other settings.  */
+		/** Editor, display and other settings. */
 		this.settings = settings;
-		/** Map of all registered layout variants. */
+		/** Map of all registered layout variants. @type {Map<string,OwcLayout>} */
 		this.layouts = new Map();
 		/** List of all possible unit quality values, both numeric and display text. */
-		this.qualityValues = (function () { let q = []; for (let v = 2; v <= 6; v += 1) q.push({ key: v, label: v.toString() + "+" }); return q; })();
+		this.qualityValues = [2, 3, 4, 5, 6].map(q => ({ key: q, label: q.toString() + "+" }));
 		/** List of all possible unit combat values, both numeric and display text. */
-		this.combatValues = (function () { let c = []; for (let v = 6; v >= 0; v -= 1) c.push({ key: v, label: v.toString() }); return c; })();
+		this.combatValues = [6, 5, 4, 3, 2, 1, 0].map(c => ({ key: c, label: c.toString() }));
 		/** Checker for compliance of the current warband against all requirements of the rules. */
 		this.validator = new WarbandValidator(this.warband, this.localizer);
 		/** Track of all changes made to the warband and its units. @type {Array<OwcUndoerSnapshot>} */
@@ -78,7 +78,7 @@ class OwcEditor
 	{
 		const editorLayout = new layoutClass(this, this.localizer);
 		this.layouts.set(editorLayout.name, editorLayout);
-		console.log("Editor layout registered:", layoutClass.name, this.layouts.entries());
+		console.debug("Editor layout registered:", layoutClass.name, this.layouts.entries());
 		this.layout = editorLayout.name;
 	}
 

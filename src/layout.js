@@ -95,7 +95,7 @@ class OwcLayout
 		{
 			if (typeof value === "function")
 			{
-				snippetData[name] = (...args) => value(...args);
+				snippetData[name] = (/** @type {...any} */...args) => value(...args);
 			}
 			else
 			{

@@ -234,7 +234,7 @@ function makeElement (definition, ...content)
 					{
 						if (key.startsWith("data-"))
 						{
-							element.dataset[key.substring(6)] = value.toString();
+							element.dataset[key.substring(5)] = value.toString();
 						}
 						else if (typeof value === "string")
 						{
@@ -303,14 +303,13 @@ function iconizedMenuitemRenderer (def)
 
 /**
  * String hashing function.
+ * This is based on https://github.com/darkskyapp/string-hash
+ * Since the basic code is public domain, this function is public domain as well.
  * @param {string} string The string for which to calculate its hash.
  * @returns The calculated hash value of the given string. Always an unsigned, 32-bit integer.
  */
 function stringHash (string)
 {
-	/* This is based on https://github.com/darkskyapp/string-hash
-	 * Since the basic code is public domain, this function is public domain as well.
-	 */
 	let hash = 0;
 	let i = string.length;
 	while (i)

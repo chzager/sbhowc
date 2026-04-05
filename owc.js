@@ -1,4 +1,3 @@
-// DOC entire file
 /**
  * A warband calculator for the "Song of Blades and Heroes" fantasy tabletop skirmish rules.
  * @copyright (c) 2025 Christoph Zager
@@ -7,6 +6,9 @@
  */
 const owc = new class OnlineWarbandCalculator
 {
+	/**
+	 * @returns The project's metadata.
+	 */
 	get meta ()
 	{
 		return Object.freeze({
@@ -33,18 +35,20 @@ const owc = new class OnlineWarbandCalculator
 		}
 		ui.wait();
 		const specialrules = new OwcSpecialrulesDirectory();
+		/** Editor, display and other settings. */
 		this.settings = new OwcSettings();
+		/** Provider of localization functionality. */
 		this.localizer = new OwcLocalizer();
 		Promise.all([
 			pageSnippets.import(absoluteUrl("components/specialrulesSelector/component.xml")),
-			this.#actionBar.bind(),
+			this.#toolBar.bind(),
 			this.localizer.import("editor"),
-			specialrules.load()
+			specialrules.load(),
 		])
 			.then(() =>
 			{
 				/** The currently edited warband. */
-				this.warband = new Warband(specialrules); // Will be set by actual values from settings later.
+				this.warband = new Warband(specialrules);
 				/** The mediator between the {@linkcode OwcLayout} user interface and the {@linkcode Warband} data. */
 				this.editor = new OwcEditor(this.warband, this.localizer, this.settings);
 			})
@@ -100,20 +104,27 @@ const owc = new class OnlineWarbandCalculator
 		return;
 	}
 
-	#actionBar = new class
+	/**
+	 * The editor's toolbar.
+	 */
+	#toolBar = new class
 	{
-		/** @type {Menubox2Transitions} */
+		/** Transitions for the Menuboxes in the action bar. @type {Menubox2Transitions} */
 		#menuTransitions = { height: { closed: "0", opened: "auto" } };
+		/** Mandatory CSS class for all Menuboxes in the action bar. */
 		#menuCss = "top-menu";
 
 		/**
-		 * @param {OnlineWarbandCalculator} parent
+		 * @param {OnlineWarbandCalculator} parent The OWC instance.
 		 */
 		constructor(parent)
 		{
 			this.parent = parent;
 		}
 
+		/**
+		 * Binds event handler to the icons in the action bar.
+		 */
 		bind ()
 		{
 			/** @type {Object<string,ElementEventHandler<HTMLElement,PointerEvent>>} */
@@ -123,15 +134,21 @@ const owc = new class OnlineWarbandCalculator
 				"print": () => window.print(),
 				"share": (evt) => this.#shareMenu.toggle(evt, null, evt.currentTarget),
 				"language": (evt) => this.#languageMenu.toggle(evt, null, evt.currentTarget),
-				"settings": (evt) =>
+				"settings": async (evt) =>
 				{
 					evt.stopImmediatePropagation();
 					SpecialrulesSelector.activeInstance?.close();
 					Menubox2.closeAll();
 					ui.wait();
-					pageSnippets.import("./dialogs/settings/pagesnippet.xml")
-						.then(() => settingsBluebox.show(this.parent.settings, this.parent.editor))
-						.finally(() => ui.waitEnd());
+					try
+					{
+						await pageSnippets.import("./dialogs/settings/pagesnippet.xml");
+						settingsBluebox.show(this.parent.settings, this.parent.editor);
+					}
+					finally
+					{
+						ui.waitEnd();
+					}
 				}
 			};
 			for (const [name, func] of Object.entries(actions))
@@ -145,6 +162,23 @@ const owc = new class OnlineWarbandCalculator
 			}
 		}
 
+		/**
+		 * Encodes specified characters in a string using their Unicode code points in hexadecimal format.
+		 * This is used for URL-safe encoding of special characters in sharing links.
+		 * @param {string} text The input string to encode.
+		 * @param {string} chars A string containing the characters to encode (e.g., "*%" to encode asterisks and percent signs).
+		 * @returns {string} The encoded string with specified characters replaced by %XX format.
+		 */
+		#unicodify (text, chars)
+		{
+			for (const c of chars)
+			{
+				text = text.replaceAll(c, "%" + c.charCodeAt(0).toString(16));
+			};
+			return text;
+		};
+
+		/** Menubox of the "file" tool. */
 		#fileMenu = new Menubox2("file", {
 			items: [
 				{
@@ -167,7 +201,18 @@ const owc = new class OnlineWarbandCalculator
 				{ separator: true },
 				{
 					key: "upload", label: "Open a warband file", icon: "fa-regular fa-folder-open",
-					callback: () => localFileIo.requestFile().then(code => this.parent.importWarband(code) || notifications.notify("This file does not contain a valid warband code.", "red"))
+					callback: async () =>
+					{
+						const code = await localFileIo.requestFile();
+						if (this.parent.importWarband(code))
+						{
+							notifications.notify("The warband was successfully loaded from the file.", "green");
+						}
+						else
+						{
+							notifications.notify("This file does not contain a valid warband code.", "red");
+						}
+					}
 				},
 				{
 					key: "download", label: "Download this warband as file", icon: "fa-solid fa-download",
@@ -175,25 +220,24 @@ const owc = new class OnlineWarbandCalculator
 				},
 				{
 					key: "show-code", label: "Import/export warband code", icon: "fa-solid fa-code",
-					callback: () =>
+					callback: async () =>
 					{
 						ui.wait();
-						pageSnippets.import("./dialogs/warbandcode/pagesnippet.xml")
-							.then(() => warbandcodeBluebox.show(this.parent.getWarbandCode()))
-							.finally(() => ui.waitEnd());
+						await pageSnippets.import("./dialogs/warbandcode/pagesnippet.xml");
+						warbandcodeBluebox.show(this.parent.getWarbandCode());
+						ui.waitEnd();
 					}
 				},
 				{ separator: true },
 				{
 					key: "restore", label: "Restore a previous session", icon: "fa-solid fa-clock-rotate-left",
-					callback: () =>
+					callback: async () =>
 					{
 						ui.wait();
-						pageSnippets.import("./dialogs/restorer/pagesnippet.xml")
-							.then(() => restorerBluebox.show())
-							.finally(() => ui.waitEnd());
+						await pageSnippets.import("./dialogs/restorer/pagesnippet.xml");
+						restorerBluebox.show();
+						ui.waitEnd();
 					}
-
 				},
 			],
 			itemRenderer: iconizedMenuitemRenderer,
@@ -201,21 +245,14 @@ const owc = new class OnlineWarbandCalculator
 			transitions: this.#menuTransitions,
 		});
 
+		/** Menubox of the "undo" tool. */
 		#undoMenu = new Menubox2("undo", {
-			items: [], // Items will be created dynamically on before popup.
+			items: [], // Items are created dynamically when the menu is about to open.
 			itemRenderer: iconizedMenuitemRenderer,
 			css: this.#menuCss,
 			transitions: this.#menuTransitions,
 			beforePopup: (mbx) =>
 			{
-				const undo = (/** @type {UIEvent} */event) =>
-				{
-					mbx.close();
-					if (event.currentTarget instanceof HTMLElement)
-					{
-						this.parent.editor.undo(Number(event.currentTarget.dataset.i));
-					}
-				};
 				const menuItemsWrapper = /** @type {HTMLElement} */(mbx.element.querySelector(".menubox-items"));
 				if (this.parent.editor.snapshots.length === 0)
 				{
@@ -223,6 +260,14 @@ const owc = new class OnlineWarbandCalculator
 				}
 				else
 				{
+					const undo = (/** @type {UIEvent} */event) =>
+					{
+						mbx.close();
+						if (event.currentTarget instanceof HTMLElement)
+						{
+							this.parent.editor.undo(Number(event.currentTarget.dataset.i));
+						}
+					};
 					menuItemsWrapper.replaceChildren(iconizedMenuitemRenderer({ label: "Undo:", icon: "fa-solid fa-arrow-rotate-left" }));
 					let currentWrapper = menuItemsWrapper;
 					let i = 1;
@@ -241,18 +286,7 @@ const owc = new class OnlineWarbandCalculator
 			}
 		});
 
-		/*
-	if (typeof navigator.share === "function")
-	{
-		this.parent.topMenu.shareMenu.appendItem(
-			{
-				key: "browser",
-				label: "More...",
-				iconHtml: htmlBuilder.newElement("i.fas.fa-ellipsis-h")
-			}
-		);
-	}
-	*/
+		/** Menubox of the "share" tool. */
 		#shareMenu = new Menubox2("share", {
 			items: [
 				{
@@ -265,19 +299,51 @@ const owc = new class OnlineWarbandCalculator
 				},
 				{
 					key: "copy-to-clipboard", label: "Copy URL to clipboard", icon: "fa-solid fa-clipboard",
-					callback: () =>
+					callback: async () =>
 					{
-						navigator.clipboard?.writeText?.(this.parent.getShareUrl())
-							.then(() => notifications.notify("The link to share is copied to your clipboard.", "green"));
+						await navigator.clipboard?.writeText?.(this.parent.getShareUrl());
+						notifications.notify("The link to share was copied to your clipboard.", "green");
 					}
 				},
-			],
+				{ separator: true },
+				{
+					key: "email", label: "E-Mail", icon: "fa-solid fa-envelope",
+					callback: () =>
+					{
+						const body = this.parent.plainTextWarband() + "\n\n" + this.parent.getShareUrl();
+						window.open("mailto:?subject=" + encodeURIComponent(document.title) + "&body=" + encodeURIComponent(body));
+					}
+				},
+				{
+					key: "whatsapp", label: "WhatsApp", icon: "fa-brands fa-whatsapp",
+					callback: () =>
+					{
+						window.open("whatsapp://send?text=*" + this.#unicodify(document.title, "*") + "*%0d%0a" + this.#unicodify(this.parent.getShareUrl(), "%+"));
+					}
+				},
+			].concat((() => // IIFE
+				(typeof navigator.share === "function")
+					? [
+						{ separator: true },
+						{
+							key: "browser-native-share", label: "More...", icon: "i.fa-solid fa-ellipsis-h",
+							callback: () => navigator.share(
+								{
+									title: document.title,
+									text: document.title,
+									url: this.parent.getShareUrl(),
+								})
+						},
+					]
+					: []
+			)()),
 			align: { horizontal: "right" },
 			itemRenderer: iconizedMenuitemRenderer,
 			css: this.#menuCss,
 			transitions: this.#menuTransitions,
 		});
 
+		/** Menubox for selecting the editor language. */
 		#languageMenu = new Menubox2("language", {
 			items: [
 				{ key: "en", label: "English" },
@@ -303,14 +369,17 @@ const owc = new class OnlineWarbandCalculator
 		});
 	}(this);
 
+	/**
+	 * @returns The key for the `localStorage` entry of the current project.
+	 */
 	get warbandStorageKey ()
 	{
 		return "owc_#" + this.pid;
 	}
 
 	/**
-	 *
-	 * @param {URL} [url]
+	 * Generates a new project ID and updates the "pid" query parameter in the given URL.
+	 * @param {URL} [url] URL in which to update the "pid" query parameter. Defaults to the window location.
 	 */
 	newPid (url = new URL(window.location.href))
 	{
@@ -319,11 +388,17 @@ const owc = new class OnlineWarbandCalculator
 		window.history.replaceState({}, "", url);
 	}
 
+	/**
+	 * Provides a name for a file to store the warband.
+	 */
 	getFileName ()
 	{
 		return this.localizer.nonBlankWarbandName(this.warband.name) + ".owc.txt";
 	}
 
+	/**
+	 * Provides the warband's code including human-readable comments like name, points and date.
+	 */
 	getWarbandCode ()
 	{
 		const now = new Date();
@@ -342,26 +417,29 @@ const owc = new class OnlineWarbandCalculator
 		].join("\n");
 	}
 
+	/**
+	 * Provides an URL to share the current warband. This URL contains a "warband" query parameter with  warband's code instead of the "pid".
+	 */
 	getShareUrl ()
 	{
-		return absoluteUrl("?warband=" + encodeURIComponent(this.warband.toString()));
+		return this.meta.origin + "/?warband=" + encodeURIComponent(this.warband.toString());
 	}
 
 	/**
-	 *
-	 * @param {string} codeString
-	 * @returns
+	 * Imports a warband from a string. If successful, this replaces the current warband and clears the undo history.
+	 * @param {string} codeString String to be imported as a warband.
+	 * @returns `true` if the string succeeded to be imported as a warband, otherwise `false`.
 	 */
 	importWarband (codeString)
 	{
-		const warbandCode = codeString
-			.split("\n")
-			.filter(l => !l.trim().startsWith("#")) // Ignore all comment lines.
-			.map(l => decodeURI(l.replaceAll(/\s/g, ""))) // Remove all whitespace.
-			.join("");
 		const warbandBackup = this.warband.toString();
 		try
 		{
+			const warbandCode = codeString
+				.split("\n")
+				.filter(l => !l.trim().startsWith("#")) // Ignore all comment lines.
+				.map(l => decodeURI(l.replaceAll(/\s/g, ""))) // Remove all whitespace.
+				.join("");
 			this.warband.fromString(warbandCode);
 		}
 		catch (err)
@@ -377,27 +455,33 @@ const owc = new class OnlineWarbandCalculator
 		return true;
 	}
 
+	/**
+	 * Provides the warband as human-readable plain text with units and points pools.
+	 * The text is formatted according to the predefined unit format template.
+	 */
 	plainTextWarband ()
 	{
-		// const unitFormat = "{count} {name} {personalityFlag}\n{locale_points}: {points} | {locale_quality}: {quality}+ | {locale_combat}: {combat}\n{locale_specialrules}: {specialrules}\n------------------";
-		const unitFormat = "{count}{name}\tQ {quality}+ | C {combat} | {points} Pt.\n{specialrules}\t{personalityFlag}\n\n";
-		const result = [
-			this.localizer.nonBlankWarbandName(this.warband.name),
-			"",
+		const unitFormat = "{count} {name} {personalityFlag}\n{locale_points}: {points} | {locale_quality}: {quality}+ | {locale_combat}: {combat}\n{locale_specialrules}: {specialrules}";
+		const warbandName = this.localizer.nonBlankWarbandName(this.warband.name);
+		return [
+			warbandName + "\n" + "=".repeat(warbandName.length),
 			...this.warband.units.map(u => stringFill(unitFormat, {
-				count: (u.count > 1) ? `${u.count}x ` : "",
+				count: (u.count > 1) ? `${u.count}x` : "",
 				name: this.localizer.nonBlankUnitName(u.name),
 				personalityFlag: (u.isPersonality) ? `[${this.localizer.translate("personality")}]` : "",
 				points: u.points,
 				quality: u.quality,
 				combat: u.combat,
-				specialrules: u.specialrules.map(s => this.localizer.translate(s.key).replace("...", s.additionalText)).join(", "),
+				specialrules: (u.specialrules.length > 0) ? u.specialrules.map(s => this.localizer.translate(s.key).replace("...", s.additionalText)).join(", ") : "--",
 				locale_points: this.localizer.translate("points"),
 				locale_quality: this.localizer.translate("quality"),
 				locale_combat: this.localizer.translate("combat"),
 				locale_specialrules: this.localizer.translate("specialrules"),
-			}))
-		];
-		return result.join("\n");
+			})),
+			...Array.from(this.warband.pointsPools.entries()).map(([k, v]) => `${this.localizer.translate(k + "PointsPool")}: ${v} ${this.localizer.translate("points")}`),
+			document.querySelector("#totals").textContent,
+		]
+			.join("\n\n")
+			.replace(/^\x20+|\x20+$/gm, "");
 	}
 };
