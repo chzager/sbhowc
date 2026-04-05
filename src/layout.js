@@ -1,11 +1,11 @@
 /**
- * Basic class for the warband editor and unit profile layouts.
+ * Abstract base class for layouts of unit profiles in the warband editor.
  * @abstract
  */
 class OwcLayout
 {
 	/**
-	 * Unique identifier of this layout. As key for the {@linkcode OwcEditor}'s layouts directory.
+	 * Unique identifier of this layout, used as a key in the {@linkcode OwcEditor}'s layouts directory.
 	 * @type {string}
 	 * @abstract
 	 */
@@ -17,7 +17,7 @@ class OwcLayout
 	 */
 	constructor(editor, localizer)
 	{
-		// @ts-expect-error: "Property 'id' does not exist on type 'Function'" -> It actually does exist here, see line 9.
+		// @ts-expect-error: "Property 'id' does not exist on type 'Function'" -> It actually exist here (see line 9).
 		const thisId = /** @type {string} */(this.constructor.id);
 		if (this.constructor === OwcLayout)
 		{
@@ -38,7 +38,7 @@ class OwcLayout
 	}
 
 	/**
-	 * @returns {PageSnippetsProductionData} The individual layout's data to be passed to the page snippet on production. This extends the generic editor's page snippet data.
+	 * @returns {PageSnippetsProductionData} The layout-specific data passed to the page snippet during rendering. This extends the generic editor's page snippet data.
 	 */
 	get snippetData ()
 	{
@@ -50,7 +50,7 @@ class OwcLayout
 	 */
 	render ()
 	{
-		/** Most common used texts in unit profiles. @type {{[k: string]: string}} */
+		/** Most commonly used texts in unit profiles. @type {{[k: string]: string}} */
 		const locales = {
 			blankWarbandName: this.localizer.nonBlankWarbandName(),
 			blankUnitName: this.localizer.nonBlankUnitName(),
@@ -111,10 +111,8 @@ class OwcLayout
 	}
 
 	/**
-	 * Returns the warband's unit that is referenced on an event.
-	 *
-	 * This happens by finding the closests element having a `[data-id]` attribute which is assumed to provide the unit's id.
-	 * @param {UIEvent} event Triggering event for which to get the assigned unit.
+	 * Returns the warband's unit referenced by an event. This is done by finding the closest element with a `[data-id]` attribute, which provides the unit's ID.
+	 * @param {UIEvent} event The triggering event for which to retrieve the assigned unit.
 	 */
 	getEventUnit (event)
 	{
@@ -132,10 +130,9 @@ class OwcLayout
 	}
 
 	/**
-	 * Updates the element that prints the unit's points on the document. This it to not having to re-render the entire editor
-	 * on minor changes (but it also updates the warband summary).
+	 * Updates the element displaying the unit's points on the document. This avoids re-rendering the entire editor for minor changes (but also updates the warband summary).
 	 *
-	 * The respective element is found by having a `[name="points"]` attribute.
+	 * The corresponding element is found by its `[name="points"]` attribute.
 	 * @param {Unit} unit The affected unit.
 	 */
 	updateUnitPoints (unit)
@@ -146,7 +143,7 @@ class OwcLayout
 }
 
 /**
- * Basic class for layouts for desktop devices with physical input devices.
+ * Abstract base class for layouts for desktop devices with physical input devices.
  * @abstract
  */
 class OwcDesktopLayout extends OwcLayout
@@ -169,9 +166,9 @@ class OwcDesktopLayout extends OwcLayout
 	{
 		return {
 			/**
-			 * Renders elements that display and receive actions on an individual specialrule onto this element.
-			 * @param {HTMLElement} element The receipient element for the specialrules.
-			 * @param {OwcSpecialruleInstance} data The explicit specialrule to be rendered.
+			 * Renders elements for displaying and handling actions on an individual special rule within the given element.
+			 * @param {HTMLElement} element The recipient element for the special rules.
+			 * @param {OwcSpecialruleInstance} data The specific special rule to render.
 			 */
 			renderSpecialrule: (element, data) =>
 			{
@@ -209,19 +206,34 @@ class OwcDesktopLayout extends OwcLayout
 			/** @type {HTMLElement} */(element.querySelector(".specialrule-deletehelper")).onclick = (evt) => this.onSpecialruleDelete(evt);
 			},
 
-			/** @type {ElementEventHandler} */
+			/**
+			 * Event handler for when the warband name input loses focus. Applies the input's value as the new warband name.
+			 * @type {ElementEventHandler}
+			 */
 			onWarbandNameBlur: (evt) => this.editor.setWarbandName(evt.currentTarget.textContent),
 
-			/** @type {ElementEventHandler} */
+			/**
+			 * Event handler for when a unit's name input loses focus. Applies the input's value as the unit's new name.
+			 * @type {ElementEventHandler}
+			 */
 			onUnitNameBlur: (evt) => this.editor.setUnitName(this.getEventUnit(evt), evt.currentTarget.textContent),
 
-			/** @type {ElementEventHandler<HTMLInputElement>} */
+			/**
+			 * Event handler for when a unit's count input loses focus. Applies the input's value as the unit's new count.
+			 * @type {ElementEventHandler<HTMLInputElement>}
+			 */
 			onUnitCountChanged: (evt) => this.editor.setUnitCount(this.getEventUnit(evt), Number(evt.currentTarget.value)),
 
-			/** @type {ElementEventHandler<HTMLSelectElement>} */
+			/**
+			 * Event handler for when a unit's quality value dropdown loses focus. Applies the dropdown's value as the unit's new quality value.
+			 * @type {ElementEventHandler<HTMLSelectElement>}
+			 */
 			onQualityChanged: (evt) => this.editor.setUnitQuality(this.getEventUnit(evt), Number(evt.currentTarget.value)),
 
-			/** @type {ElementEventHandler<HTMLSelectElement>} */
+			/**
+			 * Event handler for when a unit's combat value dropdown loses focus. Applies the dropdown's value as the unit's new combat value.
+			 * @type {ElementEventHandler<HTMLSelectElement>}
+			 */
 			onCombatChanged: (evt) => this.editor.setUnitCombat(this.getEventUnit(evt), Number(evt.currentTarget.value)),
 
 			/**
@@ -240,8 +252,8 @@ class OwcDesktopLayout extends OwcLayout
 	}
 
 	/**
-	 * Handles clicks on a "specialrule deletehelper". Calls the editor for removal of the affected specialrule from its unit.
-	 * @param {UIEvent} event Triggering event.
+	 * Handles clicks on a "special rule delete helper". Calls the editor to remove the affected special rule from its unit.
+	 * @param {UIEvent} event The triggering event.
 	 */
 	onSpecialruleDelete (event)
 	{
@@ -255,8 +267,8 @@ class OwcDesktopLayout extends OwcLayout
 	}
 
 	/**
-	 * Handles changes of a specifiable specialrules's additional text. Calls the editor for updating the affected specialrule's additional text in its unit.
-	 * @param {FocusEvent} event Triggering event.
+	 * Handles changes to a specifiable special rule's additional text. Calls the editor to update the affected special rule's additional text in its unit.
+	 * @param {FocusEvent} event The triggering event.
 	 */
 	onSepcialruleTextChange (event)
 	{

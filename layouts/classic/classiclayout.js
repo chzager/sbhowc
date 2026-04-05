@@ -1,5 +1,5 @@
 /**
- * Layout for classic unit profiles as known from the rule books; with inputs for desktop devices.
+ * Layout for classic unit profiles (as seen in the rule books) with inputs for desktop devices.
  */
 class ClassicLayout extends OwcDesktopLayout
 {

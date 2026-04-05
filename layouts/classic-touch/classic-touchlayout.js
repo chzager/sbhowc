@@ -1,12 +1,14 @@
-// DOC entire file
 /**
- * Layout for classic unit profiles as known from the rule books; with inputs for touch devices.
+ * Layout for classic unit profiles (as seen in the rule books), optimized with inputs for touch devices.
  */
 class ClassicTouchLayout extends OwcLayout
 {
 	/** @type {"classic-touch"} No more abstract. */
 	static id = "classic-touch";
 
+	/**
+	 * Menubox for setting a unit's quality value.
+	 */
 	#qualityMenu = new Menubox2("quality[classic-touch]", {
 		items: [
 			{ label: this.localizer.translate("quality") },
@@ -29,6 +31,9 @@ class ClassicTouchLayout extends OwcLayout
 		},
 	});
 
+	/**
+	 * Menubox for setting a unit's combat value.
+	 */
 	#combatMenu = new Menubox2("combat[classic-touch]", {
 		items: [
 			{ label: this.localizer.translate("combat") },
@@ -56,9 +61,9 @@ class ClassicTouchLayout extends OwcLayout
 	{
 		return {
 			/**
-			 * Renders elements that display and receive actions on an individual specialrule onto this element.
-			 * @param {HTMLElement} element The receipient element for the specialrules.
-			 * @param {OwcSpecialruleInstance} data The explicit specialrule to be rendered.
+			 * Renders elements for displaying and handling actions on an individual special rule within the given element.
+			 * @param {HTMLElement} element The recipient element for the special rules.
+			 * @param {OwcSpecialruleInstance} data The specific special rule to render.
 			 */
 			renderSpecialrule: (element, data) =>
 			{
@@ -79,7 +84,11 @@ class ClassicTouchLayout extends OwcLayout
 				}
 			},
 
-			/** @type {AsyncElementEventHandler} */
+			/**
+			 * Event handler for clicks on the warband name.
+			 * Shows an input dialog to prompt the new warband name and applies it if confirmed.
+			 * @type {AsyncElementEventHandler}
+			 */
 			promptWarbandName: async (evt) =>
 			{
 				const triggerElement = evt.currentTarget;
@@ -92,7 +101,10 @@ class ClassicTouchLayout extends OwcLayout
 				triggerElement.textContent = this.localizer.nonBlankWarbandName(newValue);
 			},
 
-			/** @type {AsyncElementEventHandler} */
+			/**
+			 * Event handler for clicks on a unit's name. Shows an input dialog to prompt for the unit's new name and applies it if confirmed.
+			 * @type {AsyncElementEventHandler}
+			 */
 			promptUnitName: async (evt) =>
 			{
 				const triggerElement = evt.currentTarget;
@@ -106,7 +118,10 @@ class ClassicTouchLayout extends OwcLayout
 				triggerElement.textContent = this.localizer.nonBlankUnitName(newValue);
 			},
 
-			/** @type {AsyncElementEventHandler<HTMLInputElement>} */
+			/**
+			 * Event handler for clicks on a unit's count. Shows an input dialog to prompt for the unit's new count and applies it if confirmed.
+			 * @type {AsyncElementEventHandler<HTMLInputElement>}
+			 */
 			promptUnitCount: async (evt) =>
 			{
 				const triggerElement = evt.currentTarget;
@@ -121,13 +136,22 @@ class ClassicTouchLayout extends OwcLayout
 				triggerElement.textContent = `x${newValue}`;
 			},
 
-			/** @type {ElementEventHandler<HTMLElement,PointerEvent>} evt */
+			/**
+			 * Event handler for clicks on a unit's quality value. Shows a menu to select the unit's new quality value and applies it.
+			 * @type {ElementEventHandler<HTMLElement,PointerEvent>}
+			 */
 			promptQuality: (evt) => this.#qualityMenu.popup(evt, this.getEventUnit(evt)),
 
-			/** @type {ElementEventHandler<HTMLElement,PointerEvent>} evt */
+			/**
+			 * Event handler for clicks on a unit's combat value. Shows a menu to select the unit's new combat value and applies it.
+			 * @type {ElementEventHandler<HTMLElement,PointerEvent>}
+			 */
 			promptCombat: (evt) => this.#combatMenu.popup(evt, this.getEventUnit(evt)),
 
-			/** @type {AsyncElementEventHandler} */
+			/**
+			 * Event handler for clicks on a points pool. Shows an input dialog to prompt for the points in that pool and applies them if confirmed.
+			 * @type {AsyncElementEventHandler}
+			 */
 			promptPoolPoints: async (evt) =>
 			{
 				const triggerElement = evt.currentTarget;
