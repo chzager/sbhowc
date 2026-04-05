@@ -264,7 +264,7 @@ class OwcEditor
 	{
 		if (this.#applyManipulation(
 			`Set count of ${this.localizer.nonBlankUnitName(unit.name)}`,
-			() => unit.count = val
+			() => unit.count = Math.max(val, 1)
 		))
 		{
 			this.#currentLayout.updateUnitPoints(unit);
