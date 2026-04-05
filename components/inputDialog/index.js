@@ -24,39 +24,53 @@ const inputDialog = new class
 	 * @overload
 	 * @param {"text"} type
 	 * @param {string} title
-	 * @param {string} [value]
+	 * @param {string} [presetValue]
 	 * @returns {Promise<string>}
 	 *
 	 * @overload
 	 * @param {"number"} type
 	 * @param {string} title
-	 * @param {number} [value]
+	 * @param {number} [presetValue]
 	 * @param {number} [min] Minimum allowed number.
 	 * @param {number} [max] Maximum allowed number.
 	 * @returns {Promise<number>}
 	 *
 	 * @param {"text"|"number"} type Type of the input value.
 	 * @param {string} title Title of the dialog.
-	 * @param {string|number} [value] Preset value.
+	 * @param {string|number} [presetValue] Preset value.
 	 * @param {...any} args Additional values depending on the value type.
 	 * @returns {Promise<number|string>}
 	 */
-	prompt (type, title, value, ...args)
+	prompt (type, title, presetValue, ...args)
 	{
 		return new Promise(resolve =>
 		{
 			// Methods:
 			const confirm = () =>
 			{
-				const value = this.#element.querySelector("input").value;
-				resolve((type === "number") ? Number(value) : value);
-				this.close();
+				const newValue = this.#element.querySelector("input").value;
+				if (type === "number")
+				{
+					const numValue = Number(newValue);
+					const min = args[0];
+					const max = args[1];
+					if (((typeof min !== "number") || numValue >= min) && ((typeof max !== "number") || numValue <= max))
+					{
+						resolve(numValue);
+						this.close();
+					}
+				}
+				else
+				{
+					resolve(newValue);
+					this.close();
+				}
 			};
 			// Actual code:
 			const snippetData = {
 				type: type,
 				title: title,
-				value: value,
+				value: presetValue,
 				onKeyDown: (/** @type {KeyboardEvent} */evt) =>
 				{
 					if (["Enter", "NumpadEnter"].includes(evt.key))
@@ -77,10 +91,10 @@ const inputDialog = new class
 			// shrinks available height, so we set the position of the prompt menu to the upper quarter.
 			this.#element.style.top = Math.round((window.innerHeight / 4) - (this.#element.offsetHeight / 2)) + "px";
 			this.#element.style.left = Math.round(((visualViewport?.width ?? window.innerWidth) - this.#element.offsetWidth) / 2) + "px";
+			const inputElement = this.#element.querySelector("input");
+			inputElement.focus();
 			if (type === "text")
 			{
-				const inputElement = this.#element.querySelector("input");
-				inputElement.focus();
 				setTimeout(() =>
 				{
 					const length = inputElement.value.length;
