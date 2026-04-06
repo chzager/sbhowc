@@ -4,8 +4,7 @@
 const inputDialog = new class
 {
 	/**
-	 * An HTML element that locks the entire document (through overlaying the full viewport) and
-	 * holds the actual input dialog element.
+	 * An HTML element that locks the entire document (through overlaying the full viewport) and holds the actual input dialog element.
 	 */
 	#veil = document.body.appendChild(makeElement(
 		"div#inputDialogVeil",
@@ -15,7 +14,10 @@ const inputDialog = new class
 		}
 	));
 
-	/** The HTML element that renders the input dialog on the document. @type {HTMLElement} */
+	/**
+	 * The HTML element that renders the input dialog on the document.
+	 * @type {HTMLElement}
+	 */
 	#element;
 
 	/**
@@ -45,10 +47,9 @@ const inputDialog = new class
 	{
 		return new Promise(resolve =>
 		{
-			// Methods:
 			const confirm = () =>
 			{
-				const newValue = this.#element.querySelector("input").value;
+				const newValue = this.#element.querySelector("input").value.trim().replace(/\s+/g, " "); // Remove multiple whitespaces.
 				if (type === "number")
 				{
 					const numValue = Number(newValue);
@@ -66,7 +67,6 @@ const inputDialog = new class
 					this.close();
 				}
 			};
-			// Actual code:
 			const snippetData = {
 				type: type,
 				title: title,
@@ -99,7 +99,7 @@ const inputDialog = new class
 				{
 					const length = inputElement.value.length;
 					inputElement.setSelectionRange(length, length);
-				}, 1);
+				}, 10);
 			}
 		});
 	}
