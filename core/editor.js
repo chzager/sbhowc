@@ -420,13 +420,24 @@ class OwcEditor
 	}
 
 	/**
+	 * @returns The best available name for the warband. This is either the warband's name, or if blank, the first unit's name, or if that is blank too, the localized default warband name.
+	 */
+	get #warbandOrUnitName ()
+	{
+		return (this.warband.name || this.warband.units[0]?.name || this.localizer.nonBlankWarbandName());
+	}
+
+	/**
 	 * Updates the window title with _"\<warband name\> (\<points\>) \<title\>_".
 	 */
 	updateWindowTitle ()
 	{
-		document.title = (this.warband.name || this.warband.units[0]?.name || this.localizer.nonBlankWarbandName())
-			+ ` (${this.warband.points} ${this.localizer.translate("points")}) - `
-			+ owc.meta.title;
+		document.title = [
+			this.#warbandOrUnitName,
+			`(${this.warband.points} ${this.localizer.translate("points")})`,
+			"-",
+			owc.meta.title
+		].join(" ");
 		document.getElementById("warband-print-code").textContent = this.warband.toString();
 	}
 
@@ -464,7 +475,7 @@ class OwcEditor
 		if (!this.warband.isEmpty)
 		{
 			localStorage?.setItem(owc.warbandStorageKey, JSON.stringify({
-				title: this.warband.name,
+				title: this.#warbandOrUnitName,
 				figures: this.warband.figureCount,
 				points: this.warband.points,
 				data: this.warband.toString(),
