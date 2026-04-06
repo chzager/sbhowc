@@ -192,7 +192,12 @@ const owc = new class OnlineWarbandCalculator
 				},
 				{
 					key: "new-window", label: "New warband in a new window", icon: "fa-solid fa-up-right-from-square",
-					callback: () => window.open(window.location.origin + window.location.pathname)
+					callback: () =>
+					{
+						const newUrl = new URL(window.location.origin + window.location.pathname);
+						this.parent.newPid(newUrl);
+						window.open(newUrl);
+					}
 				},
 				{
 					key: "clone-to-new-window", label: "Clone this warband to a new window", icon: "fa-solid fa-clone",
