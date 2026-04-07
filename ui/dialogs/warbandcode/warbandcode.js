@@ -30,9 +30,9 @@ const warbandcodeBluebox = new class extends Bluebox
 					this.#textarea.value = text;
 					notifications.notify("The clipboard content was pasted.", "green");
 				}
-				catch (error)
-				{
-					console.error(error);
+				catch (cause)
+				{ // If we can't read the clipboard, then that's just how it is.
+					console.error(cause);
 					notifications.notify("Failed to read clipboard.", "red");
 				}
 			},

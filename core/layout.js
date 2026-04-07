@@ -88,7 +88,10 @@ class OwcLayout
 						{ onclick: () => this.editor.addUnit(clipboardUnit) }
 					));
 				}
-				catch {}
+				catch (cause)
+				{ // If we can't read what's in the editor's clipboard, then that's just how it is. Maybe it's even empty.
+					console.error(cause);
+				}
 			}
 		};
 		for (const [name, value] of Object.entries(this.snippetData))

@@ -83,9 +83,9 @@ const owc = new class OnlineWarbandCalculator
 						this.newPid(url);
 					}
 				}
-				catch (e) // No big deal if the warband could not be restored from localStorage. Maybe the PID didn't even exist.
-				{
-					console.info("Could not restore warband:", e);
+				catch (cause)
+				{ // No big deal if the warband could not be restored from localStorage. Maybe the PID didn't even exist.
+					console.info("Could not restore warband:", cause);
 					this.warband.clear().addUnit();
 				}
 			})
@@ -447,9 +447,9 @@ const owc = new class OnlineWarbandCalculator
 				.join("");
 			this.warband.fromString(warbandCode);
 		}
-		catch (err)
-		{
-			console.error((err instanceof Error) ? err.message : err);
+		catch (cause)
+		{ // If importing a warband from that stings failed, restore the previous one.
+			console.error(cause);
 			this.warband.fromString(warbandBackup);
 			return false;
 		}
