@@ -38,7 +38,7 @@
 					</ps:if>
 					<span>{{textBefore}}</span>
 					<ps:if test="!!{{additionalText}}">
-						<span contenteditable="plaintext-only" data-blank="..." ps:onclick="additionalTextClicked" ps:onblur="setAdditionalText">{{additionalText}}</span>
+						<span contenteditable="plaintext-only" data-blank="..." enterkeyhint="done" ps:onclick="additionalTextClicked" ps:onblur="setAdditionalText">{{additionalText}}</span>
 						<ps:if test="{{textAfter}}">
 							<span>{{textAfter}}</span>
 						</ps:if>

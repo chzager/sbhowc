@@ -8,10 +8,10 @@
 				<h1>{{title}}</h1>
 				<ps:choose>
 					<ps:if test="{{type}} === 'text'">
-						<input type="text" value="{{value}}" ps:onkeydown="onKeyDown" />
+						<input type="text" value="{{value}}" enterkeyhint="done" ps:onkeydown="onKeyDown" />
 					</ps:if>
 					<ps:if test="{{type}} === 'number'">
-						<input type="number" min="{{min}}" max="{{max}}" value="{{value}}" ps:onkeydown="onKeyDown" />
+						<input type="number" min="{{min}}" max="{{max}}" enterkeyhint="done" value="{{value}}" ps:onkeydown="onKeyDown" />
 					</ps:if>
 				</ps:choose>
 				<div class="buttons">
