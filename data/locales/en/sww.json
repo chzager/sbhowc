@@ -1,5 +1,5 @@
 ﻿{
-	"$schema": "../../schemas/locale.json",
+	"$schema": "../../../schemas/locale.json",
 	"bm": "Beastmaster",
 	"be": "Berserk",
 	"bu": "Burrowing",

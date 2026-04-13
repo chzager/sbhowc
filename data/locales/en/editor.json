@@ -1,5 +1,5 @@
 {
-	"$schema": "../../schemas/locale.json",
+	"$schema": "../../../schemas/locale.json",
 	"points": "Points",
 	"quality": "Quality",
 	"combat": "Combat",
