@@ -6,7 +6,7 @@ class OwcSettings
 	/** Key that is used in the localStorage for storing the settings. */
 	static STORAGE_KEY = "owc_settings";
 
-	/** Default setting values. */
+	/** Default setting values. @type {OwcSettingsRecord} */
 	static DEFAULTS = Object.freeze({
 		"rulebook.sam.enabled": false,
 		"rulebook.sdg.enabled": false,
@@ -26,7 +26,7 @@ class OwcSettings
 
 	/**
 	 * Internal storage of the current values.
-	 * @type {typeof OwcSettings.DEFAULTS}
+	 * @type {OwcSettingsRecord}
 	 */
 	#properties = Object.assign({}, OwcSettings.DEFAULTS);
 
@@ -46,23 +46,22 @@ class OwcSettings
 
 	/**
 	 * Sets a settings properties value. This may trigger a reload of data or re-rendering of the editor.
-	 * @param {keyof typeof OwcSettings.DEFAULTS} name Name of the settings property to set.
+	 * @param {keyof OwcSettingsRecord} name Name of the settings property to set.
 	 * @param {any} value The new value of the settings property.
 	 */
 	setProperty (name, value)
 	{
-		if (typeof value !== typeof this.#properties[name])
-		{
-			console.error(`Bad type for property "${name}": ${typeof value}. Expected ${typeof this.#properties[name]}.`);
-		}
-		else if (!Object.keys(OwcSettings.DEFAULTS).includes(name))
+		if (!Object.keys(OwcSettings.DEFAULTS).includes(name))
 		{
 			console.error(`Unknown property "${name}".`);
 		}
+		else if (typeof value !== typeof this.#properties[name])
+		{
+			console.error(`Bad type for property "${name}": ${typeof value}. Expected ${typeof this.#properties[name]}.`);
+		}
 		else
 		{
-			// @ts-expect-error: Cannot assign to '"defaults.combat"' because it is a read-only property. -> `this.#properties` is not read-only.
-			this.#properties[name] = value;
+				/** @type {Record<keyof OwcSettingsRecord, AnyPrimitive>} */(this.#properties)[name] = value;
 			this.save();
 			switch (name)
 			{
@@ -114,7 +113,6 @@ class OwcSettings
 	 */
 	get ruleScope ()
 	{
-		// @ts-expect-error: Type '(string | false)[]' is not assignable to type 'string[]'. -> `filter(Boolean)` at the end ensures that there are no falsy values in the result array.
 		return [
 			"sbh",
 			this.#properties["rulebook.sam.enabled"] && "sam",
@@ -171,8 +169,9 @@ class OwcSettings
 	{
 		if (!this.#isLoading)
 		{
+			/** @type {Partial<Record<keyof OwcSettingsRecord, AnyPrimitive>>} */
 			const data = {};
-			for (const key of Object.keys(OwcSettings.DEFAULTS))
+			for (const key of /** @type {Array<keyof OwcSettingsRecord>} */(Object.keys(OwcSettings.DEFAULTS)))
 			{
 				data[key] = this.#properties[key];
 			}
@@ -186,15 +185,14 @@ class OwcSettings
 	load ()
 	{
 		this.#isLoading = true;
-		let storedSettings = {};
 		try
 		{
-			storedSettings = JSON.parse(localStorage?.getItem(OwcSettings.STORAGE_KEY) ?? "{}");
+			/** @type {Partial<OwcSettingsRecord>} */
+			const storedSettings = JSON.parse(localStorage?.getItem(OwcSettings.STORAGE_KEY) ?? "{}");
 			if (storedSettings)
 			{
-				for (const [key, value] of Object.entries(OwcSettings.DEFAULTS))
+				for (const [key, value] of /** @type {Array<[keyof OwcSettingsRecord, AnyPrimitive]>} */(Object.entries(OwcSettings.DEFAULTS)))
 				{
-					// @ts-expect-error: Argument of type 'string' is not assignable to parameter of type '"rulebook.sam.enabled" | ...' -> `setProperty()` checks the given key is a `keyof typeof OwcSettings.properties` and can legally be asigned.
 					this.setProperty(key, storedSettings[key] ?? value);
 				}
 			}

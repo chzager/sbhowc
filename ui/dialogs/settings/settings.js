@@ -24,7 +24,7 @@ const settingsBluebox = new class extends Bluebox
 			{
 				settings.setProperty(
 					"editor.layout",
-						/** @type {HTMLElement} */(this.element.querySelector('input[data-layout]:checked')).dataset.layout
+					/** @type {HTMLElement} */(this.element.querySelector('input[data-layout]:checked')).dataset.layout
 				);
 			},
 			setProperty: (/** @type {UIEvent} */evt) =>
@@ -32,18 +32,19 @@ const settingsBluebox = new class extends Bluebox
 				if (isInputElement(evt.currentTarget))
 				{
 					const name = evt.currentTarget.id;
-					/** @type {string|number|boolean} */
-					let value = evt.currentTarget.value;
+					const value = evt.currentTarget.value;
+					/** @type {AnyPrimitive} */
+					let typedValue;
 					if (evt.currentTarget instanceof HTMLInputElement)
 					{
 						switch (evt.currentTarget.type)
 						{
 							case "number":
-								value = Number(value);
+								typedValue = Number(value);
 								break;
 							case "checkbox":
 							case "radio":
-								value = evt.currentTarget.checked;
+								typedValue = evt.currentTarget.checked;
 								break;
 						}
 					}
@@ -52,12 +53,12 @@ const settingsBluebox = new class extends Bluebox
 						switch (evt.currentTarget.dataset.type)
 						{
 							case "number":
-								value = Number(value);
+								typedValue = Number(value);
 								break;
 						}
 					}
-					// @ts-expect-error: Argument of type 'string' is not assignable to parameter of type '"rulebook.sam.enabled" | ... ' - `string` is not compatible with `keyof typeof OwcSettings.properties` can be ignored because `setProperty()` checks the name.
-					settings.setProperty(name, value);
+					// @ts-expect-error: Argument of type 'string' is not assignable to parameter of type 'keyof OwcSettingsRecord'. -> TS is right. `name` comes from the UI which can't be forced to use proper values. That's why `setProperty()` checks it.
+					settings.setProperty(name, typedValue);
 				}
 			},
 			apply: () =>
@@ -65,16 +66,16 @@ const settingsBluebox = new class extends Bluebox
 				this.close();
 			},
 		});
-
+		// Populate the UI controls with the current settings values.
 		/** @type {HTMLInputElement} */(this.element.querySelector(`input[data-layout="${settings.editorLayout}"]`)).checked = true;
 		for (const [name, value] of Object.entries(settings.getAllProperties()))
 		{
 			const ele = this.element.querySelector(`[id="${name}"]`);
 			if (isInputElement(ele))
 			{
-				if ((ele.type === "checkbox") && (typeof value === "boolean"))
+				if (ele.type === "checkbox")
 				{
-					ele.checked = value;
+					ele.checked = !!value;
 				}
 				else if (typeof value === "string")
 				{

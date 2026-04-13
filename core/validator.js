@@ -128,10 +128,10 @@ class WarbandValidator
 				const mem = new Set();
 				for (const specialrule of unit.specialrules)
 				{
-					for (const property of ["variants", "excludes"])
+					const specialruleDefintion = this.warband.specialrulesDirectory.get(specialrule.key);
+					for (const uniqueKeysInProperty of [specialruleDefintion.variants, specialruleDefintion.excludes])
 					{
-						const uniqueKeys = this.warband.specialrulesDirectory.get(specialrule.key)[property];
-						for (const uniqueKey of uniqueKeys ?? [])
+						for (const uniqueKey of uniqueKeysInProperty ?? [])
 						{
 							if (!mem.has(uniqueKey + specialrule.key) && unit.hasSpecialrule(uniqueKey))
 							{

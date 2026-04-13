@@ -59,21 +59,20 @@ class SpecialrulesSelector
 		const mapSpecialrule = (/** @type {OwcSpecialruleDirectoryEntry|OwcSpecialruleInstance} */srl) =>
 		{
 			const specialruleLocaleText = (this.localizer.has(srl.key)) ? this.localizer.translate(srl.key) : this.specialrulesDirectory.get(srl.key).label;
+			/** @type {SpecialrulesSelectorItem} */
 			const r = {
 				key: srl.key,
 				points: srl.points,
 				pointsSign: Math.sign(srl.points),
 				isPersonality: this.specialrulesDirectory.get(srl.key).personality ?? false,
-				textBefore: specialruleLocaleText,
-				displayText: specialruleLocaleText,
+				text: specialruleLocaleText,
 			};
 			if (specialruleLocaleText.includes("..."))
 			{
 				const [textBefore, textAfter] = specialruleLocaleText.split("...");
-				const additionalText = (("additionalText" in srl) ? srl.additionalText : "") || "...";
-				r.displayText = [textBefore, additionalText, textAfter].join("\u0020").replaceAll(/\s{2,}/g, " ").trim();
-				r.textBefore = textBefore;
-				r.additionalText = additionalText;
+				const specificationText = (("additionalText" in srl) ? srl.additionalText : "") || "...";
+				r.text = textBefore;
+				r.specificationText = specificationText;
 				r.textAfter = textAfter;
 			}
 			return r;
@@ -92,7 +91,7 @@ class SpecialrulesSelector
 			availableSpecialrules: specialrules
 				.filter(s => !unit.specialrules.some(z => (z.key === s.key)))
 				.map(mapSpecialrule)
-				.sort((a, b) => a.displayText.localeCompare(b.displayText)),
+				.sort((a, b) => a.text.localeCompare(b.text)),
 
 			/** @type {ElementEventHandler} */
 			additionalTextClicked: (evt) =>

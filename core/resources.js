@@ -39,7 +39,7 @@ class OwcLocalizer extends Map
 	 */
 	import (...resourceKey)
 	{
-		/** @type {Array<Promise>} */
+		/** @type {Array<Promise<any>>} */
 		const asyncs = [];
 		for (const k of resourceKey)
 		{
@@ -121,7 +121,7 @@ class OwcSpecialrulesDirectory extends Map
 		{
 			throw new Error("Already loaded.");
 		}
-		/** @type {Array<Promise>} */
+		/** @type {Array<Promise<any>>} */
 		const asyncs = [];
 		for (const rulebookAbbr of ["sbh", "sgd", "sww", "sdg", "sam"])
 		{
@@ -148,12 +148,12 @@ class OwcSpecialrulesDirectory extends Map
 		for (const specialrule of super.values())
 		{
 			// Manage recursive references:
-			for (const property of ["replaces", "variants"])
+			for (const property of /** @type {Array<keyof OwcSpecialruleDirectoryEntry>} */(["replaces", "variants"]))
 			{
-				const propertyKeys = specialrule[property] ?? [];
+				const propertyKeys = /** @type {Array<string>} */(specialrule[property] ?? []); // Only properties with `string[]` type are used here, so this is safe.
 				for (const propertyKey of propertyKeys)
 				{
-					const otherSpecialrules = (super.get(propertyKey)[property] ??= []);
+					const otherSpecialrules = /** @type {Array<string>} */(super.get(propertyKey)[property] ?? []);
 					for (const otherKey of [specialrule.key, ...propertyKeys])
 					{
 						!otherSpecialrules.includes(otherKey) && (propertyKey !== otherKey) && otherSpecialrules.push(otherKey);

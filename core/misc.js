@@ -242,6 +242,7 @@ function makeElement (definition, ...content)
 						}
 						else
 						{
+							// @ts-expect-error "implicit any".
 							element[key] = value;
 						}
 					}

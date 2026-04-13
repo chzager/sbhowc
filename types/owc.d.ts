@@ -1,6 +1,8 @@
 // Generic basic type:
 type ElementEventHandler<T extends HTMLElement = HTMLElement, E extends UIEvent = UIEvent> = (event: E & { currentTarget: T }) => any;
 type AsyncElementEventHandler<T extends HTMLElement = HTMLElement, E extends UIEvent = UIEvent> = (event: E & { currentTarget: T }) => Promise<any>;
+/** Any primitive type. */
+type AnyPrimitive = string | number | boolean;
 
 /** A special rule as it is assigned to an unit. */
 interface OwcSpecialruleInstance {
@@ -141,4 +143,36 @@ interface OwcRestorerItem {
 	code: string;
 	/** Hashes of keys in the `localStorage` that contain the very same warband. */
 	foundIn: Array<string>;
+}
+
+// DOC
+interface OwcSettingsRecord {
+	/** Enable the specialrules of the "Song of Arthur and Merlin" rulebook. */
+	"rulebook.sam.enabled": boolean;
+	/** Enable the specialrules of the "Song of Deeds and Glory" rulebook. */
+	"rulebook.sdg.enabled": boolean;
+	/** Enable the specialrules of the "Song of Gold and Darkness" rulebook. */
+	"rulebook.sgd.enabled": boolean;
+	/** Enable the specialrules of the "Song of Wind and Water" rulebook. */
+	"rulebook.sww.enabled": boolean;
+	/** Default quality value for new units. */
+	"defaults.quality": number;
+	/** Default combat value for new units. */
+	"defaults.combat": number;
+	/** Language code used by the editor/localizer. */
+	"editor.language": string;
+	/** Selected editor layout identifier. */
+	"editor.layout": string;
+	/** Display the figure count in the warband summary. */
+	"editor.countFigures": boolean;
+	/** Show personalities as points instead of percent. */
+	"editor.personalitiesInPoints": boolean;
+	/** Enable rule checking in the editor. */
+	"editor.applyRuleChecks": boolean;
+	/** Highlight personalities in the editor layout. */
+	"editor.highlightPersonalities": boolean;
+	/** Include warband code in print output. */
+	"print.warbandCode": boolean;
+	/** Include warning messages in print output. */
+	"print.warnings": boolean;
 }

@@ -29,6 +29,7 @@ const owc = new class OnlineWarbandCalculator
 			let text = node.innerText;
 			for (const [match, key] of text.matchAll(/\{\{(\w+)\}\}/g))
 			{
+				// @ts-expect-error "implicit any".
 				text = text.replace(match, this.meta[key] || key);
 			}
 			node.innerText = text;
