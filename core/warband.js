@@ -15,15 +15,15 @@ class Unit
 		this.id = Math.floor(Math.random() * 1e12).toString(16);
 		/** The warband to which this unit belongs. */
 		this.warband = warband;
-		/** Count of physical figures in this OWC unit item. Default: 1. */
+		/** Count of physical figures in this OWC unit item. Default: `1`. */
 		this.count = 1;
 		/** Name of this unit. */
 		this.name = "";
-		/** Quality of this unit. Range: 2 (best) to 6 (worst), default: 3. */
+		/** Quality of this unit, from `2` (best) to `6` (worst). */
 		this.quality = this.warband.unitDefaults.quality;
-		/** Combat value of this unit. Range: 0 (worst) to 6 (best), default: 3. */
+		/** Combat value of this unit, from `0` (worst) to `6` (best). */
 		this.combat = this.warband.unitDefaults.combat;
-		/** Specialrules of this unit. @type {Array<OwcSpecialruleInstance>} */
+		/** Special rules of this unit. @type {Array<OwcSpecialruleInstance>} */
 		this.specialrules = [];
 	}
 
@@ -36,7 +36,7 @@ class Unit
 	}
 
 	/**
-	 * @returns The point costs of this unit calculated upon its quality, combat value and specialrules.
+	 * @returns The point costs of this unit calculated upon its quality, combat value and special rules.
 	 */
 	get points ()
 	{
@@ -48,7 +48,7 @@ class Unit
 	}
 
 	/**
-	 * @returns Whether this unit is a _personality_ or not. Certain specialrules make units personalities.
+	 * @returns Whether this unit is a _personality_ or not. Certain special rules make units personalities.
 	 */
 	get isPersonality ()
 	{
@@ -56,9 +56,9 @@ class Unit
 	}
 
 	/**
-	 * Tests if this unit has a certain specialrule or not.
-	 * @param {string} specialruleKey Id of the specialrule to query.
-	 * @returns `true` if the unit does have the queried specialrule, otherwise `false`.
+	 * Tests if this unit has a certain special rule or not.
+	 * @param {string} specialruleKey Id of the special rule to query.
+	 * @returns `true` if the unit does have the queried special rule, otherwise `false`.
 	 */
 	hasSpecialrule (specialruleKey)
 	{
@@ -66,12 +66,12 @@ class Unit
 	}
 
 	/**
-	 * Gives this unit a specialrule.
+	 * Gives this unit a special rule.
 	 *
-	 * This handles the `replaces` directive if defined on the specialrule (e.g. "Shooter (long)" replaces "Shooter (medium)").
+	 * This handles the `replaces` directive if defined on the special rule (e.g. "Shooter (long)" replaces "Shooter (medium)").
 	 *
-	 * @param {string} specialruleKey Key of specialrule to add.
-	 * @returns `true` if the specialrule has been added, otherwise `false`.
+	 * @param {string} specialruleKey Key of special rule to add.
+	 * @returns `true` if the special rule has been added, otherwise `false`.
 	 */
 	addSpecialrule (specialruleKey)
 	{
@@ -93,7 +93,7 @@ class Unit
 				};
 				if (resource.needsSpecification)
 				{
-					specialrule.additionalText = "...";
+					specialrule.specificationText = "...";
 				}
 				this.specialrules.push(specialrule);
 				if (resource.replaces !== undefined)
@@ -120,13 +120,13 @@ class Unit
 		}
 		else
 		{
-			throw new Error(`No resource for specialrule "${specialruleKey}".`);
+			throw new Error(`No resource for special rule "${specialruleKey}".`);
 		}
 		return result;
 	}
 
 	/**
-	 * Removes a specialrule from this unit's specialrules.
+	 * Removes a special rule from this unit's special rules.
 	 * @param {string} specialruleKey Key of special rule to be removed from this unit.
 	 */
 	removeSpecialrule (specialruleKey)
@@ -156,9 +156,9 @@ class Unit
 			for (let specialrule of this.specialrules)
 			{
 				specialsCode += specialrule.key;
-				if (!!specialrule.additionalText)
+				if (!!specialrule.specificationText)
 				{
-					specialTextsCode += "!" + specialrule.additionalText;
+					specialTextsCode += "!" + specialrule.specificationText;
 				}
 			}
 			result += specialsCode + specialTextsCode;
@@ -198,18 +198,18 @@ class Unit
 				if (specialrules)
 				{
 					const unitsSpecialTexts = unitString.match(/![^!]+/g);
-					let additionalTextIndex = 0;
+					let specificationTextIndex = 0;
 					for (const [specialruleKey] of specialrules.matchAll(/[a-z0-9]{2}/g))
 					{
 						this.addSpecialrule(specialruleKey);
 						const currentSpecialrule = this.specialrules[this.specialrules.length - 1];
-						if (currentSpecialrule.additionalText)
+						if (currentSpecialrule.specificationText)
 						{
 							if (unitsSpecialTexts)
 							{
-								currentSpecialrule.additionalText = String(unitsSpecialTexts[additionalTextIndex]).substring(1);
+								currentSpecialrule.specificationText = String(unitsSpecialTexts[specificationTextIndex]).substring(1);
 							}
-							additionalTextIndex += 1;
+							specificationTextIndex += 1;
 						}
 					}
 				}
@@ -233,11 +233,11 @@ class Warband
 	static UNIT_SEPARATOR = "@";
 
 	/**
-	 * @param {OwcSpecialrulesDirectory} specialrulesDirectory A directory that contains specialrules.
+	 * @param {OwcSpecialrulesDirectory} specialrulesDirectory A directory that contains special rules.
 	 */
 	constructor(specialrulesDirectory)
 	{
-		/** The directory that contains specialrules. */
+		/** The directory that contains special rules. */
 		this.specialrulesDirectory = specialrulesDirectory;
 		/** Default quality and combat values for new units. @type {OwcUnitDefaults} */
 		this.unitDefaults = { quality: 3, combat: 3 };
@@ -245,7 +245,7 @@ class Warband
 		this.name = "";
 		/** Units of this warband. @type {Array<Unit>} */
 		this.units = [];
-		/** Warband points stored in (summoning) pools where keys are specialrule keys and values are the points stored in the respective pool. @type {Map<string,number>} */
+		/** Warband points stored in (summoning) pools where keys are special rule keys and values are the points stored in the respective pool. @type {Map<string,number>} */
 		this.pointsPools = new Map();
 	}
 
@@ -310,7 +310,7 @@ class Warband
 	}
 
 	/**
-	 * Ensures that for all units of this warband with "pooling" specialrules a respective points pool is created.
+	 * Ensures that for all units of this warband with "pooling" special rules a respective points pool is created.
 	 * Unnecessary points pools are removed.
 	 */
 	checkPointsPools ()

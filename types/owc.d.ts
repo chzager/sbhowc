@@ -6,27 +6,27 @@ type AnyPrimitive = string | number | boolean;
 
 /** A special rule as it is assigned to an unit. */
 interface OwcSpecialruleInstance {
-	/** This specialrule's id as a reference to the specialrules resource. */
+	/** This special rule's id as a reference to the special rules resource. */
 	key: string;
 	/** Native label of the special rule. */
 	label: string;
-	/** Abbreviation of the rulebook where that specialrule was introduced. */
+	/** Abbreviation of the rulebook where that special rule was introduced. */
 	rulebook: string;
-	/** Points costs of this specialrule. */
+	/** Points costs of this special rule. */
 	points: number;
-	/** Whether this specialrule makes the unit a _personality_ (`true`) or not (`false`). */
+	/** Whether this special rule makes the unit a _personality_ (`true`) or not (`false`). */
 	isPersonality: boolean;
-	/** Indicates that this specialrule creates a separate pool point in the warband. */
+	/** Indicates that this special rule creates a separate pool point in the warband. */
 	pooling?: boolean;
-	/** Additional text that specifies this specialrule in more detail. */
-	additionalText?: string;
+	/** For specifiable speicalrules, this is the specification text that specifies this special rule in more detail. */
+	specificationText?: string;
 }
 
 /** Default values for new units. */
 interface OwcUnitDefaults {
-	/** Default quality value for units. */
+	/** Default quality value for units, from `2` (best) to `6` (worst), default: `3`. */
 	quality: number;
-	/** Default combat value for units. */
+	/** Default combat value for units, from `0` (worst) to `6` (best), default: `3`. */
 	combat: number;
 }
 
@@ -42,33 +42,33 @@ interface OwcSettingsOptions {
 	applyRuleChecks: boolean;
 }
 
-//#region Specialrules
+//#region special rules
 /** Special rules file data structure. */
 interface OwcRulebookJson {
-	/** Rulebook (abbreviation) that introduces this specialrules. */
+	/** Rulebook (abbreviation) that introduces this special rules. */
 	id: string;
-	/** A list of specialrule definitions. */
+	/** A list of special rule definitions. */
 	data: {
 		[key: string]: OwcRulebookJson_Specialrule;
 	};
 }
 /** A single special rule in a specisl rules file. */
 interface OwcRulebookJson_Specialrule {
-	/** Label of this specialrule. The actual display text comes from a locales file. */
+	/** Label of this special rule. The actual display text comes from a locales file. */
 	label: string;
-	/** Points costs of this specialrule. */
+	/** Points costs of this special rule. */
 	points: number;
-	/** Whether this specialrule makes a unit a personality (true) or not (false). */
+	/** Whether this special rule makes a unit a personality (true) or not (false). */
 	personality?: boolean;
-	/** Indicates that this specialrule needs a specification at the unit. */
+	/** Indicates that this special rule needs a specification at the unit. */
 	needsSpecification?: boolean;
-	/** Keys of other specialrules that are replaced by this specialrule (e.g. 'Shooter (long)' replaces 'Shooter (medium)'). */
+	/** Keys of other special rules that are replaced by this special rule (e.g. 'Shooter (long)' replaces 'Shooter (medium)'). */
 	replaces?: Array<string>;
-	/** Keys of other specialrules that are variants of this specialrule. */
+	/** Keys of other special rules that are variants of this special rule. */
 	variants?: Array<string>;
-	/** Keys of other specialrules that are excluded for units having this specialrule. */
+	/** Keys of other special rules that are excluded for units having this special rule. */
 	excludes?: Array<string>;
-	/** Indicates that this specialrule creates a separate pool point on the unit's warband. */
+	/** Indicates that this special rule creates a separate pool point on the unit's warband. */
 	pooling?: boolean;
 }
 
@@ -147,13 +147,13 @@ interface OwcRestorerItem {
 
 // DOC
 interface OwcSettingsRecord {
-	/** Enable the specialrules of the "Song of Arthur and Merlin" rulebook. */
+	/** Enable the special rules of the "Song of Arthur and Merlin" rulebook. */
 	"rulebook.sam.enabled": boolean;
-	/** Enable the specialrules of the "Song of Deeds and Glory" rulebook. */
+	/** Enable the special rules of the "Song of Deeds and Glory" rulebook. */
 	"rulebook.sdg.enabled": boolean;
-	/** Enable the specialrules of the "Song of Gold and Darkness" rulebook. */
+	/** Enable the special rules of the "Song of Gold and Darkness" rulebook. */
 	"rulebook.sgd.enabled": boolean;
-	/** Enable the specialrules of the "Song of Wind and Water" rulebook. */
+	/** Enable the special rules of the "Song of Wind and Water" rulebook. */
 	"rulebook.sww.enabled": boolean;
 	/** Default quality value for new units. */
 	"defaults.quality": number;

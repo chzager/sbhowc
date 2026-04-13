@@ -35,9 +35,9 @@ class WarbandValidator
 	}
 
 	/**
-	 * Selects all units that have a certain specialrule.
-	 * @param {string} specialruleKey Key of specialrule to select.
-	 * @returns {Array<Unit>} All units that do have the queried specialrule.
+	 * Selects all units that have a certain special rule.
+	 * @param {string} specialruleKey Key of special rule to select.
+	 * @returns {Array<Unit>} All units that do have the queried special rule.
 	 */
 	#getUnitsWithSpecialrule (specialruleKey)
 	{
@@ -103,7 +103,7 @@ class WarbandValidator
 			return result;
 		},
 
-		// An unit with the "rabble" specialrule must not have a quality better than 4+. (SBH v5, p.34)
+		// An unit with the "rabble" special rule must not have a quality better than 4+. (SBH v5, p.34)
 		() =>
 		{
 			const RABBLE = "ra";
@@ -118,8 +118,8 @@ class WarbandValidator
 			return result;
 		},
 
-		// Check for specialrules that exclude each other within an unit (according to "variants" and "excludes" properties).
-		// See the respective description of the specialrules in the corresponding rulebooks).
+		// Check for special rules that exclude each other within an unit (according to "variants" and "excludes" properties).
+		// See the respective description of the special rules in the corresponding rulebooks).
 		() =>
 		{
 			const result = [];

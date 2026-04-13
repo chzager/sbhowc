@@ -37,7 +37,7 @@ class OwcEditor
 	}
 
 	/**
-	 * @returns A simple, sorted array of keys and localized texts of all specialrules included in the currently opted-in rulebooks.
+	 * @returns A simple, sorted array of keys and localized texts of all special rules included in the currently opted-in rulebooks.
 	 */
 	get specialrulesList ()
 	{
@@ -83,7 +83,7 @@ class OwcEditor
 	}
 
 	/**
-	 * Popup menu ith additional editing options for individual units.
+	 * Popup menu with additional editing options for individual units.
 	 * @type {Menubox2<Unit>}
 	 */
 	unitMenu = new Menubox2("unit-menu", {
@@ -304,9 +304,9 @@ class OwcEditor
 	}
 
 	/**
-	 * Adds a specialrule to an unit.
+	 * Adds a special rule to an unit.
 	 * @param {Unit} unit The affected unit.
-	 * @param {string} specialruleKey The key of the specialrule to add. Refers to a key of the unit's warband's specialrulesDirectory.
+	 * @param {string} specialruleKey The key of the special rule to add. Refers to a key of the unit's warband's special rulesDirectory.
 	 */
 	addUnitSpecialrule (unit, specialruleKey)
 	{
@@ -320,23 +320,23 @@ class OwcEditor
 	}
 
 	/**
-	 * Sets the additional text of a specifiable specialrule of an unit.
+	 * Sets the specification text of a specifiable special rule of an unit.
 	 * @param {Unit} unit The affected unit.
 	 * @param {string} specialruleKey Key of the affected speciarule.
-	 * @param {string} val The new addional text of the specifiable specialrule.
+	 * @param {string} val The new specification text of the specifiable special rule.
 	 */
-	setUnitSpecialruleAdditionalText (unit, specialruleKey, val)
+	setUnitSpecialruleSpecificationText (unit, specialruleKey, val)
 	{
 		const specialrule = unit.specialrules.find(s => (s.key === specialruleKey));
 		if (this.#applyManipulation(
 			`Specify "${this.warband.specialrulesDirectory.get(specialrule.key).label}" special rule on ${this.localizer.nonBlankUnitName(unit.name)}`,
-			() => specialrule.additionalText = val
+			() => specialrule.specificationText = val
 		))
 		{}
 	}
 
 	/**
-	 * Removes a specialrule from an unit.
+	 * Removes a special rule from an unit.
 	 * @param {Unit} unit The affected unit.
 	 * @param {string} specialruleKey Key of the speciarule to be removed.
 	 */
@@ -405,7 +405,7 @@ class OwcEditor
 
 	/**
 	 * Assigns an amount of warband points in a points pool.
-	 * @param {string} poolKey Key of the pool, referring to the pooling specialrule, to which to assign points.
+	 * @param {string} poolKey Key of the pool, referring to the pooling special rule, to which to assign points.
 	 * @param {number} value Count of points to assign to the points pool.
 	 */
 	setPointsPool (poolKey, value)

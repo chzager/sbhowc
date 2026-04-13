@@ -1,5 +1,5 @@
 /**
- * A modal dialog for selecting an editing specialrules of an unit.
+ * A modal dialog for selecting an editing special rules of an unit.
  */
 class SpecialrulesSelector
 {
@@ -45,12 +45,12 @@ class SpecialrulesSelector
 		this.editor = editor;
 		/** Provider of localization functionality. */
 		this.localizer = editor.localizer;
-		/** The directory that contains specialrules. */
+		/** The directory that contains special rules. */
 		this.specialrulesDirectory = editor.warband.specialrulesDirectory;
 	}
 
 	/**
-	 * Pops up the specialrules modal dialog at a position relative to the event for the given unit.
+	 * Pops up the special rules modal dialog at a position relative to the event for the given unit.
 	 * @param {PointerEvent} event The triggering event.
 	 * @param {Unit} unit The unit to be edited.
 	 */
@@ -70,7 +70,7 @@ class SpecialrulesSelector
 			if (specialruleLocaleText.includes("..."))
 			{
 				const [textBefore, textAfter] = specialruleLocaleText.split("...");
-				const specificationText = (("additionalText" in srl) ? srl.additionalText : "") || "...";
+				const specificationText = (("specificationText" in srl) ? srl.specificationText : "") || "...";
 				r.text = textBefore;
 				r.specificationText = specificationText;
 				r.textAfter = textAfter;
@@ -94,7 +94,7 @@ class SpecialrulesSelector
 				.sort((a, b) => a.text.localeCompare(b.text)),
 
 			/** @type {ElementEventHandler} */
-			additionalTextClicked: (evt) =>
+			specificationTextClicked: (evt) =>
 			{
 				evt.stopImmediatePropagation();
 				/** @type {HTMLElement} */
@@ -104,10 +104,10 @@ class SpecialrulesSelector
 			},
 
 			/** @type {ElementEventHandler} */
-			setAdditionalText: (evt) =>
+			setSpecificationText: (evt) =>
 			{
 				const key = /** @type {HTMLElement} */(evt.currentTarget.closest("[data-key]")).dataset.key;
-				this.editor.setUnitSpecialruleAdditionalText(unit, key, evt.currentTarget.textContent);
+				this.editor.setUnitSpecialruleSpecificationText(unit, key, evt.currentTarget.textContent);
 			},
 
 			/** @type {ElementEventHandler<HTMLSelectElement>} */
@@ -163,7 +163,7 @@ class SpecialrulesSelector
 			this.#unit.addSpecialrule(specialrule.key);
 			if (specialrule.needsSpecification)
 			{
-				this.#unit.specialrules.find(s => (s.key === specialrule.key)).additionalText = specialrulesCopy.find(s => (s.key === specialrule.key)).additionalText;
+				this.#unit.specialrules.find(s => (s.key === specialrule.key)).specificationText = specialrulesCopy.find(s => (s.key === specialrule.key)).specificationText;
 			}
 		}
 		if (this.#unitBefore.toString() !== this.#unit.toString())

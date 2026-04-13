@@ -68,10 +68,10 @@ class ClassicTouchLayout extends OwcLayout
 			renderSpecialrule: (element, data) =>
 			{
 				const specialruleLocaleText = (this.localizer.has(data.key)) ? this.localizer.translate(data.key) : this.warband.specialrulesDirectory.get(data.key).label;
-				if (specialruleLocaleText.includes("...") && data.additionalText)
+				if (specialruleLocaleText.includes("...") && data.specificationText)
 				{
 					const [textBefore, textAfter] = specialruleLocaleText.split("...");
-					const displayText = [textBefore, data.additionalText, textAfter].join("\u0020").replaceAll(/\s{2,}/g, " ").trim();
+					const displayText = [textBefore, data.specificationText, textAfter].join("\u0020").replaceAll(/\s{2,}/g, " ").trim();
 					element.replaceChildren(makeElement("span", displayText));
 				}
 				else

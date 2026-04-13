@@ -478,7 +478,7 @@ const owc = new class OnlineWarbandCalculator
 				points: u.points,
 				quality: u.quality,
 				combat: u.combat,
-				specialrules: (u.specialrules.length > 0) ? u.specialrules.map(s => this.localizer.translate(s.key).replace("...", s.additionalText)).join(", ") : "--",
+				specialrules: (u.specialrules.length > 0) ? u.specialrules.map(s => this.localizer.translate(s.key).replace("...", s.specificationText)).join(", ") : "--",
 				locale_points: this.localizer.translate("points"),
 				locale_quality: this.localizer.translate("quality"),
 				locale_combat: this.localizer.translate("combat"),

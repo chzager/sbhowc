@@ -110,9 +110,9 @@ class OwcLocalizer extends Map
 class OwcSpecialrulesDirectory extends Map
 {
 	/**
-	 * Loads all specialrule definition files.
+	 * Loads all special rule definition files.
 	 *
-	 * Note: Since this method loads ALL specialrules, it must be called only once.
+	 * Note: Since this method loads ALL special rules, it must be called only once.
 	 * @returns A promise that resolves when all files have been loaded.
 	 */
 	async load ()

@@ -180,12 +180,12 @@ class OwcDesktopLayout extends OwcLayout
 			renderSpecialrule: (element, data) =>
 			{
 				const specialruleLocaleText = (this.localizer.has(data.key)) ? this.localizer.translate(data.key) : this.warband.specialrulesDirectory.get(data.key).label;
-				if (specialruleLocaleText.includes("...") && data.additionalText)
+				if (specialruleLocaleText.includes("...") && data.specificationText)
 				{
 					const [textBefore, textAfter] = specialruleLocaleText.split("...");
 					element.replaceChildren(
 						makeElement("span.specialrule-deletehelper", textBefore.trim(), "&#x0020;"),
-						makeElement("span.specialrule-additionaltext.active.dyn-width", data.additionalText, {
+						makeElement("span.active.dyn-width", data.specificationText, {
 							contenteditable: "true", // HTML attribute values are always strings.
 							"data-blank": "...",
 							onblur: (evt) => this.onSepcialruleTextChange(evt),
@@ -274,14 +274,14 @@ class OwcDesktopLayout extends OwcLayout
 	}
 
 	/**
-	 * Handles changes to a specifiable special rule's additional text. Calls the editor to update the affected special rule's additional text in its unit.
+	 * Handles changes to a specifiable special rule's specification text. Calls the editor to update the affected special rule's specification text in its unit.
 	 * @param {FocusEvent} event The triggering event.
 	 */
 	onSepcialruleTextChange (event)
 	{
 		if (event.currentTarget instanceof HTMLElement)
 		{
-			this.editor.setUnitSpecialruleAdditionalText(
+			this.editor.setUnitSpecialruleSpecificationText(
 				this.getEventUnit(event),
 				/** @type {HTMLElement} */(event.currentTarget.closest("[data-key]")).dataset.key,
 				event.currentTarget.textContent
