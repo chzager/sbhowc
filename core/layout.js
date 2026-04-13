@@ -81,12 +81,16 @@ class OwcLayout
 			{
 				try
 				{
-					const clipboardUnit = new Unit(this.warband).fromString(this.editor.clipboard.getData()?.data);
-					ele.appendChild(makeElement(
-						"button",
-						this.localizer.translate("pasteUnit", { UNIT: this.localizer.nonBlankUnitName(clipboardUnit.name) }),
-						{ onclick: () => this.editor.addUnit(clipboardUnit) }
-					));
+					const clipboardData = this.editor.clipboard.getData()?.data;
+					if (clipboardData)
+					{
+						const clipboardUnit = new Unit(this.warband).fromString(clipboardData);
+						ele.appendChild(makeElement(
+							"button",
+							this.localizer.translate("pasteUnit", { UNIT: this.localizer.nonBlankUnitName(clipboardUnit.name) }),
+							{ onclick: () => this.editor.addUnit(clipboardUnit) }
+						));
+					}
 				}
 				catch (cause)
 				{ // If we can't read what's in the editor's clipboard, then that's just how it is. Maybe it's even empty.
@@ -206,7 +210,7 @@ class OwcDesktopLayout extends OwcLayout
 					data.rulebook.toUpperCase(),
 					(data.isPersonality) && "personality"
 				].filter(Boolean).join(", ")));
-			/** @type {HTMLElement} */(element.querySelector(".specialrule-deletehelper")).onclick = (evt) => this.onSpecialruleDelete(evt);
+				/** @type {HTMLElement} */(element.querySelector(".specialrule-deletehelper")).onclick = (evt) => this.onSpecialruleDelete(evt);
 			},
 
 			/**

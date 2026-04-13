@@ -519,17 +519,22 @@ class OwcEditor
 
 		/**
 		 * Returns the data that is currently stored in the clipboard.
-		 * @returns {OwcClipboardData}
+		 * @returns {OwcClipboardData|undefined}
 		 */
 		getData ()
 		{
-			const clipboardData = JSON.parse(localStorage.getItem(this.STORAGE_KEY) ?? "{}");
-			const expirationDate = Date.parse(clipboardData?.expires);
-			if (!isNaN(expirationDate) && (Date.now() > expirationDate))
+			const storedData = localStorage.getItem(this.STORAGE_KEY);
+			if (!!storedData)
 			{
-				this.cleanup();
+				/** @type {OwcClipboardData} */
+				const clipboardData = JSON.parse(storedData);
+				const expirationDate = Date.parse(clipboardData?.expires);
+				if (!isNaN(expirationDate) && (Date.now() > expirationDate))
+				{
+					this.cleanup();
+				}
+				return clipboardData;
 			}
-			return clipboardData;
 		}
 
 		/**
