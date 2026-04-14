@@ -56,7 +56,7 @@ class ClassicTouchLayout extends OwcLayout
 		},
 	});
 
-	/** @inheritdoc */
+	/** @override */
 	get snippetData ()
 	{
 		return {

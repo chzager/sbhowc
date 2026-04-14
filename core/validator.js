@@ -37,7 +37,7 @@ class WarbandValidator
 	/**
 	 * Selects all units that have a certain special rule.
 	 * @param {string} specialruleKey Key of special rule to select.
-	 * @returns {Array<Unit>} All units that do have the queried special rule.
+	 * @returns All units that do have the queried special rule.
 	 */
 	#getUnitsWithSpecialrule (specialruleKey)
 	{

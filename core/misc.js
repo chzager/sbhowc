@@ -199,7 +199,7 @@ function absoluteUrl (relativeUrl)
  * @see https://gist.github.com/chzager/aa4d64d486e2568aba03754f64ce1ebe
  * @param {string} definition The tag of the desired HTML element and optionally an ID and CSS classes, in a _query selector_ like notation (i.e. `"div#id.class1.class2"`).
  * @param {Array<string | number | HTMLElement | {[key: string]: string | number | boolean | Function}>} content Content (or children) to be created on/in the HTML element. This may be text content, child HTML elements or a record of attributes or event handlers.
- * @returns {HTMLElement} Returns the newly created HTML element with all its content and children.
+ * @returns Returns the newly created HTML element with all its content and children.
  */
 function makeElement (definition, ...content)
 {

@@ -523,7 +523,7 @@ class OwcEditor
 		 */
 		getData ()
 		{
-			const storedData = localStorage.getItem(this.STORAGE_KEY);
+			const storedData = localStorage.getItem(this.STORAGE_KEY); // `strictNullChecks: false` in jsconfig falsely assumes this is always a string even thou it may be null. That's why @returns is used here.
 			if (!!storedData)
 			{
 				/** @type {OwcClipboardData} */

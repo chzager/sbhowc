@@ -38,7 +38,8 @@ class OwcLayout
 	}
 
 	/**
-	 * @returns {PageSnippetsProductionData} The layout-specific data passed to the page snippet during rendering. This extends the generic editor's page snippet data.
+	 * Returns the layout-specific data to be passed to the page snippet for rendering.
+	 * @virtual
 	 */
 	get snippetData ()
 	{
@@ -46,7 +47,7 @@ class OwcLayout
 	};
 
 	/**
-	 * Renders the current warband in this layout into the document.
+	 * Renders the current warband to the document according to this layout.
 	 */
 	render ()
 	{
@@ -168,7 +169,11 @@ class OwcDesktopLayout extends OwcLayout
 		}
 	}
 
-	/** @inheritdoc */
+	/**
+	 * Returns the layout-specific data to be passed to the page snippet for rendering.
+	 * This already includes bindings to the editor.
+	 * @override
+	 */
 	get snippetData ()
 	{
 		return {
@@ -251,7 +256,7 @@ class OwcDesktopLayout extends OwcLayout
 		};
 	};
 
-	/** @inheritdoc */
+	/** @override */
 	render ()
 	{
 		super.render();

@@ -20,7 +20,7 @@ class ArmylistLayout extends OwcDesktopLayout
 		countPrinterElement.style.display = (unit.count > 1) ? "initial" : "none";
 	}
 
-	/** @inheritdoc */
+	/** @override */
 	get snippetData ()
 	{
 		return Object.assign(super.snippetData,
@@ -34,7 +34,7 @@ class ArmylistLayout extends OwcDesktopLayout
 			});
 	}
 
-	/** @inheritdoc */
+	/** @override */
 	render ()
 	{
 		super.render();

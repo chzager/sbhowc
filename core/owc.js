@@ -168,7 +168,7 @@ const owc = new class OnlineWarbandCalculator
 		 * This is used for URL-safe encoding of special characters in sharing links.
 		 * @param {string} text The input string to encode.
 		 * @param {string} chars A string containing the characters to encode (e.g., "*%" to encode asterisks and percent signs).
-		 * @returns {string} The encoded string with specified characters replaced by %XX format.
+		 * @returns The encoded string with specified characters replaced by %XX format.
 		 */
 		#unicodify (text, chars)
 		{
