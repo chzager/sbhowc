@@ -34,7 +34,7 @@ const settingsBluebox = new class extends Bluebox
 					const name = evt.currentTarget.id;
 					const value = evt.currentTarget.value;
 					/** @type {AnyPrimitive} */
-					let typedValue;
+					let typedValue = value;
 					if (evt.currentTarget instanceof HTMLInputElement)
 					{
 						switch (evt.currentTarget.type)

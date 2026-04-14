@@ -6,8 +6,8 @@ class OwcSettings
 	/** Key that is used in the localStorage for storing the settings. */
 	static STORAGE_KEY = "owc_settings";
 
-	/** Default setting values. @type {OwcSettingsRecord} */
-	static DEFAULTS = Object.freeze({
+	/** Default setting values. */
+	static DEFAULTS = Object.freeze(/** @type {OwcSettingsRecord} */({
 		"rulebook.sam.enabled": false,
 		"rulebook.sdg.enabled": false,
 		"rulebook.sgd.enabled": true,
@@ -22,10 +22,10 @@ class OwcSettings
 		"editor.highlightPersonalities": true,
 		"print.warbandCode": false,
 		"print.warnings": true,
-	});
+	}));
 
 	/**
-	 * Internal storage of the current values.
+	 * Stores the current values of all settings.
 	 * @type {OwcSettingsRecord}
 	 */
 	#properties = Object.assign({}, OwcSettings.DEFAULTS);
@@ -53,15 +53,15 @@ class OwcSettings
 	{
 		if (!Object.keys(OwcSettings.DEFAULTS).includes(name))
 		{
-			console.error(`Unknown property "${name}".`);
+			throw new ReferenceError(`Unknown property "${name}".`);
 		}
 		else if (typeof value !== typeof this.#properties[name])
 		{
-			console.error(`Bad type for property "${name}": ${typeof value}. Expected ${typeof this.#properties[name]}.`);
+			throw new TypeError(`Bad type for property "${name}": ${typeof value}. Expected ${typeof this.#properties[name]}.`);
 		}
 		else
 		{
-				/** @type {Record<keyof OwcSettingsRecord, AnyPrimitive>} */(this.#properties)[name] = value;
+			/** @type {Record<keyof OwcSettingsRecord, AnyPrimitive>} */(this.#properties)[name] = value;
 			this.save();
 			switch (name)
 			{
@@ -75,10 +75,10 @@ class OwcSettings
 					}
 					break;
 				case "defaults.quality":
-					owc.warband.unitDefaults.quality = this.#properties["defaults.quality"];
+					owc.warband.unitDefaults.quality = value;
 					break;
 				case "defaults.combat":
-					owc.warband.unitDefaults.combat = this.#properties["defaults.combat"];
+					owc.warband.unitDefaults.combat = value;
 					break;
 				case "editor.layout":
 					if (!this.#isLoading)
@@ -87,7 +87,7 @@ class OwcSettings
 					}
 					break;
 				case "editor.language":
-					owc.localizer.targetLanguage = this.#properties["editor.language"];
+					owc.localizer.targetLanguage = value;
 					break;
 				case "editor.countFigures":
 				case "editor.personalitiesInPoints":
@@ -109,17 +109,17 @@ class OwcSettings
 	}
 
 	/**
-	 * @returns {Array<string>} A list of all selected rule books (abbreviations only).
+	 * @returns A list of all selected rule books (abbreviations only).
 	 */
 	get ruleScope ()
 	{
-		return [
+		return Object.freeze([
 			"sbh",
 			this.#properties["rulebook.sam.enabled"] && "sam",
 			this.#properties["rulebook.sdg.enabled"] && "sdg",
 			this.#properties["rulebook.sgd.enabled"] && "sgd",
 			this.#properties["rulebook.sww.enabled"] && "sww",
-		].filter(Boolean);
+		].filter(Boolean));
 	}
 
 	/**
@@ -127,27 +127,27 @@ class OwcSettings
 	 */
 	get defaults ()
 	{
-		return {
+		return Object.freeze(/** @type {OwcUnitDefaults}*/({
 			quality: this.#properties["defaults.quality"],
 			combat: this.#properties["defaults.combat"],
-		};
+		}));
 	}
 
 	/**
-	 * @returns {OwcSettingsOptions} Various settings options for rendering the warband.
+	 * @returns Various settings options for rendering the warband.
 	 */
 	get options ()
 	{
-		return {
+		return Object.freeze(/** @type {OwcSettingsOptions} */({
 			countFigures: this.#properties["editor.countFigures"],
 			personalitiesInPoints: this.#properties["editor.personalitiesInPoints"],
 			applyRuleChecks: this.#properties["editor.applyRuleChecks"],
 			highlightPersonalities: this.#properties["editor.highlightPersonalities"],
-		};
+		}));
 	};
 
 	/**
-	 * @returns {string} The name of the current editor layout.
+	 * @returns The name of the current editor layout.
 	 */
 	get editorLayout ()
 	{
@@ -155,7 +155,7 @@ class OwcSettings
 	}
 
 	/**
-	 * @returns {string} The current localization language.
+	 * @returns The current localization language.
 	 */
 	get language ()
 	{

@@ -141,11 +141,11 @@ interface OwcRestorerItem {
 	points: number;
 	/** The warband's code. */
 	code: string;
-	/** Hashes of keys in the `localStorage` that contain the very same warband. */
+	/** Hashes of keys in the `localStorage` that contain the idential warband. */
 	foundIn: Array<string>;
 }
 
-// DOC
+/** All the settings of the OWC. */
 interface OwcSettingsRecord {
 	/** Enable the special rules of the "Song of Arthur and Merlin" rulebook. */
 	"rulebook.sam.enabled": boolean;
