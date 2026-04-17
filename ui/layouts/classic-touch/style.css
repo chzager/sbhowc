@@ -10,6 +10,9 @@
 	button:hover {
 		cursor: pointer;
 	}
+	.ia.specialruletrigger {
+		color: inherit;
+	}
 
 	button {
 		display: inline-block;

@@ -67,7 +67,7 @@
 													<ps:call-function name="renderSpecialrule" />
 												</span>
 											</ps:for-each>
-											<div class="clickable specialruletrigger" ps:onclick="editSpecialrules">{{locales.editSpecialrules}}</div>
+											<div class="specialruletrigger" ps:onclick="editSpecialrules">{{locales.editSpecialrules}}</div>
 										</div>
 									</td>
 									<td class="ih">

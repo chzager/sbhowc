@@ -1,9 +1,18 @@
 /* #region Warband editor area */
 #warband-editor {
-	--unit-head-background-color: #d8d8d8;
-	--input-border-radius: 0.15em;
-	--input-hover-border-color: rgba(92, 92, 92, 0.7);
+	--unit-head-backgroundcolor: #d8d8d8;
+	--input-borderradius: 0.15em;
+	--input-hover-bordercolor: rgba(92, 92, 92, 0.7);
 	--input-hover-shadow: 0.1em 0.1em 0.3em #00000040;
+
+	--button-standby-bordercolor: #bdbdbd;
+	--button-standby-background: linear-gradient(to bottom, #f9f9f9 50%, #efefef 100%);
+	--button-standby-fontcolor: var(--button-standby-bordercolor);
+	--button-hover-background: linear-gradient(to bottom, #f3f7fe 50%, #dce3f2 100%);
+	--button-hover-bordercolor: #8295bd;
+	--button-hover-color: #63718f;
+	--button-hover-shadow: var(--input-hover-shadow);
+	--button-active-shadow: 0.08em 0.05em 0.15em #00000040;
 
 	flex: 1;
 	cursor: default;
@@ -33,7 +42,7 @@
 	[contenteditable],
 	.clickable {
 		border: 1px solid transparent;
-		border-radius: var(--input-border-radius);
+		border-radius: var(--input-borderradius);
 		box-sizing: border-box;
 		display: inline-block;
 		cursor: text;
@@ -93,6 +102,7 @@
 		margin: 1em 0 0 0;
 		width: 100vw;
 		.clickable,
+		.specialruletrigger,
 		.tooltip {
 			display: none;
 		}
@@ -156,6 +166,16 @@
 			&:hover {
 				color: #000;
 			}
+		}
+
+		.specialruletrigger {
+			user-select: none;
+			font-family: var(--sans-font);
+			color: #aaa;
+			padding: 0.1em 0.5em;
+			margin: -0.1em 0em;
+			border-radius: 0.5em;
+			border: 2px dashed #dfdfdf;
 		}
 
 		i.fa-regular,
@@ -233,7 +253,7 @@
 
 		thead {
 			tr {
-				background-color: var(--unit-head-background-color);
+				background-color: var(--unit-head-backgroundcolor);
 			}
 			[name="count"] {
 				width: 3em;
@@ -290,10 +310,30 @@
 		.ih:hover select,
 		.ih:hover [contenteditable],
 		.ih:hover .clickable {
-			border-color: var(--input-hover-border-color);
+			border-color: var(--input-hover-bordercolor);
 			background-color: white;
-			box-shadow: var(--input-hover-shadow);
+			box-shadow: var(--button-hover-shadow);
 			color: #000;
+		}
+		.ih:hover .specialruletrigger {
+			text-align: center;
+			border-radius: 0.5em;
+			border-color: var(--button-standby-bordercolor);
+			background-color: #f3f3f3;
+			background: var(--button-standby-background);
+			color: var(--button-standby-fontcolor);
+			cursor: pointer;
+			&:hover {
+				background: var(--button-hover-background);
+				border-color: var(--button-hover-bordercolor);
+				border-style: solid;
+				color: var(--button-hover-color);
+				box-shadow: var(--button-hover-shadow);
+				&:active {
+					transform: translateY(2px);
+					box-shadow: var(--button-active-shadow);
+				}
+			}
 		}
 
 		input,
@@ -311,14 +351,16 @@
 		.clickable {
 			&:hover,
 			&:focus {
-				border-color: var(--input-hover-border-color);
+				border-color: var(--input-hover-bordercolor);
 				background-color: #fff;
 				box-shadow: var(--input-hover-shadow);
+				position: relative; /* Requied for z-index to have effect. */
+				z-index: 1;
 			}
 			&[name="warbandname"] {
 				&:hover,
 				&:focus {
-					border-color: var(--input-hover-border-color);
+					border-color: var(--input-hover-bordercolor);
 					background: linear-gradient(to bottom, #fff 70%, #e0e0e0 100%);
 					padding-right: initial;
 					box-shadow: none;
@@ -369,21 +411,21 @@
 			font-family: var(--sans-font);
 			text-align: center;
 			border-radius: 1em;
-			border: 2px dashed #bdbdbd;
+			border: 2px dashed var(--button-standby-bordercolor);
 			padding: 0.5em 1.5em;
 			background-color: #f3f3f3;
-			background: linear-gradient(to bottom, #f9f9f9 50%, #efefef 100%);
-			color: #bdbdbd;
+			background: var(--button-standby-background);
+			color: var(--button-standby-fontcolor);
 			cursor: pointer;
 			&:hover {
-				background: linear-gradient(to bottom, #f3f7fe 50%, #dce3f2 100%);
-				border-color: #8295bd;
+				background: var(--button-hover-background);
+				border-color: var(--button-hover-bordercolor);
 				border-style: solid;
-				color: #63718f;
-				box-shadow: var(--input-hover-shadow);
+				color: var(--button-hover-color);
+				box-shadow: var(--button-hover-shadow);
 				&:active {
 					transform: translateY(2px);
-					box-shadow: 0.08em 0.05em 0.15em #00000040;
+					box-shadow: var(--button-active-shadow);
 				}
 			}
 		}
