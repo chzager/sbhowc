@@ -10,8 +10,12 @@
 	button:hover {
 		cursor: pointer;
 	}
-	.ia.specialruletrigger {
+
+	.specialruletrigger {
 		color: inherit;
+		border: none;
+		padding: 0;
+		margin: 0;
 	}
 
 	button {

@@ -54,21 +54,21 @@
 									</tr>
 									<tr>
 										<td>{{locales.specialrules}}:</td>
-										<td colspan="2" class="ia specialruletrigger" ps:onclick="editSpecialrules">
-											<ps:choose>
-												<ps:if test="{{specialrules}}.length === 0">
-													<button class="add-specialrule">{{locales.addSpecialrule}}</button>
-												</ps:if>
-												<ps:else>
-													<div class="specialrules">
+										<td colspan="2" class="ia" ps:onclick="editSpecialrules">
+											<div class="specialrules specialruletrigger">
+												<ps:choose>
+													<ps:if test="{{specialrules}}.length === 0">
+														<button class="add-specialrule">{{locales.addSpecialrule}}</button>
+													</ps:if>
+													<ps:else>
 														<ps:for-each list="specialrules">
 															<span name="specialrule" data-key="{{key}}">
 																<ps:call-function name="renderSpecialrule" />
 															</span>
 														</ps:for-each>
-													</div>
-												</ps:else>
-											</ps:choose>
+													</ps:else>
+												</ps:choose>
+											</div>
 										</td>
 									</tr>
 								</tbody>
