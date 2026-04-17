@@ -317,7 +317,7 @@ const owc = new class OnlineWarbandCalculator
 					callback: () =>
 					{
 						const body = this.parent.plainTextWarband() + "\n\n" + this.parent.getShareUrl();
-						window.open("mailto:?subject=" + encodeURIComponent(document.title) + "&body=" + encodeURIComponent(body));
+						window.open("mailto:?subject=" + encodeURIComponent(document.title) + "&body=" + encodeURIComponent(body.replace(/\n/g, "\r\n")));
 					}
 				},
 				{
