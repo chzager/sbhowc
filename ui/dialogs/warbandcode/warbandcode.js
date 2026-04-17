@@ -19,8 +19,15 @@ const warbandcodeBluebox = new class extends Bluebox
 			code: code,
 			copyToClipboard: async () =>
 			{
-				await navigator.clipboard?.writeText?.(this.#textarea.value);
-				notifications.notify("The warband code was copied to your clipboard.", "green");
+				if (navigator.clipboard)
+				{
+					await navigator.clipboard.writeText(this.#textarea.value);
+					notifications.notify("The warband code was copied to your clipboard.", "green");
+				}
+				else
+				{
+					notifications.notify("Cannot access the clipboard.", "red");
+				}
 			},
 			pasteFromClipboard: async () =>
 			{
