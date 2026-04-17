@@ -10,7 +10,7 @@ div.notification {
 	font-size: 1.3rem;
 	font-weight: normal;
 	position: fixed;
-	top: 35vh;
+	top: 30vh;
 	max-width: 60vw;
 	display: flex;
 	column-gap: 0.5em;
