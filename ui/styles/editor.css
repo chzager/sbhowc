@@ -39,14 +39,18 @@
 
 	input,
 	select,
+	span {
+		border: 1px solid transparent;
+		display: inline-block;
+		padding: 0;
+	}
+
+	input,
+	select,
 	[contenteditable],
 	.clickable {
-		border: 1px solid transparent;
 		border-radius: var(--input-borderradius);
-		box-sizing: border-box;
-		display: inline-block;
 		cursor: text;
-		padding: 0;
 	}
 	input,
 	select {
@@ -105,6 +109,11 @@
 		.specialruletrigger,
 		.tooltip {
 			display: none;
+		}
+		input,
+		select,
+		span {
+			border: none;
 		}
 	}
 }
@@ -222,7 +231,7 @@
 	}
 
 	.buttons {
-		display: flex;
+		display: none;
 		flex-direction: column;
 		row-gap: 0.5em;
 		button {
@@ -245,7 +254,7 @@
 
 		td {
 			text-align: left;
-			vertical-align: top;
+			vertical-align: baseline;
 			padding: 0.35em;
 			border: 1px solid black;
 			font-weight: normal;
@@ -270,21 +279,24 @@
 	}
 }
 @media (min-width: 715px) {
-	#warband-editor {
-		div.unitsheet-grid {
-			display: grid;
-			grid-template-columns: 1fr 1fr; /* Two equal-width columns */
-			gap: 1.5em;
-		}
+	#warband-editor .unitsheet-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr; /* Two equal-width columns */
+		gap: 1.5em;
 	}
 }
 @media screen {
-	#warband-editor table.unitsheet {
-		box-shadow: 0.1em 0.1em 0.3em #0000002f;
-		background: linear-gradient(165deg, #ffffff 75%, #f2f2f2 100%);
+	#warband-editor .unitsheet-grid {
+		.buttons {
+			display: flex;
+		}
+		table.unitsheet {
+			box-shadow: 0.1em 0.1em 0.3em #0000002f;
+			background: linear-gradient(165deg, #ffffff 75%, #f2f2f2 100%);
 
-		tr.head {
-			background: linear-gradient(135deg, #d8d8d8 70%, #c8c8c8 100%);
+			tr.head {
+				background: linear-gradient(135deg, #d8d8d8 70%, #c8c8c8 100%);
+			}
 		}
 	}
 }

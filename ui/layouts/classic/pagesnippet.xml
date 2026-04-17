@@ -45,7 +45,9 @@
 										</td>
 									</tr>
 									<tr>
-										<td>{{locales.specialrules}}:</td>
+										<td>
+											<span>{{locales.specialrules}}:</span>
+										</td>
 										<td colspan="2" class="ih">
 											<div class="specialrules">
 												<ps:for-each list="specialrules">
@@ -69,16 +71,20 @@
 								<thead>
 									<tr>
 										<td colspan="3">
-											<ps:call-function name="getLocaleText">
-												<ps:argument value="pointsPools" />
-											</ps:call-function>
+											<span>
+												<ps:call-function name="getLocaleText">
+													<ps:argument value="pointsPools" />
+												</ps:call-function>
+											</span>
 										</td>
 									</tr>
 								</thead>
 								<tbody>
 									<ps:for-each list="pointpools">
 										<tr data-pointspool="{{key}}">
-											<td class="pointspool" colspan="2">{{label}}</td>
+											<td class="pointspool" colspan="2">
+												<span>{{label}}</span>
+											</td>
 											<td class="ih">
 												<span name="pointspool" data-key="{{key}}" data-blank="0" class="dyn-width" contenteditable="plaintext-only" data-type="number" ps:onblur="onPoolpointsBlur">{{points}}</span>
 												<span>&#160;{{locales.points}}</span>
