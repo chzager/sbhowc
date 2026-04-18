@@ -23,7 +23,7 @@
 									<tr>
 										<td colspan="3">
 											<div class="flex">
-												<div name="name" style="flex:1;" class="ia" data-ispersonality="{{isPersonality}}" ps:onclick="promptUnitName">
+												<span name="name" style="flex:1;" class="ia" data-ispersonality="{{isPersonality}}" ps:onclick="promptUnitName">
 													<ps:choose>
 														<ps:if test="!!{{name}}">
 															<ps:text>{{name}}</ps:text>
@@ -32,7 +32,7 @@
 															<ps:text>{{locales.blankUnitName}}</ps:text>
 														</ps:else>
 													</ps:choose>
-												</div>
+												</span>
 												<div data-value="{{count}}" class="ia" ps:onclick="promptUnitCount">x{{count}}</div>
 												<i class="fa-solid fa-ellipsis-vertical ia screen-only" ps:onclick="popupUnitMenu"></i>
 											</div>

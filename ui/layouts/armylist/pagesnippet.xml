@@ -12,31 +12,31 @@
 							<div class="unit" data-id="{{id}}">
 								<p class="head">
 									<input type="number" name="count" class="screen-only" min="1" data-value="{{count}}" value="{{count}}" ps:onchange="onUnitCountChanged" />
-									<div class="print-only" name="count-printer"></div>
-									<div name="name" contenteditable="plaintext-only" data-blank="{{locales.blankUnitName}}" ps:onblur="onUnitNameBlur">{{name}}</div>
-									<div class="stats">
-										<div class="ih">
-											<span>Q&#x0020;</span>
+									<span class="print-only" name="count-printer"></span>
+									<span name="name" contenteditable="plaintext-only" data-blank="{{locales.blankUnitName}}" ps:onblur="onUnitNameBlur">{{name}}</span>
+									<span class="stats">
+										<span class="ih">
+											<span>Q&#xA0;</span>
 											<select name="quality" size="1" data-value="{{quality}}" value="{{quality}}" ps:onchange="onQualityChanged">
 												<ps:for-each list="qualitySelectOptions">
 													<option value="{{key}}">{{label}}</option>
 												</ps:for-each>
 											</select>
-										</div>
-										<div class="ih">
-											<span>C&#x0020;</span>
+										</span>
+										<span class="ih">
+											<span>C&#xA0;</span>
 											<select name="combat" size="1" data-value="{{combat}}" value="{{combat}}" ps:onchange="onCombatChanged">
 												<ps:for-each list="combatSelectOptions">
 													<option value="{{key}}">{{label}}</option>
 												</ps:for-each>
 											</select>
-										</div>
-										<div>
+										</span>
+										<span>
 											<span name="points">{{points}}</span>
-											<span>&#x0020;Pt.</span>
-										</div>
+											<span>&#xA0;Pt.</span>
+										</span>
 										<i class="fa-solid fa-ellipsis-vertical unitmenu-icon screen-only" ps:onclick="popupUnitMenu"></i>
-									</div>
+									</span>
 								</p>
 								<p class="specialrules">
 									<ps:if test="{{isPersonality}}">
@@ -52,7 +52,7 @@
 												<ps:call-function name="renderSpecialrule" />
 											</span>
 										</ps:for-each>
-										<div class="specialruletrigger" ps:onclick="editSpecialrules">{{locales.editSpecialrules}}</div>
+										<button class="specialruletrigger" ps:onclick="editSpecialrules">{{locales.editSpecialrules}}</button>
 									</div>
 								</p>
 							</div>
@@ -69,7 +69,7 @@
 					<span>{{label}}</span>
 					<span>
 						<span name="pointspool" data-key="{{key}}" data-blank="0" class="dyn-width" contenteditable="plaintext-only" data-type="number" ps:onblur="onPoolpointsBlur">{{points}}</span>
-						<span>&#x0020;Pt.</span>
+						<span>&#xA0;Pt.</span>
 					</span>
 				</p>
 			</ps:snippet>

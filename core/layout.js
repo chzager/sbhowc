@@ -189,7 +189,7 @@ class OwcDesktopLayout extends OwcLayout
 				{
 					const [textBefore, textAfter] = specialruleLocaleText.split("...");
 					element.replaceChildren(
-						makeElement("span.specialrule-deletehelper", textBefore.trim(), "&#x0020;"),
+						makeElement("span.specialrule-deletehelper", textBefore.trim(), "&#x00a0;"),
 						makeElement("span.active.dyn-width", data.specificationText, {
 							contenteditable: "true", // HTML attribute values are always strings.
 							"data-blank": "...",
@@ -198,7 +198,7 @@ class OwcDesktopLayout extends OwcLayout
 					);
 					if (!!textAfter.trim())
 					{
-						element.appendChild(makeElement("span", "&#x0020;", textAfter.trim()));
+						element.appendChild(makeElement("span", "&#x00a0;", textAfter.trim()));
 					}
 				}
 				else

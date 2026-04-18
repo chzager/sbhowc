@@ -13,9 +13,9 @@
 									<tr>
 										<td colspan="3" class="ih">
 											<div class="flex">
-												<div name="name" style="flex:1;" contenteditable="plaintext-only" data-blank="{{locales.blankUnitName}}" data-ispersonality="{{isPersonality}}" ps:onblur="onUnitNameBlur">{{name}}</div>
+												<span name="name" style="flex:1;" contenteditable="plaintext-only" data-blank="{{locales.blankUnitName}}" data-ispersonality="{{isPersonality}}" ps:onblur="onUnitNameBlur">{{name}}</span>
 												<input type="number" name="count" class="screen-only" min="1" data-value="{{count}}" value="{{count}}" ps:onchange="onUnitCountChanged" />
-												<div class="print-only" name="count-printer"></div>
+												<span class="print-only" name="count-printer"></span>
 												<i class="fa-solid fa-ellipsis-vertical screen-only" ps:onclick="popupUnitMenu"></i>
 											</div>
 										</td>
@@ -55,7 +55,7 @@
 														<ps:call-function name="renderSpecialrule" />
 													</span>
 												</ps:for-each>
-												<div class="specialruletrigger" ps:onclick="editSpecialrules">{{locales.editSpecialrules}}</div>
+												<button class="specialruletrigger" ps:onclick="editSpecialrules">{{locales.editSpecialrules}}</button>
 											</div>
 										</td>
 									</tr>

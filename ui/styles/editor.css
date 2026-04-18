@@ -39,7 +39,8 @@
 
 	input,
 	select,
-	span {
+	span,
+	div[name="warbandname"][contenteditable] {
 		border: 1px solid transparent;
 		display: inline-block;
 		padding: 0;
@@ -417,27 +418,29 @@
 			}
 		}
 
-		button {
-			display: inline-block;
-			flex: 1;
-			font-family: var(--sans-font);
-			text-align: center;
-			border-radius: 1em;
-			border: 2px dashed var(--button-standby-bordercolor);
-			padding: 0.5em 1.5em;
-			background-color: #f3f3f3;
-			background: var(--button-standby-background);
-			color: var(--button-standby-fontcolor);
-			cursor: pointer;
-			&:hover {
-				background: var(--button-hover-background);
-				border-color: var(--button-hover-bordercolor);
-				border-style: solid;
-				color: var(--button-hover-color);
-				box-shadow: var(--button-hover-shadow);
-				&:active {
-					transform: translateY(2px);
-					box-shadow: var(--button-active-shadow);
+		div.buttons {
+			button {
+				display: inline-block;
+				flex: 1;
+				font-family: var(--sans-font);
+				text-align: center;
+				border-radius: 1em;
+				border: 2px dashed var(--button-standby-bordercolor);
+				padding: 0.5em 1.5em;
+				background-color: #f3f3f3;
+				background: var(--button-standby-background);
+				color: var(--button-standby-fontcolor);
+				cursor: pointer;
+				&:hover {
+					background: var(--button-hover-background);
+					border-color: var(--button-hover-bordercolor);
+					border-style: solid;
+					color: var(--button-hover-color);
+					box-shadow: var(--button-hover-shadow);
+					&:active {
+						transform: translateY(2px);
+						box-shadow: var(--button-active-shadow);
+					}
 				}
 			}
 		}
