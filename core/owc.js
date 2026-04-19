@@ -13,8 +13,7 @@ const owc = new class OnlineWarbandCalculator
 	{
 		return Object.freeze({
 			title: "Online Warband Calculator for Song of Blades and Heroes",
-			// version: "Feb22 release",
-			version: "Nov25 development",
+			version: "Apr26 release",
 			origin: "https://chzager.github.io/sbhowc",
 		});
 	}
@@ -306,15 +305,15 @@ const owc = new class OnlineWarbandCalculator
 				{
 					key: "copy-to-clipboard", label: "Copy URL to clipboard", icon: "fa-solid fa-clipboard",
 					callback: async () =>
-{
-						try
 					{
-						await navigator.clipboard.writeText(this.parent.getShareUrl());
-						notifications.notify("The link to share was copied to your clipboard.", "green");
-}
+						try
+						{
+							await navigator.clipboard.writeText(this.parent.getShareUrl());
+							notifications.notify("The link to share was copied to your clipboard.", "green");
+						}
 						catch (cause)
 						{
-console.error(cause);
+							console.error(cause);
 							notifications.notify("Could not write to the clipboard.", "red");
 						}
 					}
