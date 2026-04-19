@@ -307,14 +307,15 @@ const owc = new class OnlineWarbandCalculator
 					key: "copy-to-clipboard", label: "Copy URL to clipboard", icon: "fa-solid fa-clipboard",
 					callback: async () =>
 {
-						if (navigator.clipboard)
+						try
 					{
-						await navigator.clipboard?.writeText?.(this.parent.getShareUrl());
+						await navigator.clipboard.writeText(this.parent.getShareUrl());
 						notifications.notify("The link to share was copied to your clipboard.", "green");
 }
-						else
+						catch (cause)
 						{
-							notifications.notify("Cannot access the clipboard.", "red");
+console.error(cause);
+							notifications.notify("Could not write to the clipboard.", "red");
 						}
 					}
 				},
