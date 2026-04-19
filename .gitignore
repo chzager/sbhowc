@@ -1,4 +1,2 @@
-test*.*
-test/
-*.code-workspace
 ~*
+*.code-workspace
