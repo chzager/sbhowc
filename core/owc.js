@@ -397,7 +397,7 @@ console.error(cause);
 	 */
 	newPid (url = new URL(window.location.href))
 	{
-		this.pid = (Math.random() * 1e16).toString(32).substring(0, 8);
+		this.pid = (Math.random() * 1e16).toString(32).substring(0, 6);
 		url.searchParams.set("pid", this.pid);
 		window.history.replaceState({}, "", url);
 	}

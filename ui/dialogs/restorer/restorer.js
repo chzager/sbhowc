@@ -11,7 +11,7 @@ const restorerBluebox = new class extends Bluebox
 		const storageMap = new Map();
 		for (const [key, str] of Object.entries(localStorage))
 		{
-			if (/^owc_#\w{8}$/.test(key))
+			if (/^owc_#\w{6}$/.test(key))
 			{
 				/** @type {OwcLocalstorageData} */
 				const data = JSON.parse(str);
