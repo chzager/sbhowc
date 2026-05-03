@@ -1,4 +1,4 @@
-# Online Warband Creator for Song of Blades and Heroes
+# Online Warband Calculator for Song of Blades and Heroes
 
 _Song of Blades and Heroes_ ("SBH") is a slim, easy to learn, fast-play, skirmish level fantasy tabletop rule system by Andrea Sfiligoi, published by Ganesha Games (https://www.ganeshagames.net). With this system, figures from any manufacturer at 15mm or 28mm scale can be used. Besides a ton of pre-manufactured unit profiles, players can create their own units with any traits ("special rules") at their convenience.
 
