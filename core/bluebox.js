@@ -6,13 +6,13 @@ class Bluebox
 {
 	/**
 	 * The currently displaying Bluebox.
-	 * @type {Bluebox|null}
+	 * @type {Bluebox|undefined}
 	 */
 	static current;
 
 	/**
 	 * The Bluebox's element on the document.
-	 * @type {HTMLElement}
+	 * @type {HTMLElement|undefined}
 	 * @protected
 	 */
 	element;
@@ -35,9 +35,9 @@ class Bluebox
 	 */
 	render (snippetName, snippetData)
 	{
-		const blueboxContentElement = /** @type {HTMLElement} */(pageSnippets.produce(snippetName, snippetData));
+		const blueboxContentElement = pageSnippets.produce(snippetName, snippetData);
 		blueboxContentElement.classList.add("bluebox");
-		blueboxContentElement.onclick = (evt) => evt.stopPropagation();
+		blueboxContentElement.onclick = (ev) => ev.stopPropagation();
 		this.element = makeElement("div.viewport.blueboxwapper", blueboxContentElement);
 		this.element.firstElementChild.appendChild(makeElement("div.fa-regular.fa-circle-xmark.close-button", { onclick: () => this.close() }));
 		document.body.appendChild(this.element);
@@ -55,18 +55,18 @@ class Bluebox
 			this.element.addEventListener("transitionend", () =>
 			{
 				this.element?.remove();
-				this.element = null;
+				this.element = undefined;
 			});
 			this.element.style.top = "-100vh";
 		}
-		Bluebox.current = null;
+		Bluebox.current = undefined;
 	}
 }
 
 // When a Bluebox is active, any click outside of it will close it.
-document.body.addEventListener("click", evt =>
+document.body.addEventListener("click", ev =>
 {
-	if (evt.currentTarget instanceof HTMLElement && !evt.currentTarget.closest(".bluebox"))
+	if (!ev.target.closest(".bluebox"))
 	{
 		Bluebox.current?.close();
 	}

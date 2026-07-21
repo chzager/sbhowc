@@ -24,33 +24,33 @@ const settingsBluebox = new class extends Bluebox
 			{
 				settings.setProperty(
 					"editor.layout",
-					/** @type {HTMLElement} */(this.element.querySelector('input[data-layout]:checked')).dataset.layout
+					this.element.querySelector("input[data-layout]:checked").dataset.layout
 				);
 			},
-			setProperty: (/** @type {UIEvent} */evt) =>
+			setProperty: (/** @type {UIEvent} */ev) =>
 			{
-				if (isInputElement(evt.currentTarget))
+				if (isInputElement(ev.currentTarget))
 				{
-					const name = evt.currentTarget.id;
-					const value = evt.currentTarget.value;
+					const name = ev.currentTarget.id;
+					const value = ev.currentTarget.value;
 					/** @type {AnyPrimitive} */
 					let typedValue = value;
-					if (evt.currentTarget instanceof HTMLInputElement)
+					if (ev.currentTarget instanceof HTMLInputElement)
 					{
-						switch (evt.currentTarget.type)
+						switch (ev.currentTarget.type)
 						{
 							case "number":
 								typedValue = Number(value);
 								break;
 							case "checkbox":
 							case "radio":
-								typedValue = evt.currentTarget.checked;
+								typedValue = ev.currentTarget.checked;
 								break;
 						}
 					}
-					else if (evt.currentTarget instanceof HTMLSelectElement)
+					else if (ev.currentTarget instanceof HTMLSelectElement)
 					{
-						switch (evt.currentTarget.dataset.type)
+						switch (ev.currentTarget.dataset.type)
 						{
 							case "number":
 								typedValue = Number(value);
@@ -70,16 +70,16 @@ const settingsBluebox = new class extends Bluebox
 		/** @type {HTMLInputElement} */(this.element.querySelector(`input[data-layout="${settings.editorLayout}"]`)).checked = true;
 		for (const [name, value] of Object.entries(settings.getAllProperties()))
 		{
-			const ele = this.element.querySelector(`[id="${name}"]`);
-			if (isInputElement(ele))
+			const el = this.element.querySelector(`[id="${name}"]`);
+			if (isInputElement(el))
 			{
-				if (ele.type === "checkbox")
+				if (el.type === "checkbox")
 				{
-					ele.checked = !!value;
+					el.checked = !!value;
 				}
 				else if (typeof value === "string")
 				{
-					ele.value = value;
+					el.value = value;
 				}
 			}
 		}

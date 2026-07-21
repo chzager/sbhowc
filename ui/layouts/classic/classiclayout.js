@@ -14,7 +14,6 @@ class ClassicLayout extends OwcDesktopLayout
 	 */
 	#updateUnitCountPrintElement (unit)
 	{
-		/** @type {HTMLElement} */
 		const countPrinterElement = this.element.querySelector(`[data-id="${unit.id}"] [name="count-printer"]`);
 		countPrinterElement.textContent = `x${unit.count}`;
 		countPrinterElement.style.display = (unit.count > 1) ? "initial" : "none";
@@ -25,11 +24,10 @@ class ClassicLayout extends OwcDesktopLayout
 	{
 		return Object.assign(super.snippetData,
 			{
-				/** @type {ElementEventHandler<HTMLInputElement>} */
-				onUnitCountChanged: (evt) =>
+				onUnitCountChanged: (/** @type {UIEvent<HTMLInputElement>} */ev) =>
 				{
-					super.snippetData.onUnitCountChanged(evt);
-					this.#updateUnitCountPrintElement(this.getEventUnit(evt));
+					super.snippetData.onUnitCountChanged(ev);
+					this.#updateUnitCountPrintElement(this.getEventUnit(ev));
 				}
 			});
 	}

@@ -84,14 +84,10 @@ class ClassicTouchLayout extends OwcLayout
 				}
 			},
 
-			/**
-			 * Event handler for clicks on the warband name.
-			 * Shows an input dialog to prompt the new warband name and applies it if confirmed.
-			 * @type {AsyncElementEventHandler}
-			 */
-			promptWarbandName: async (evt) =>
+			/** Event handler for clicks on the warband name. Shows an input dialog to prompt the new warband name and applies it if confirmed. */
+			promptWarbandName: async (/** @type {UIEvent} */ev) =>
 			{
-				const triggerElement = evt.currentTarget;
+				const triggerElement = ev.currentTarget;
 				const newValue = await inputDialog.prompt(
 					"text",
 					this.localizer.translate("warbandNamePrompt"),
@@ -101,14 +97,11 @@ class ClassicTouchLayout extends OwcLayout
 				triggerElement.textContent = this.localizer.nonBlankWarbandName(newValue);
 			},
 
-			/**
-			 * Event handler for clicks on a unit's name. Shows an input dialog to prompt for the unit's new name and applies it if confirmed.
-			 * @type {AsyncElementEventHandler}
-			 */
-			promptUnitName: async (evt) =>
+			/** Event handler for clicks on a unit's name. Shows an input dialog to prompt for the unit's new name and applies it if confirmed. */
+			promptUnitName: async (/** @type {UIEvent} */ev) =>
 			{
-				const triggerElement = evt.currentTarget;
-				const unit = this.getEventUnit(evt);
+				const triggerElement = ev.currentTarget;
+				const unit = this.getEventUnit(ev);
 				const newValue = await inputDialog.prompt(
 					"text",
 					this.localizer.translate("unitNamePrompt"),
@@ -118,14 +111,11 @@ class ClassicTouchLayout extends OwcLayout
 				triggerElement.textContent = this.localizer.nonBlankUnitName(newValue);
 			},
 
-			/**
-			 * Event handler for clicks on a unit's count. Shows an input dialog to prompt for the unit's new count and applies it if confirmed.
-			 * @type {AsyncElementEventHandler<HTMLInputElement>}
-			 */
-			promptUnitCount: async (evt) =>
+			/** Event handler for clicks on a unit's count. Shows an input dialog to prompt for the unit's new count and applies it if confirmed. */
+			promptUnitCount: async (/** @type {UIEvent} */ev) =>
 			{
-				const triggerElement = evt.currentTarget;
-				const unit = this.getEventUnit(evt);
+				const triggerElement = ev.currentTarget;
+				const unit = this.getEventUnit(ev);
 				const newValue = await inputDialog.prompt(
 					"number",
 					this.localizer.translate("countOfUnit", { UNIT: this.localizer.nonBlankUnitName(unit.name) }),
@@ -136,26 +126,17 @@ class ClassicTouchLayout extends OwcLayout
 				triggerElement.textContent = `x${newValue}`;
 			},
 
-			/**
-			 * Event handler for clicks on a unit's quality value. Shows a menu to select the unit's new quality value and applies it.
-			 * @type {ElementEventHandler<HTMLElement,PointerEvent>}
-			 */
-			promptQuality: (evt) => this.#qualityMenu.popup(evt, this.getEventUnit(evt)),
+			/** Event handler for clicks on a unit's quality value. Shows a menu to select the unit's new quality value and applies it. */
+			promptQuality: (/** @type {PointerEvent} */ev) => this.#qualityMenu.popup(ev, this.getEventUnit(ev)),
 
-			/**
-			 * Event handler for clicks on a unit's combat value. Shows a menu to select the unit's new combat value and applies it.
-			 * @type {ElementEventHandler<HTMLElement,PointerEvent>}
-			 */
-			promptCombat: (evt) => this.#combatMenu.popup(evt, this.getEventUnit(evt)),
+			/** Event handler for clicks on a unit's combat value. Shows a menu to select the unit's new combat value and applies it. */
+			promptCombat: (/** @type {PointerEvent} */ev) => this.#combatMenu.popup(ev, this.getEventUnit(ev)),
 
-			/**
-			 * Event handler for clicks on a points pool. Shows an input dialog to prompt for the points in that pool and applies them if confirmed.
-			 * @type {AsyncElementEventHandler}
-			 */
-			promptPoolPoints: async (evt) =>
+			/** Event handler for clicks on a points pool. Shows an input dialog to prompt for the points in that pool and applies them if confirmed. */
+			promptPoolPoints: async (/** @type {UIEvent} */ev) =>
 			{
-				const triggerElement = evt.currentTarget;
-				const poolKey = evt.currentTarget.dataset.key;
+				const triggerElement = ev.currentTarget;
+				const poolKey = ev.currentTarget.dataset.key;
 				const newValue = await inputDialog.prompt(
 					"number",
 					this.localizer.translate("prompt.pointsPool.title", { POOL: this.localizer.translate(poolKey + "PointsPool") }),

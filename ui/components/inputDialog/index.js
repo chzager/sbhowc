@@ -10,7 +10,7 @@ const inputDialog = new class
 		"div#inputDialogVeil",
 		{
 			style: "display:none",
-			onclick: (/** @type {PointerEvent} */evt) => (evt.target === this.#veil) && this.close()
+			onclick: (ev) => (ev.target === this.#veil) && this.close()
 		}
 	));
 
@@ -71,9 +71,9 @@ const inputDialog = new class
 				type: type,
 				title: title,
 				value: presetValue,
-				onKeyDown: (/** @type {KeyboardEvent} */evt) =>
+				onKeyDown: (/** @type {KeyboardEvent} */ev) =>
 				{
-					if (["Enter", "NumpadEnter"].includes(evt.key))
+					if (["Enter", "NumpadEnter"].includes(ev.key))
 					{
 						confirm();
 					}
@@ -84,7 +84,7 @@ const inputDialog = new class
 			{
 				Object.assign(snippetData, { min: args[0], max: args[1], });
 			}
-			this.#element = /** @type {HTMLElement} */(pageSnippets.produce("/components/inputPrompt", snippetData));
+			this.#element = pageSnippets.produce("/components/inputPrompt", snippetData);
 			this.#veil.appendChild(this.#element);
 			this.#veil.style.display = "block";
 			// Currently there is no definitive way to react when the virtual keyboard on a touch device

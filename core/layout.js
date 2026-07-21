@@ -76,9 +76,9 @@ class OwcLayout
 				points: points
 			})),
 			addUnit: () => this.editor.addUnit(),
-			editSpecialrules: (/** @type {PointerEvent} */evt) => new SpecialrulesSelector(this.editor).popup(evt, this.getEventUnit(evt)),
-			popupUnitMenu: (/** @type {PointerEvent} */evt) => (evt.currentTarget instanceof HTMLElement) && this.editor.unitMenu.popup(evt, this.getEventUnit(evt), evt.currentTarget),
-			getPasteUnitButton: (/** @type {HTMLElement} */ele) =>
+			editSpecialrules: (/** @type {PointerEvent} */ev) => new SpecialrulesSelector(this.editor).popup(ev, this.getEventUnit(ev)),
+			popupUnitMenu: (/** @type {PointerEvent} */ev) => this.editor.unitMenu.popup(ev, this.getEventUnit(ev), ev.currentTarget),
+			getPasteUnitButton: (/** @type {HTMLElement} */el) =>
 			{
 				try
 				{
@@ -86,7 +86,7 @@ class OwcLayout
 					if (clipboardData)
 					{
 						const clipboardUnit = new Unit(this.warband).fromString(clipboardData);
-						ele.appendChild(makeElement(
+						el.appendChild(makeElement(
 							"button",
 							this.localizer.translate("pasteUnit", { UNIT: this.localizer.nonBlankUnitName(clipboardUnit.name) }),
 							{ onclick: () => this.editor.addUnit(clipboardUnit) }
@@ -111,7 +111,7 @@ class OwcLayout
 			}
 		}
 		/** The HTML element that represents this layout on the document. */
-		this.element = /** @type {HTMLElement} */(pageSnippets.produce(`/layouts/${this.name}/main`, snippetData));
+		this.element = pageSnippets.produce(`/layouts/${this.name}/main`, snippetData);
 		this.element.id = this.name + "-layout";
 		this.element.dataset.highlightPersonalities = this.editor.settings.options.highlightPersonalities.toString();
 		this.editor.updateWarbandSummary();
@@ -124,12 +124,8 @@ class OwcLayout
 	 */
 	getEventUnit (event)
 	{
-		let unit;
-		if (event.currentTarget instanceof HTMLElement)
-		{
-			const id = /** @type {HTMLElement} */(event.currentTarget.closest("[data-id]")).dataset.id;
-			unit = this.warband.units.find(u => (u.id === id));
-		}
+		const id = event.currentTarget.closest("[data-id]").dataset.id;
+		const unit = this.warband.units.find(u => (u.id === id));
 		if (!unit)
 		{
 			throw new Error("No unit found that would be referenced by event.", { cause: event.currentTarget });
@@ -193,7 +189,7 @@ class OwcDesktopLayout extends OwcLayout
 						makeElement("span.active.dyn-width", data.specificationText, {
 							contenteditable: "true", // HTML attribute values are always strings.
 							"data-blank": "...",
-							onblur: (evt) => this.onSepcialruleTextChange(evt),
+							onblur: (ev) => this.onSepcialruleTextChange(ev),
 						}),
 					);
 					if (!!textAfter.trim())
@@ -215,44 +211,26 @@ class OwcDesktopLayout extends OwcLayout
 					data.rulebook.toUpperCase(),
 					(data.isPersonality) && "personality"
 				].filter(Boolean).join(", ")));
-				/** @type {HTMLElement} */(element.querySelector(".specialrule-deletehelper")).onclick = (evt) => this.onSpecialruleDelete(evt);
+				element.querySelector(".specialrule-deletehelper").onclick = (ev) => this.onSpecialruleDelete(ev);
 			},
 
-			/**
-			 * Event handler for when the warband name input loses focus. Applies the input's value as the new warband name.
-			 * @type {ElementEventHandler}
-			 */
-			onWarbandNameBlur: (evt) => this.editor.setWarbandName(evt.currentTarget.textContent),
+			/** Event handler for when the warband name input loses focus. Applies the input's value as the new warband name. */
+			onWarbandNameBlur: (/** @type {UIEvent} */ev) => this.editor.setWarbandName(ev.currentTarget.textContent),
 
-			/**
-			 * Event handler for when a unit's name input loses focus. Applies the input's value as the unit's new name.
-			 * @type {ElementEventHandler}
-			 */
-			onUnitNameBlur: (evt) => this.editor.setUnitName(this.getEventUnit(evt), evt.currentTarget.textContent),
+			/** Event handler for when a unit's name input loses focus. Applies the input's value as the unit's new name. */
+			onUnitNameBlur: (/** @type {UIEvent} */ev) => this.editor.setUnitName(this.getEventUnit(ev), ev.currentTarget.textContent),
 
-			/**
-			 * Event handler for when a unit's count input loses focus. Applies the input's value as the unit's new count.
-			 * @type {ElementEventHandler<HTMLInputElement>}
-			 */
-			onUnitCountChanged: (evt) => this.editor.setUnitCount(this.getEventUnit(evt), Number(evt.currentTarget.value)),
+			/** Event handler for when a unit's count input loses focus. Applies the input's value as the unit's new count. */
+			onUnitCountChanged: (/** @type {UIEvent<HTMLInputElement>} */ev) => this.editor.setUnitCount(this.getEventUnit(ev), Number(ev.currentTarget.value)),
 
-			/**
-			 * Event handler for when a unit's quality value dropdown loses focus. Applies the dropdown's value as the unit's new quality value.
-			 * @type {ElementEventHandler<HTMLSelectElement>}
-			 */
-			onQualityChanged: (evt) => this.editor.setUnitQuality(this.getEventUnit(evt), Number(evt.currentTarget.value)),
+			/** Event handler for when a unit's quality value dropdown loses focus. Applies the dropdown's value as the unit's new quality value. */
+			onQualityChanged: (/** @type {UIEvent<HTMLSelectElement>} */ev) => this.editor.setUnitQuality(this.getEventUnit(ev), Number(ev.currentTarget.value)),
 
-			/**
-			 * Event handler for when a unit's combat value dropdown loses focus. Applies the dropdown's value as the unit's new combat value.
-			 * @type {ElementEventHandler<HTMLSelectElement>}
-			 */
-			onCombatChanged: (evt) => this.editor.setUnitCombat(this.getEventUnit(evt), Number(evt.currentTarget.value)),
+			/** Event handler for when a unit's combat value dropdown loses focus. Applies the dropdown's value as the unit's new combat value. */
+			onCombatChanged: (/** @type {UIEvent<HTMLSelectElement>} */ev) => this.editor.setUnitCombat(this.getEventUnit(ev), Number(ev.currentTarget.value)),
 
-			/**
-			 * Event handler for when a points pool input element loses focus. Applies the input's value as the new points for that pool.
-			 * @type {ElementEventHandler}
-			 */
-			onPoolpointsBlur: (evt) => this.editor.setPointsPool(evt.currentTarget.dataset.key, Number(evt.currentTarget.textContent)),
+			/** Event handler for when a points pool input element loses focus. Applies the input's value as the new points for that pool. */
+			onPoolpointsBlur: (/** @type {UIEvent} */ev) => this.editor.setPointsPool(ev.currentTarget.dataset.key, Number(ev.currentTarget.textContent)),
 		};
 	};
 
@@ -269,13 +247,10 @@ class OwcDesktopLayout extends OwcLayout
 	 */
 	onSpecialruleDelete (event)
 	{
-		if (event.currentTarget instanceof HTMLElement)
-		{
-			this.editor.removeUnitSpecialrule(
-				this.getEventUnit(event),
-				/** @type {HTMLElement} */(event.currentTarget.closest("[data-key]")).dataset.key
-			);
-		}
+		this.editor.removeUnitSpecialrule(
+			this.getEventUnit(event),
+			event.currentTarget.closest("[data-key]").dataset.key
+		);
 	}
 
 	/**
@@ -284,13 +259,10 @@ class OwcDesktopLayout extends OwcLayout
 	 */
 	onSepcialruleTextChange (event)
 	{
-		if (event.currentTarget instanceof HTMLElement)
-		{
-			this.editor.setUnitSpecialruleSpecificationText(
-				this.getEventUnit(event),
-				/** @type {HTMLElement} */(event.currentTarget.closest("[data-key]")).dataset.key,
-				event.currentTarget.textContent
-			);
-		}
+		this.editor.setUnitSpecialruleSpecificationText(
+			this.getEventUnit(event),
+			event.currentTarget.closest("[data-key]").dataset.key,
+			event.currentTarget.textContent
+		);
 	}
 }

@@ -1,6 +1,3 @@
-// Generic basic type:
-type ElementEventHandler<T extends HTMLElement = HTMLElement, E extends UIEvent = UIEvent> = (event: E & { currentTarget: T }) => any;
-type AsyncElementEventHandler<T extends HTMLElement = HTMLElement, E extends UIEvent = UIEvent> = (event: E & { currentTarget: T }) => Promise<any>;
 /** Any primitive type. */
 type AnyPrimitive = string | number | boolean;
 

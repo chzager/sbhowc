@@ -23,7 +23,7 @@ const owc = new class OnlineWarbandCalculator
 	constructor()
 	{
 		// Autofill values in document:
-		for (const node of /** @type {NodeListOf<HTMLElement>} */(document.querySelectorAll("[data-autofill]")))
+		for (const node of document.querySelectorAll("[data-autofill]"))
 		{
 			let text = node.innerText;
 			for (const [match, key] of text.matchAll(/\{\{(\w+)\}\}/g))
@@ -127,16 +127,16 @@ const owc = new class OnlineWarbandCalculator
 		 */
 		bind ()
 		{
-			/** @type {Object<string,ElementEventHandler<HTMLElement,PointerEvent>>} */
+			/** @type {Object<string,(ev:PointerEvent)=>any>} */
 			const actions = {
-				"file": (evt) => this.#fileMenu.toggle(evt, null, evt.currentTarget),
-				"undo": (evt) => this.#undoMenu.toggle(evt, null, evt.currentTarget),
+				"file": (ev) => this.#fileMenu.toggle(ev, null, ev.currentTarget),
+				"undo": (ev) => this.#undoMenu.toggle(ev, null, ev.currentTarget),
 				"print": () => window.print(),
-				"share": (evt) => this.#shareMenu.toggle(evt, null, evt.currentTarget),
-				"language": (evt) => this.#languageMenu.toggle(evt, null, evt.currentTarget),
-				"settings": async (evt) =>
+				"share": (ev) => this.#shareMenu.toggle(ev, null, ev.currentTarget),
+				"language": (ev) => this.#languageMenu.toggle(ev, null, ev.currentTarget),
+				"settings": async (ev) =>
 				{
-					evt.stopImmediatePropagation();
+					ev.stopImmediatePropagation();
 					SpecialrulesSelector.activeInstance?.close();
 					Menubox2.closeAll();
 					ui.wait();
@@ -154,11 +154,7 @@ const owc = new class OnlineWarbandCalculator
 			for (const [name, func] of Object.entries(actions))
 			{
 				const buttonBarIcon = document.body.querySelector(`#top-menu [data-action="${name}"]`);
-				if (buttonBarIcon instanceof HTMLElement)
-				{
-					// @ts-expect-error: No overload matches this call. -> `func` is of type `ElementEventHandler` which extends the required function specification.
-					buttonBarIcon.addEventListener("click", func);
-				}
+				buttonBarIcon.addEventListener("click", func);
 			}
 		}
 
@@ -258,20 +254,17 @@ const owc = new class OnlineWarbandCalculator
 			transitions: this.#menuTransitions,
 			beforePopup: (mbx) =>
 			{
-				const menuItemsWrapper = /** @type {HTMLElement} */(mbx.element.querySelector(".menubox-items"));
+				const menuItemsWrapper = mbx.element.querySelector(".menubox-items");
 				if (this.parent.editor.snapshots.length === 0)
 				{
 					menuItemsWrapper.replaceChildren(iconizedMenuitemRenderer({ label: "Nothing to undo", icon: "fa-solid fa-umbrella-beach" }));
 				}
 				else
 				{
-					const undo = (/** @type {UIEvent} */event) =>
+					const undo = (/** @type {UIEvent} */ev) =>
 					{
 						mbx.close();
-						if (event.currentTarget instanceof HTMLElement)
-						{
-							this.parent.editor.undo(Number(event.currentTarget.dataset.i));
-						}
+						this.parent.editor.undo(Number(ev.currentTarget.dataset.i));
 					};
 					menuItemsWrapper.replaceChildren(iconizedMenuitemRenderer({ label: "Undo:", icon: "fa-solid fa-arrow-rotate-left" }));
 					let currentWrapper = menuItemsWrapper;
@@ -279,7 +272,7 @@ const owc = new class OnlineWarbandCalculator
 					for (const snapshotItem of this.parent.editor.snapshots.slice(0, 10))
 					{
 						const innerWrapper = makeElement("div.wrapper",
-							makeElement("div.menubox-item", { "data-i": i.toString(), onclick: (evt) => undo(evt) },
+							makeElement("div.menubox-item", { "data-i": i.toString(), onclick: (ev) => undo(ev) },
 								makeElement("span.label", snapshotItem.label),
 								makeElement("span", { "data-points": snapshotItem.pointsModification, "data-sign": Math.sign(snapshotItem.pointsModification).toString() }, snapshotItem.pointsModification)
 							));

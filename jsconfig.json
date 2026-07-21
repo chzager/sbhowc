@@ -8,6 +8,7 @@
 		],
 		"checkJs": true,
 		"strict": true,
+		"noImplicitAny": true,
 		"strictNullChecks": false,
 		"strictPropertyInitialization": false,
 	},

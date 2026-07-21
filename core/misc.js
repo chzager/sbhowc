@@ -130,7 +130,7 @@ const ui = new class
  */
 function enhanceInputs (element)
 {
-	for (const contenteditable of /** @type {NodeListOf<HTMLElement>} */(element.querySelectorAll("[contenteditable]")))
+	for (const contenteditable of element.querySelectorAll("[contenteditable]"))
 	{
 		const blankReplacer = contenteditable.dataset.blank || "";
 		if (!contenteditable.textContent.trim())
@@ -146,7 +146,7 @@ function enhanceInputs (element)
 			}
 		});
 		const originalBlurEvent = contenteditable.onblur;
-		contenteditable.onblur = (evt) =>
+		contenteditable.onblur = (ev) =>
 		{
 			let prettifiedContent = contenteditable.textContent
 				.trim()
@@ -163,11 +163,11 @@ function enhanceInputs (element)
 					}
 			}
 			contenteditable.textContent = prettifiedContent;
-			originalBlurEvent?.call(contenteditable, evt);
+			originalBlurEvent?.call(contenteditable, ev);
 		};
-		contenteditable.addEventListener("keydown", e =>
+		contenteditable.addEventListener("keydown", ev =>
 		{
-			switch (e.key)
+			switch (ev.key)
 			{
 				case "Enter":
 				case "Escape":
@@ -176,7 +176,7 @@ function enhanceInputs (element)
 			}
 		});
 	}
-	for (const input of /** @type {NodeListOf<HTMLInputElement>} */(element.querySelectorAll("input")))
+	for (const input of element.querySelectorAll("input"))
 	{
 		input.addEventListener("blur", () =>
 		{

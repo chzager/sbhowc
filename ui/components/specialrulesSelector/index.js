@@ -1,12 +1,12 @@
 /**
- * A modal dialog for selecting an editing special rules of an unit.
+ * A modal dialog for selecting and editing special rules of an unit.
  */
 class SpecialrulesSelector
 {
 	/**
-	 * The currently active instance. @type {SpecialrulesSelector|null}
+	 * The currently active instance. @type {SpecialrulesSelector|undefined}
 	 */
-	static activeInstance = null;
+	static activeInstance;
 
 	/**
 	 * This dialog's element on the DOM.
@@ -93,28 +93,24 @@ class SpecialrulesSelector
 				.map(mapSpecialrule)
 				.sort((a, b) => a.text.localeCompare(b.text)),
 
-			/** @type {ElementEventHandler} */
-			specificationTextClicked: (evt) =>
+			specificationTextClicked: (/** @type {UIEvent} */ev) =>
 			{
-				evt.stopImmediatePropagation();
-				/** @type {HTMLElement} */
-				const checkItem = evt.currentTarget.closest("[data-checked]");
+				ev.stopImmediatePropagation();
+				const checkItem = ev.currentTarget.closest("[data-checked]");
 				checkItem.dataset.checked = "true";
 				this.#unit.addSpecialrule(checkItem.dataset.key);
 			},
 
-			/** @type {ElementEventHandler} */
-			setSpecificationText: (evt) =>
+			setSpecificationText: (/** @type {UIEvent} */ev) =>
 			{
-				const key = /** @type {HTMLElement} */(evt.currentTarget.closest("[data-key]")).dataset.key;
-				this.editor.setUnitSpecialruleSpecificationText(unit, key, evt.currentTarget.textContent);
+				const key = ev.currentTarget.closest("[data-key]").dataset.key;
+				this.editor.setUnitSpecialruleSpecificationText(unit, key, ev.currentTarget.textContent);
 			},
 
-			/** @type {ElementEventHandler<HTMLSelectElement>} */
-			toggleSpecialrule: (evt) =>
+			toggleSpecialrule: (/** @type {UIEvent} */ev) =>
 			{
-				const key = evt.currentTarget.dataset.key;
-				const isCheckedNow = !(evt.currentTarget.dataset.checked === "true");
+				const key = ev.currentTarget.dataset.key;
+				const isCheckedNow = !(ev.currentTarget.dataset.checked === "true");
 				if (isCheckedNow)
 				{
 					this.editor.addUnitSpecialrule(unit, key);
@@ -123,12 +119,12 @@ class SpecialrulesSelector
 				{
 					this.editor.removeUnitSpecialrule(unit, key);
 				}
-				evt.currentTarget.dataset.checked = (isCheckedNow).toString();
+				ev.currentTarget.dataset.checked = (isCheckedNow).toString();
 			},
 
 			okClicked: () => this.close(),
 		};
-		this.#element = /** @type {HTMLElement} */(pageSnippets.produce("/components/specialrulesSelector/main", snippetData));
+		this.#element = pageSnippets.produce("/components/specialrulesSelector/main", snippetData);
 		enhanceInputs(this.#element);
 		// @ts-expect-error: Cannot find name 'Sortable'. -> We don't have a defintion file for `Sortable`.
 		new Sortable(this.#element.querySelector("[data-sortable]"), {
@@ -157,7 +153,7 @@ class SpecialrulesSelector
 		this.editor.snapshots.splice(0, this.editor.snapshots.length - this.#snapshotPositionBefore);
 		const specialrulesCopy = [...this.#unit.specialrules];
 		this.#unit.specialrules = [];
-		for (const selectedElement of /** @type {NodeListOf<HTMLElement>} */(this.#element.querySelectorAll("[data-checked='true']")))
+		for (const selectedElement of this.#element.querySelectorAll("[data-checked='true']"))
 		{
 			const specialrule = this.specialrulesDirectory.get(selectedElement.dataset.key);
 			this.#unit.addSpecialrule(specialrule.key);
@@ -176,15 +172,15 @@ class SpecialrulesSelector
 			this.editor.storeWarbandInBrowser();
 			this.editor.render();
 		}
-		SpecialrulesSelector.activeInstance = null;
+		SpecialrulesSelector.activeInstance = undefined;
 		this.#element?.remove();
 	}
 }
 
 // Listen on clicks on the document. If clicked outside an active specialtules selection dialog, cancel that dialog.
-document.addEventListener("click", (evt) =>
+document.addEventListener("click", (ev) =>
 {
-	if ((evt.target instanceof HTMLElement) && !evt.target.closest(".specialruletrigger") && !evt.target.closest("#specialrulesSelector"))
+	if (!ev.target.closest(".specialruletrigger") && !ev.target.closest("#specialrulesSelector"))
 	{
 		SpecialrulesSelector.activeInstance?.close();
 	}

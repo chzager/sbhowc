@@ -14,7 +14,6 @@ class ArmylistLayout extends OwcDesktopLayout
 	 */
 	#updateUnitCountPrintElement (unit)
 	{
-		/** @type {HTMLElement} */
 		const countPrinterElement = this.element.querySelector(`[data-id="${unit.id}"] [name="count-printer"]`);
 		countPrinterElement.textContent = `${unit.count}x`;
 		countPrinterElement.style.display = (unit.count > 1) ? "initial" : "none";
@@ -25,11 +24,10 @@ class ArmylistLayout extends OwcDesktopLayout
 	{
 		return Object.assign(super.snippetData,
 			{
-				/** @type {ElementEventHandler<HTMLInputElement>} */
-				onUnitCountChanged: (evt) =>
+				onUnitCountChanged: (/** @type {UIEvent<HTMLInputElement>} */ev) =>
 				{
-					super.snippetData.onUnitCountChanged(evt);
-					this.#updateUnitCountPrintElement(this.getEventUnit(evt));
+					super.snippetData.onUnitCountChanged(ev);
+					this.#updateUnitCountPrintElement(this.getEventUnit(ev));
 				}
 			});
 	}
@@ -47,13 +45,12 @@ class ArmylistLayout extends OwcDesktopLayout
 		{
 			const poolingUnit = this.warband.units.find(u => u.specialrules.some(s => (s.key === poolKey)));
 			{
-				const pointspoolElement = /** @type {HTMLElement} */(pageSnippets.produce("/layouts/armylist/pointspool", {
+				const pointspoolElement = pageSnippets.produce("/layouts/armylist/pointspool", {
 					key: poolKey,
 					label: this.localizer.translate(poolKey + "PointsPool"),
 					points: pointspoolValue,
-					/** @type {ElementEventHandler} */
-					onPoolpointsBlur: (evt) => this.editor.setPointsPool(evt.currentTarget.dataset.key, Number(evt.currentTarget.textContent)),
-				}));
+					onPoolpointsBlur: (/** @type {UIEvent} */ev) => this.editor.setPointsPool(ev.currentTarget.dataset.key, Number(ev.currentTarget.textContent)),
+				});
 				enhanceInputs(pointspoolElement);
 				this.element.querySelector(`[data-id="${poolingUnit.id}"]`).appendChild(pointspoolElement);
 			}

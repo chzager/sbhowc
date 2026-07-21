@@ -29,10 +29,9 @@ const restorerBluebox = new class extends Bluebox
 		}
 		const snippetData = {
 			items: Array.from(storageMap.values()).sort((a, b) => a.title.localeCompare(b.title)),
-			/** @type {ElementEventHandler} */
-			restoreItem: (evt) =>
+			restoreItem: (/** @type {UIEvent} */ev) =>
 			{
-				const storageItem = storageMap.get(evt.currentTarget.dataset.hash);
+				const storageItem = storageMap.get(ev.currentTarget.dataset.hash);
 				owc.pid = storageItem.foundIn[0].substring(5);
 				const url = new URL(window.location.href);
 				url.searchParams.set("pid", owc.pid);
@@ -40,12 +39,10 @@ const restorerBluebox = new class extends Bluebox
 				owc.importWarband(storageItem.code);
 				this.close();
 			},
-			/** @type {ElementEventHandler} */
-			delete: (evt) =>
+			delete: (/** @type {UIEvent} */ev) =>
 			{
-				evt.stopImmediatePropagation();
-				/** @type {HTMLElement} */
-				const tr = evt.currentTarget.closest("[data-hash]");
+				ev.stopImmediatePropagation();
+				const tr = ev.currentTarget.closest("[data-hash]");
 				const storageItem = storageMap.get(tr.dataset.hash);
 				for (const storageKey of storageItem.foundIn)
 				{
