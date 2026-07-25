@@ -60,10 +60,10 @@ class OwcLayout
 		{
 			locales[commonResource] = this.localizer.translate(commonResource);
 		}
-		/** @type {PageSnippetsProductionData} */
+		/** @type {PageSnippets.ProductionData} */
 		const snippetData =
 		{
-			/** @type {PageSnippetsCallFunction} */
+			/** @type {PageSnippets.CallFunction} */
 			getLocaleText: (elem, _data, id) => elem.append(this.localizer.translate(id)),
 			locales: locales,
 			qualitySelectOptions: this.editor.qualityValues,

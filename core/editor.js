@@ -121,7 +121,7 @@ class OwcEditor
 			moveAfterItem.submenu.replaceItems(unit.warband.units.slice(uIdx + 1).map(unitToMenuItem));
 			moveAfterItem.enabled = (moveAfterItem.submenu.items.length > 0);
 		},
-		/** @type {Menubox2Callback<Unit>} */
+		/** @type {Menubox2.Callback<Unit>} */
 		callback: (itm) =>
 		{
 			const unit = itm.menubox.context;

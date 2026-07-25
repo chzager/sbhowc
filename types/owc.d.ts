@@ -112,7 +112,7 @@ interface OwcLocalstorageData {
 }
 
 /** Definitions of {@linkcode Menubox2} items with Font Awesome icons. */
-interface IconizedMenuboxItemDef extends Menubox2ItemDefinition {
+interface IconizedMenuboxItemDef extends Menubox2.ItemDefinition {
 	icon?: string;
 }
 

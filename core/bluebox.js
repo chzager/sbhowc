@@ -30,7 +30,7 @@ class Bluebox
 	/**
 	 * Actually renders the Bluebox's element onto the document.
 	 * @param {string} snippetName The PageSnippet name of the Bluebox to show.
-	 * @param {PageSnippetsProductionData} snippetData Data for the Bluebox.
+	 * @param {PageSnippets.ProductionData} snippetData Data for the Bluebox.
 	 * @protected Call {@linkcode show()} to pop up the Bluebox.
 	 */
 	render (snippetName, snippetData)

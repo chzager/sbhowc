@@ -109,7 +109,7 @@ const owc = new class OnlineWarbandCalculator
 	 */
 	#toolBar = new class
 	{
-		/** Transitions for the Menuboxes in the action bar. @type {Menubox2Transitions} */
+		/** Transitions for the Menuboxes in the action bar. @type {Menubox2.Transitions} */
 		#menuTransitions = { height: { closed: "0", opened: "auto" } };
 		/** Mandatory CSS class for all Menuboxes in the action bar. */
 		#menuCss = "top-menu";

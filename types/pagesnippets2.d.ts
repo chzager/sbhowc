@@ -1,27 +1,21 @@
 /**
  * PageSnippets - dynamically load and produce HTML or XML.
- * @version 2.3.0
+ * @version 2.3.2
  * @copyright (c) 2023 Christoph Zager
  * @license Apache-2.0 - See the full license text at http://www.apache.org/licenses/LICENSE-2.0
  * @link https://github.com/chzager/pagesnippets
  */
-declare const pageSnippets: pageSnippets;
-interface pageSnippets {
-	/**
-	 * The locale to be used when formatting numbers and dates in `<ps:text>` nodes.
-	 * Default: `"default"`.
-	 */
-	locale: Intl.LocalesArgument;
-
+declare const pageSnippets: PageSnippets
+interface PageSnippets<T extends Element = HTMLElement> {
 	/**
 	 * Imports a PageSnippets file.
 	 *
 	 * This instantly adds the scripts and stylesheets referenced in the file to the current HTML document.
-	 * You need to call {@linkcode pageSnippets.produce()} to get a snippet node that can be placed on the page.
+	 * You need to call {@linkcode produce()} to get a snippet node that can be placed on the page.
 	 *
 	 * @param url URL of PageSnippets XML file to be loaded.
 	 * @param headers Custom headers to pass along with the request.
-	 * @returns A `Promise` that resolves after the PageSnippet and all it's referenced files are loaded, or rejects with an error.
+	 * @returns A `Promise` that resolves after the PageSnippet and all its referenced files are loaded, or rejects with an error.
 	 */
 	import(url: string, headers?: HeadersInit): Promise<void>;
 
@@ -29,9 +23,10 @@ interface pageSnippets {
 	 * Produces an actual HTML- or XML-element from a page snippet.
 	 * @param snippetKey Key of snippet to be produced. This may be a single string (snippet name including its path), or an array with an item for each path crumb and the snippets name.
 	 * @param data Data needed to produce the snippet: values for placeholders, lists, event handler functions etc.
+	 * @param locale The locale to be used when formatting numbers and dates in `<ps:text>` nodes.
 	 * @returns The element that was build from the snippet using the given data.
 	 */
-	produce(snippetKey: string, data?: PageSnippetsProductionData): Element;
+	produce<E extends Element = T>(snippetKey: string, data?: PageSnippets.ProductionData): E;
 
 	/**
 	 * Returns a boolean of whether a certain snippet does exist or not.
@@ -44,8 +39,9 @@ interface pageSnippets {
 	 * Provides data of a snippet.
 	 * @param snippetKey Key of desired snippet. This may be a single string (snippet name including its path), or an array with an item for each path crumb and the snippets name.
 	 * @returns Meta data of the requested snippet.
+	 * @throws A `ReferenceError` if no such snippet exists.
 	 */
-	getSnippet(snippetKey: string): PageSnippetsMeta | null;
+	getSnippet(snippetKey: string): PageSnippets.Meta;
 
 	/**
 	 * Provides a list of all snippets within a snippet group.
@@ -62,39 +58,41 @@ interface pageSnippets {
 	 * @returns Paths of snippet groups within the requested group.
 	 */
 	getSnippetGroups(path?: string, recursive?: boolean): Array<string>;
-}
-
-/** Data record that is used for producing a page snippet or any of a page snippets elements. */
-interface PageSnippetsProductionData {
-	[key: string]: any;
-}
+};
 
 /**
- * Function type that is used as a callback in `ps:postproduction` attributes nodes.
- * @param element Currently processed target element.
- * @param data Data provided to build the target element.
+ * Types used in `pageSnippets`.
  */
-type PageSnippetsProductionCallback = (element: Element, data: PageSnippetsProductionData) => void;
+declare namespace PageSnippets {
+	/** Data record that is used for producing a page snippet or any of a page snippets elements. */
+	type ProductionData = {
+		[k: string]: any;
+	}
 
-/**
- * Function type that is used as a callback in `<ps:call-function>` nodes.
- * @param element Currently processed target element.
- * @param data Data provided to build the target element.
- * @param args Additional arguments given in the `<ps:argument>` child nodes.
- */
-type PageSnippetsCallFunction = (element: Element, data: PageSnippetsProductionData, ...args: string[]) => void;
+	/**
+	 * Function type that is used as a callback in `ps:postproduction` attributes nodes.
+	 * @param element Currently processed target element.
+	 * @param data Data provided to build the target element.
+	 */
+	type ProductionCallback = (element: Element, data: PageSnippets.ProductionData) => void;
 
-/** A page snippets meta data. */
-interface PageSnippetsMeta {
-	/** Identifier key (including path) of that snippet. */
-	key: string;
+	/**
+	 * Function type that is used as a callback in `<ps:call-function>` nodes.
+	 * @param element Currently processed target element.
+	 * @param data Data provided to build the target element.
+	 * @param args Additional arguments given in the `<ps:argument>` child nodes.
+	 */
+	type CallFunction = (element: Element, data: PageSnippets.ProductionData, ...args: string[]) => void;
 
-	/** URL from which this snippet was loaded. */
-	source: string;
-
-	/** Namespace URI of this snippet's root node. */
-	namespace: string;
-
-	/** XML source data of that snippet. */
-	data: Element;
+	/** Meta data about a page snippet. */
+	type Meta = {
+		/** Identifier key (including path) of that snippet. */
+		key: string;
+		/** URL from which this snippet was loaded. */
+		source: string;
+		/** Namespace URI of this snippet's root node. */
+		namespace: string;
+		/** XML source data of that snippet. */
+		data: Element;
+	}
 }
