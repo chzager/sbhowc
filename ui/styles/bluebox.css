@@ -12,6 +12,7 @@
 		--menuitem-hover-background: #ecf4ff;
 		display: flex;
 		cursor: default;
+		user-select: none;
 		font-family: var(--sans-font);
 		flex-direction: column;
 		padding: 1em 2em;
