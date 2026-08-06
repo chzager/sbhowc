@@ -27,7 +27,7 @@ const restorerBluebox = new class extends Bluebox
 				storageMap.get(hash).foundIn.push(key);
 			}
 		}
-		const snippetData = {
+		super.render("/bluebox/restorer", {
 			items: Array.from(storageMap.values()).sort((a, b) => a.title.localeCompare(b.title)),
 			restoreItem: (/** @type {UIEvent} */ev) =>
 			{
@@ -50,7 +50,6 @@ const restorerBluebox = new class extends Bluebox
 				}
 				tr.remove();
 			},
-		};
-		super.render("/bluebox/restorer", snippetData);
+		});
 	}
 };
