@@ -10,16 +10,19 @@
 					<textarea autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">{{code}}</textarea>
 				</div>
 				<div class="buttons">
-					<button ps:onclick="copyToClipboard">
-						<i class="fa-regular fa-clipboard"></i>
-						<span>Copy to clipboard<span></span></span>
+					<button>
+						<ps:event-handler on="click" call="copyToClipboard" />
+						<i class="fa-regular fa-clipboard" />
+						<span>Copy to clipboard</span>
 					</button>
-					<button ps:onclick="pasteFromClipboard">
-						<i class="fa-regular fa-paste"></i>
-						<span>Paste from clipboard<span></span></span>
+					<button>
+						<ps:event-handler on="click" call="pasteFromClipboard" />
+						<i class="fa-regular fa-paste" />
+						<span>Paste from clipboard</span>
 					</button>
-					<button ps:onclick="apply">
-						<i class="fa-regular fa-check-circle"></i>
+					<button>
+						<ps:event-handler on="click" call="apply" />
+						<i class="fa-regular fa-check-circle" />
 						<span>Apply</span>
 					</button>
 				</div>

@@ -1,6 +1,6 @@
 /**
  * PageSnippets - dynamically load and produce HTML or XML.
- * @version 2.3.2
+ * @version 2.4
  * @copyright (c) 2023 Christoph Zager
  * @license Apache-2.0 - See the full license text at http://www.apache.org/licenses/LICENSE-2.0
  * @link https://github.com/chzager/pagesnippets
@@ -21,7 +21,7 @@ interface PageSnippets<T extends Element = HTMLElement> {
 
 	/**
 	 * Produces an actual HTML- or XML-element from a page snippet.
-	 * @param snippetKey Key of snippet to be produced. This may be a single string (snippet name including its path), or an array with an item for each path crumb and the snippets name.
+	 * @param snippetKey Key of snippet to be produced.
 	 * @param data Data needed to produce the snippet: values for placeholders, lists, event handler functions etc.
 	 * @param locale The locale to be used when formatting numbers and dates in `<ps:text>` nodes.
 	 * @returns The element that was build from the snippet using the given data.
@@ -30,14 +30,14 @@ interface PageSnippets<T extends Element = HTMLElement> {
 
 	/**
 	 * Returns a boolean of whether a certain snippet does exist or not.
-	 * @param snippetKey Key of desired snippet. This may be a single string (snippet name including its path), or an array with an item for each path crumb and the snippets name.
+	 * @param snippetKey Key of desired snippet.
 	 * @returns `true` if a snippet with the given key exists, otherwise `false`.
 	 */
 	hasSnippet(snippetKey: string): boolean;
 
 	/**
 	 * Provides data of a snippet.
-	 * @param snippetKey Key of desired snippet. This may be a single string (snippet name including its path), or an array with an item for each path crumb and the snippets name.
+	 * @param snippetKey Key of desired snippet.
 	 * @returns Meta data of the requested snippet.
 	 * @throws A `ReferenceError` if no such snippet exists.
 	 */

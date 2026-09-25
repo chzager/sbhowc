@@ -6,7 +6,8 @@
 		<ps:snippet-group name="classic-touch">
 			<ps:snippet name="main">
 				<div class="touch">
-					<div name="warbandname" class="ia" ps:onclick="promptWarbandName">
+					<div name="warbandname" class="ia">
+						<ps:event-handler on="click" call="promptWarbandName" />
 						<ps:choose>
 							<ps:if test="!!{{warband.name}}">
 								<ps:text>{{warband.name}}</ps:text>
@@ -23,7 +24,8 @@
 									<tr>
 										<td colspan="3">
 											<div class="flex">
-												<span name="name" style="flex:1;" class="ia" data-ispersonality="{{isPersonality}}" ps:onclick="promptUnitName">
+												<span name="name" style="flex:1;" class="ia" data-ispersonality="{{isPersonality}}">
+													<ps:event-handler on="click" call="promptUnitName" />
 													<ps:choose>
 														<ps:if test="!!{{name}}">
 															<ps:text>{{name}}</ps:text>
@@ -33,8 +35,13 @@
 														</ps:else>
 													</ps:choose>
 												</span>
-												<div data-value="{{count}}" class="ia" ps:onclick="promptUnitCount">x{{count}}</div>
-												<i class="fa-solid fa-ellipsis-vertical ia screen-only" ps:onclick="popupUnitMenu"></i>
+												<div data-value="{{count}}" class="ia">
+													<ps:event-handler on="click" call="promptUnitCount" />
+													<ps:text>x{{count}}</ps:text>
+												</div>
+												<i class="fa-solid fa-ellipsis-vertical ia screen-only">
+													<ps:event-handler on="click" call="popupUnitMenu" />
+												</i>
 											</div>
 										</td>
 									</tr>
@@ -45,16 +52,19 @@
 											<span>{{locales.points}}:&#160;</span>
 											<span name="points">{{points}}</span>
 										</td>
-										<td class="ia" ps:onclick="promptQuality">
+										<td class="ia">
+											<ps:event-handler on="click" call="promptQuality" />
 											<span>{{locales.quality}}:&#160;{{quality}}+</span>
 										</td>
-										<td class="ia" ps:onclick="promptCombat">
+										<td class="ia">
+											<ps:event-handler on="click" call="promptCombat" />
 											<span>{{locales.combat}}:&#160;{{combat}}</span>
 										</td>
 									</tr>
 									<tr>
 										<td>{{locales.specialrules}}:</td>
-										<td colspan="2" class="ia" ps:onclick="editSpecialrules">
+										<td colspan="2" class="ia">
+											<ps:event-handler on="click" call="editSpecialrules" />
 											<div class="specialrules specialruletrigger">
 												<ps:choose>
 													<ps:if test="{{specialrules}}.length === 0">
@@ -75,7 +85,10 @@
 							</table>
 						</ps:for-each>
 						<div class="buttons">
-							<button ps:onclick="addUnit">{{locales.addUnit}}</button>
+							<button>
+								<ps:event-handler on="click" call="addUnit" />
+								<ps:text>{{locales.addUnit}}</ps:text>
+							</button>
 							<ps:call-function name="getPasteUnitButton" />
 						</div>
 						<ps:if test="{{pointpools.length}} &gt; 0">
@@ -94,7 +107,10 @@
 										<tr data-pointspool="{{key}}">
 											<td class="pointspool" colspan="2">{{label}}</td>
 											<td class="ia">
-												<span name="pointspool" data-key="{{key}}" ps:onclick="promptPoolPoints">{{points}}&#160;{{locales.points}}</span>
+												<span name="pointspool" data-key="{{key}}">
+													<ps:event-handler on="click" call="promptPoolPoints" />
+													<ps:text>{{points}}&#160;{{locales.points}}</ps:text>
+												</span>
 											</td>
 										</tr>
 									</ps:for-each>

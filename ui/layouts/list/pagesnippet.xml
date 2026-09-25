@@ -6,7 +6,10 @@
 		<ps:snippet-group name="list">
 			<ps:snippet name="main">
 				<div class="desktop">
-					<div name="warbandname" contenteditable="plaintext-only" data-blank="{{locales.blankWarbandName}}" ps:onblur="onWarbandNameBlur">{{warband.name}}</div>
+					<div name="warbandname" contenteditable="plaintext-only" data-blank="{{locales.blankWarbandName}}">
+						<ps:event-handler on="blur" call="onWarbandNameBlur" />
+						<ps:text>{{warband.name}}</ps:text>
+					</div>
 					<table>
 						<colgroup>
 							<col style="width:7%;" />
@@ -40,23 +43,30 @@
 							<ps:for-each list="warband.units">
 								<tr class="unit" data-id="{{id}}">
 									<td class="ih">
-										<input type="number" size="1" min="1" name="count" data-value="{{count}}" value="{{count}}" ps:onchange="onUnitCountChanged" />
+										<input type="number" size="1" min="1" name="count" data-value="{{count}}" value="{{count}}">
+											<ps:event-handler on="change" call="onUnitCountChanged" />
+										</input>
 									</td>
 									<td class="ih">
-										<span name="name" contenteditable="plaintext-only" data-blank="{{locales.blankUnitName}}" data-ispersonality="{{isPersonality}}" ps:onblur="onUnitNameBlur">{{name}}</span>
+										<span name="name" contenteditable="plaintext-only" data-blank="{{locales.blankUnitName}}" data-ispersonality="{{isPersonality}}">
+											<ps:event-handler on="blur" call="onUnitNameBlur" />
+											<ps:text>{{name}}</ps:text>
+										</span>
 									</td>
 									<td class="center" name="points">
 										<span>{{points}}</span>
 									</td>
 									<td class="ih center">
-										<select name="quality" size="1" data-value="{{quality}}" value="{{quality}}" ps:onchange="onQualityChanged">
+										<select name="quality" size="1" data-value="{{quality}}" value="{{quality}}">
+											<ps:event-handler on="change" call="onQualityChanged" />
 											<ps:for-each list="qualitySelectOptions">
 												<option value="{{key}}">{{label}}</option>
 											</ps:for-each>
 										</select>
 									</td>
 									<td class="ih center">
-										<select name="combat" size="1" data-value="{{combat}}" value="{{combat}}" ps:onchange="onCombatChanged">
+										<select name="combat" size="1" data-value="{{combat}}" value="{{combat}}">
+											<ps:event-handler on="change" call="onCombatChanged" />
 											<ps:for-each list="combatSelectOptions">
 												<option value="{{key}}">{{label}}</option>
 											</ps:for-each>
@@ -69,18 +79,26 @@
 													<ps:call-function name="renderSpecialrule" />
 												</span>
 											</ps:for-each>
-											<button class="specialruletrigger" ps:onclick="editSpecialrules">{{locales.editSpecialrules}}</button>
+											<button class="specialruletrigger">
+												<ps:event-handler on="click" call="editSpecialrules" />
+												<ps:text>{{locales.editSpecialrules}}</ps:text>
+											</button>
 										</div>
 									</td>
 									<td class="ih">
-										<i class="fa-solid fa-ellipsis-vertical unitmenu-icon screen-only" ps:onclick="popupUnitMenu"></i>
+										<i class="fa-solid fa-ellipsis-vertical unitmenu-icon screen-only">
+											<ps:event-handler on="click" call="popupUnitMenu" />
+										</i>
 									</td>
 								</tr>
 							</ps:for-each>
 							<tr class="buttons screen-only">
 								<td colspan="999">
 									<div class="buttons flex">
-										<button ps:onclick="addUnit">{{locales.addUnit}}</button>
+										<button>
+											<ps:event-handler on="click" call="addUnit" />
+											<ps:text>{{locales.addUnit}}</ps:text>
+										</button>
 										<ps:call-function name="getPasteUnitButton" />
 									</div>
 								</td>
@@ -90,7 +108,10 @@
 									<tr data-pointspool="{{key}}">
 										<td class="pointspool" colspan="2">{{label}}</td>
 										<td class="ih">
-											<span name="pointspool" data-key="{{key}}" data-blank="0" contenteditable="plaintext-only" data-type="number" ps:onblur="onPoolpointsBlur">{{points}}</span>
+											<span name="pointspool" data-key="{{key}}" data-blank="0" contenteditable="plaintext-only" data-type="number">
+												<ps:event-handler on="blur" call="onPoolpointsBlur" />
+												<ps:text>{{points}}</ps:text>
+											</span>
 										</td>
 										<td colspan="9"></td>
 									</tr>

@@ -8,14 +8,21 @@
 				<h1>{{title}}</h1>
 				<ps:choose>
 					<ps:if test="{{type}} === 'text'">
-						<input type="text" value="{{value}}" enterkeyhint="done" ps:onkeydown="onKeyDown" />
+						<input type="text" value="{{value}}" enterkeyhint="done">
+							<ps:event-handler on="keydown" call="onKeyDown" />
+						</input>
 					</ps:if>
 					<ps:if test="{{type}} === 'number'">
-						<input type="number" min="{{min}}" max="{{max}}" enterkeyhint="done" value="{{value}}" ps:onkeydown="onKeyDown" />
+						<input type="number" min="{{min}}" max="{{max}}" enterkeyhint="done" value="{{value}}">
+							<ps:event-handler on="keydown" call="onKeyDown" />
+						</input>
 					</ps:if>
 				</ps:choose>
 				<div class="buttons">
-					<button name="ok" ps:onclick="onOk">OK</button>
+					<button name="ok">
+						<ps:event-handler on="click" call="onOk" />
+						<ps:text>OK</ps:text>
+					</button>
 				</div>
 			</div>
 		</ps:snippet>

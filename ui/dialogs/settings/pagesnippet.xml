@@ -14,31 +14,41 @@
 							<span>Song of Blades and Heroes</span>
 						</label>
 						<label for="rulebook.sgd.enabled">
-							<input type="checkbox" id="rulebook.sgd.enabled" ps:onclick="setProperty" />
+							<input type="checkbox" id="rulebook.sgd.enabled">
+								<ps:event-handler on="click" call="setProperty" />
+							</input>
 							<span>Song of Gold and Darkness</span>
 						</label>
 						<label for="rulebook.sww.enabled">
-							<input type="checkbox" id="rulebook.sww.enabled" ps:onclick="setProperty" />
+							<input type="checkbox" id="rulebook.sww.enabled">
+								<ps:event-handler on="click" call="setProperty" />
+							</input>
 							<span>Song of Wind and Water</span>
 						</label>
 						<label for="rulebook.sdg.enabled">
-							<input type="checkbox" id="rulebook.sdg.enabled" ps:onclick="setProperty" />
+							<input type="checkbox" id="rulebook.sdg.enabled">
+								<ps:event-handler on="click" call="setProperty" />
+							</input>
 							<span>Song of Deeds and Glory</span>
 						</label>
 						<label for="rulebook.sam.enabled">
-							<input type="checkbox" id="rulebook.sam.enabled" ps:onclick="setProperty" />
+							<input type="checkbox" id="rulebook.sam.enabled">
+								<ps:event-handler on="click" call="setProperty" />
+							</input>
 							<span>Song of Arthur and Merlin</span>
 						</label>
 					</div>
 					<div class="two-column-grid">
 						<span>Default quality value:</span>
-						<select size="1" id="defaults.quality" data-type="number" value="{{defaultQualityValue}}" ps:onchange="setProperty">
+						<select size="1" id="defaults.quality" data-type="number" value="{{defaultQualityValue}}">
+							<ps:event-handler on="change" call="setProperty" />
 							<ps:for-each list="qualityValues">
 								<option value="{{key}}">{{label}}</option>
 							</ps:for-each>
 						</select>
 						<span>Default combat value:</span>
-						<select size="1" id="defaults.combat" data-type="number" value="{{defaultCombatValue}}" ps:onchange="setProperty">
+						<select size="1" id="defaults.combat" data-type="number" value="{{defaultCombatValue}}">
+							<ps:event-handler on="change" call="setProperty" />
 							<ps:for-each list="combatValues">
 								<option value="{{key}}">{{label}}</option>
 							</ps:for-each>
@@ -46,7 +56,9 @@
 					</div>
 					<div>
 						<label for="editor.applyRuleChecks">
-							<input type="checkbox" id="editor.applyRuleChecks" ps:onclick="setProperty" />
+							<input type="checkbox" id="editor.applyRuleChecks">
+								<ps:event-handler on="click" call="setProperty" />
+							</input>
 							<span>Check rule compliance</span>
 						</label>
 					</div>
@@ -54,13 +66,15 @@
 					<h2>Editor</h2>
 					<div class="two-column-grid">
 						<span>Language:</span>
-						<select id="editor.language" size="1" ps:onchange="setProperty">
+						<select id="editor.language" size="1">
+							<ps:event-handler on="change" call="setProperty" />
 							<option value="en">English</option>
 							<option value="de">Deutsch</option>
 						</select>
 					</div>
 					<p>Layout:</p>
-					<div ps:onclick="setLayout">
+					<div>
+						<ps:event-handler on="click" call="setLayout" />
 						<label for="layout_classic">
 							<input type="radio" id="layout_classic" name="layout" data-layout="classic" />
 							<span>Classic unit profiles</span>
@@ -81,11 +95,15 @@
 					<p>Options:</p>
 					<div>
 						<label for="editor.highlightPersonalities">
-							<input type="checkbox" id="editor.highlightPersonalities" ps:onclick="setProperty" />
+							<input type="checkbox" id="editor.highlightPersonalities">
+								<ps:event-handler on="click" call="setProperty" />
+							</input>
 							<span>Highlight personalities</span>
 						</label>
 						<label for="editor.personalitiesInPoints">
-							<input type="checkbox" id="editor.personalitiesInPoints" ps:onclick="setProperty" />
+							<input type="checkbox" id="editor.personalitiesInPoints">
+								<ps:event-handler on="click" call="setProperty" />
+							</input>
 							<span>Show personalities points instead of percents</span>
 						</label>
 					</div>
@@ -93,18 +111,23 @@
 					<h2>Printing</h2>
 					<div>
 						<label for="print.warbandCode">
-							<input type="checkbox" id="print.warbandCode" ps:onclick="setProperty" />
+							<input type="checkbox" id="print.warbandCode">
+								<ps:event-handler on="click" call="setProperty" />
+							</input>
 							<span>Print warband code (very useful on PDFs)</span>
 						</label>
 						<label for="print.warnings">
-							<input type="checkbox" id="print.warnings" ps:onclick="setProperty" />
+							<input type="checkbox" id="print.warnings">
+								<ps:event-handler on="click" call="setProperty" />
+							</input>
 							<span>Print rule compliance warnings</span>
 						</label>
 					</div>
 				</div>
 				<div class="buttons">
-					<button ps:onclick="apply">
-						<i class="fa-regular fa-check-circle"></i>
+					<button>
+						<ps:event-handler on="click" call="apply" />
+						<i class="fa-regular fa-check-circle" />
 						<span>Apply</span>
 					</button>
 				</div>

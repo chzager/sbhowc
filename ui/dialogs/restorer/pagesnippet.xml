@@ -22,12 +22,14 @@
 						</thead>
 						<tbody id="restorer-tbody">
 							<ps:for-each list="items">
-								<tr data-hash="{{hash}}" ps:onclick="restoreItem">
+								<tr data-hash="{{hash}}">
+									<ps:event-handler on="click" call="restoreItem" />
 									<td class="cut">{{title}}</td>
 									<td class="right">{{figures}}</td>
 									<td class="right">{{points}}</td>
-									<td class="delete" ps:onclick="delete">
-										<i class="fa-solid fa-trash"></i>
+									<td class="delete">
+										<ps:event-handler on="click" call="delete" />
+										<i class="fa-solid fa-trash" />
 									</td>
 								</tr>
 							</ps:for-each>

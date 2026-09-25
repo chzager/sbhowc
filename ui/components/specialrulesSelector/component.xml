@@ -27,18 +27,26 @@
 						</ps:for-each>
 					</div>
 					<div class="buttons">
-						<button ps:onclick="okClicked">OK</button>
+						<button>
+							<ps:event-handler on="click" call="okClicked" />
+							<ps:text>OK</ps:text>
+						</button>
 					</div>
 				</div>
 			</ps:snippet>
 			<ps:snippet name="item">
-				<p class="item" data-key="{{key}}" data-ispersonality="{{isPersonality}}" data-checked="{{checked}}" ps:onclick="toggleSpecialrule">
+				<p class="item" data-key="{{key}}" data-ispersonality="{{isPersonality}}" data-checked="{{checked}}">
+					<ps:event-handler on="click" call="toggleSpecialrule" />
 					<ps:if test="!!{{canSort}}">
-						<i class="fa-solid fa-arrows-alt-v sort"></i>
+						<i class="fa-solid fa-arrows-alt-v sort" />
 					</ps:if>
 					<span>{{text}}</span>
 					<ps:if test="!!{{specificationText}}">
-						<span contenteditable="plaintext-only" data-blank="..." enterkeyhint="done" ps:onclick="specificationTextClicked" ps:onblur="setSpecificationText">{{specificationText}}</span>
+						<span contenteditable="plaintext-only" data-blank="..." enterkeyhint="done">
+							<ps:event-handler on="blur" call="setSpecificationText" />
+							<ps:event-handler on="click" call="specificationTextClicked" />
+							<ps:text>{{specificationText}}</ps:text>
+						</span>
 						<ps:if test="{{textAfter}}">
 							<span>{{textAfter}}</span>
 						</ps:if>
