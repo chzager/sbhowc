@@ -82,7 +82,7 @@ class SpecialrulesSelector
 		this.#unitBefore = unit.clone();
 		this.#warbandCodeBefore = unit.warband.toString();
 		this.#snapshotPositionBefore = this.editor.snapshots.length;
-		const specialrules = Array.from(this.specialrulesDirectory.values());
+		const specialrules = Array.from(this.specialrulesDirectory.values()).filter(r => this.editor.settings.ruleScope.includes(r.rulebook));
 		const unitDisplayName = this.localizer.nonBlankUnitName(unit.name);
 		const snippetData = {
 			title: this.localizer.translate("specialrulesOfUnit", { UNIT: (unitDisplayName.length > 30) ? unitDisplayName.substring(0, 30) + "\u2026" : unitDisplayName }),
