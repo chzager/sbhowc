@@ -39,7 +39,7 @@ const localFileIo = new class
 		const anchorNode = makeElement("a", {
 			style: "display:none",
 			href: URL.createObjectURL(file),
-			download: filename.replace(/[^a-z0-9\s\-_.]/ig, ""),
+			download: filename.replace(/[\<\>\:\"\/\\\|\?\*]/g, ""),
 		});
 		document.body.appendChild(anchorNode);
 		anchorNode.click();
