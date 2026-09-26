@@ -39,7 +39,6 @@ class Bluebox
 		blueboxContentElement.classList.add("bluebox");
 		blueboxContentElement.onclick = (ev) => ev.stopPropagation();
 		this.element = makeElement("div.viewport.blueboxwapper", blueboxContentElement);
-		this.element.firstElementChild.appendChild(makeElement("div.fa-regular.fa-circle-xmark.close-button", { onclick: () => this.close() }));
 		document.body.appendChild(this.element);
 		setTimeout(() => { this.element.style.top = "0"; }, 10);
 		Bluebox.current = this;

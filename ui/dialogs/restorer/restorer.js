@@ -50,6 +50,10 @@ const restorerBluebox = new class extends Bluebox
 				}
 				tr.remove();
 			},
+			close: () =>
+			{
+				this.close();
+			}
 		});
 	}
 };

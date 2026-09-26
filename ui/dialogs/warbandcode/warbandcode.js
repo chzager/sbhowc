@@ -56,6 +56,10 @@ const warbandcodeBluebox = new class extends Bluebox
 					notifications.notify("This is not a valid warband code.", "red");
 				}
 			},
+			close: () =>
+			{
+				this.close();
+			}
 		});
 	}
 };

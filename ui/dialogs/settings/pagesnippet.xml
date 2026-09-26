@@ -128,7 +128,7 @@
 					<button>
 						<ps:event-handler on="click" call="apply" />
 						<i class="fa-regular fa-check-circle" />
-						<span>Apply</span>
+						<span>Done</span>
 					</button>
 				</div>
 			</div>

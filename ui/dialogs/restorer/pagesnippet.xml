@@ -36,6 +36,13 @@
 						</tbody>
 					</table>
 				</div>
+				<div class="buttons">
+					<button>
+						<ps:event-handler on="click" call="close" />
+						<i class="fa-regular fa-circle-right" />
+						<span>Close</span>
+					</button>
+				</div>
 			</div>
 		</ps:snippet>
 	</ps:snippet-group>
