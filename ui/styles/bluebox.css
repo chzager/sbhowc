@@ -1,3 +1,19 @@
+#bluebox-veil {
+	z-index: var(--z-index-overlays);
+	backdrop-filter: blur(2px);
+	background-color: #ffffff80;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100vw;
+}
+@media print {
+	#bluebox-veil {
+		display: none;
+	}
+}
+
 .blueboxwapper {
 	position: fixed;
 	top: -100vh;

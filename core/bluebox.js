@@ -5,14 +5,14 @@
 class Bluebox
 {
 	/**
-	 * The currently displaying Bluebox.
-	 * @type {Bluebox|undefined}
+	 * The Bluebox's element on the document.
+	 * @type {HTMLElement}
 	 */
-	static current;
+	#blueboxVeil;
 
 	/**
 	 * The Bluebox's element on the document.
-	 * @type {HTMLElement|undefined}
+	 * @type {HTMLElement}
 	 * @protected
 	 */
 	element;
@@ -35,13 +35,20 @@ class Bluebox
 	 */
 	render (snippetName, snippetData)
 	{
+		this.#blueboxVeil = document.getElementById("bluebox-veil");
+		if (!this.#blueboxVeil)
+		{
+			this.#blueboxVeil = makeElement("div#bluebox-veil");
+			document.body.appendChild(this.#blueboxVeil);
+		}
+		this.#blueboxVeil.style.display = null;
 		const blueboxContentElement = pageSnippets.produce(snippetName, snippetData);
 		blueboxContentElement.classList.add("bluebox");
 		blueboxContentElement.onclick = (ev) => ev.stopPropagation();
 		this.element = makeElement("div.viewport.blueboxwapper", blueboxContentElement);
-		document.body.appendChild(this.element);
+		this.#blueboxVeil.appendChild(this.element);
 		setTimeout(() => { this.element.style.top = "0"; }, 10);
-		Bluebox.current = this;
+		this.#blueboxVeil.onclick = () => this.close();
 	}
 
 	/**
@@ -55,18 +62,9 @@ class Bluebox
 			{
 				this.element?.remove();
 				this.element = undefined;
+				this.#blueboxVeil.style.display = "none";
 			});
 			this.element.style.top = "-100vh";
 		}
-		Bluebox.current = undefined;
 	}
 }
-
-// When a Bluebox is active, any click outside of it will close it.
-document.body.addEventListener("click", ev =>
-{
-	if (!ev.target.closest(".bluebox"))
-	{
-		Bluebox.current?.close();
-	}
-});
