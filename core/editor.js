@@ -475,7 +475,7 @@ class OwcEditor
 		const rulescheckResult = (this.settings.options.applyRuleChecks) ? this.validator.validate(this.warband) : [];
 		document.getElementById("totals").textContent = warbandSummary;
 		document.getElementById("warband-warnings").replaceChildren(
-			...rulescheckResult.map(r => makeElement("span.rule-violation", r))
+			...rulescheckResult.map(r => makeElement("p.rule-violation", makeElement("span", r)))
 		);
 		this.updateWindowTitle();
 	}

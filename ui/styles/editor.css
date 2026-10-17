@@ -72,19 +72,16 @@
 
 	#warband-summary {
 		margin-top: 1.5em;
-		span {
-			display: inline-block;
-		}
 		.rule-violation {
 			color: red;
 			text-indent: -1.4em;
-			margin-left: 1.6em;
+			padding-left: 1.4em;
 			&::before {
 				content: "\f06a"; /* circle-exclamation */
 				font-family: var(--fontawesome);
 				font-weight: 800;
 				font-size: 0.9em;
-				padding-right: 0.5em;
+				padding: 0.3em;
 			}
 		}
 	}
@@ -202,13 +199,15 @@
 			bottom: 0;
 			margin-top: 3em;
 			pointer-events: none;
-			background-color: #ffffff60;
+			background-color: #ffffff80;
+			* {
+				background: none;
+			}
 			span,
-			span::before {
-				max-width: fit-content;
+			.rule-violation::before {
+				display: inline;
 				background-color: #fff;
 				border-radius: 0.5em;
-				box-shadow: 0 0 0 2px #fff;
 				pointer-events: auto;
 				cursor: text;
 			}
