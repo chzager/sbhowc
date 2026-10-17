@@ -160,7 +160,7 @@ class OwcSpecialrulesDirectory extends Map
 					{
 						if (!super.has(key))
 						{
-							super.set(key, Object.assign({ key: key, rulebook: rulebook.id }, data));
+							super.set(key, { key: key, rulebook: rulebook.id, ...data });
 						}
 						else
 						{

@@ -22,14 +22,14 @@ class ClassicLayout extends OwcDesktopLayout
 	/** @override */
 	get snippetData ()
 	{
-		return Object.assign(super.snippetData,
+		return {
+			...super.snippetData,
+			onUnitCountChanged: (/** @type {UIEvent<HTMLInputElement>} */ev) =>
 			{
-				onUnitCountChanged: (/** @type {UIEvent<HTMLInputElement>} */ev) =>
-				{
-					super.snippetData.onUnitCountChanged(ev);
-					this.#updateUnitCountPrintElement(this.getEventUnit(ev));
-				}
-			});
+				super.snippetData.onUnitCountChanged(ev);
+				this.#updateUnitCountPrintElement(this.getEventUnit(ev));
+			}
+		};
 	}
 
 	/** @override */

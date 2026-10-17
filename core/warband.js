@@ -175,7 +175,7 @@ class Unit
 		cloned.name = this.name;
 		cloned.quality = this.quality;
 		cloned.combat = this.combat;
-		cloned.specialrules = this.specialrules.map(s => Object.assign({}, s));
+		cloned.specialrules = this.specialrules.map(s => ({ ...s }));
 		return cloned;
 	}
 
@@ -293,7 +293,12 @@ class Warband
 	 */
 	get figureCount ()
 	{
-		return this.units.reduce((previous, current) => previous += current.count, 0);
+		let result = 0;
+		for (let unit of this.units)
+		{
+			result += unit.count;
+		}
+		return result;
 	}
 
 	/**
