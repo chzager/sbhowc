@@ -6,34 +6,48 @@
 class OwcEditor
 {
 	/**
+	 * Map of all registered layout variants.
+	 * @type {Map<string,OwcLayout>}
+	 */
+	#layouts = new Map();
+
+	/**
 	 * The layout currently in use.
 	 * @type {OwcLayout}
 	 */
 	#currentLayout;
 
 	/**
-	 * @param {Warband} warband Warband to be edited.
+	 * @param {OwcSpecialrulesDirectory} specialrulesDirectory A directory that contains special rules..
 	 * @param {OwcLocalizer} localizer Provider of localization functionality.
-	 * @param {OwcSettings} settings Editor, display and other settings.
+	 * @param {OwcSettings} settings Editor, display, and other settings.
 	 */
-	constructor(warband, localizer, settings)
+	constructor(specialrulesDirectory, localizer, settings)
 	{
 		/** The warband that is currently being edited. */
-		this.warband = warband;
+		this.warband = new Warband(specialrulesDirectory);
 		/** Provider of localization functionality. */
 		this.localizer = localizer;
 		/** Editor, display and other settings. */
 		this.settings = settings;
-		/** Map of all registered layout variants. @type {Map<string,OwcLayout>} */
-		this.layouts = new Map();
 		/** List of all possible unit quality values, both numeric and display text. */
 		this.qualityValues = [2, 3, 4, 5, 6].map(q => ({ key: q, label: q.toString() + "+" }));
 		/** List of all possible unit combat values, both numeric and display text. */
 		this.combatValues = [6, 5, 4, 3, 2, 1, 0].map(c => ({ key: c, label: c.toString() }));
 		/** Checker for compliance of the current warband against all requirements of the rules. */
-		this.validator = new WarbandValidator(this.warband, this.localizer);
+		this.validator = new WarbandValidator(this.localizer);
 		/** Track of all changes made to the warband and its units. @type {Array<OwcUndoerSnapshot>} */
 		this.snapshots = [];
+		// Register listeners to changes on editor- or layout-specific settings:
+		this.settings.onChange("editor.countFigures", () => this.render());
+		this.settings.onChange("editor.personalitiesInPoints", () => this.render());
+		this.settings.onChange("editor.applyRuleChecks", () => this.render());
+		this.settings.onChange("editor.highlightPersonalities", () => this.render());
+		this.settings.onChange("editor.layout", layout => this.#setLayout(layout));
+		this.settings.onChange("defaults.quality", val => this.warband.unitDefaults.quality = val);
+		this.settings.onChange("defaults.combat", val => this.warband.unitDefaults.combat = val);
+		// Listen on all locales loaded:
+		this.localizer.onLoaded = () => this.render();
 	}
 
 	/**
@@ -48,23 +62,20 @@ class OwcEditor
 	}
 
 	/**
-	 * The currently used layout.
+	 * Sets the editor layout, and re-renders the edito in the new layout.
+	 * @param {string} name The desired layout's name.
 	 */
-	get layout ()
+	#setLayout (name)
 	{
-		return this.#currentLayout.name;
-	}
-	set layout (val)
-	{
-		if (this.layouts.has(val))
+		if (this.#layouts.has(name))
 		{
-			this.#currentLayout = this.layouts.get(val);
-			this.#currentLayout.render();
+			this.#currentLayout = this.#layouts.get(name);
+			this.render();
 		}
 		else
 		{
 			ui.wait();
-			pageSnippets.import(`./ui/layouts/${val}/pagesnippet.xml`)
+			pageSnippets.import(`./ui/layouts/${name}/pagesnippet.xml`)
 				// Rendering is done when the loaded layout registeres itsetlf.
 				.finally(() => ui.waitEnd());
 		}
@@ -77,9 +88,9 @@ class OwcEditor
 	registerLayout (layoutClass)
 	{
 		const editorLayout = new layoutClass(this, this.localizer);
-		this.layouts.set(editorLayout.name, editorLayout);
-		console.debug("Editor layout registered:", layoutClass.name, this.layouts.entries());
-		this.layout = editorLayout.name;
+		this.#layouts.set(editorLayout.name, editorLayout);
+		console.debug("Editor layout registered:", layoutClass.name, this.#layouts.entries());
+		this.#setLayout(editorLayout.name);
 	}
 
 	/**
@@ -156,7 +167,10 @@ class OwcEditor
 	 */
 	render ()
 	{
-		this.#currentLayout?.render();
+		if (!this.settings.isLoading && this.#currentLayout)
+		{
+			this.#currentLayout.render();
+		}
 	}
 
 	/**
@@ -458,7 +472,7 @@ class OwcEditor
 		{
 			warbandSummary += ` (${this.localizer.translate((this.settings.options.personalitiesInPoints) ? "personalitiesPoints" : "personalitiesPercent", warbandStats)})`;
 		}
-		const rulescheckResult = (this.settings.options.applyRuleChecks) ? this.validator.validate() : [];
+		const rulescheckResult = (this.settings.options.applyRuleChecks) ? this.validator.validate(this.warband) : [];
 		document.getElementById("totals").textContent = warbandSummary;
 		document.getElementById("warband-warnings").replaceChildren(
 			...rulescheckResult.map(r => makeElement("span.rule-violation", r))

@@ -26,15 +26,33 @@ class OwcSettings
 
 	/**
 	 * Stores the current values of all settings.
-	 * @type {OwcSettingsRecord}
 	 */
-	#properties = Object.assign({}, OwcSettings.DEFAULTS);
+	#properties = { ...OwcSettings.DEFAULTS };
 
 	/**
 	 * Internal flag to prevent the triggering of `setProperty()` and application of values ​​during loading.
 	 */
 	#isLoading = true;
 
+	/**
+	 * Listeners for changes of setting values.
+	 * @type {Map<keyof OwcSettingsRecord,Array<(val: any)=>void>>}
+	 */
+	#listenersOnChange = new Map();
+
+	/**
+	 */
+	constructor()
+	{
+		// In case that the settings were modified in another tab, refresh this tab when the user returns here.
+		document.addEventListener("visibilitychange", () =>
+		{
+			if (document.visibilityState === "visible")
+			{
+				this.load();
+			}
+		});
+	}
 
 	/**
 	 * Provides all settings properties with their values.
@@ -62,51 +80,24 @@ class OwcSettings
 		else
 		{
 			/** @type {Record<keyof OwcSettingsRecord, AnyPrimitive>} */(this.#properties)[name] = value;
-			this.save();
-			switch (name)
+			if (!this.#isLoading)
 			{
-				case "rulebook.sam.enabled":
-				case "rulebook.sdg.enabled":
-				case "rulebook.sgd.enabled":
-				case "rulebook.sww.enabled":
-					if (!this.#isLoading)
-					{
-						owc.localizer.import(...this.ruleScope).then(() => owc.editor.render());
-					}
-					break;
-				case "defaults.quality":
-					owc.warband.unitDefaults.quality = value;
-					break;
-				case "defaults.combat":
-					owc.warband.unitDefaults.combat = value;
-					break;
-				case "editor.layout":
-					if (!this.#isLoading)
-					{
-						owc.editor.layout = value;
-					}
-					break;
-				case "editor.language":
-					owc.localizer.targetLanguage = value;
-					break;
-				case "editor.countFigures":
-				case "editor.personalitiesInPoints":
-				case "editor.applyRuleChecks":
-				case "editor.highlightPersonalities":
-					if (!this.#isLoading)
-					{
-						owc.editor.render();
-					}
-					break;
-				case "print.warbandCode":
-					document.getElementById("warband-print-code").style.display = (value) ? "initial" : "none";
-					break;
-				case "print.warnings":
-					document.getElementById("warband-warnings").classList.toggle("screen-only", !value);
-					break;
+				localStorage?.setItem(OwcSettings.STORAGE_KEY, JSON.stringify(this.#properties));
+			}
+			for (const changeListener of this.#listenersOnChange.get(name) ?? [])
+			{
+				changeListener(value);
 			}
 		}
 	}
+
+	/**
+	 * @returns Indicator if settings are still loading, to prevent operations while more {@linkcode onChange} events may be called.
+	 */
+	get isLoading ()
+	{
+		return this.#isLoading;
+	};
 
 	/**
 	 * @returns A list of all selected rule books (abbreviations only).
@@ -151,7 +142,7 @@ class OwcSettings
 	 */
 	get editorLayout ()
 	{
-		return owc.editor.layout;
+		return this.#properties["editor.layout"];
 	}
 
 	/**
@@ -159,24 +150,7 @@ class OwcSettings
 	 */
 	get language ()
 	{
-		return owc.localizer.targetLanguage;
-	}
-
-	/**
-	 * Saves all settings to the browser's `localStorage`.
-	 */
-	save ()
-	{
-		if (!this.#isLoading)
-		{
-			/** @type {Partial<Record<keyof OwcSettingsRecord, AnyPrimitive>>} */
-			const data = {};
-			for (const key of /** @type {Array<keyof OwcSettingsRecord>} */(Object.keys(OwcSettings.DEFAULTS)))
-			{
-				data[key] = this.#properties[key];
-			}
-			localStorage?.setItem(OwcSettings.STORAGE_KEY, JSON.stringify(data));
-		}
+		return this.#properties["editor.language"];
 	}
 
 	/**
@@ -189,18 +163,26 @@ class OwcSettings
 		{
 			/** @type {Partial<OwcSettingsRecord>} */
 			const storedSettings = JSON.parse(localStorage?.getItem(OwcSettings.STORAGE_KEY) ?? "{}");
-			if (storedSettings)
+			for (const [key, value] of /** @type {Array<[keyof OwcSettingsRecord, AnyPrimitive]>} */(Object.entries(OwcSettings.DEFAULTS)))
 			{
-				for (const [key, value] of /** @type {Array<[keyof OwcSettingsRecord, AnyPrimitive]>} */(Object.entries(OwcSettings.DEFAULTS)))
-				{
-					this.setProperty(key, storedSettings[key] ?? value);
-				}
+				this.setProperty(key, storedSettings[key] ?? value);
 			}
 		}
 		finally
 		{
+			this.#isLoading = false;
 		}
-		owc.localizer.import(...this.ruleScope).then(() => owc.editor.layout = this.#properties["editor.layout"]); // This finally renders the editor.
-		this.#isLoading = false;
+	}
+
+	/**
+	 * Registers a listener to changes of a specific setting.
+	 * @template {keyof OwcSettingsRecord} T
+	 * @param {T} setting Setting to monitor.
+	 * @param {(val: OwcSettingsRecord[T]) => void} callback Callback to call on setting a value to this setting.
+	 */
+	onChange (setting, callback)
+	{
+		this.#listenersOnChange.has(setting) || this.#listenersOnChange.set(setting, []);
+		this.#listenersOnChange.get(setting).push(callback);
 	}
 }

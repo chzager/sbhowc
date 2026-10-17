@@ -4,23 +4,23 @@
 class WarbandValidator
 {
 	/**
-	 * @param {Warband} warband Warband to be validated.
 	 * @param {OwcLocalizer} localizer Provider of localization functionality.
 	 */
-	constructor(warband, localizer)
+	constructor(localizer)
 	{
-		/** Warband to be validated. */
-		this.warband = warband;
 		/** Provider of localization functionality. */
 		this.localizer = localizer;
 	}
 
 	/**
 	 * Performs all validation checks on the warband.
+	 * @param {Warband} warband Warband to be validated.
 	 * @returns An array of all found rule violations as localized texts.
 	 */
-	validate ()
+	validate (warband)
 	{
+		/** Warband to be validated. */
+		this.warband = warband;
 		const result = this.#checks
 			.map(c => c()) // Execute all check methods.
 			.flat() // Flatten the results.

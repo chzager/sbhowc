@@ -22,6 +22,7 @@ const owc = new class OnlineWarbandCalculator
 	 */
 	constructor()
 	{
+		ui.wait();
 		// Autofill values in document:
 		for (const node of document.querySelectorAll("[data-autofill]"))
 		{
@@ -33,75 +34,62 @@ const owc = new class OnlineWarbandCalculator
 			}
 			node.innerText = text;
 		}
-		ui.wait();
-		const specialrules = new OwcSpecialrulesDirectory();
+		/** Directory of special rules (metadata only, no locales). */
+		this.specialrulesDirectory = new OwcSpecialrulesDirectory();
 		/** Editor, display and other settings. */
 		this.settings = new OwcSettings();
+		this.settings.onChange("print.warbandCode", val => document.getElementById("warband-print-code").style.display = (val) ? "initial" : "none");
+		this.settings.onChange("print.warnings", val => document.getElementById("warband-warnings").classList.toggle("screen-only", !val));
 		/** Provider of localization functionality. */
-		this.localizer = new OwcLocalizer();
+		this.localizer = new OwcLocalizer(this.settings);
 		Promise.all([
 			pageSnippets.import("./ui/components/specialrulesSelector/component.xml"),
 			this.#toolBar.bind(),
-			this.localizer.import("editor"),
-			specialrules.load(),
-		])
-			.then(() =>
+			this.localizer.import("editor", "sbh"),
+			this.specialrulesDirectory.load(),
+		]).then(() =>
+		{
+			/** The mediator between the {@linkcode OwcLayout} user interface and the {@linkcode Warband} data. */
+			this.editor = new OwcEditor(this.specialrulesDirectory, this.localizer, this.settings);
+			// Consider URL params to impoort a warband or load a session:
+			const url = new URL(window.location.href);
+			const warbandCode = url.searchParams.get("warband");
+			const pid = url.searchParams.get("pid");
+			console.log(Object.fromEntries(url.searchParams.entries()));
+			try
 			{
-				/** The currently edited warband. */
-				this.warband = new Warband(specialrules);
-				/** The mediator between the {@linkcode OwcLayout} user interface and the {@linkcode Warband} data. */
-				this.editor = new OwcEditor(this.warband, this.localizer, this.settings);
-			})
-			.then(() => this.settings.load()) // Settings require an Editor, that's why they are loaded here.
-			.then(() =>
-			{
-				const url = new URL(window.location.href);
-				const warbandCode = url.searchParams.get("warband");
-				const pid = url.searchParams.get("pid");
-				console.log("pid:", pid, "warband:", warbandCode);
-				try
+				if (pid)
 				{
-					if (pid)
+					this.pid = pid;
+					/** @type {OwcLocalstorageData} */
+					const storageData = JSON.parse(localStorage?.getItem(`owc_#${pid}`));
+					this.editor.warband.fromString(storageData.data);
+				}
+				else
+				{
+					this.newPid(url);
+					if (warbandCode)
 					{
-						this.pid = pid;
-						/** @type {OwcLocalstorageData} */
-						const storageData = JSON.parse(localStorage?.getItem("owc_#" + pid));
-						this.warband.fromString(storageData.data);
-					}
-					else
-					{
-						if (warbandCode)
-						{
-							this.warband.fromString(warbandCode);
-							url.searchParams.delete("warband");
-							notifications.notify("The warband was imported from the URL.", "green");
-						}
-						else
-						{
-							this.warband.clear().addUnit();
-						}
-						this.newPid(url);
+						this.editor.warband.fromString(warbandCode);
+						url.searchParams.delete("warband");
+						notifications.notify("The warband was imported from the URL.", "green");
 					}
 				}
-				catch (cause)
-				{ // No big deal if the warband could not be restored from localStorage. Maybe the PID didn't even exist.
-					console.info("Could not restore warband:", cause);
-					this.warband.clear().addUnit();
-				}
-			})
-			.finally(() =>
+			}
+			catch (cause)
 			{
-				// this.ui.waitEnd(); -- Waiting ends when the layout is ready.
-				// In case that the settings were modified or a unit was copied in another tab, refresh this tab when the user returns here.
-				document.addEventListener("visibilitychange", () =>
+				console.info("Could not restore warband:", cause); // No big deal if the warband could not be restored from localStorage. Maybe the PID didn't even exist.
+				this.editor.warband.clear();
+			}
+			finally
+			{
+				if (this.editor.warband.units.length < 1)
 				{
-					if (document.visibilityState === "visible")
-					{
-						this.settings.load();
-					}
-				});
-			});
-		return;
+					this.editor.warband.addUnit();
+				}
+				this.settings.load(); // Loading the settings renders the editor and this ends waiting.
+			}
+		});
 	}
 
 	/**
@@ -182,7 +170,7 @@ const owc = new class OnlineWarbandCalculator
 					callback: () =>
 					{
 						this.parent.newPid();
-						this.parent.warband.clear().addUnit();
+						this.parent.editor.warband.clear().addUnit();
 						this.parent.editor.render();
 					}
 				},
@@ -387,7 +375,7 @@ const owc = new class OnlineWarbandCalculator
 	 * Generates a new project ID and updates the "pid" query parameter in the given URL.
 	 * @param {URL} [url] URL in which to update the "pid" query parameter. Defaults to the window location.
 	 */
-	newPid (url = new URL(window.location.href))
+	newPid (url = new URL(window.location.origin + window.location.pathname))
 	{
 		this.pid = (Math.random() * 1e16).toString(32).substring(0, 6);
 		url.searchParams.set("pid", this.pid);
@@ -399,7 +387,7 @@ const owc = new class OnlineWarbandCalculator
 	 */
 	getFileName ()
 	{
-		return this.localizer.nonBlankWarbandName(this.warband.name) + ".owc.txt";
+		return this.localizer.nonBlankWarbandName(this.editor.warband.name) + ".owc.txt";
 	}
 
 	/**
@@ -414,12 +402,12 @@ const owc = new class OnlineWarbandCalculator
 		const hours = String(now.getHours()).padStart(2, "0");
 		const minutes = String(now.getMinutes()).padStart(2, "0");
 		return [
-			"# " + this.localizer.nonBlankWarbandName(this.warband.name),
+			"# " + this.localizer.nonBlankWarbandName(this.editor.warband.name),
 			"# " + document.getElementById("warband-summary").firstElementChild.textContent,
 			"# " + `${year}-${month}-${day} ${hours}:${minutes}`,
 			"# " + this.meta.origin,
 			"",
-			this.warband.toString(),
+			this.editor.warband.toString(),
 		].join("\n");
 	}
 
@@ -428,7 +416,7 @@ const owc = new class OnlineWarbandCalculator
 	 */
 	getShareUrl ()
 	{
-		return this.meta.origin + "/?warband=" + encodeURIComponent(this.warband.toString());
+		return this.meta.origin + "/?warband=" + encodeURIComponent(this.editor.warband.toString());
 	}
 
 	/**
@@ -438,7 +426,7 @@ const owc = new class OnlineWarbandCalculator
 	 */
 	importWarband (codeString)
 	{
-		const warbandBackup = this.warband.toString();
+		const warbandBackup = this.editor.warband.toString();
 		try
 		{
 			const warbandCode = codeString
@@ -446,12 +434,12 @@ const owc = new class OnlineWarbandCalculator
 				.filter(l => !l.trim().startsWith("#")) // Ignore all comment lines.
 				.map(l => decodeURI(l.replaceAll(/\s/g, ""))) // Remove all whitespace.
 				.join("");
-			this.warband.fromString(warbandCode);
+			this.editor.warband.fromString(warbandCode);
 		}
 		catch (cause)
-		{ // If importing a warband from that stings failed, restore the previous one.
-			console.error(cause);
-			this.warband.fromString(warbandBackup);
+		{
+			console.warn(cause);
+			this.editor.warband.fromString(warbandBackup);  // Restore the previous warband if importing from that string failed.
 			return false;
 		}
 		this.editor.render();
@@ -468,10 +456,10 @@ const owc = new class OnlineWarbandCalculator
 	plainTextWarband ()
 	{
 		const unitFormat = "{count} {name} {personalityFlag}\n{locale_points}: {points} | {locale_quality}: {quality}+ | {locale_combat}: {combat}\n{locale_specialrules}: {specialrules}";
-		const warbandName = this.localizer.nonBlankWarbandName(this.warband.name);
+		const warbandName = this.localizer.nonBlankWarbandName(this.editor.warband.name);
 		return [
 			warbandName + "\n" + "=".repeat(warbandName.length),
-			...this.warband.units.map(u => stringFill(unitFormat, {
+			...this.editor.warband.units.map(u => stringFill(unitFormat, {
 				count: (u.count > 1) ? `${u.count}x` : "",
 				name: this.localizer.nonBlankUnitName(u.name),
 				personalityFlag: (u.isPersonality) ? `[${this.localizer.translate("personality")}]` : "",
@@ -484,7 +472,7 @@ const owc = new class OnlineWarbandCalculator
 				locale_combat: this.localizer.translate("combat"),
 				locale_specialrules: this.localizer.translate("specialrules"),
 			})),
-			...Array.from(this.warband.pointsPools.entries()).map(([k, v]) => `${this.localizer.translate(k + "PointsPool")}: ${v} ${this.localizer.translate("points")}`),
+			...Array.from(this.editor.warband.pointsPools.entries()).map(([k, v]) => `${this.localizer.translate(k + "PointsPool")}: ${v} ${this.localizer.translate("points")}`),
 			document.querySelector("#totals").textContent,
 		]
 			.join("\n\n")

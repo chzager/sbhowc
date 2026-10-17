@@ -11,25 +11,47 @@ class OwcLocalizer extends Map
 	#targetLanguage = OwcLocalizer.DEFAULT_LANGUAGE;
 
 	/**
-	 * List of all loaded resource files.
-	 * @type {Set<string>}
+	 * Map of of all resource files. Keys are URLs, values are the respective states.
+	 * @type {Map<string,Promise<void>>}
 	 */
-	loadedUrls = new Set();
+	#resoures = new Map();
 
 	/**
-	 * Target language in which to provide text resources. On change, all currently loaded resource files will
-	 * be loaded for the new language (if available) and the warband editor will automatically re-render with
-	 * the new locales.
+	 * Timer to debounce the {@linkcode onLoaded} event. That's mainly when the settings are loaded and rulebooks are added one by one.
+	 * @type {number|undefined}
 	 */
-	get targetLanguage ()
+	#debounce;
+
+	/**
+	 * Event that triggers on all locales files loaded.
+	 * @type {()=>any}
+	 */
+	onLoaded;
+
+	/**
+	 * @param {OwcSettings} settings Language, rules scope, and other settings.
+	 */
+	constructor(settings)
 	{
-		return this.#targetLanguage;
+		super();
+		/** Language, rules scope and other settings. */
+		this.settings = settings;
+		// Register listeners to changes on resource-specific settings:
+		this.settings.onChange("editor.language", lang => this.#setTargetLanguage(lang));
+		this.settings.onChange("rulebook.sam.enabled", val => val && this.import("sam"));
+		this.settings.onChange("rulebook.sdg.enabled", val => val && this.import("sdg"));
+		this.settings.onChange("rulebook.sgd.enabled", val => val && this.import("sgd"));
+		this.settings.onChange("rulebook.sww.enabled", val => val && this.import("sww"));
 	}
-	set targetLanguage (val)
+
+	/**
+	 * Sets the target language.
+	 * @param {string} val
+	 */
+	#setTargetLanguage (val)
 	{
 		this.#targetLanguage = val;
-		this.import(...Array.from(this.loadedUrls).map(u => /(\w+)\.json$/.exec(u)[1]))
-			.finally(() => owc.editor.render());
+		this.import(...Array.from(this.#resoures.keys()).map(u => /(\w+)\.json$/.exec(u)[1]));
 	}
 
 	/**
@@ -39,14 +61,12 @@ class OwcLocalizer extends Map
 	 */
 	import (...resourceKey)
 	{
-		/** @type {Array<Promise<any>>} */
-		const asyncs = [];
 		for (const k of resourceKey)
 		{
 			const url = `data/locales/${this.#targetLanguage}/${k}.json`;
-			if (!this.loadedUrls.has(url))
+			if (!this.#resoures.has(url))
 			{
-				asyncs.push(fetchEx(url)
+				this.#resoures.set(url, fetchEx(url)
 					.then(/** @type {Object<string,string>} */locales =>
 					{
 						for (const [key, text] of Object.entries(locales))
@@ -54,15 +74,22 @@ class OwcLocalizer extends Map
 							super.has(key) || super.set(key, {});
 							super.get(key)[this.#targetLanguage] = text;
 						}
-						this.loadedUrls.add(url);
 					}));
 			}
 		}
-		return Promise.allSettled(asyncs);
+		clearTimeout(this.#debounce);
+		this.#debounce = setTimeout(async () =>
+		{
+			if (!this.settings.isLoading)
+			{
+				await Promise.allSettled(this.#resoures.values());
+				this.onLoaded?.();
+			}
+		}, 100);
 	}
 
 	/**
-	 * Translates a text resource to the {@linkcode targetLanguage}.
+	 * Translates a text resource to the target language.
 	 * @param {string} resourceId Id of the resource to be translated.
 	 * @param {{ [key: string]: string | number }} [placeholders] If the text contains placeholders (in curled brackets, e.g. `{UNIT}`), this gives the values for the placeholders.
 	 * @returns The text in the target language with all placeholders replaced by actual values.
