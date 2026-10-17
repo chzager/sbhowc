@@ -61,7 +61,7 @@ const owc = new class OnlineWarbandCalculator
 				if (pid)
 				{
 					this.pid = pid;
-					/** @type {OwcLocalstorageData} */
+					/** @type {OwcLocalstorage.WarbandRecord} */
 					const storageData = JSON.parse(localStorage?.getItem(`owc_#${pid}`));
 					this.editor.warband.fromString(storageData.data);
 				}

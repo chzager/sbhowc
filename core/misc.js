@@ -290,7 +290,7 @@ async function fetchEx (url)
 /**
  * Creator for menu items on {@linkcode Menubox2} which in extension to the default creator will create FontAwesome
  * icons on the menu items.
- * @param {IconizedMenuboxItemDef} def Definition of the menu item to be created.
+ * @param {Menubox2.ItemDefinition & {icon?: string;}} def Definition of the menu item to be created. `icon` is the fontAwesome icon's css classes (e.g. `"fa-brands fa-font-awesome"`).
  */
 function iconizedMenuitemRenderer (def)
 {

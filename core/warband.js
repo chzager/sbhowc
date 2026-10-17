@@ -23,7 +23,7 @@ class Unit
 		this.quality = this.warband.unitDefaults.quality;
 		/** Combat value of this unit, from `0` (worst) to `6` (best). */
 		this.combat = this.warband.unitDefaults.combat;
-		/** Special rules of this unit. @type {Array<OwcSpecialruleInstance>} */
+		/** Special rules of this unit. @type {Array<Unit.Specialrule>} */
 		this.specialrules = [];
 	}
 
@@ -81,7 +81,7 @@ class Unit
 		{
 			if (!this.hasSpecialrule(specialruleKey))
 			{
-				/** @type {OwcSpecialruleInstance} */
+				/** @type {Unit.Specialrule} */
 				const specialrule =
 				{
 					key: resource.key,
@@ -239,7 +239,7 @@ class Warband
 	{
 		/** The directory that contains special rules. */
 		this.specialrulesDirectory = specialrulesDirectory;
-		/** Default quality and combat values for new units. @type {OwcUnitDefaults} */
+		/** Default quality and combat values for new units. @type {Unit.Defaults} */
 		this.unitDefaults = { quality: 3, combat: 3 };
 		/** The warband's name. */
 		this.name = "";

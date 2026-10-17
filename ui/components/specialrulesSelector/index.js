@@ -56,7 +56,7 @@ class SpecialrulesSelector
 	 */
 	popup (event, unit)
 	{
-		const mapSpecialrule = (/** @type {OwcSpecialruleDirectoryEntry|OwcSpecialruleInstance} */srl) =>
+		const mapSpecialrule = (/** @type {OwcSpecialrulesDirectory.Specialrule|Unit.Specialrule} */srl) =>
 		{
 			const specialruleLocaleText = (this.localizer.has(srl.key)) ? this.localizer.translate(srl.key) : this.specialrulesDirectory.get(srl.key).label;
 			/** @type {SpecialrulesSelectorItem} */

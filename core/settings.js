@@ -7,7 +7,7 @@ class OwcSettings
 	static STORAGE_KEY = "owc_settings";
 
 	/** Default setting values. */
-	static DEFAULTS = Object.freeze(/** @type {OwcSettingsRecord} */({
+	static DEFAULTS = Object.freeze(/** @type {OwcSettings.KeyMap} */({
 		"rulebook.sam.enabled": false,
 		"rulebook.sdg.enabled": false,
 		"rulebook.sgd.enabled": true,
@@ -36,7 +36,7 @@ class OwcSettings
 
 	/**
 	 * Listeners for changes of setting values.
-	 * @type {Map<keyof OwcSettingsRecord,Array<(val: any)=>void>>}
+	 * @type {Map<keyof OwcSettings.KeyMap,Array<(val: any)=>void>>}
 	 */
 	#listenersOnChange = new Map();
 
@@ -64,7 +64,7 @@ class OwcSettings
 
 	/**
 	 * Sets a settings properties value. This may trigger a reload of data or re-rendering of the editor.
-	 * @param {keyof OwcSettingsRecord} name Name of the settings property to set.
+	 * @param {keyof OwcSettings.KeyMap} name Name of the settings property to set.
 	 * @param {any} value The new value of the settings property.
 	 */
 	setProperty (name, value)
@@ -79,7 +79,7 @@ class OwcSettings
 		}
 		else
 		{
-			/** @type {Record<keyof OwcSettingsRecord, AnyPrimitive>} */(this.#properties)[name] = value;
+			/** @type {Record<keyof OwcSettings.KeyMap, AnyPrimitive>} */(this.#properties)[name] = value;
 			if (!this.#isLoading)
 			{
 				localStorage?.setItem(OwcSettings.STORAGE_KEY, JSON.stringify(this.#properties));
@@ -118,7 +118,7 @@ class OwcSettings
 	 */
 	get defaults ()
 	{
-		return Object.freeze(/** @type {OwcUnitDefaults}*/({
+		return Object.freeze(/** @type {Unit.Defaults}*/({
 			quality: this.#properties["defaults.quality"],
 			combat: this.#properties["defaults.combat"],
 		}));
@@ -129,7 +129,7 @@ class OwcSettings
 	 */
 	get options ()
 	{
-		return Object.freeze(/** @type {OwcSettingsOptions} */({
+		return Object.freeze(/** @type {OwcEditor.Options} */({
 			countFigures: this.#properties["editor.countFigures"],
 			personalitiesInPoints: this.#properties["editor.personalitiesInPoints"],
 			applyRuleChecks: this.#properties["editor.applyRuleChecks"],
@@ -161,9 +161,9 @@ class OwcSettings
 		this.#isLoading = true;
 		try
 		{
-			/** @type {Partial<OwcSettingsRecord>} */
+			/** @type {Partial<OwcSettings.KeyMap>} */
 			const storedSettings = JSON.parse(localStorage?.getItem(OwcSettings.STORAGE_KEY) ?? "{}");
-			for (const [key, value] of /** @type {Array<[keyof OwcSettingsRecord, AnyPrimitive]>} */(Object.entries(OwcSettings.DEFAULTS)))
+			for (const [key, value] of /** @type {Array<[keyof OwcSettings.KeyMap, AnyPrimitive]>} */(Object.entries(OwcSettings.DEFAULTS)))
 			{
 				this.setProperty(key, storedSettings[key] ?? value);
 			}
@@ -176,9 +176,9 @@ class OwcSettings
 
 	/**
 	 * Registers a listener to changes of a specific setting.
-	 * @template {keyof OwcSettingsRecord} T
+	 * @template {keyof OwcSettings.KeyMap} T
 	 * @param {T} setting Setting to monitor.
-	 * @param {(val: OwcSettingsRecord[T]) => void} callback Callback to call on setting a value to this setting.
+	 * @param {(val: OwcSettings.KeyMap[T]) => void} callback Callback to call on setting a value to this setting.
 	 */
 	onChange (setting, callback)
 	{

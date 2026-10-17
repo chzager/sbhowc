@@ -176,7 +176,7 @@ class OwcDesktopLayout extends OwcLayout
 			/**
 			 * Renders elements for displaying and handling actions on an individual special rule within the given element.
 			 * @param {HTMLElement} element The recipient element for the special rules.
-			 * @param {OwcSpecialruleInstance} data The specific special rule to render.
+			 * @param {Unit.Specialrule} data The specific special rule to render.
 			 */
 			renderSpecialrule: (element, data) =>
 			{

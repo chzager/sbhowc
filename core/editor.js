@@ -35,8 +35,8 @@ class OwcEditor
 		/** List of all possible unit combat values, both numeric and display text. */
 		this.combatValues = [6, 5, 4, 3, 2, 1, 0].map(c => ({ key: c, label: c.toString() }));
 		/** Checker for compliance of the current warband against all requirements of the rules. */
-		this.validator = new WarbandValidator(this.localizer);
-		/** Track of all changes made to the warband and its units. @type {Array<OwcUndoerSnapshot>} */
+		this.validator = new OwcWarbandValidator(this.localizer);
+		/** Track of all changes made to the warband and its units. @type {Array<OwcEditor.UndoerSnapshot>} */
 		this.snapshots = [];
 		// Register listeners to changes on editor- or layout-specific settings:
 		this.settings.onChange("editor.countFigures", () => this.render());
@@ -522,7 +522,7 @@ class OwcEditor
 		{
 			const TIME_TO_LIVE = 30; // minutes
 			const clipboardUnit = unit.clone();
-			/** @type {OwcClipboardData} */
+			/** @type {OwcEditor.ClipboardData} */
 			const clipboardData = {
 				label: this.parent.localizer.nonBlankUnitName(clipboardUnit.name),
 				data: clipboardUnit.toString(),
@@ -533,14 +533,14 @@ class OwcEditor
 
 		/**
 		 * Returns the data that is currently stored in the clipboard.
-		 * @returns {OwcClipboardData|undefined}
+		 * @returns {OwcEditor.ClipboardData|undefined}
 		 */
 		getData ()
 		{
 			const storedData = localStorage.getItem(this.STORAGE_KEY); // `strictNullChecks: false` in jsconfig falsely assumes this is always a string even thou it may be null. That's why @returns is used here.
 			if (!!storedData)
 			{
-				/** @type {OwcClipboardData} */
+				/** @type {OwcEditor.ClipboardData} */
 				const clipboardData = JSON.parse(storedData);
 				const expirationDate = Date.parse(clipboardData?.expires);
 				if (!isNaN(expirationDate) && (Date.now() > expirationDate))

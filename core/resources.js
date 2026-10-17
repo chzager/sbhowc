@@ -132,7 +132,7 @@ class OwcLocalizer extends Map
 
 /**
  * A directory of special rule definitions.
- * @augments Map<string,OwcSpecialruleDirectoryEntry>
+ * @augments Map<string,OwcSpecialrulesDirectory.Specialrule>
  */
 class OwcSpecialrulesDirectory extends Map
 {
@@ -153,7 +153,7 @@ class OwcSpecialrulesDirectory extends Map
 		for (const rulebookAbbr of ["sbh", "sgd", "sww", "sdg", "sam"])
 		{
 			asyncs.push(fetchEx(`data/rulebooks/${rulebookAbbr}.json`)
-				.then((/** @type {OwcRulebookJson} */rulebook) =>
+				.then((/** @type {Resources.Rulebook} */rulebook) =>
 				{
 					// Append data from imported rulebook:
 					for (const [key, data] of Object.entries(rulebook.data))
@@ -175,7 +175,7 @@ class OwcSpecialrulesDirectory extends Map
 		for (const specialrule of super.values())
 		{
 			// Manage recursive references:
-			for (const property of /** @type {Array<keyof OwcSpecialruleDirectoryEntry>} */(["replaces", "variants"]))
+			for (const property of /** @type {Array<keyof OwcSpecialrulesDirectory.Specialrule>} */(["replaces", "variants"]))
 			{
 				const propertyKeys = /** @type {Array<string>} */(specialrule[property] ?? []); // Only properties with `string[]` type are used here, so this is safe.
 				for (const propertyKey of propertyKeys)

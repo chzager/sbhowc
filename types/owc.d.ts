@@ -1,175 +1,187 @@
 /** Any primitive type. */
 type AnyPrimitive = string | number | boolean;
 
-/** A special rule as it is assigned to an unit. */
-interface OwcSpecialruleInstance {
-	/** This special rule's id as a reference to the special rules resource. */
-	key: string;
-	/** Native label of the special rule. */
-	label: string;
-	/** Abbreviation of the rulebook where that special rule was introduced. */
-	rulebook: string;
-	/** Points costs of this special rule. */
-	points: number;
-	/** Whether this special rule makes the unit a _personality_ (`true`) or not (`false`). */
-	isPersonality: boolean;
-	/** Indicates that this special rule creates a separate pool point in the warband. */
-	pooling?: boolean;
-	/** For specifiable speicalrules, this is the specification text that specifies this special rule in more detail. */
-	specificationText?: string;
+declare namespace Resources {
+	/** Data structure of a special rules file. */
+	type Rulebook = {
+		/** Rulebook (abbreviation) that introduces this special rules. */
+		id: string;
+		/** A list of special rule definitions. */
+		data: {
+			[key: string]: Specialrule;
+		};
+	}
+
+	/** A single special rule in a special rules file. */
+	type Specialrule = {
+		/** Label of this special rule. The actual display text comes from a locales file. */
+		label: string;
+		/** Points costs of this special rule. */
+		points: number;
+		/** Whether this special rule makes a unit a personality (true) or not (false). */
+		personality?: boolean;
+		/** Indicates that this special rule needs a specification at the unit. */
+		needsSpecification?: boolean;
+		/** Keys of other special rules that are replaced by this special rule (e.g. 'Shooter (long)' replaces 'Shooter (medium)'). */
+		replaces?: Array<string>;
+		/** Keys of other special rules that are variants of this special rule. */
+		variants?: Array<string>;
+		/** Keys of other special rules that are excluded for units having this special rule. */
+		excludes?: Array<string>;
+		/** Indicates that this special rule creates a separate pool point on the unit's warband. */
+		pooling?: boolean;
+	}
 }
 
-/** Default values for new units. */
-interface OwcUnitDefaults {
-	/** Default quality value for units, from `2` (best) to `6` (worst), default: `3`. */
-	quality: number;
-	/** Default combat value for units, from `0` (worst) to `6` (best), default: `3`. */
-	combat: number;
+declare namespace Unit {
+	/** Default values for new units. */
+	type Defaults = {
+		/** Default quality value for units, from `2` (best) to `6` (worst), default: `3`. */
+		quality: number;
+		/** Default combat value for units, from `0` (worst) to `6` (best), default: `3`. */
+		combat: number;
+	}
+
+	/** A special rule as it is assigned to an unit. */
+	type Specialrule = {
+		/** This special rule's id as a reference to the special rules resource. */
+		key: string;
+		/** Native label of the special rule. */
+		label: string;
+		/** Abbreviation of the rulebook where that special rule was introduced. */
+		rulebook: string;
+		/** Points costs of this special rule. */
+		points: number;
+		/** Whether this special rule makes the unit a _personality_ (`true`) or not (`false`). */
+		isPersonality: boolean;
+		/** Indicates that this special rule creates a separate pool point in the warband. */
+		pooling?: boolean;
+		/** For specifiable speicalrules, this is the specification text that specifies this special rule in more detail. */
+		specificationText?: string;
+	}
 }
 
-/** "Options" in the settings. */
-interface OwcSettingsOptions {
-	/** Display the count of figures in the warband summary? (Not implemented) */
-	countFigures: boolean;
-	/** Highlight personalities in the warband layout? */
-	highlightPersonalities: boolean;
-	/** `true` displays the value of personality figures in points. `false` displays the percentage of personality points. */
-	personalitiesInPoints: boolean;
-	/** Perform validation of the warband composition? */
-	applyRuleChecks: boolean;
+declare namespace OwcWarbandValidator {
+	/** Method type for performing specific validations of the warband. */
+	type ValidationFunction = () => ValidationResult | Array<ValidationResult> | undefined;
+
+	/** Result data from an {@linkcode OwcWarbandValidator.ValidationFunction}. */
+	type ValidationResult = {
+		/** The locales resource key to put the rule violation into writing. */
+		key: string;
+		/** Placeholder values for the locales resource. */
+		values?: { [x: string]: string | number }
+	}
 }
 
-//#region special rules
-/** Special rules file data structure. */
-interface OwcRulebookJson {
-	/** Rulebook (abbreviation) that introduces this special rules. */
-	id: string;
-	/** A list of special rule definitions. */
-	data: {
-		[key: string]: OwcRulebookJson_Specialrule;
-	};
-}
-/** A single special rule in a specisl rules file. */
-interface OwcRulebookJson_Specialrule {
-	/** Label of this special rule. The actual display text comes from a locales file. */
-	label: string;
-	/** Points costs of this special rule. */
-	points: number;
-	/** Whether this special rule makes a unit a personality (true) or not (false). */
-	personality?: boolean;
-	/** Indicates that this special rule needs a specification at the unit. */
-	needsSpecification?: boolean;
-	/** Keys of other special rules that are replaced by this special rule (e.g. 'Shooter (long)' replaces 'Shooter (medium)'). */
-	replaces?: Array<string>;
-	/** Keys of other special rules that are variants of this special rule. */
-	variants?: Array<string>;
-	/** Keys of other special rules that are excluded for units having this special rule. */
-	excludes?: Array<string>;
-	/** Indicates that this special rule creates a separate pool point on the unit's warband. */
-	pooling?: boolean;
-}
+declare namespace OwcEditor {
+	/** Data structure of the clipboard (which is an entry in the browser's `localStorage`). */
+	type ClipboardData = {
+		/** Description of the data. */
+		label: string;
+		/** Actual data (stringified). */
+		data: string;
+		/** Expiration date after which the data will be deleted from the `localStorage`. */
+		expires: string;
+	}
 
-/** An entry in the {@linkcode OwcSpecialrulesDirectory}. */
-interface OwcSpecialruleDirectoryEntry extends OwcRulebookJson_Specialrule {
-	key: string;
-	rulebook: string;
-}
-//#endregion
+	/** Options for the editor. */
+	type Options = {
+		/** Display the count of figures in the warband summary? (Not implemented) */
+		countFigures: boolean;
+		/** Highlight personalities in the warband layout? */
+		highlightPersonalities: boolean;
+		/** `true` displays the value of personality figures in points. `false` displays the percentage of personality points. */
+		personalitiesInPoints: boolean;
+		/** Perform validation of the warband composition? */
+		applyRuleChecks: boolean;
+	}
 
-/** A snapshot in the {@linkcode OwcEditor} undoer to rollback a modification in the warband. */
-interface OwcUndoerSnapshot {
-	/** Description of the modification. */
-	label: string;
-	/** The warband code BEFORE the modification. */
-	warbandCode: string;
-	/** Number by how many points the warband's costs were changed by this modification. */
-	pointsModification: number;
+	/** A snapshot in the {@linkcode OwcEditor} undoer to rollback a modification in the warband. */
+	type UndoerSnapshot = {
+		/** Description of the modification. */
+		label: string;
+		/** The warband code BEFORE the modification. */
+		warbandCode: string;
+		/** Number by how many points the warband's costs were changed by this modification. */
+		pointsModification: number;
+	}
 }
 
-/** Result data from an {@linkcode OwcValidationFunction}. */
-interface OwcValidationResult {
-	/** The locales resource key to put the rule violation into writing. */
-	key: string;
-	/** Placeholder values for the locales resource. */
-	values?: { [x: string]: string | number }
+declare namespace OwcLocalstorage {
+	/** Data structure for warbands stored in the browser's `localStorage`. */
+	type WarbandRecord = {
+		/** The warband's name. */
+		title: string;
+		/** Count of figures in the warband. */
+		figures: number;
+		/** The warband's total points. */
+		points: number;
+		/** The warband code as string. */
+		data: string;
+		/** Date of when the warband was cached. */
+		date: string;
+	}
 }
 
-/** Method type for performing specific validations of the warband. */
-type OwcValidationFunction = () => OwcValidationResult | Array<OwcValidationResult> | undefined;
-
-/** Data structure for warbands stored in the browser's `localStorage`. */
-interface OwcLocalstorageData {
-	/** The warband's name. */
-	title: string;
-	/** Count of figures in the warband. */
-	figures: number;
-	/** The warband's total points. */
-	points: number;
-	/** The warband code as string. */
-	data: string;
-	/** Date of when the warband was cached. */
-	date: string;
+declare namespace OwcRestorer {
+	/** Data structure of a cached warband in the browser's `localStorage`. */
+	type ListItem = {
+		/** Hash value of the warband's code. */
+		hash: string;
+		/** The name of the cached warband. */
+		title: string;
+		/** Count of figures in the cached warband. */
+		figures: number;
+		/** Points value of the cached warband. */
+		points: number;
+		/** The warband's code. */
+		code: string;
+		/** Hashes of keys in the `localStorage` that contain the idential warband. */
+		foundIn: Array<string>;
+	}
 }
 
-/** Definitions of {@linkcode Menubox2} items with Font Awesome icons. */
-interface IconizedMenuboxItemDef extends Menubox2.ItemDefinition {
-	icon?: string;
+declare namespace OwcSettings {
+	/** All the settings of the OWC. */
+	type KeyMap = {
+		/** Enable the special rules of the "Song of Arthur and Merlin" rulebook. */
+		"rulebook.sam.enabled": boolean;
+		/** Enable the special rules of the "Song of Deeds and Glory" rulebook. */
+		"rulebook.sdg.enabled": boolean;
+		/** Enable the special rules of the "Song of Gold and Darkness" rulebook. */
+		"rulebook.sgd.enabled": boolean;
+		/** Enable the special rules of the "Song of Wind and Water" rulebook. */
+		"rulebook.sww.enabled": boolean;
+		/** Default quality value for new units. */
+		"defaults.quality": number;
+		/** Default combat value for new units. */
+		"defaults.combat": number;
+		/** Language code used by the editor/localizer. */
+		"editor.language": string;
+		/** Selected editor layout identifier. */
+		"editor.layout": string;
+		/** Display the figure count in the warband summary. */
+		"editor.countFigures": boolean;
+		/** Show personalities as points instead of percent. */
+		"editor.personalitiesInPoints": boolean;
+		/** Enable rule checking in the editor. */
+		"editor.applyRuleChecks": boolean;
+		/** Highlight personalities in the editor layout. */
+		"editor.highlightPersonalities": boolean;
+		/** Include warband code in print output. */
+		"print.warbandCode": boolean;
+		/** Include warning messages in print output. */
+		"print.warnings": boolean;
+	}
 }
 
-/** Data structure of the clipboard (which is an entry in the browser's `localStorage`). */
-interface OwcClipboardData {
-	/** Description of the data. */
-	label: string;
-	/** Actual data (stringified). */
-	data: string;
-	/** Expiration date after which the data will be deleted from the `localStorage`. */
-	expires: string;
-}
-
-/** Data structure of a cached warband in the browser's `localStorage`. */
-interface OwcRestorerItem {
-	/** Hash value of the warband's code. */
-	hash: string;
-	/** The name of the cached warband. */
-	title: string;
-	/** Count of figures in the cached warband. */
-	figures: number;
-	/** Points value of the cached warband. */
-	points: number;
-	/** The warband's code. */
-	code: string;
-	/** Hashes of keys in the `localStorage` that contain the idential warband. */
-	foundIn: Array<string>;
-}
-
-/** All the settings of the OWC. */
-interface OwcSettingsRecord {
-	/** Enable the special rules of the "Song of Arthur and Merlin" rulebook. */
-	"rulebook.sam.enabled": boolean;
-	/** Enable the special rules of the "Song of Deeds and Glory" rulebook. */
-	"rulebook.sdg.enabled": boolean;
-	/** Enable the special rules of the "Song of Gold and Darkness" rulebook. */
-	"rulebook.sgd.enabled": boolean;
-	/** Enable the special rules of the "Song of Wind and Water" rulebook. */
-	"rulebook.sww.enabled": boolean;
-	/** Default quality value for new units. */
-	"defaults.quality": number;
-	/** Default combat value for new units. */
-	"defaults.combat": number;
-	/** Language code used by the editor/localizer. */
-	"editor.language": string;
-	/** Selected editor layout identifier. */
-	"editor.layout": string;
-	/** Display the figure count in the warband summary. */
-	"editor.countFigures": boolean;
-	/** Show personalities as points instead of percent. */
-	"editor.personalitiesInPoints": boolean;
-	/** Enable rule checking in the editor. */
-	"editor.applyRuleChecks": boolean;
-	/** Highlight personalities in the editor layout. */
-	"editor.highlightPersonalities": boolean;
-	/** Include warband code in print output. */
-	"print.warbandCode": boolean;
-	/** Include warning messages in print output. */
-	"print.warnings": boolean;
+declare namespace OwcSpecialrulesDirectory {
+	/** Augumented special rule for usage in the {@linkcode OwcSpecialrulesDirectory}. */
+	type Specialrule = Resources.Specialrule & {
+		/** The special rule's two-characte unique identifier. */
+		key: string;
+		/** Rulebook (abbreviation) that introduces this special rules. */
+		rulebook: string;
+	}
 }

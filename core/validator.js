@@ -1,7 +1,7 @@
 /**
  * Checker for compliance of a warband compilation against all requirements of the rules.
  */
-class WarbandValidator
+class OwcWarbandValidator
 {
 	/**
 	 * @param {OwcLocalizer} localizer Provider of localization functionality.
@@ -46,7 +46,7 @@ class WarbandValidator
 
 	/**
 	 * Actual validation methods.
-	 * @type {Array<OwcValidationFunction>}}
+	 * @type {Array<OwcWarbandValidator.ValidationFunction>}}
 	 */
 	#checks = [
 		// Personalities must be at most 1/3 of warband points. (SBH v4.3, p. 16, SBH v5, p. 6)

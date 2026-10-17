@@ -7,13 +7,13 @@ const restorerBluebox = new class extends Bluebox
 	/** @override */
 	show ()
 	{
-		/** @type {Map<string,OwcRestorerItem>} */
+		/** @type {Map<string,OwcRestorer.ListItem>} */
 		const storageMap = new Map();
 		for (const [key, str] of Object.entries(localStorage))
 		{
 			if (/^owc_#\w{6}$/.test(key))
 			{
-				/** @type {OwcLocalstorageData} */
+				/** @type {OwcLocalstorage.WarbandRecord} */
 				const data = JSON.parse(str);
 				const hash = stringHash(data.data).toString();
 				storageMap.has(hash) || storageMap.set(hash, {
