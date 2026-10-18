@@ -113,7 +113,7 @@ class OwcLayout
 		/** The HTML element that represents this layout on the document. */
 		this.element = pageSnippets.produce(`/layouts/${this.name}/main`, snippetData);
 		this.element.id = this.name + "-layout";
-		this.element.dataset.highlightPersonalities = this.editor.settings.options.highlightPersonalities.toString();
+		this.element.dataset.highlightPersonalities = this.editor.settings.getProperty("editor.highlightPersonalities").toString();
 		this.editor.updateWarbandSummary();
 		document.getElementById("editor-layout").replaceChildren(this.element);
 	}

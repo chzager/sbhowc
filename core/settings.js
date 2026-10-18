@@ -63,7 +63,18 @@ class OwcSettings
 	}
 
 	/**
-	 * Sets a settings properties value. This may trigger a reload of data or re-rendering of the editor.
+	 * Provides the value of a settings property.
+	 * @template {keyof OwcSettings.KeyMap} T
+	 * @param {T} name Name of the settings property to receive.
+	 * @returns {OwcSettings.KeyMap[T]}
+	 */
+	getProperty (name)
+	{
+		return this.#properties[name];
+	}
+
+	/**
+	 * Sets the value of a settings property. This may trigger a reload of data or re-rendering of the editor.
 	 * @param {keyof OwcSettings.KeyMap} name Name of the settings property to set.
 	 * @param {any} value The new value of the settings property.
 	 */
@@ -111,46 +122,6 @@ class OwcSettings
 			this.#properties["rulebook.sgd.enabled"] && "sgd",
 			this.#properties["rulebook.sww.enabled"] && "sww",
 		].filter(Boolean));
-	}
-
-	/**
-	 * @returns The quality and combat values set as default for new units.
-	 */
-	get defaults ()
-	{
-		return Object.freeze(/** @type {Unit.Defaults}*/({
-			quality: this.#properties["defaults.quality"],
-			combat: this.#properties["defaults.combat"],
-		}));
-	}
-
-	/**
-	 * @returns Various settings options for rendering the warband.
-	 */
-	get options ()
-	{
-		return Object.freeze(/** @type {OwcEditor.Options} */({
-			countFigures: this.#properties["editor.countFigures"],
-			personalitiesInPoints: this.#properties["editor.personalitiesInPoints"],
-			applyRuleChecks: this.#properties["editor.applyRuleChecks"],
-			highlightPersonalities: this.#properties["editor.highlightPersonalities"],
-		}));
-	};
-
-	/**
-	 * @returns The name of the current editor layout.
-	 */
-	get editorLayout ()
-	{
-		return this.#properties["editor.layout"];
-	}
-
-	/**
-	 * @returns The current localization language.
-	 */
-	get language ()
-	{
-		return this.#properties["editor.language"];
 	}
 
 	/**

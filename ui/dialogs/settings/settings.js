@@ -17,9 +17,9 @@ const settingsBluebox = new class extends Bluebox
 		this.settings = settings;
 		super.render("/bluebox/settings", {
 			qualityValues: editor.qualityValues,
-			defaultQualityValue: settings.defaults.quality,
+			defaultQualityValue: settings.getProperty("defaults.quality"),
 			combatValues: editor.combatValues,
-			defaultCombatValue: settings.defaults.combat,
+			defaultCombatValue: settings.getProperty("defaults.combat"),
 			setLayout: () =>
 			{
 				settings.setProperty(
@@ -67,7 +67,7 @@ const settingsBluebox = new class extends Bluebox
 			},
 		});
 		// Populate the UI controls with the current settings values.
-		/** @type {HTMLInputElement} */(this.element.querySelector(`input[data-layout="${settings.editorLayout}"]`)).checked = true;
+		/** @type {HTMLInputElement} */(this.element.querySelector(`input[data-layout="${settings.getProperty("editor.layout")}"]`)).checked = true;
 		for (const [name, value] of Object.entries(settings.getAllProperties()))
 		{
 			const el = this.element.querySelector(`[id="${name}"]`);

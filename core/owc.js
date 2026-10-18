@@ -357,7 +357,7 @@ const owc = new class OnlineWarbandCalculator
 			{
 				for (const item of self.items)
 				{
-					(this.parent.settings.language === item.key) ? item.element.classList.add("checked") : item.element.classList.remove("checked");
+					(this.parent.settings.getProperty("editor.language") === item.key) ? item.element.classList.add("checked") : item.element.classList.remove("checked");
 				}
 			}
 		});

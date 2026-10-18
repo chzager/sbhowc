@@ -469,12 +469,12 @@ class OwcEditor
 			PERSONALITYPOINTS: this.warband.personalityPoints.toString(),
 			PERSONALITYPERCENT: Math.floor(this.warband.personalityPoints / this.warband.points * 100).toString(),
 		};
-		let warbandSummary = this.localizer.translate((this.settings.options.countFigures) ? "totalFiguresAndPoints" : "totalPoints", warbandStats);
+		let warbandSummary = this.localizer.translate((this.settings.getProperty("editor.countFigures")) ? "totalFiguresAndPoints" : "totalPoints", warbandStats);
 		if (this.warband.personalityPoints > 0)
 		{
-			warbandSummary += ` (${this.localizer.translate((this.settings.options.personalitiesInPoints) ? "personalitiesPoints" : "personalitiesPercent", warbandStats)})`;
+			warbandSummary += ` (${this.localizer.translate((this.settings.getProperty("editor.personalitiesInPoints")) ? "personalitiesPoints" : "personalitiesPercent", warbandStats)})`;
 		}
-		const rulescheckResult = (this.settings.options.applyRuleChecks) ? this.validator.validate(this.warband) : [];
+		const rulescheckResult = (this.settings.getProperty("editor.applyRuleChecks")) ? this.validator.validate(this.warband) : [];
 		document.getElementById("totals").textContent = warbandSummary;
 		document.getElementById("warband-warnings").replaceChildren(
 			...rulescheckResult.map(r => makeElement("p.rule-violation", makeElement("span", r)))
