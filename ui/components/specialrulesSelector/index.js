@@ -114,6 +114,10 @@ class SpecialrulesSelector
 				if (isCheckedNow)
 				{
 					this.editor.addUnitSpecialrule(unit, key);
+					for (const replacedKey of this.editor.specialrulesDirectory.get(key).replaces ?? [])
+					{
+						this.#element.querySelector(`[data-key="${replacedKey}"]`).dataset.checked = "false";
+					}
 				}
 				else
 				{
