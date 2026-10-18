@@ -128,7 +128,7 @@ class OwcWarbandValidator
 				const mem = new Set();
 				for (const specialrule of unit.specialrules)
 				{
-					const specialruleDefintion = this.warband.specialrulesDirectory.get(specialrule.key);
+					const specialruleDefintion = this.warband.specialrules.get(specialrule.key);
 					for (const uniqueKeysInProperty of [specialruleDefintion.variants, specialruleDefintion.excludes])
 					{
 						for (const uniqueKey of uniqueKeysInProperty ?? [])

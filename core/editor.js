@@ -18,12 +18,14 @@ class OwcEditor
 	#currentLayout;
 
 	/**
-	 * @param {OwcSpecialrulesDirectory} specialrulesDirectory A directory that contains special rules..
+	 * @param {OwcSpecialrulesDirectory} specialrulesDirectory A directory that contains special rules.
 	 * @param {OwcLocalizer} localizer Provider of localization functionality.
 	 * @param {OwcSettings} settings Editor, display, and other settings.
 	 */
 	constructor(specialrulesDirectory, localizer, settings)
 	{
+		/** The directory that contains special rules. */
+		this.specialrulesDirectory = specialrulesDirectory;
 		/** The warband that is currently being edited. */
 		this.warband = new Warband(specialrulesDirectory);
 		/** Provider of localization functionality. */
@@ -55,7 +57,7 @@ class OwcEditor
 	 */
 	get specialrulesList ()
 	{
-		return Array.from(this.warband.specialrulesDirectory.values())
+		return Array.from(this.specialrulesDirectory.values())
 			.filter(s => this.settings.ruleScope.includes(s.rulebook))
 			.map(s => ({ key: s.key, label: this.localizer.translate(s.key) }))
 			.sort((a, b) => a.label.localeCompare(b.label));
@@ -325,7 +327,7 @@ class OwcEditor
 	addUnitSpecialrule (unit, specialruleKey)
 	{
 		if (this.#applyManipulation(
-			`Add "${this.warband.specialrulesDirectory.get(specialruleKey).label}" special rule to ${this.localizer.nonBlankUnitName(unit.name)}`,
+			`Add "${this.warband.specialrules.get(specialruleKey).label}" special rule to ${this.localizer.nonBlankUnitName(unit.name)}`,
 			() => unit.addSpecialrule(specialruleKey)
 		))
 		{
@@ -343,7 +345,7 @@ class OwcEditor
 	{
 		const specialrule = unit.specialrules.find(s => (s.key === specialruleKey));
 		if (this.#applyManipulation(
-			`Specify "${this.warband.specialrulesDirectory.get(specialrule.key).label}" special rule on ${this.localizer.nonBlankUnitName(unit.name)}`,
+			`Specify "${this.warband.specialrules.get(specialrule.key).label}" special rule on ${this.localizer.nonBlankUnitName(unit.name)}`,
 			() => specialrule.specificationText = val
 		))
 		{}
@@ -357,7 +359,7 @@ class OwcEditor
 	removeUnitSpecialrule (unit, specialruleKey)
 	{
 		if (this.#applyManipulation(
-			`Revoke "${this.warband.specialrulesDirectory.get(specialruleKey).label}" special rule from ${this.localizer.nonBlankUnitName(unit.name)}`,
+			`Revoke "${this.warband.specialrules.get(specialruleKey).label}" special rule from ${this.localizer.nonBlankUnitName(unit.name)}`,
 			() => unit.removeSpecialrule(specialruleKey)
 		))
 		{

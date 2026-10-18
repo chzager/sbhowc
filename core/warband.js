@@ -76,7 +76,7 @@ class Unit
 	addSpecialrule (specialruleKey)
 	{
 		let result = false;
-		const resource = this.warband.specialrulesDirectory.get(specialruleKey);
+		const resource = this.warband.specialrules.get(specialruleKey);
 		if (resource)
 		{
 			if (!this.hasSpecialrule(specialruleKey))
@@ -84,9 +84,8 @@ class Unit
 				/** @type {Unit.Specialrule} */
 				const specialrule =
 				{
-					key: resource.key,
+					key: specialruleKey,
 					label: resource.label,
-					rulebook: resource.rulebook,
 					points: resource.points,
 					isPersonality: (resource.personality === true),
 					pooling: resource.pooling,
@@ -96,7 +95,7 @@ class Unit
 					specialrule.specificationText = "...";
 				}
 				this.specialrules.push(specialrule);
-				if (resource.replaces !== undefined)
+				if (resource.replaces)
 				{
 					for (let r = 0, rr = resource.replaces.length; r < rr; r += 1)
 					{
@@ -233,12 +232,12 @@ class Warband
 	static UNIT_SEPARATOR = "@";
 
 	/**
-	 * @param {OwcSpecialrulesDirectory} specialrulesDirectory A directory that contains special rules.
+	 * @param {Map<string,Resources.Specialrule>} specialrules A directory that contains special rules.
 	 */
-	constructor(specialrulesDirectory)
+	constructor(specialrules)
 	{
 		/** The directory that contains special rules. */
-		this.specialrulesDirectory = specialrulesDirectory;
+		this.specialrules = specialrules;
 		/** Default quality and combat values for new units. @type {Unit.Defaults} */
 		this.unitDefaults = { quality: 3, combat: 3 };
 		/** The warband's name. */

@@ -46,7 +46,7 @@ class SpecialrulesSelector
 		/** Provider of localization functionality. */
 		this.localizer = editor.localizer;
 		/** The directory that contains special rules. */
-		this.specialrulesDirectory = editor.warband.specialrulesDirectory;
+		this.specialrulesDirectory = editor.specialrulesDirectory;
 	}
 
 	/**

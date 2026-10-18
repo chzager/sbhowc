@@ -48,8 +48,6 @@ declare namespace Unit {
 		key: string;
 		/** Native label of the special rule. */
 		label: string;
-		/** Abbreviation of the rulebook where that special rule was introduced. */
-		rulebook: string;
 		/** Points costs of this special rule. */
 		points: number;
 		/** Whether this special rule makes the unit a _personality_ (`true`) or not (`false`). */

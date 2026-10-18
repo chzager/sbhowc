@@ -180,7 +180,8 @@ class OwcDesktopLayout extends OwcLayout
 			 */
 			renderSpecialrule: (element, data) =>
 			{
-				const specialruleLocaleText = (this.localizer.has(data.key)) ? this.localizer.translate(data.key) : this.warband.specialrulesDirectory.get(data.key).label;
+				const specialrule = this.editor.specialrulesDirectory.get(data.key);
+				const specialruleLocaleText = (this.localizer.has(data.key)) ? this.localizer.translate(data.key) : this.warband.specialrules.get(data.key).label;
 				if (specialruleLocaleText.includes("...") && data.specificationText)
 				{
 					const [textBefore, textAfter] = specialruleLocaleText.split("...");
@@ -201,14 +202,14 @@ class OwcDesktopLayout extends OwcLayout
 				{
 					element.replaceChildren(makeElement("span.specialrule-deletehelper", specialruleLocaleText));
 				}
-				if (!this.editor.settings.ruleScope.includes(data.rulebook))
+				if (!this.editor.settings.ruleScope.includes(specialrule.rulebook))
 				{
 					element.firstElementChild.classList.add("out-of-scope");
 				}
 				element.appendChild(makeElement("div.tooltip", [
 					data.label,
 					`${data.points} Pts`,
-					data.rulebook.toUpperCase(),
+					specialrule.rulebook.toUpperCase(),
 					(data.isPersonality) && "personality"
 				].filter(Boolean).join(", ")));
 				element.querySelector(".specialrule-deletehelper").onclick = (ev) => this.onSpecialruleDelete(ev);
