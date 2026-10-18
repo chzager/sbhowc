@@ -35,25 +35,25 @@
 							"items": {
 								"type": "string"
 							},
-							"description": "IDs of other special rules that are replaced by this special rule (e.g. 'Shooter (long)' replaces 'Shooter (medium)'). \"replaces\" needs to be set only once; it is handled recursively. This is for convenience in the editor."
+							"description": "IDs of other special rules that are replaced by this special rule (e.g. 'Shooter (long)' replaces 'Shooter (medium)'). \"replaces\" needs to be set only once; it is handled mutually recursively. This is for convenience in the editor."
 						},
 						"variants": {
 							"type": "array",
 							"items": {
 								"type": "string"
 							},
-							"description": "IDs of special rules that are variants of this special rule. Variants mutually exclude each other and are recursive (e.g. if \"A,B are variants\" and \"B,C are variants\", then C and A are also variants. \"variants\" needs to be set only once; they are handled recursively."
+							"description": "IDs of special rules that are variants of this special rule. Variants mutually exclude each other and are recursive (e.g. if \"A,B are variants\" and \"B,C are variants\", then C and A are also variants. \"variants\" needs to be set only once; they are handled mutually recursively."
 						},
 						"excludes": {
 							"type": "array",
 							"items": {
 								"type": "string"
 							},
-							"description": "IDs of other specialrules that an unit can't have along with this special rule. In contrast to \"variants\" excludes work one-way and are not mutual (e.g. when \"A excludes B,C\" it is perfectly fine for an unit having B and C as long as it doesn't also have A). Excludes apply also to variants."
+							"description": "IDs of other special rules that an unit can't have along with this special rule. In contrast to \"variants\", excludes work one-way and are not mutual (e.g. when \"A excludes B,C\", it is perfectly fine for an unit having B and C, as long as it doesn't also have A). Excludes apply also to variants."
 						},
 						"pooling": {
 							"type": "boolean",
-							"description": "Indicates that this special rule creates a separate pool point in the warband."
+							"description": "Indicates that this special rule creates a separate point pool in the warband."
 						}
 					},
 					"required": [
