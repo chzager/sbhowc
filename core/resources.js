@@ -172,22 +172,43 @@ class OwcSpecialrulesDirectory extends Map
 				}));
 		}
 		await Promise.allSettled(asyncs);
+		// Manage recursive references (first collect all "replaces" and "variants"):
+		/** @type {Map<"replaces"|"variants",Array<Array<string>>>} */
+		const collectors = new Map([
+			["replaces", []],
+			["variants", []],
+		]);
 		for (const specialrule of super.values())
 		{
-			// Manage recursive references:
-			for (const property of /** @type {Array<keyof OwcSpecialrulesDirectory.Specialrule>} */(["replaces", "variants"]))
+			for (const property of collectors.keys())
 			{
-				const propertyKeys = /** @type {Array<string>} */(specialrule[property] ?? []); // Only properties with `string[]` type are used here, so this is safe.
-				for (const propertyKey of propertyKeys)
+				if (specialrule[property])
 				{
-					const otherSpecialrules = /** @type {Array<string>} */(super.get(propertyKey)[property] ?? []);
-					for (const otherKey of [specialrule.key, ...propertyKeys])
+					let group = collectors.get(property).find(c => c.some(k => specialrule[property].includes(k)));
+					if (!group)
 					{
-						!otherSpecialrules.includes(otherKey) && (propertyKey !== otherKey) && otherSpecialrules.push(otherKey);
+						group = [];
+						collectors.get(property).push(group);
 					}
+					group.push(specialrule.key, ...specialrule[property]);
 				}
 			}
-			// Add variants to excludes:
+		}
+		// Mutually annotate "replaces" and "variants":
+		for (const [property, entries] of collectors.entries())
+		{
+			for (const srKeys of entries)
+			{
+				const uniqueKeys = Array.from(new Set(srKeys));
+				for (const srKey of uniqueKeys)
+				{
+					super.get(srKey)[property] = uniqueKeys.filter(k => k !== srKey);
+				}
+			}
+		}
+		// Add all variants to "excludes":
+		for (const specialrule of super.values())
+		{
 			for (const excludeKey of specialrule.excludes ?? [])
 			{
 				for (const variantKey of super.get(excludeKey).variants ?? [])
